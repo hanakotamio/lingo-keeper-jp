@@ -234,6 +234,12 @@ React 18関連:
   - useReducer + Zustandの併用パターン確立
   - Suspenseの標準化
 
+MUI v7関連:
+  - Grid2がGridに統合（Grid2 importは廃止、Gridを使用）
+  - item propが削除（size={{ xs: 12, md: 4 }}を使用）
+  - TypographyOptionsがTypographyVariantsOptionsに変更
+  - type-only importが必須（verbatimModuleSyntax有効時）
+
 FastAPI関連:
   - Python 3.12対応
   - Pydantic v2使用
