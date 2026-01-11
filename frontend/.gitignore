@@ -22,3 +22,15 @@ dist-ssr
 *.njsproj
 *.sln
 *.sw?
+
+*storybook.log
+storybook-static
+
+# Test artifacts
+test-results/
+playwright-report/
+coverage/
+tests/screenshots/*
+!tests/screenshots/.gitkeep
+tests/temp/*
+!tests/temp/.gitkeep
