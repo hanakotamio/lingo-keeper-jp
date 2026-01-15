@@ -13,4 +13,19 @@ export default defineConfig({
       '@': path.resolve(__dirname, './src'),
     },
   },
+  build: {
+    rollupOptions: {
+      output: {
+        manualChunks: {
+          // React core libraries
+          'react-vendor': ['react', 'react-dom', 'react-router-dom'],
+          // MUI libraries
+          'mui-core': ['@mui/material', '@mui/system', '@mui/icons-material'],
+          // Other large dependencies
+          'vendor': ['zustand', 'axios'],
+        },
+      },
+    },
+    chunkSizeWarningLimit: 600, // Increase limit to 600KB (from default 500KB)
+  },
 });

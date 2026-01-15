@@ -1,8 +1,19 @@
-import { test, expect } from '@playwright/test';
+import { test, expect, Page } from '@playwright/test';
 import { TEST_USERS } from './helpers/auth.helper';
+
+/**
+ * Helper function to prevent language selection modal from appearing
+ */
+async function preventLanguageModal(page: Page) {
+  await page.addInitScript(() => {
+    localStorage.setItem('lingo_keeper_language_selected', 'true');
+    localStorage.setItem('lingo_keeper_translation_language', 'en');
+  });
+}
 
 test.describe('Login Page', () => {
   test.beforeEach(async ({ page }) => {
+    await preventLanguageModal(page);
     await page.goto('/login');
   });
 
@@ -10,7 +21,8 @@ test.describe('Login Page', () => {
     await expect(page.locator('input[type="email"]')).toBeVisible();
     await expect(page.locator('input[type="password"]')).toBeVisible();
     await expect(page.locator('button[type="submit"]')).toBeVisible();
-    await expect(page.locator('text=ログイン')).toBeVisible();
+    // Check for heading instead of generic text to avoid strict mode violation
+    await expect(page.getByRole('heading', { name: /ログイン/ })).toBeVisible();
   });
 
   test('should show demo account information', async ({ page }) => {
@@ -42,7 +54,8 @@ test.describe('Login Page', () => {
     await page.fill('input[type="password"]', 'wrongpassword');
     await page.click('button[type="submit"]');
 
-    await expect(page.locator('text=ログインに失敗しました')).toBeVisible();
+    // Use role for error alert to avoid strict mode violation
+    await expect(page.getByRole('alert').filter({ hasText: 'メールアドレスまたはパスワードが正しくありません' })).toBeVisible();
   });
 
   test('should validate required fields', async ({ page }) => {

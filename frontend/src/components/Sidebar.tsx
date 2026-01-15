@@ -130,6 +130,10 @@ export const Sidebar = ({ mobileOpen, onClose }: SidebarProps) => {
           ModalProps={{
             keepMounted: true, // モバイルパフォーマンス向上
           }}
+          PaperProps={{
+            component: 'nav',
+            'aria-label': 'サイドバー',
+          }}
           sx={{
             '& .MuiDrawer-paper': {
               boxSizing: 'border-box',
@@ -144,6 +148,10 @@ export const Sidebar = ({ mobileOpen, onClose }: SidebarProps) => {
         /* デスクトップ版: Permanent Drawer */
         <Drawer
           variant="permanent"
+          PaperProps={{
+            component: 'nav',
+            'aria-label': 'サイドバー',
+          }}
           sx={{
             width: DRAWER_WIDTH,
             flexShrink: 0,

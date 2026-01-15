@@ -34,3 +34,5 @@ tests/screenshots/*
 !tests/screenshots/.gitkeep
 tests/temp/*
 !tests/temp/.gitkeep
+.vercel
+.env*.local

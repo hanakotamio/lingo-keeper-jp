@@ -349,5 +349,131 @@ Phase 2以降:
 
 ---
 
+### 13. E2Eテスト自律実行の絶対原則
+
+**【重要】セッション開始時・compact後の自動判定**
+
+このセクションはE2Eテストオーケストレーターによって自動生成されました。
+
+---
+
+**最初に必ず専門知識を注入してください**
+
+E2Eテスト実行中の場合、以下を実行してから開始してください：
+
+```
+inject_knowledge ツールで keyword: "@E2Eテストオーケストレーター"
+を実行してから開始してください。（初回必須・compact後も必須）
+```
+
+重要：キーワードは "@E2Eテストオーケストレーター"
+をそのまま使用してください。変換や推測は不要です。
+
+準備完了です。まず知識注入を実行してから、タスクを開始してください。
+
+---
+
+**E2Eテストオーケストレーター実行中の判定**:
+- SCOPE_PROGRESS.mdに「## 📊 E2Eテスト全体進捗」が存在する場合
+- または、セッション再開時に前回のメッセージに「E2Eテスト」「オーケストレーター」キーワードがある場合
+
+**セッション開始時・compact後の自動処理**:
+1. 上記の判定基準でE2Eテスト実行中と判定
+2. inject_knowledge('@E2Eテストオーケストレーター') を必ず実行
+3. docs/e2e-best-practices.md の存在確認（なければ初期テンプレート作成）
+4. SCOPE_PROGRESS.mdから [ ] テストの続きを自動で特定
+5. [x] のテストは絶対にスキップ
+6. ユーザー確認不要、完全自律モードで継続
+7. ページ選定も自動（未完了ページを上から順に選択）
+8. 停止条件：全テスト100%完了のみ
+
+**5回エスカレーション後の処理**:
+- チェックリストに [-] マークを付ける
+- docs/e2e-test-history/skipped-tests.md に記録
+- 次のテストへ自動で進む（停止しない）
+
+**ベストプラクティス自動蓄積**:
+- 各テストで成功した方法を docs/e2e-best-practices.md に自動保存
+- 後続テストが前のテストの知見を自動活用
+- 試行錯誤が減っていく（学習効果）
+
+**重要**:
+- この原則はCLAUDE.mdに記載されているため、compact後も自動で適用される
+- セッション開始時にこのセクションがない場合、オーケストレーターが自動で追加する
+
+---
+
 **作成日**: 2026-01-10
-**最終更新日**: 2026-01-10
+**最終更新日**: 2026-01-12
+
+---
+
+## 🚀 デプロイ準備完了 (2026-01-15)
+
+### ビルド状況
+- ✅ フロントエンドビルド: 成功 (28.30s)
+- ✅ バックエンドビルド: 成功
+- ✅ TypeScriptエラー: 0件
+
+### E2Eテスト結果
+- **成功率**: 93.2% (41/44テスト)
+- **成功**: 41テスト
+- **失敗**: 3テスト
+  - E2E-QUIZ-003: Correct Answer Flow (送信ボタン有効化問題)
+  - E2E-QUIZ-007: Progress Graph Display (グラフデータポイント)
+  - E2E-STORY-007: Choice Selection Flow (進捗バー更新)
+
+### 修正完了項目 (18件)
+1. LanguageSelectionModal (localStorage対応)
+2. Sidebar aria-label追加
+3. Dashboard テスト×6
+4. Login テスト×2  
+5. Quiz テスト×5 (quiz_choices→choices型名修正)
+6. Story テスト×2
+7. Layout verification×2
+
+### デプロイ手順
+
+#### 1. フロントエンド (Vercel)
+```bash
+cd frontend
+vercel --prod
+```
+
+**環境変数設定 (Vercel Dashboard)**:
+- `VITE_API_URL`: バックエンドURL (Cloud RunのURL)
+
+#### 2. バックエンド (Google Cloud Run)
+```bash
+cd backend
+gcloud run deploy lingo-keeper-jp-backend \
+  --source . \
+  --platform managed \
+  --region asia-northeast1 \
+  --allow-unauthenticated \
+  --port 8080
+```
+
+**環境変数設定 (Cloud Run)**:
+- `DATABASE_URL`: Neon PostgreSQL接続URL
+- `GOOGLE_CLOUD_PROJECT_ID`: GCPプロジェクトID
+- `OPENAI_API_KEY`: OpenAI APIキー
+
+#### 3. データベース (Neon)
+- 既存のNeonデータベースを使用
+- マイグレーション実行:
+  ```bash
+  cd backend
+  npx prisma migrate deploy
+  npx prisma db seed
+  ```
+
+### 本番環境確認チェックリスト
+- [ ] フロントエンドがアクセス可能
+- [ ] バックエンドAPIが応答
+- [ ] データベース接続確認
+- [ ] ログイン機能動作確認
+- [ ] ストーリー一覧表示確認
+- [ ] クイズページ表示確認
+
+**最終更新日**: 2026-01-15

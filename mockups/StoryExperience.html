@@ -1,0 +1,1083 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ストーリー体験ページ - モックアップ</title>
+
+  <!-- Material UI Fonts -->
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap"/>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@300;400;500;700&display=swap"/>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons"/>
+
+  <style>
+    /*
+      📌 MUI変換マッピング表
+      このHTMLモックアップは以下のMUIコンポーネントに変換されます:
+
+      全体構造:
+      - body → PublicLayout（ヘッダー・背景はLayoutが提供）
+      - main container → Container maxWidth="lg"
+
+      テキスト:
+      - h1 → Typography variant="h4" component="h1"
+      - h2 → Typography variant="h5" component="h2"
+      - h3 → Typography variant="h6" component="h3"
+      - p → Typography variant="body1"
+      - small → Typography variant="body2"
+
+      ボタン:
+      - .level-filter-btn → Button variant="outlined"
+      - .audio-button → Button variant="contained" color="primary"
+      - .back-button → Button variant="outlined"
+      - .toggle-button → Button variant="outlined" size="small"
+      - .quick-action-btn → Button variant="contained" color="warning"
+
+      カード:
+      - .story-card → Card + CardContent
+      - .choice-card → Card + CardContent
+
+      入力:
+      - progress bar → LinearProgress variant="determinate"
+
+      レイアウト:
+      - margin/padding → spacing()基準（8px単位）
+      - Box component for layout containers
+
+      色（アースカラー基調）:
+      - theme.palette.primary.main: #7A9C5E (落ち着いたセージグリーン)
+      - theme.palette.secondary.main: #A67C52 (ナチュラルブラウン)
+      - theme.palette.warning.main: #C9A573 (ソフトゴールド)
+      - theme.palette.background.default: #F4EDE4 (ナチュラルベージュ)
+      - theme.palette.background.paper: #FAF7F2 (ウォームホワイト)
+      - theme.palette.text.primary: #3E4A3C (ディープグリーン)
+      - theme.palette.text.secondary: #6B7A64 (ミディアムグリーン)
+    */
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Noto Sans JP', 'Roboto', sans-serif;
+      font-size: 14px;
+      color: #3E4A3C; /* theme.palette.text.primary */
+      background: #F4EDE4; /* theme.palette.background.default */
+      line-height: 1.5;
+    }
+
+    /* Main Container - MUI: Container maxWidth="lg" */
+    .story-experience-container {
+      max-width: 1280px; /* lg breakpoint */
+      margin: 0 auto;
+      padding: 16px; /* spacing(2) */
+    }
+
+    /* Level Selection Section - MUI: Box mb={4} */
+    .level-selection {
+      margin-bottom: 32px; /* spacing(4) */
+      padding: 24px; /* spacing(3) */
+      background: #7A9C5E; /* theme.palette.primary.main */
+      border-radius: 8px; /* theme.shape.borderRadius */
+      box-shadow: 0px 2px 4px rgba(0,0,0,0.08);
+    }
+
+    /* MUI: Typography variant="h4" component="h1" color="white" */
+    .level-selection h1 {
+      font-size: 2.125rem;
+      font-weight: 500;
+      line-height: 1.235;
+      margin-bottom: 16px; /* spacing(2) */
+      color: #FFFFFF; /* theme.palette.primary.contrastText */
+    }
+
+    /* MUI: Box display="flex" gap={1} flexWrap="wrap" */
+    .level-filters {
+      display: flex;
+      gap: 8px; /* spacing(1) */
+      flex-wrap: wrap;
+    }
+
+    /* MUI: Button variant="outlined" color="inherit" size="medium" */
+    .level-filter-btn {
+      background: rgba(255, 255, 255, 0.1);
+      border: 1px solid rgba(255, 255, 255, 0.5);
+      color: #FFFFFF;
+      padding: 6px 16px;
+      border-radius: 4px;
+      cursor: pointer;
+      font-family: 'Noto Sans JP', 'Roboto', sans-serif;
+      font-weight: 500;
+      font-size: 0.875rem;
+      text-transform: none;
+      transition: all 250ms cubic-bezier(0.4, 0, 0.2, 1);
+      box-shadow: none;
+    }
+
+    .level-filter-btn:hover {
+      background: rgba(255, 255, 255, 0.2);
+      border-color: rgba(255, 255, 255, 0.7);
+    }
+
+    /* MUI: active state with color="warning" */
+    .level-filter-btn.active {
+      background: #C9A573; /* theme.palette.warning.main */
+      border-color: #C9A573;
+      color: #FFFFFF; /* theme.palette.warning.contrastText */
+    }
+
+    /* Story List Section - MUI: Box mb={4} */
+    .story-list {
+      margin-bottom: 32px; /* spacing(4) */
+    }
+
+    /* MUI: Typography variant="h5" component="h2" mb={3} */
+    .story-list h2 {
+      font-size: 1.5rem;
+      font-weight: 500;
+      line-height: 1.334;
+      margin-bottom: 24px; /* spacing(3) */
+      color: #3E4A3C; /* theme.palette.text.primary */
+    }
+
+    /* MUI: Grid container spacing={3} */
+    .story-cards {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+      gap: 24px; /* spacing(3) */
+    }
+
+    /* MUI: Card + CardContent */
+    .story-card {
+      background: #FAF7F2; /* theme.palette.background.paper */
+      border: 1px solid rgba(122, 156, 94, 0.12); /* theme.palette.divider */
+      border-radius: 8px; /* theme.shape.borderRadius */
+      padding: 16px; /* spacing(2) */
+      cursor: pointer;
+      transition: all 300ms cubic-bezier(0.4, 0, 0.2, 1); /* theme.transitions.duration.standard */
+      box-shadow: 0px 2px 4px rgba(0,0,0,0.06);
+    }
+
+    .story-card:hover {
+      border-color: #7A9C5E; /* theme.palette.primary.main */
+      transform: translateY(-4px);
+      box-shadow: 0px 4px 8px rgba(122, 156, 94, 0.15);
+    }
+
+    /* MUI: Chip color="primary" size="small" */
+    .story-card-badge {
+      display: inline-block;
+      background: #7A9C5E; /* theme.palette.primary.main */
+      color: #FFFFFF; /* theme.palette.primary.contrastText */
+      padding: 4px 12px;
+      border-radius: 16px;
+      font-size: 0.8125rem;
+      font-weight: 500;
+      margin-bottom: 8px; /* spacing(1) */
+    }
+
+    /* MUI: Typography variant="h6" component="h3" mb={1} */
+    .story-card-title {
+      font-size: 1.25rem;
+      font-weight: 500;
+      line-height: 1.6;
+      margin-bottom: 8px; /* spacing(1) */
+      color: #3E4A3C; /* theme.palette.text.primary */
+    }
+
+    /* MUI: Typography variant="body2" color="text.secondary" mb={2} */
+    .story-card-desc {
+      font-size: 0.875rem;
+      line-height: 1.43;
+      margin-bottom: 16px; /* spacing(2) */
+      color: #6B7A64; /* theme.palette.text.secondary */
+    }
+
+    /* MUI: Box display="flex" justifyContent="space-between" mt={2} pt={2} */
+    .story-card-meta {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 0.875rem;
+      margin-top: 16px; /* spacing(2) */
+      padding-top: 16px; /* spacing(2) */
+      border-top: 1px solid rgba(122, 156, 94, 0.12); /* theme.palette.divider */
+    }
+
+    /* MUI: Typography variant="body2" color="primary" fontWeight="medium" */
+    .story-progress {
+      font-weight: 500;
+      color: #7A9C5E; /* theme.palette.primary.main */
+    }
+
+    /* Story Viewer Section - MUI: Box display={visible ? 'block' : 'none'} */
+    .story-viewer {
+      display: none;
+      transition: opacity 400ms cubic-bezier(0.4, 0, 0.2, 1), transform 400ms cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    .story-viewer.active {
+      display: block;
+      animation: fadeIn 300ms cubic-bezier(0.4, 0, 0.2, 1); /* theme.transitions.duration.standard */
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(16px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    /* MUI: Box mb={4} */
+    .story-header {
+      margin-bottom: 32px; /* spacing(4) */
+    }
+
+    /* MUI: Button variant="outlined" startIcon={<ArrowBackIcon />} mb={2} */
+    .back-button {
+      background: transparent;
+      border: 1px solid rgba(122, 156, 94, 0.5);
+      color: #7A9C5E; /* theme.palette.primary.main */
+      padding: 6px 16px;
+      border-radius: 4px;
+      cursor: pointer;
+      font-family: 'Noto Sans JP', 'Roboto', sans-serif;
+      font-weight: 500;
+      font-size: 0.875rem;
+      margin-bottom: 16px; /* spacing(2) */
+      display: inline-flex;
+      align-items: center;
+      gap: 8px; /* spacing(1) */
+      transition: all 250ms cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    .back-button:hover {
+      background: rgba(122, 156, 94, 0.08); /* theme.palette.action.hover */
+      border-color: #7A9C5E;
+    }
+
+    /* MUI: Chip color="primary" mb={2} */
+    .story-level-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px; /* spacing(1) */
+      background: #7A9C5E; /* theme.palette.primary.main */
+      color: #FFFFFF; /* theme.palette.primary.contrastText */
+      padding: 8px 16px; /* spacing(1) spacing(2) */
+      border-radius: 16px;
+      font-weight: 500;
+      margin-bottom: 16px; /* spacing(2) */
+      font-size: 0.875rem;
+    }
+
+    /* MUI: Typography variant="h4" component="h1" mb={3} */
+    .story-title {
+      font-size: 2.125rem;
+      font-weight: 500;
+      line-height: 1.235;
+      margin-bottom: 24px; /* spacing(3) */
+      color: #3E4A3C; /* theme.palette.text.primary */
+    }
+
+    /* Progress Container - MUI: Box my={3} */
+    .progress-container {
+      margin: 24px 0; /* spacing(3) */
+    }
+
+    /* MUI: Box display="flex" justifyContent="space-between" mb={1} */
+    .progress-label {
+      display: flex;
+      justify-content: space-between;
+      font-size: 0.875rem;
+      color: #6B7A64; /* theme.palette.text.secondary */
+      margin-bottom: 8px; /* spacing(1) */
+      font-weight: 500;
+    }
+
+    /* MUI: LinearProgress variant="determinate" value={20} sx={{ height: 8, borderRadius: 4 }} */
+    .progress-bar {
+      background: rgba(122, 156, 94, 0.12);
+      height: 8px;
+      border-radius: 4px;
+      overflow: hidden;
+    }
+
+    .progress-fill {
+      background: #7A9C5E; /* theme.palette.primary.main */
+      height: 100%;
+      transition: width 500ms cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    /* Content Box - MUI: Paper elevation={1} p={4} my={3} */
+    .content-box {
+      background: #FAF7F2; /* theme.palette.background.paper */
+      padding: 32px; /* spacing(4) */
+      border-radius: 8px; /* theme.shape.borderRadius */
+      margin: 24px 0; /* spacing(3) */
+      line-height: 2;
+      font-size: 1rem;
+      color: #3E4A3C; /* theme.palette.text.primary */
+      box-shadow: 0px 2px 4px rgba(0,0,0,0.06);
+    }
+
+    /* MUI: Box display="flex" gap={2} mb={2} */
+    .content-options {
+      display: flex;
+      gap: 16px; /* spacing(2) */
+      margin-bottom: 16px; /* spacing(2) */
+    }
+
+    /* MUI: Button variant="outlined" size="small" */
+    .toggle-button {
+      background: transparent;
+      border: 1px solid rgba(122, 156, 94, 0.5);
+      color: #7A9C5E; /* theme.palette.primary.main */
+      padding: 4px 10px;
+      border-radius: 4px;
+      cursor: pointer;
+      font-family: 'Noto Sans JP', 'Roboto', sans-serif;
+      font-weight: 500;
+      font-size: 0.8125rem;
+      transition: all 250ms cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    .toggle-button:hover {
+      background: rgba(122, 156, 94, 0.08); /* theme.palette.action.hover */
+    }
+
+    /* MUI: active state (Button variant="contained" color="primary") */
+    .toggle-button.active {
+      background: #7A9C5E; /* theme.palette.primary.main */
+      color: #FFFFFF; /* theme.palette.primary.contrastText */
+      border-color: #7A9C5E;
+    }
+
+    /* Ruby visibility control */
+    .content-text.hide-ruby ruby rt {
+      display: none;
+    }
+
+    /* MUI: Box display={show ? 'block' : 'none'} mt={2} pt={2} */
+    .content-translation {
+      display: none;
+      margin-top: 16px; /* spacing(2) */
+      padding-top: 16px; /* spacing(2) */
+      border-top: 1px dashed rgba(122, 156, 94, 0.12); /* theme.palette.divider */
+      color: #6B7A64; /* theme.palette.text.secondary */
+      font-style: italic;
+      line-height: 1.8;
+    }
+
+    .content-translation.show {
+      display: block;
+    }
+
+    /* Audio Control - MUI: Box my={3} */
+    .audio-control {
+      margin: 24px 0; /* spacing(3) */
+    }
+
+    /* MUI: Button variant="contained" color="primary" startIcon={<VolumeUpIcon />} */
+    .audio-button {
+      background: #7A9C5E; /* theme.palette.primary.main */
+      color: #FFFFFF; /* theme.palette.primary.contrastText */
+      border: none;
+      padding: 8px 22px;
+      border-radius: 4px;
+      font-family: 'Noto Sans JP', 'Roboto', sans-serif;
+      font-size: 0.875rem;
+      font-weight: 500;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px; /* spacing(1) */
+      transition: all 250ms cubic-bezier(0.4, 0, 0.2, 1);
+      box-shadow: 0px 3px 1px -2px rgba(0,0,0,0.15), 0px 2px 2px 0px rgba(0,0,0,0.1), 0px 1px 5px 0px rgba(0,0,0,0.08);
+    }
+
+    .audio-button:hover {
+      background: #6A8A50; /* theme.palette.primary.dark */
+      box-shadow: 0px 2px 4px -1px rgba(0,0,0,0.15), 0px 4px 5px 0px rgba(0,0,0,0.1), 0px 1px 10px 0px rgba(0,0,0,0.08);
+    }
+
+    .audio-button:active {
+      box-shadow: 0px 5px 5px -3px rgba(0,0,0,0.15), 0px 8px 10px 1px rgba(0,0,0,0.1), 0px 3px 14px 2px rgba(0,0,0,0.08);
+    }
+
+    .audio-button.playing {
+      background: #A67C52; /* theme.palette.secondary.main */
+      animation: pulse 1.5s ease-in-out infinite;
+    }
+
+    @keyframes pulse {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.85; }
+    }
+
+    /* Choices Section - MUI: Box mt={5} */
+    .choices-section {
+      margin-top: 40px; /* spacing(5) */
+    }
+
+    /* MUI: Typography variant="h6" component="h3" mb={3} */
+    .choices-section h3 {
+      font-size: 1.25rem;
+      font-weight: 500;
+      line-height: 1.6;
+      margin-bottom: 24px; /* spacing(3) */
+      color: #3E4A3C; /* theme.palette.text.primary */
+    }
+
+    /* MUI: Grid container spacing={3} */
+    .choices-container {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 24px; /* spacing(3) */
+    }
+
+    /* MUI: Card + CardContent (clickable) */
+    .choice-card {
+      background: #FAF7F2; /* theme.palette.background.paper */
+      border: 2px solid rgba(122, 156, 94, 0.12); /* theme.palette.divider */
+      border-radius: 8px; /* theme.shape.borderRadius */
+      padding: 24px; /* spacing(3) */
+      cursor: pointer;
+      transition: all 300ms cubic-bezier(0.4, 0, 0.2, 1); /* theme.transitions.duration.standard */
+      box-shadow: 0px 2px 4px rgba(0,0,0,0.06);
+    }
+
+    .choice-card:hover {
+      border-color: #7A9C5E; /* theme.palette.primary.main */
+      transform: translateY(-4px);
+      box-shadow: 0px 4px 8px rgba(122, 156, 94, 0.2);
+      background: rgba(122, 156, 94, 0.04);
+    }
+
+    /* MUI: selected state */
+    .choice-card.selected {
+      border-color: #C9A573; /* theme.palette.warning.main */
+      background: rgba(201, 165, 115, 0.12); /* theme.palette.warning.main with opacity */
+      box-shadow: 0px 4px 8px rgba(201, 165, 115, 0.3);
+    }
+
+    /* Fade out animation for chapter transition */
+    .choice-card.fade-out {
+      opacity: 0;
+      transform: translateY(-20px);
+    }
+
+    /* MUI: Avatar sx={{ bgcolor: 'primary.main' }} */
+    .choice-number {
+      background: #7A9C5E; /* theme.palette.primary.main */
+      color: #FFFFFF; /* theme.palette.primary.contrastText */
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 500;
+      margin-bottom: 16px; /* spacing(2) */
+      font-size: 1rem;
+    }
+
+    /* MUI: Typography variant="subtitle1" fontWeight="medium" mb={1} */
+    .choice-text {
+      font-size: 1rem;
+      font-weight: 500;
+      line-height: 1.75;
+      margin-bottom: 8px; /* spacing(1) */
+      color: #3E4A3C; /* theme.palette.text.primary */
+    }
+
+    /* MUI: Typography variant="body2" color="text.secondary" */
+    .choice-desc {
+      font-size: 0.875rem;
+      line-height: 1.43;
+      color: #6B7A64; /* theme.palette.text.secondary */
+    }
+
+    /* Quick Actions - MUI: Box mt={4} pt={4} */
+    .quick-actions {
+      margin-top: 32px; /* spacing(4) */
+      padding-top: 32px; /* spacing(4) */
+      border-top: 1px solid rgba(122, 156, 94, 0.12); /* theme.palette.divider */
+      display: flex;
+      gap: 16px; /* spacing(2) */
+      flex-wrap: wrap;
+    }
+
+    /* MUI: Button variant="contained" color="warning" startIcon={<CheckIcon />} */
+    .quick-action-btn {
+      background: #C9A573; /* theme.palette.warning.main */
+      color: #FFFFFF; /* theme.palette.warning.contrastText */
+      border: none;
+      padding: 8px 22px;
+      border-radius: 4px;
+      font-family: 'Noto Sans JP', 'Roboto', sans-serif;
+      font-weight: 500;
+      font-size: 0.875rem;
+      cursor: pointer;
+      transition: all 250ms cubic-bezier(0.4, 0, 0.2, 1);
+      display: inline-flex;
+      align-items: center;
+      gap: 8px; /* spacing(1) */
+      box-shadow: 0px 3px 1px -2px rgba(0,0,0,0.15), 0px 2px 2px 0px rgba(0,0,0,0.1), 0px 1px 5px 0px rgba(0,0,0,0.08);
+    }
+
+    .quick-action-btn:hover {
+      background: #B89563; /* theme.palette.warning.dark */
+      box-shadow: 0px 2px 4px -1px rgba(0,0,0,0.15), 0px 4px 5px 0px rgba(0,0,0,0.1), 0px 1px 10px 0px rgba(0,0,0,0.08);
+    }
+
+    .quick-action-btn:active {
+      transform: scale(0.98);
+    }
+
+    /* Loading Indicator - MUI: Box display={loading ? 'flex' : 'none'} */
+    .loading {
+      display: none;
+      text-align: center;
+      padding: 32px; /* spacing(4) */
+    }
+
+    .loading.show {
+      display: block;
+    }
+
+    /* MUI: CircularProgress */
+    .spinner {
+      border: 4px solid rgba(122, 156, 94, 0.12);
+      border-top: 4px solid #7A9C5E; /* theme.palette.primary.main */
+      border-radius: 50%;
+      width: 40px;
+      height: 40px;
+      animation: spin 1s linear infinite;
+      margin: 0 auto 16px; /* spacing(2) */
+    }
+
+    @keyframes spin {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+
+    /* Responsive Design */
+    @media (max-width: 960px) { /* md breakpoint */
+      .story-experience-container {
+        padding: 8px; /* spacing(1) */
+      }
+
+      .level-selection,
+      .content-box {
+        padding: 16px; /* spacing(2) */
+      }
+
+      .story-title {
+        font-size: 1.75rem;
+      }
+
+      .choices-container,
+      .story-cards {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+<body>
+  <!--
+    📌 ページタイプ: 公開ページ（認証不要）
+    📌 レイアウト: PublicLayout使用（React実装時）
+    📌 このモックアップはコンテンツ部分のみを含む
+    📌 ヘッダー・背景はPublicLayoutが提供
+  -->
+
+  <!-- MUI: Container maxWidth="lg" -->
+  <div class="story-experience-container">
+
+    <!-- Story List Section - MUI: Box -->
+    <div id="story-list-section">
+
+      <!-- Level Selection - MUI: Box mb={4} p={3} bgcolor="primary.main" borderRadius={1} -->
+      <div class="level-selection">
+        <!-- MUI: Typography variant="h4" component="h1" color="white" mb={2} -->
+        <h1>レベル別ストーリー一覧</h1>
+
+        <!-- MUI: Box display="flex" gap={1} flexWrap="wrap" -->
+        <div class="level-filters">
+          <!-- MUI: Button variant="outlined" color="inherit" -->
+          <button class="level-filter-btn active" data-level="all">すべて</button>
+          <button class="level-filter-btn" data-level="N5-A1">N5 / A1</button>
+          <button class="level-filter-btn" data-level="N4-A2">N4 / A2</button>
+          <button class="level-filter-btn" data-level="N3-B1">N3 / B1</button>
+          <button class="level-filter-btn" data-level="N2-B2">N2 / B2</button>
+          <button class="level-filter-btn" data-level="N1-C1">N1 / C1-C2</button>
+        </div>
+      </div>
+
+      <!-- Story List - MUI: Box mb={4} -->
+      <div class="story-list">
+        <!-- MUI: Typography variant="h5" component="h2" mb={3} -->
+        <h2>おすすめのストーリー</h2>
+
+        <!-- MUI: Grid container spacing={3} -->
+        <div class="story-cards">
+
+          <!-- Story Card 1 - MUI: Card -->
+          <div class="story-card" data-level="N3-B1" data-story-id="1">
+            <!-- MUI: Chip color="primary" size="small" label="N3 / B1" -->
+            <div class="story-card-badge">N3 / B1</div>
+
+            <!-- MUI: Typography variant="h6" component="h3" mb={1} -->
+            <div class="story-card-title">東京での新しい生活</div>
+
+            <!-- MUI: Typography variant="body2" color="text.secondary" mb={2} -->
+            <div class="story-card-desc">初めて東京に来た留学生の1日を追体験。渋谷での選択があなたの物語を変えます。</div>
+
+            <!-- MUI: Box display="flex" justifyContent="space-between" mt={2} pt={2} borderTop={1} -->
+            <div class="story-card-meta">
+              <!-- MUI: Typography variant="body2" -->
+              <span>約10分</span>
+              <!-- MUI: Typography variant="body2" color="primary" fontWeight="medium" -->
+              <span class="story-progress">進捗: 0%</span>
+            </div>
+          </div>
+
+          <!-- Story Card 2 - MUI: Card -->
+          <div class="story-card" data-level="N4-A2" data-story-id="2">
+            <div class="story-card-badge">N4 / A2</div>
+            <div class="story-card-title">カフェでの出会い</div>
+            <div class="story-card-desc">偶然入ったカフェで始まる、心温まる友情のストーリー。</div>
+            <div class="story-card-meta">
+              <span>約8分</span>
+              <span class="story-progress">進捗: 0%</span>
+            </div>
+          </div>
+
+          <!-- Story Card 3 - MUI: Card -->
+          <div class="story-card" data-level="N5-A1" data-story-id="3">
+            <div class="story-card-badge">N5 / A1</div>
+            <div class="story-card-title">初めてのコンビニ</div>
+            <div class="story-card-desc">日本のコンビニでの買い物。簡単な日常会話から学びましょう。</div>
+            <div class="story-card-meta">
+              <span>約5分</span>
+              <span class="story-progress">進捗: 0%</span>
+            </div>
+          </div>
+
+          <!-- Story Card 4 - MUI: Card -->
+          <div class="story-card" data-level="N2-B2" data-story-id="4">
+            <div class="story-card-badge">N2 / B2</div>
+            <div class="story-card-title">就職活動の挑戦</div>
+            <div class="story-card-desc">日本での就職活動。面接やビジネスマナーを学ぶストーリー。</div>
+            <div class="story-card-meta">
+              <span>約15分</span>
+              <span class="story-progress">進捗: 0%</span>
+            </div>
+          </div>
+
+          <!-- Story Card 5 - MUI: Card -->
+          <div class="story-card" data-level="N1-C1" data-story-id="5">
+            <div class="story-card-badge">N1 / C1</div>
+            <div class="story-card-title">京都の伝統文化</div>
+            <div class="story-card-desc">京都の伝統工芸職人との対話。深い文化理解を目指します。</div>
+            <div class="story-card-meta">
+              <span>約20分</span>
+              <span class="story-progress">進捗: 0%</span>
+            </div>
+          </div>
+
+          <!-- Story Card 6 - MUI: Card -->
+          <div class="story-card" data-level="N3-B1" data-story-id="6">
+            <div class="story-card-badge">N3 / B1</div>
+            <div class="story-card-title">週末の旅行計画</div>
+            <div class="story-card-desc">友達と週末旅行を計画。行き先はあなたが決めます。</div>
+            <div class="story-card-meta">
+              <span>約12分</span>
+              <span class="story-progress">進捗: 0%</span>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+    <!-- Story Viewer Section - MUI: Box display={visible ? 'block' : 'none'} -->
+    <div id="story-viewer" class="story-viewer">
+
+      <!-- Story Header - MUI: Box mb={4} -->
+      <div class="story-header">
+        <!-- MUI: Button variant="outlined" startIcon={<ArrowBackIcon />} mb={2} -->
+        <button class="back-button" id="back-to-list">
+          <span>←</span>
+          <span>ストーリー一覧に戻る</span>
+        </button>
+
+        <!-- MUI: Chip color="primary" icon={<BookIcon />} label="N3 / B1" mb={2} -->
+        <div class="story-level-badge">
+          <span>📚 N3 / B1</span>
+        </div>
+
+        <!-- MUI: Typography variant="h4" component="h1" mb={3} -->
+        <h1 class="story-title">東京での新しい生活</h1>
+
+        <!-- Progress Container - MUI: Box my={3} -->
+        <div class="progress-container">
+          <!-- MUI: Box display="flex" justifyContent="space-between" mb={1} -->
+          <div class="progress-label">
+            <!-- MUI: Typography variant="body2" color="text.secondary" -->
+            <span>チャプター 1/5</span>
+            <span id="progress-percent">20%</span>
+          </div>
+
+          <!-- MUI: LinearProgress variant="determinate" value={20} sx={{ height: 8, borderRadius: 4 }} -->
+          <div class="progress-bar">
+            <div class="progress-fill" id="progress-fill" style="width: 20%;"></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Content Options - MUI: Box display="flex" gap={2} mb={2} -->
+      <div class="content-options">
+        <!-- MUI: Button variant="outlined" size="small" color="primary" -->
+        <button class="toggle-button active" id="toggle-ruby">ルビ表示</button>
+        <button class="toggle-button" id="toggle-translation">翻訳表示</button>
+      </div>
+
+      <!-- Content Box - MUI: Paper elevation={1} p={4} my={3} -->
+      <div class="content-box">
+        <!-- MUI: Typography variant="body1" component="div" -->
+        <div class="content-text" id="story-content">
+          <ruby>今日<rt>きょう</rt></ruby>は<ruby>私<rt>わたし</rt></ruby>の<ruby>東京<rt>とうきょう</rt></ruby>での<ruby>新<rt>あたら</rt></ruby>しい<ruby>生活<rt>せいかつ</rt></ruby>の<ruby>初<rt>はじ</rt></ruby>めての<ruby>日<rt>ひ</rt></ruby>です。<ruby>渋谷<rt>しぶや</rt></ruby>の<ruby>駅<rt>えき</rt></ruby>に<ruby>着<rt>つ</rt></ruby>いて、<ruby>人<rt>ひと</rt></ruby>の<ruby>多<rt>おお</rt></ruby>さに<ruby>驚<rt>おどろ</rt></ruby>きました。これから、どこへ<ruby>行<rt>い</rt></ruby>きましょうか？
+        </div>
+
+        <!-- MUI: Box display={show ? 'block' : 'none'} mt={2} pt={2} borderTop="1px dashed" -->
+        <div class="content-translation" id="translation">
+          Today is my first day of a new life in Tokyo. I arrived at Shibuya Station and was surprised by the number of people. Where should I go from here?
+        </div>
+      </div>
+
+      <!-- Audio Control - MUI: Box my={3} -->
+      <div class="audio-control">
+        <!-- MUI: Button variant="contained" color="primary" startIcon={<VolumeUpIcon />} -->
+        <button class="audio-button" id="audio-button">
+          <span id="audio-icon">🔊</span>
+          <span id="audio-text">音声を聞く</span>
+        </button>
+      </div>
+
+      <!-- Choices Section - MUI: Box mt={5} -->
+      <div class="choices-section">
+        <!-- MUI: Typography variant="h6" component="h3" mb={3} -->
+        <h3>次はどうしますか？</h3>
+
+        <!-- MUI: Grid container spacing={3} -->
+        <div class="choices-container">
+
+          <!-- Choice Card 1 - MUI: Card (clickable) -->
+          <div class="choice-card" data-choice-id="1">
+            <!-- MUI: Avatar sx={{ bgcolor: 'primary.main' }} -->
+            <div class="choice-number">1</div>
+
+            <!-- MUI: Typography variant="subtitle1" fontWeight="medium" mb={1} -->
+            <div class="choice-text">カフェで休憩する</div>
+
+            <!-- MUI: Typography variant="body2" color="text.secondary" -->
+            <div class="choice-desc">疲れたので、近くのカフェで一休みして、ゆっくり考えましょう。</div>
+          </div>
+
+          <!-- Choice Card 2 - MUI: Card (clickable) -->
+          <div class="choice-card" data-choice-id="2">
+            <div class="choice-number">2</div>
+            <div class="choice-text">観光スポットを探す</div>
+            <div class="choice-desc">せっかく渋谷に来たので、有名な観光地を訪れてみたいです。</div>
+          </div>
+
+          <!-- Choice Card 3 - MUI: Card (clickable) -->
+          <div class="choice-card" data-choice-id="3">
+            <div class="choice-number">3</div>
+            <div class="choice-text">アパートへ直行する</div>
+            <div class="choice-desc">荷物が重いので、まず新しいアパートに向かって荷物を置きたいです。</div>
+          </div>
+
+        </div>
+      </div>
+
+      <!-- Quick Actions - MUI: Box mt={4} pt={4} borderTop={1} -->
+      <div class="quick-actions">
+        <!-- MUI: Button variant="contained" color="warning" startIcon={<CheckIcon />} -->
+        <button class="quick-action-btn" id="goto-quiz">
+          <span>✓</span>
+          <span>理解度チェックへ</span>
+        </button>
+      </div>
+
+    </div>
+
+    <!-- Loading Indicator - MUI: Box display={loading ? 'flex' : 'none'} textAlign="center" p={4} -->
+    <div class="loading" id="loading">
+      <!-- MUI: CircularProgress -->
+      <div class="spinner"></div>
+      <!-- MUI: Typography variant="body1" -->
+      <p>読み込み中...</p>
+    </div>
+
+  </div>
+
+  <script>
+    // State Management (React実装時はZustand + useReducerに変換)
+    const appState = {
+      currentStoryId: null,
+      currentChapterId: 1,
+      selectedChoiceId: null,
+      progress: 20,
+      showRuby: true,
+      showTranslation: false,
+      completedChapters: []
+    };
+
+    // DOM Elements
+    const storyListSection = document.getElementById('story-list-section');
+    const storyViewer = document.getElementById('story-viewer');
+    const loading = document.getElementById('loading');
+    const backButton = document.getElementById('back-to-list');
+    const toggleRubyBtn = document.getElementById('toggle-ruby');
+    const toggleTranslationBtn = document.getElementById('toggle-translation');
+    const storyContent = document.getElementById('story-content');
+    const translation = document.getElementById('translation');
+    const audioButton = document.getElementById('audio-button');
+    const audioIcon = document.getElementById('audio-icon');
+    const audioText = document.getElementById('audio-text');
+    const progressFill = document.getElementById('progress-fill');
+    const progressPercent = document.getElementById('progress-percent');
+    const gotoQuizBtn = document.getElementById('goto-quiz');
+
+    // Level Filter Functionality
+    const levelFilterBtns = document.querySelectorAll('.level-filter-btn');
+    const storyCards = document.querySelectorAll('.story-card');
+
+    levelFilterBtns.forEach(btn => {
+      btn.addEventListener('click', () => {
+        const selectedLevel = btn.getAttribute('data-level');
+
+        // Update active button
+        levelFilterBtns.forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+
+        // Filter story cards
+        storyCards.forEach(card => {
+          const cardLevel = card.getAttribute('data-level');
+          if (selectedLevel === 'all' || cardLevel === selectedLevel) {
+            card.style.display = 'block';
+            setTimeout(() => {
+              card.style.opacity = '1';
+              card.style.transform = 'translateY(0)';
+            }, 10);
+          } else {
+            card.style.opacity = '0';
+            card.style.transform = 'translateY(20px)';
+            setTimeout(() => {
+              card.style.display = 'none';
+            }, 300);
+          }
+        });
+      });
+    });
+
+    // Story Card Click - Load Story
+    storyCards.forEach(card => {
+      card.addEventListener('click', () => {
+        const storyId = card.getAttribute('data-story-id');
+        loadStory(storyId);
+      });
+    });
+
+    // Load Story Function (React実装時はAPI呼び出し + React Query)
+    function loadStory(storyId) {
+      appState.currentStoryId = storyId;
+      appState.currentChapterId = 1;
+
+      // Show loading
+      storyListSection.style.display = 'none';
+      loading.classList.add('show');
+
+      // Simulate API call
+      setTimeout(() => {
+        loading.classList.remove('show');
+        storyViewer.classList.add('active');
+        resetProgress();
+      }, 1000);
+    }
+
+    // Back to List
+    backButton.addEventListener('click', () => {
+      storyViewer.classList.remove('active');
+      setTimeout(() => {
+        storyListSection.style.display = 'block';
+      }, 300);
+    });
+
+    // Toggle Ruby Display
+    toggleRubyBtn.addEventListener('click', () => {
+      appState.showRuby = !appState.showRuby;
+      toggleRubyBtn.classList.toggle('active');
+
+      if (appState.showRuby) {
+        storyContent.classList.remove('hide-ruby');
+      } else {
+        storyContent.classList.add('hide-ruby');
+      }
+    });
+
+    // Toggle Translation Display
+    toggleTranslationBtn.addEventListener('click', () => {
+      appState.showTranslation = !appState.showTranslation;
+      toggleTranslationBtn.classList.toggle('active');
+
+      if (appState.showTranslation) {
+        translation.classList.add('show');
+      } else {
+        translation.classList.remove('show');
+      }
+    });
+
+    // Audio Button Functionality (React実装時はGoogle Cloud TTS API呼び出し)
+    let isPlaying = false;
+    audioButton.addEventListener('click', () => {
+      if (!isPlaying) {
+        isPlaying = true;
+        audioButton.classList.add('playing');
+        audioIcon.textContent = '🔊';
+        audioText.textContent = '音声再生中...';
+
+        // Simulate audio playback
+        setTimeout(() => {
+          isPlaying = false;
+          audioButton.classList.remove('playing');
+          audioIcon.textContent = '🔊';
+          audioText.textContent = '音声を聞く';
+        }, 3000);
+      }
+    });
+
+    // Choice Card Selection
+    const choiceCards = document.querySelectorAll('.choice-card');
+    choiceCards.forEach(card => {
+      card.addEventListener('click', function() {
+        const choiceId = this.getAttribute('data-choice-id');
+
+        // Remove previous selections
+        choiceCards.forEach(c => c.classList.remove('selected'));
+
+        // Mark as selected with highlight
+        this.classList.add('selected');
+        appState.selectedChoiceId = choiceId;
+
+        // Animate selection with brief scale effect
+        this.style.transform = 'scale(1.03)';
+        setTimeout(() => {
+          this.style.transform = '';
+
+          // Start fade out transition
+          setTimeout(() => {
+            loadNextChapter();
+          }, 300);
+        }, 200);
+      });
+    });
+
+    // Load Next Chapter (React実装時はAPI呼び出し)
+    function loadNextChapter() {
+      // Fade out current chapter
+      storyViewer.style.opacity = '0';
+      storyViewer.style.transform = 'translateY(-20px)';
+
+      setTimeout(() => {
+        loading.classList.add('show');
+
+        setTimeout(() => {
+          appState.currentChapterId++;
+          appState.progress = Math.min(100, appState.progress + 20);
+          updateProgress();
+
+          // Reset selection and remove fade-out class
+          choiceCards.forEach(c => {
+            c.classList.remove('selected');
+            c.classList.remove('fade-out');
+          });
+
+          loading.classList.remove('show');
+
+          // Fade in new chapter
+          storyViewer.style.opacity = '1';
+          storyViewer.style.transform = 'translateY(0)';
+
+          // Scroll to top smoothly
+          window.scrollTo({ top: 0, behavior: 'smooth' });
+        }, 800);
+      }, 300);
+    }
+
+    // Update Progress
+    function updateProgress() {
+      progressFill.style.width = appState.progress + '%';
+      progressPercent.textContent = appState.progress + '%';
+    }
+
+    // Reset Progress
+    function resetProgress() {
+      appState.progress = 20;
+      updateProgress();
+    }
+
+    // Go to Quiz (React実装時はReact Router navigate)
+    gotoQuizBtn.addEventListener('click', () => {
+      // Add active animation
+      gotoQuizBtn.style.transform = 'scale(0.95)';
+
+      setTimeout(() => {
+        gotoQuizBtn.style.transform = '';
+
+        // Show confirmation message with styled visual feedback
+        const confirmMessage = confirm(
+          'このチャプターの理解度チェックを始めますか？\n\n✓ 理解度チェックページへ遷移します\n（実装時は P-002: 理解度チェック＋進捗ページへルーティング）'
+        );
+
+        if (confirmMessage) {
+          // Simulate page transition with fade out
+          storyViewer.style.opacity = '0';
+          loading.classList.add('show');
+
+          setTimeout(() => {
+            alert('理解度チェックページを読み込んでいます...\n\n（モックアップのため、実際のページ遷移は行われません）');
+            loading.classList.remove('show');
+            storyViewer.style.opacity = '1';
+          }, 1000);
+        }
+      }, 100);
+    });
+
+    // Save Progress to LocalStorage (React実装時も同様)
+    function saveProgress() {
+      const progressData = {
+        storyId: appState.currentStoryId,
+        currentChapterId: appState.currentChapterId,
+        completedChapters: appState.completedChapters,
+        completionRate: appState.progress,
+        lastAccessed: new Date().toISOString()
+      };
+
+      localStorage.setItem(
+        `lingo_keeper_progress_${appState.currentStoryId}`,
+        JSON.stringify(progressData)
+      );
+    }
+
+    // Auto-save progress when choice is made
+    choiceCards.forEach(card => {
+      card.addEventListener('click', () => {
+        setTimeout(saveProgress, 100);
+      });
+    });
+  </script>
+</body>
+</html>

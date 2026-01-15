@@ -1,0 +1,140 @@
+// Prisma Schema for Lingo Keeper JP
+// Database: PostgreSQL (Neon)
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+// ストーリーテーブル
+model Story {
+  story_id        String   @id @default(uuid())
+  title           String   @db.VarChar(200)
+  description     String   @db.Text
+  level_jlpt      String   @db.VarChar(10) // N5, N4, N3, N2, N1
+  level_cefr      String   @db.VarChar(10) // A1, A2, B1, B2, C1, C2
+  estimated_time  Int // 分
+  thumbnail_url   String?  @db.VarChar(500)
+  root_chapter_id String   @db.VarChar(100)
+  created_at      DateTime @default(now())
+  updated_at      DateTime @updatedAt
+
+  // リレーション
+  chapters Chapter[]
+  quizzes  Quiz[]
+
+  @@map("stories")
+}
+
+// チャプターテーブル（ツリー構造）
+model Chapter {
+  chapter_id         String   @id @default(uuid())
+  story_id           String
+  parent_chapter_id  String?  // ツリー構造用（NULL = ルートチャプター）
+  chapter_number     Int
+  depth_level        Int      @default(0) // ツリー深度（0=ルート）
+  content            String   @db.Text
+  content_with_ruby  String?  @db.Text // ルビ付き本文（HTML）
+  translation        String?  @db.Text // 翻訳テキスト
+  vocabulary         Json?    // 語彙ヘルプデータ（JSON配列）
+  created_at         DateTime @default(now())
+  updated_at         DateTime @updatedAt
+
+  // リレーション
+  story           Story    @relation(fields: [story_id], references: [story_id], onDelete: Cascade)
+  choices         Choice[]
+  parent_chapter  Chapter? @relation("ChapterTree", fields: [parent_chapter_id], references: [chapter_id])
+  child_chapters  Chapter[] @relation("ChapterTree")
+
+  @@index([story_id])
+  @@index([parent_chapter_id])
+  @@map("chapters")
+}
+
+// 選択肢テーブル
+model Choice {
+  choice_id          String   @id @default(uuid())
+  chapter_id         String
+  choice_text        String   @db.VarChar(500)
+  choice_description String?  @db.Text // カードUI用説明
+  next_chapter_id    String   @db.VarChar(100)
+  display_order      Int      @default(0)
+  created_at         DateTime @default(now())
+
+  // リレーション
+  chapter Chapter @relation(fields: [chapter_id], references: [chapter_id], onDelete: Cascade)
+
+  @@index([chapter_id])
+  @@map("choices")
+}
+
+// クイズテーブル
+model Quiz {
+  quiz_id          String   @id @default(uuid())
+  story_id         String
+  question_text    String   @db.Text
+  question_type    String   @db.VarChar(50) // 読解, 語彙, 文法, リスニング
+  difficulty_level String   @db.VarChar(10) // N5, N4, N3, N2, N1
+  is_ai_generated  Boolean  @default(false)
+  source_text      String?  @db.Text // 生成元テキスト
+  created_at       DateTime @default(now())
+  updated_at       DateTime @updatedAt
+
+  // リレーション
+  story         Story         @relation(fields: [story_id], references: [story_id], onDelete: Cascade)
+  quiz_choices  QuizChoice[]
+  quiz_results  QuizResult[]
+
+  @@index([story_id])
+  @@map("quizzes")
+}
+
+// クイズ選択肢テーブル
+model QuizChoice {
+  choice_id   String  @id @default(uuid())
+  quiz_id     String
+  choice_text String  @db.VarChar(500)
+  is_correct  Boolean @default(false)
+  explanation String? @db.Text
+
+  // リレーション
+  quiz Quiz @relation(fields: [quiz_id], references: [quiz_id], onDelete: Cascade)
+
+  @@index([quiz_id])
+  @@map("quiz_choices")
+}
+
+// クイズ結果テーブル（LocalStorageとの同期用）
+model QuizResult {
+  result_id       String   @id @default(uuid())
+  quiz_id         String
+  user_answer     String   @db.Text
+  is_correct      Boolean
+  answered_at     DateTime @default(now())
+  response_method String   @db.VarChar(50) // 音声, テキスト
+
+  // リレーション
+  quiz Quiz @relation(fields: [quiz_id], references: [quiz_id], onDelete: Cascade)
+
+  @@index([quiz_id])
+  @@map("quiz_results")
+}
+
+// ユーザー進捗テーブル（LocalStorageとの同期用）
+model UserProgress {
+  progress_id        String   @id @default(uuid())
+  story_id           String
+  current_chapter_id String   @db.VarChar(100)
+  completed_chapters String[] // チャプターIDの配列
+  completion_rate    Int      @default(0) // 0-100
+  last_accessed      DateTime @default(now())
+  created_at         DateTime @default(now())
+  updated_at         DateTime @updatedAt
+
+  @@index([story_id])
+  @@map("user_progress")
+}

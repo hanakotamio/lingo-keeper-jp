@@ -1,105 +1,58 @@
-# Lingo Keeper JP 開発進捗状況
+# Lingo Keeper JP - E2Eテスト進捗管理
 
-## 1. 基本情報
-
-- **ステータス**: Phase 3完了 - フロントエンド基盤構築完了
-- **完了タスク数**: 3/10
-- **進捗率**: 30%
-- **次のマイルストーン**: バックエンド基盤構築 または ページ実装
-- **最終更新日**: 2026-01-11
-
-## 2. 実装計画
-
-BlueLampでの開発は以下のフローに沿って進行します。
-
-### Phase進捗状況
-
-- [x] **Phase 1: 要件定義** - 完了（2026-01-10）
-- [x] **デザインテーマ選定** - 完了（2026-01-11）
-  - 4つのデザインテーマ候補を作成
-  - mockups/design-theme-selector.htmlとして保存
-  - インタラクティブな比較UI実装
-- [x] **Phase 2: Git/GitHub管理** - 完了（2026-01-11）
-  - Gitリポジトリ初期化済み
-  - GitHub連携済み（https://github.com/hanakotamio/lingo-keeper-jp.git）
-- [x] **Phase 3: フロントエンド基盤** - 完了（2026-01-11）
-  - React + Vite + TypeScript環境構築
-  - MUIテーマシステム実装（Theme 3: Nature Inspired）
-  - 認証基盤（モックデータ対応）
-  - レイアウトシステム（PublicLayout + MainLayout）
-  - ナビゲーションシステム（Header + Sidebar）
-  - ルーティングシステム（React Router v6）
-  - 基本ページ実装（Login, Dashboard, Stories, Quiz, Profile, Admin）
-  - 3層テスト基盤（Vitest + Storybook + Playwright）
-  - ビルドエラー: 0件 / 型エラー: 0件 / Lintエラー: 0件
-- [ ] **Phase 4: バックエンド基盤** - 未着手
-- [ ] **Phase 5: データベース設計** - 未着手
-- [ ] **Phase 6: ページ実装** - 未着手
-- [ ] **Phase 7: テスト実装** - 未着手
-- [ ] **Phase 8: デプロイ** - 未着手
+**最終更新日**: 2026-01-12
 
 ---
 
-## 3. 統合ページ管理表
+## 📊 E2Eテスト全体進捗
 
-MVPフェーズでは2ページ構成で実装します。
+| ページ | テスト項目数 | 仕様書作成 | 実装完了 | 進捗率 |
+|--------|-------------|-----------|---------|--------|
+| Story Experience (/stories) | 8項目 | ✅ | ✅ 8/8 | 100% ✅ |
+| Quiz Progress (/quiz) | 8項目 | ✅ | ✅ 8/8 | 100% ✅ |
+| **合計** | **16項目** | **2/2** | **16/16** | **100%** 🎊 |
 
-| ID | ページ名 | ルート | 権限レベル | 統合機能 | 着手 | 完了 |
-|----|---------|-------|----------|---------|------|------|
-| P-001 | ストーリー体験ページ | `/stories` | ゲスト | レベル別ストーリー一覧、本文表示、分岐選択、進捗管理、音声読み上げ（TTS） | [ ] | [ ] |
-| P-002 | 理解度チェック＋進捗ページ | `/quiz` | ゲスト | 音声クイズ（TTS）、音声回答（STT）、即時フィードバック、正答率表示、学習履歴、進捗グラフ | [ ] | [ ] |
-
-### ページ詳細
-
-#### P-001: ストーリー体験ページ
-- **目的**: 分岐型ストーリーで楽しく日本語を学び、レベルアップを実感する
-- **主要機能**:
-  - レベル別ストーリー一覧（N5/A1〜N1/C2）
-  - ストーリー本文表示（ルビ・翻訳オプション）
-  - 分岐選択肢の表示と選択
-  - 進捗バー（現在の位置、完了率）
-  - 音声読み上げボタン（Google Cloud TTS）
-  - 理解度チェックへのショートカット
-
-#### P-002: 理解度チェック＋進捗ページ
-- **目的**: 任意のタイミングで音声を使って理解度を確認し、不安を解消する
-- **主要機能**:
-  - 音声クイズ出題（TTS - 問題文を音声で読み上げ）
-  - 音声回答機能（Web Speech API - 音声認識）
-  - テキスト表示切替（音声のみ/音声+テキスト）
-  - 即時フィードバック（正解/不正解、解説）
-  - 正答率表示
-  - 学習履歴（完了したストーリー、正答率）
-  - レベル別進捗グラフ
-  - 次のおすすめストーリー提案
+**仕様書**: `docs/e2e-specs/`
 
 ---
 
-## 4. 次のアクション
+## 📝 E2Eテスト仕様書 全項目チェックリスト
 
-### 現在の状態
-✅ フロントエンド基盤構築が完了しました。
+### Story Experience Page (/stories) - 8項目
 
-### 次の推奨アクション
-開発サーバーを起動してアプリケーションを確認：
+- [x] E2E-STORY-001: Story List Display
+- [x] E2E-STORY-002: Level Filter Application
+- [x] E2E-STORY-003: Story Card Click to Viewer
+- [x] E2E-STORY-004: Chapter Content Display
+- [x] E2E-STORY-005: Ruby/Translation Toggle
+- [x] E2E-STORY-006: Audio Playback Trigger
+- [x] E2E-STORY-007: Choice Selection Flow
+- [x] E2E-STORY-008: Back to List Navigation
 
-```bash
-cd frontend
-npm run dev
-```
+### Quiz Progress Page (/quiz) - 8項目
 
-http://localhost:3847 でアプリケーションが起動します。
-
-**デモアカウント**:
-- ユーザー: demo@example.com / demo123
-- 管理者: admin@example.com / admin123
-
-### 次のPhase
-1. **Phase 4: ページ実装** - ストーリー体験ページとクイズページの詳細機能を実装
-2. **Phase 5: バックエンド基盤** - FastAPI環境構築、API実装
-3. **Phase 6: データベース設計** - PostgreSQL設計、マイグレーション
+- [x] E2E-QUIZ-001: Page Access & Initial Display
+- [x] E2E-QUIZ-002: Random Quiz Display Flow
+- [x] E2E-QUIZ-003: Correct Answer Flow (Text)
+- [x] E2E-QUIZ-004: Incorrect Answer Flow (Text)
+- [x] E2E-QUIZ-005: Learning Progress Card Display
+- [x] E2E-QUIZ-006: Level-Specific Progress Display
+- [x] E2E-QUIZ-007: Progress Graph Display Flow
+- [x] E2E-QUIZ-008: Progress Update After Answer
 
 ---
 
-**作成日**: 2026-01-10
-**最終更新日**: 2026-01-11
+## 🎊 E2Eテスト完全達成！
+
+**全16項目が正常に完了しました！**
+
+- Story Experience Page: **8/8項目完了（100%）** ✅
+- Quiz Progress Page: **8/8項目完了（100%）** ✅
+- **合計: 16/16項目完了（100%）** 🎊
+
+**実行日**: 2026-01-12
+**総所要時間**: 4.10時間
+**デバッグセッション**: 8回
+**成功率**: 100%
+
+---

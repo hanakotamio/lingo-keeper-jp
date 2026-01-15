@@ -1,8 +1,19 @@
-import { test, expect } from '@playwright/test';
+import { test, expect, Page } from '@playwright/test';
 import { loginAsDemo } from './helpers/auth.helper';
+
+/**
+ * Helper function to prevent language selection modal from appearing
+ */
+async function preventLanguageModal(page: Page) {
+  await page.addInitScript(() => {
+    localStorage.setItem('lingo_keeper_language_selected', 'true');
+    localStorage.setItem('lingo_keeper_translation_language', 'en');
+  });
+}
 
 test.describe('Layout Verification', () => {
   test('should capture login page screenshot for layout verification', async ({ page }) => {
+    await preventLanguageModal(page);
     await page.goto('/login');
 
     // Wait for page to fully load
@@ -25,6 +36,7 @@ test.describe('Layout Verification', () => {
   });
 
   test('should capture dashboard page screenshot for layout verification', async ({ page }) => {
+    await preventLanguageModal(page);
     await loginAsDemo(page);
 
     // Wait for page to fully load
@@ -47,6 +59,7 @@ test.describe('Layout Verification', () => {
   });
 
   test('should capture stories page screenshot', async ({ page }) => {
+    await preventLanguageModal(page);
     await loginAsDemo(page);
     await page.goto('/stories');
 
@@ -61,6 +74,7 @@ test.describe('Layout Verification', () => {
   });
 
   test('should capture quiz page screenshot', async ({ page }) => {
+    await preventLanguageModal(page);
     await loginAsDemo(page);
     await page.goto('/quiz');
 
@@ -75,6 +89,7 @@ test.describe('Layout Verification', () => {
   });
 
   test('should capture profile page screenshot', async ({ page }) => {
+    await preventLanguageModal(page);
     await loginAsDemo(page);
     await page.goto('/profile');
 

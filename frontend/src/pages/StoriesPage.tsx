@@ -1,20 +1,14 @@
-import { Typography, Box } from '@mui/material';
-import { MainLayout } from '@/layouts/MainLayout';
+import React from 'react';
+import { StoryExperiencePage } from './StoryExperience/StoryExperiencePage';
 
-export const StoriesPage = () => {
-  return (
-    <MainLayout>
-      <Box>
-        <Typography variant="h4" gutterBottom>
-          ストーリー体験
-        </Typography>
-        <Typography variant="body1" color="text.secondary">
-          レベル別の分岐型ストーリーをお楽しみください。
-        </Typography>
-        <Typography variant="body2" sx={{ mt: 2 }}>
-          （Phase 4: ページ実装で詳細機能を追加予定）
-        </Typography>
-      </Box>
-    </MainLayout>
-  );
+/**
+ * StoriesPage - Public Story List and Viewer
+ *
+ * This page wraps StoryExperiencePage to provide story browsing
+ * without authentication (guest access).
+ *
+ * Route: /stories (public)
+ */
+export const StoriesPage: React.FC = () => {
+  return <StoryExperiencePage />;
 };

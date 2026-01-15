@@ -1,0 +1,1493 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>理解度チェック＋進捗ページ - モックアップ</title>
+
+  <!-- Material UI Fonts -->
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap"/>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@300;400;500;700&display=swap"/>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons"/>
+
+  <style>
+    /*
+      📌 MUI変換マッピング表
+      このHTMLモックアップは以下のMUIコンポーネントに変換されます:
+
+      全体構造:
+      - body → PublicLayout（ヘッダー・背景はLayoutが提供）
+      - main container → Container maxWidth="lg"
+
+      テキスト:
+      - h1 → Typography variant="h4" component="h1"
+      - h2 → Typography variant="h5" component="h2"
+      - h3 → Typography variant="h6" component="h3"
+      - p → Typography variant="body1"
+      - small → Typography variant="body2"
+
+      ボタン:
+      - .quiz-answer-btn → Button variant="contained" color="primary"
+      - .voice-record-btn → Button variant="outlined" color="secondary"
+      - .next-quiz-btn → Button variant="contained" color="warning"
+      - .retry-btn → Button variant="outlined" size="small"
+      - .switch-input-btn → Button variant="text" size="small"
+
+      カード:
+      - .quiz-card → Card + CardContent
+      - .feedback-card → Card + CardContent
+      - .story-completion-card → Card + CardContent
+
+      入力:
+      - text input → TextField
+      - voice input → custom component with Web Speech API
+
+      グラフ:
+      - .progress-chart → Recharts LineChart (React実装時)
+
+      レイアウト:
+      - margin/padding → spacing()基準（8px単位）
+      - Box component for layout containers
+
+      色（アースカラー基調）:
+      - theme.palette.primary.main: #7A9C5E (落ち着いたセージグリーン)
+      - theme.palette.secondary.main: #A67C52 (ナチュラルブラウン)
+      - theme.palette.warning.main: #C9A573 (ソフトゴールド)
+      - theme.palette.success.main: #6B9A5E (サクセスグリーン)
+      - theme.palette.error.main: #C77C5E (ソフトレッド)
+      - theme.palette.background.default: #F4EDE4 (ナチュラルベージュ)
+      - theme.palette.background.paper: #FAF7F2 (ウォームホワイト)
+      - theme.palette.text.primary: #3E4A3C (ディープグリーン)
+      - theme.palette.text.secondary: #6B7A64 (ミディアムグリーン)
+    */
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Noto Sans JP', 'Roboto', sans-serif;
+      font-size: 14px;
+      color: #3E4A3C; /* theme.palette.text.primary */
+      background: #F4EDE4; /* theme.palette.background.default */
+      line-height: 1.5;
+    }
+
+    /* Main Container - MUI: Container maxWidth="lg" */
+    .quiz-progress-container {
+      max-width: 1280px; /* lg breakpoint */
+      margin: 0 auto;
+      padding: 16px; /* spacing(2) */
+    }
+
+    /* Quiz Section - MUI: Box mb={4} */
+    .quiz-section {
+      margin-bottom: 32px; /* spacing(4) */
+    }
+
+    /* MUI: Typography variant="h4" component="h1" mb={3} */
+    .quiz-section h1 {
+      font-size: 2.125rem;
+      font-weight: 500;
+      line-height: 1.235;
+      margin-bottom: 24px; /* spacing(3) */
+      color: #3E4A3C; /* theme.palette.text.primary */
+    }
+
+    /* Quiz Card - MUI: Card + CardContent elevation={2} */
+    .quiz-card {
+      background: #FAF7F2; /* theme.palette.background.paper */
+      border: 1px solid rgba(122, 156, 94, 0.12); /* theme.palette.divider */
+      border-radius: 8px; /* theme.shape.borderRadius */
+      padding: 32px; /* spacing(4) */
+      margin-bottom: 24px; /* spacing(3) */
+      box-shadow: 0px 2px 4px rgba(0,0,0,0.06), 0px 4px 8px rgba(0,0,0,0.08);
+    }
+
+    /* MUI: Chip color="primary" size="small" mb={2} */
+    .quiz-badge {
+      display: inline-block;
+      background: #7A9C5E; /* theme.palette.primary.main */
+      color: #FFFFFF; /* theme.palette.primary.contrastText */
+      padding: 4px 12px;
+      border-radius: 16px;
+      font-size: 0.8125rem;
+      font-weight: 500;
+      margin-bottom: 16px; /* spacing(2) */
+    }
+
+    /* MUI: Typography variant="h5" component="h2" mb={3} */
+    .quiz-question {
+      font-size: 1.5rem;
+      font-weight: 500;
+      line-height: 1.334;
+      margin-bottom: 24px; /* spacing(3) */
+      color: #3E4A3C; /* theme.palette.text.primary */
+    }
+
+    /* Audio Control for Quiz - MUI: Box display="flex" alignItems="center" gap={2} mb={3} */
+    .quiz-audio-control {
+      display: flex;
+      align-items: center;
+      gap: 16px; /* spacing(2) */
+      margin-bottom: 24px; /* spacing(3) */
+    }
+
+    /* MUI: Button variant="contained" color="primary" startIcon={<VolumeUpIcon />} */
+    .audio-play-btn {
+      background: #7A9C5E; /* theme.palette.primary.main */
+      color: #FFFFFF; /* theme.palette.primary.contrastText */
+      border: none;
+      padding: 8px 22px;
+      border-radius: 4px;
+      font-family: 'Noto Sans JP', 'Roboto', sans-serif;
+      font-size: 0.875rem;
+      font-weight: 500;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px; /* spacing(1) */
+      transition: all 250ms cubic-bezier(0.4, 0, 0.2, 1);
+      box-shadow: 0px 3px 1px -2px rgba(0,0,0,0.15), 0px 2px 2px 0px rgba(0,0,0,0.1), 0px 1px 5px 0px rgba(0,0,0,0.08);
+    }
+
+    .audio-play-btn:hover {
+      background: #6A8A50; /* theme.palette.primary.dark */
+      box-shadow: 0px 2px 4px -1px rgba(0,0,0,0.15), 0px 4px 5px 0px rgba(0,0,0,0.1), 0px 1px 10px 0px rgba(0,0,0,0.08);
+    }
+
+    .audio-play-btn.playing {
+      background: #A67C52; /* theme.palette.secondary.main */
+      animation: pulse 1.5s ease-in-out infinite;
+    }
+
+    @keyframes pulse {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.85; }
+    }
+
+    /* MUI: Button variant="outlined" size="small" */
+    .toggle-text-btn {
+      background: transparent;
+      border: 1px solid rgba(122, 156, 94, 0.5);
+      color: #7A9C5E; /* theme.palette.primary.main */
+      padding: 4px 10px;
+      border-radius: 4px;
+      cursor: pointer;
+      font-family: 'Noto Sans JP', 'Roboto', sans-serif;
+      font-weight: 500;
+      font-size: 0.8125rem;
+      transition: all 250ms cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    .toggle-text-btn:hover {
+      background: rgba(122, 156, 94, 0.08); /* theme.palette.action.hover */
+    }
+
+    .toggle-text-btn.active {
+      background: #7A9C5E; /* theme.palette.primary.main */
+      color: #FFFFFF; /* theme.palette.primary.contrastText */
+      border-color: #7A9C5E;
+    }
+
+    /* Question Text Display - MUI: Box display={show ? 'block' : 'none'} mt={2} */
+    .question-text {
+      display: none;
+      margin-top: 16px; /* spacing(2) */
+      padding: 16px; /* spacing(2) */
+      background: rgba(122, 156, 94, 0.08);
+      border-radius: 4px;
+      font-size: 1rem;
+      line-height: 1.8;
+      color: #3E4A3C; /* theme.palette.text.primary */
+    }
+
+    .question-text.show {
+      display: block;
+    }
+
+    /* Answer Methods Container - MUI: Box mb={4} */
+    .answer-methods {
+      margin-bottom: 32px; /* spacing(4) */
+    }
+
+    /* MUI: Typography variant="subtitle2" mb={2} color="text.secondary" */
+    .answer-label {
+      font-size: 0.875rem;
+      font-weight: 500;
+      margin-bottom: 16px; /* spacing(2) */
+      color: #6B7A64; /* theme.palette.text.secondary */
+    }
+
+    /* Voice Input Container - MUI: Box mb={3} */
+    .voice-input-container {
+      margin-bottom: 24px; /* spacing(3) */
+    }
+
+    /* MUI: Box display="flex" gap={2} mb={2} */
+    .voice-control {
+      display: flex;
+      gap: 16px; /* spacing(2) */
+      margin-bottom: 16px; /* spacing(2) */
+      flex-wrap: wrap;
+    }
+
+    /* MUI: Button variant="outlined" color="secondary" startIcon={<MicIcon />} */
+    .voice-record-btn {
+      background: transparent;
+      border: 2px solid #A67C52; /* theme.palette.secondary.main */
+      color: #A67C52; /* theme.palette.secondary.main */
+      padding: 8px 22px;
+      border-radius: 4px;
+      font-family: 'Noto Sans JP', 'Roboto', sans-serif;
+      font-size: 0.875rem;
+      font-weight: 500;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px; /* spacing(1) */
+      transition: all 250ms cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    .voice-record-btn:hover {
+      background: rgba(166, 124, 82, 0.08); /* theme.palette.action.hover */
+      border-color: #8F6A43; /* darker */
+    }
+
+    .voice-record-btn.recording {
+      background: #A67C52; /* theme.palette.secondary.main */
+      color: #FFFFFF; /* theme.palette.secondary.contrastText */
+      animation: recording 1s ease-in-out infinite;
+    }
+
+    @keyframes recording {
+      0%, 100% { transform: scale(1); }
+      50% { transform: scale(1.05); }
+    }
+
+    /* MUI: Button variant="text" size="small" color="primary" */
+    .switch-input-btn {
+      background: transparent;
+      border: none;
+      color: #7A9C5E; /* theme.palette.primary.main */
+      padding: 4px 8px;
+      font-family: 'Noto Sans JP', 'Roboto', sans-serif;
+      font-size: 0.8125rem;
+      font-weight: 500;
+      cursor: pointer;
+      text-decoration: underline;
+      transition: all 250ms cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    .switch-input-btn:hover {
+      background: rgba(122, 156, 94, 0.08); /* theme.palette.action.hover */
+    }
+
+    /* MUI: Typography variant="body2" color="text.secondary" p={2} bgcolor="action.hover" */
+    .voice-recognition-result {
+      display: none;
+      margin-top: 16px; /* spacing(2) */
+      padding: 16px; /* spacing(2) */
+      background: rgba(122, 156, 94, 0.08);
+      border-radius: 4px;
+      font-size: 0.875rem;
+      line-height: 1.43;
+      color: #6B7A64; /* theme.palette.text.secondary */
+    }
+
+    .voice-recognition-result.show {
+      display: block;
+    }
+
+    /* Manual Input Container - MUI: Box mb={3} display={show ? 'block' : 'none'} */
+    .manual-input-container {
+      display: none;
+      margin-bottom: 24px; /* spacing(3) */
+    }
+
+    .manual-input-container.show {
+      display: block;
+    }
+
+    /* MUI: TextField fullWidth variant="outlined" */
+    .answer-input {
+      width: 100%;
+      padding: 16px 14px;
+      border: 1px solid rgba(0, 0, 0, 0.23);
+      border-radius: 4px;
+      font-size: 16px;
+      font-family: 'Noto Sans JP', 'Roboto', sans-serif;
+      color: #3E4A3C; /* theme.palette.text.primary */
+      transition: all 250ms cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    .answer-input:focus {
+      outline: none;
+      border-color: #7A9C5E; /* theme.palette.primary.main */
+      border-width: 2px;
+      padding: 15px 13px; /* compensate for border width increase */
+    }
+
+    /* Submit Answer Button - MUI: Button variant="contained" color="primary" fullWidth mt={2} */
+    .submit-answer-btn {
+      width: 100%;
+      background: #7A9C5E; /* theme.palette.primary.main */
+      color: #FFFFFF; /* theme.palette.primary.contrastText */
+      border: none;
+      padding: 10px 16px;
+      border-radius: 4px;
+      font-family: 'Noto Sans JP', 'Roboto', sans-serif;
+      font-size: 0.875rem;
+      font-weight: 500;
+      cursor: pointer;
+      margin-top: 16px; /* spacing(2) */
+      transition: all 250ms cubic-bezier(0.4, 0, 0.2, 1);
+      box-shadow: 0px 3px 1px -2px rgba(0,0,0,0.15), 0px 2px 2px 0px rgba(0,0,0,0.1), 0px 1px 5px 0px rgba(0,0,0,0.08);
+    }
+
+    .submit-answer-btn:hover {
+      background: #6A8A50; /* theme.palette.primary.dark */
+      box-shadow: 0px 2px 4px -1px rgba(0,0,0,0.15), 0px 4px 5px 0px rgba(0,0,0,0.1), 0px 1px 10px 0px rgba(0,0,0,0.08);
+    }
+
+    .submit-answer-btn:disabled {
+      background: rgba(0, 0, 0, 0.12);
+      color: rgba(0, 0, 0, 0.26);
+      cursor: not-allowed;
+      box-shadow: none;
+    }
+
+    /* Feedback Card - MUI: Card + CardContent elevation={2} */
+    .feedback-card {
+      display: none;
+      background: #FAF7F2; /* theme.palette.background.paper */
+      border: 2px solid;
+      border-radius: 8px; /* theme.shape.borderRadius */
+      padding: 24px; /* spacing(3) */
+      margin-top: 24px; /* spacing(3) */
+      box-shadow: 0px 2px 4px rgba(0,0,0,0.06), 0px 4px 8px rgba(0,0,0,0.08);
+    }
+
+    .feedback-card.show {
+      display: block;
+      animation: slideIn 300ms cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    @keyframes slideIn {
+      from { opacity: 0; transform: translateY(-16px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .feedback-card.correct {
+      border-color: #6B9A5E; /* theme.palette.success.main */
+      background: rgba(107, 154, 94, 0.04);
+    }
+
+    .feedback-card.incorrect {
+      border-color: #C77C5E; /* theme.palette.error.main */
+      background: rgba(199, 124, 94, 0.04);
+    }
+
+    /* MUI: Box display="flex" alignItems="center" gap={1} mb={2} */
+    .feedback-header {
+      display: flex;
+      align-items: center;
+      gap: 8px; /* spacing(1) */
+      margin-bottom: 16px; /* spacing(2) */
+    }
+
+    /* MUI: Typography variant="h6" component="h3" */
+    .feedback-title {
+      font-size: 1.25rem;
+      font-weight: 500;
+      line-height: 1.6;
+    }
+
+    .feedback-title.correct {
+      color: #6B9A5E; /* theme.palette.success.main */
+    }
+
+    .feedback-title.incorrect {
+      color: #C77C5E; /* theme.palette.error.main */
+    }
+
+    /* MUI: Typography variant="body1" mb={2} */
+    .feedback-explanation {
+      font-size: 1rem;
+      line-height: 1.5;
+      margin-bottom: 16px; /* spacing(2) */
+      color: #3E4A3C; /* theme.palette.text.primary */
+    }
+
+    /* Sample Answer Section - MUI: Box mt={2} p={2} bgcolor="action.hover" borderRadius={1} */
+    .sample-answer {
+      display: none;
+      margin-top: 16px; /* spacing(2) */
+      padding: 16px; /* spacing(2) */
+      background: rgba(122, 156, 94, 0.08);
+      border-radius: 4px;
+    }
+
+    .sample-answer.show {
+      display: block;
+    }
+
+    /* MUI: Typography variant="subtitle2" mb={1} color="text.secondary" */
+    .sample-answer-label {
+      font-size: 0.875rem;
+      font-weight: 500;
+      margin-bottom: 8px; /* spacing(1) */
+      color: #6B7A64; /* theme.palette.text.secondary */
+    }
+
+    /* MUI: Box display="flex" gap={2} alignItems="center" */
+    .sample-answer-content {
+      display: flex;
+      gap: 16px; /* spacing(2) */
+      align-items: center;
+    }
+
+    /* MUI: Typography variant="body1" */
+    .sample-answer-text {
+      font-size: 1rem;
+      line-height: 1.5;
+      color: #3E4A3C; /* theme.palette.text.primary */
+      font-weight: 500;
+    }
+
+    /* MUI: IconButton size="small" */
+    .sample-audio-btn {
+      background: #7A9C5E; /* theme.palette.primary.main */
+      color: #FFFFFF; /* theme.palette.primary.contrastText */
+      border: none;
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 16px;
+      transition: all 250ms cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    .sample-audio-btn:hover {
+      background: #6A8A50; /* theme.palette.primary.dark */
+    }
+
+    /* Next Quiz Button - MUI: Button variant="contained" color="warning" mt={2} */
+    .next-quiz-btn {
+      background: #C9A573; /* theme.palette.warning.main */
+      color: #FFFFFF; /* theme.palette.warning.contrastText */
+      border: none;
+      padding: 8px 22px;
+      border-radius: 4px;
+      font-family: 'Noto Sans JP', 'Roboto', sans-serif;
+      font-weight: 500;
+      font-size: 0.875rem;
+      cursor: pointer;
+      margin-top: 16px; /* spacing(2) */
+      transition: all 250ms cubic-bezier(0.4, 0, 0.2, 1);
+      box-shadow: 0px 3px 1px -2px rgba(0,0,0,0.15), 0px 2px 2px 0px rgba(0,0,0,0.1), 0px 1px 5px 0px rgba(0,0,0,0.08);
+    }
+
+    .next-quiz-btn:hover {
+      background: #B89563; /* theme.palette.warning.dark */
+      box-shadow: 0px 2px 4px -1px rgba(0,0,0,0.15), 0px 4px 5px 0px rgba(0,0,0,0.1), 0px 1px 10px 0px rgba(0,0,0,0.08);
+    }
+
+    /* Retry Button - MUI: Button variant="outlined" size="small" ml={2} */
+    .retry-btn {
+      background: transparent;
+      border: 1px solid rgba(122, 156, 94, 0.5);
+      color: #7A9C5E; /* theme.palette.primary.main */
+      padding: 6px 16px;
+      border-radius: 4px;
+      cursor: pointer;
+      font-family: 'Noto Sans JP', 'Roboto', sans-serif;
+      font-weight: 500;
+      font-size: 0.8125rem;
+      margin-left: 16px; /* spacing(2) */
+      transition: all 250ms cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    .retry-btn:hover {
+      background: rgba(122, 156, 94, 0.08); /* theme.palette.action.hover */
+    }
+
+    /* Progress Section - MUI: Box mt={6} */
+    .progress-section {
+      margin-top: 48px; /* spacing(6) */
+      padding-top: 48px; /* spacing(6) */
+      border-top: 1px solid rgba(122, 156, 94, 0.12); /* theme.palette.divider */
+    }
+
+    /* MUI: Typography variant="h5" component="h2" mb={4} */
+    .progress-section h2 {
+      font-size: 1.5rem;
+      font-weight: 500;
+      line-height: 1.334;
+      margin-bottom: 32px; /* spacing(4) */
+      color: #3E4A3C; /* theme.palette.text.primary */
+    }
+
+    /* Stats Summary - MUI: Grid container spacing={3} mb={4} */
+    .stats-summary {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 24px; /* spacing(3) */
+      margin-bottom: 32px; /* spacing(4) */
+    }
+
+    /* Stat Card - MUI: Card + CardContent */
+    .stat-card {
+      background: #FAF7F2; /* theme.palette.background.paper */
+      border: 1px solid rgba(122, 156, 94, 0.12); /* theme.palette.divider */
+      border-radius: 8px; /* theme.shape.borderRadius */
+      padding: 24px; /* spacing(3) */
+      text-align: center;
+      box-shadow: 0px 2px 4px rgba(0,0,0,0.06);
+    }
+
+    /* MUI: Typography variant="h3" component="div" color="primary" mb={1} */
+    .stat-value {
+      font-size: 3rem;
+      font-weight: 500;
+      line-height: 1.167;
+      margin-bottom: 8px; /* spacing(1) */
+      color: #7A9C5E; /* theme.palette.primary.main */
+    }
+
+    /* MUI: Typography variant="body2" color="text.secondary" */
+    .stat-label {
+      font-size: 0.875rem;
+      line-height: 1.43;
+      color: #6B7A64; /* theme.palette.text.secondary */
+    }
+
+    /* Progress Chart Container - MUI: Paper elevation={1} p={3} mb={4} */
+    .progress-chart-container {
+      background: #FAF7F2; /* theme.palette.background.paper */
+      border: 1px solid rgba(122, 156, 94, 0.12); /* theme.palette.divider */
+      border-radius: 8px; /* theme.shape.borderRadius */
+      padding: 24px; /* spacing(3) */
+      margin-bottom: 32px; /* spacing(4) */
+      box-shadow: 0px 2px 4px rgba(0,0,0,0.06);
+    }
+
+    /* MUI: Typography variant="h6" component="h3" mb={3} */
+    .chart-title {
+      font-size: 1.25rem;
+      font-weight: 500;
+      line-height: 1.6;
+      margin-bottom: 24px; /* spacing(3) */
+      color: #3E4A3C; /* theme.palette.text.primary */
+    }
+
+    /* Chart Placeholder - MUI: Recharts LineChart (React実装時) */
+    .chart-placeholder {
+      width: 100%;
+      height: 300px;
+      background: rgba(122, 156, 94, 0.04);
+      border: 2px dashed rgba(122, 156, 94, 0.2);
+      border-radius: 4px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-direction: column;
+      gap: 16px; /* spacing(2) */
+    }
+
+    /* MUI: Typography variant="body2" color="text.secondary" */
+    .chart-placeholder-text {
+      font-size: 0.875rem;
+      line-height: 1.43;
+      color: #6B7A64; /* theme.palette.text.secondary */
+    }
+
+    /* Simulated Line Chart (for mockup visualization) */
+    .chart-svg {
+      width: 100%;
+      height: 300px;
+    }
+
+    .chart-axis {
+      stroke: #6B7A64; /* theme.palette.text.secondary */
+      stroke-width: 1;
+    }
+
+    .chart-grid {
+      stroke: rgba(122, 156, 94, 0.12); /* theme.palette.divider */
+      stroke-width: 1;
+      stroke-dasharray: 4, 4;
+    }
+
+    .chart-line-n5 {
+      fill: none;
+      stroke: #7A9C5E; /* theme.palette.primary.main */
+      stroke-width: 2;
+    }
+
+    .chart-line-n4 {
+      fill: none;
+      stroke: #A67C52; /* theme.palette.secondary.main */
+      stroke-width: 2;
+    }
+
+    .chart-line-n3 {
+      fill: none;
+      stroke: #C9A573; /* theme.palette.warning.main */
+      stroke-width: 2;
+    }
+
+    .chart-dot {
+      fill: currentColor;
+    }
+
+    .chart-label {
+      font-size: 0.75rem;
+      fill: #6B7A64; /* theme.palette.text.secondary */
+      font-family: 'Noto Sans JP', 'Roboto', sans-serif;
+    }
+
+    /* Chart Legend - MUI: Box display="flex" gap={2} justifyContent="center" mt={2} */
+    .chart-legend {
+      display: flex;
+      gap: 16px; /* spacing(2) */
+      justify-content: center;
+      margin-top: 16px; /* spacing(2) */
+      flex-wrap: wrap;
+    }
+
+    /* MUI: Box display="flex" alignItems="center" gap={1} */
+    .legend-item {
+      display: flex;
+      align-items: center;
+      gap: 8px; /* spacing(1) */
+    }
+
+    .legend-color {
+      width: 16px;
+      height: 16px;
+      border-radius: 2px;
+    }
+
+    /* MUI: Typography variant="body2" */
+    .legend-label {
+      font-size: 0.875rem;
+      color: #3E4A3C; /* theme.palette.text.primary */
+    }
+
+    /* Learning History - MUI: Box mb={4} */
+    .learning-history {
+      margin-bottom: 32px; /* spacing(4) */
+    }
+
+    /* MUI: Typography variant="h6" component="h3" mb={3} */
+    .learning-history h3 {
+      font-size: 1.25rem;
+      font-weight: 500;
+      line-height: 1.6;
+      margin-bottom: 24px; /* spacing(3) */
+      color: #3E4A3C; /* theme.palette.text.primary */
+    }
+
+    /* Story Completion Cards - MUI: Grid container spacing={2} */
+    .story-completion-list {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+      gap: 16px; /* spacing(2) */
+    }
+
+    /* Story Completion Card - MUI: Card + CardContent */
+    .story-completion-card {
+      background: #FAF7F2; /* theme.palette.background.paper */
+      border: 1px solid rgba(122, 156, 94, 0.12); /* theme.palette.divider */
+      border-radius: 8px; /* theme.shape.borderRadius */
+      padding: 16px; /* spacing(2) */
+      box-shadow: 0px 2px 4px rgba(0,0,0,0.06);
+    }
+
+    /* MUI: Box display="flex" justifyContent="space-between" alignItems="center" mb={1} */
+    .story-completion-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 8px; /* spacing(1) */
+    }
+
+    /* MUI: Typography variant="subtitle1" fontWeight="medium" */
+    .story-completion-title {
+      font-size: 1rem;
+      font-weight: 500;
+      line-height: 1.75;
+      color: #3E4A3C; /* theme.palette.text.primary */
+    }
+
+    /* MUI: Chip color="success" size="small" */
+    .story-completion-badge {
+      display: inline-block;
+      background: #6B9A5E; /* theme.palette.success.main */
+      color: #FFFFFF; /* theme.palette.success.contrastText */
+      padding: 2px 8px;
+      border-radius: 12px;
+      font-size: 0.75rem;
+      font-weight: 500;
+    }
+
+    /* MUI: Typography variant="body2" color="text.secondary" mb={1} */
+    .story-completion-date {
+      font-size: 0.875rem;
+      line-height: 1.43;
+      margin-bottom: 8px; /* spacing(1) */
+      color: #6B7A64; /* theme.palette.text.secondary */
+    }
+
+    /* MUI: Box display="flex" alignItems="center" gap={1} */
+    .story-completion-accuracy {
+      display: flex;
+      align-items: center;
+      gap: 8px; /* spacing(1) */
+      font-size: 0.875rem;
+      color: #7A9C5E; /* theme.palette.primary.main */
+      font-weight: 500;
+    }
+
+    /* Recommendations Section - MUI: Box mt={4} */
+    .recommendations-section {
+      margin-top: 32px; /* spacing(4) */
+      padding-top: 32px; /* spacing(4) */
+      border-top: 1px solid rgba(122, 156, 94, 0.12); /* theme.palette.divider */
+    }
+
+    /* MUI: Typography variant="h6" component="h3" mb={3} */
+    .recommendations-section h3 {
+      font-size: 1.25rem;
+      font-weight: 500;
+      line-height: 1.6;
+      margin-bottom: 24px; /* spacing(3) */
+      color: #3E4A3C; /* theme.palette.text.primary */
+    }
+
+    /* Recommendation Card - MUI: Card + CardContent */
+    .recommendation-card {
+      background: #FAF7F2; /* theme.palette.background.paper */
+      border: 1px solid rgba(122, 156, 94, 0.12); /* theme.palette.divider */
+      border-radius: 8px; /* theme.shape.borderRadius */
+      padding: 24px; /* spacing(3) */
+      cursor: pointer;
+      transition: all 300ms cubic-bezier(0.4, 0, 0.2, 1); /* theme.transitions.duration.standard */
+      box-shadow: 0px 2px 4px rgba(0,0,0,0.06);
+    }
+
+    .recommendation-card:hover {
+      border-color: #7A9C5E; /* theme.palette.primary.main */
+      transform: translateY(-4px);
+      box-shadow: 0px 4px 8px rgba(122, 156, 94, 0.15);
+    }
+
+    /* MUI: Chip color="warning" size="small" mb={1} */
+    .recommendation-badge {
+      display: inline-block;
+      background: #C9A573; /* theme.palette.warning.main */
+      color: #FFFFFF; /* theme.palette.warning.contrastText */
+      padding: 4px 12px;
+      border-radius: 16px;
+      font-size: 0.8125rem;
+      font-weight: 500;
+      margin-bottom: 8px; /* spacing(1) */
+    }
+
+    /* MUI: Typography variant="h6" component="h4" mb={1} */
+    .recommendation-title {
+      font-size: 1.25rem;
+      font-weight: 500;
+      line-height: 1.6;
+      margin-bottom: 8px; /* spacing(1) */
+      color: #3E4A3C; /* theme.palette.text.primary */
+    }
+
+    /* MUI: Typography variant="body2" color="text.secondary" */
+    .recommendation-desc {
+      font-size: 0.875rem;
+      line-height: 1.43;
+      color: #6B7A64; /* theme.palette.text.secondary */
+    }
+
+    /* Loading Indicator - MUI: Box display={loading ? 'flex' : 'none'} */
+    .loading {
+      display: none;
+      text-align: center;
+      padding: 32px; /* spacing(4) */
+    }
+
+    .loading.show {
+      display: block;
+    }
+
+    /* MUI: CircularProgress */
+    .spinner {
+      border: 4px solid rgba(122, 156, 94, 0.12);
+      border-top: 4px solid #7A9C5E; /* theme.palette.primary.main */
+      border-radius: 50%;
+      width: 40px;
+      height: 40px;
+      animation: spin 1s linear infinite;
+      margin: 0 auto 16px; /* spacing(2) */
+    }
+
+    @keyframes spin {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+
+    /* Responsive Design */
+    @media (max-width: 960px) { /* md breakpoint */
+      .quiz-progress-container {
+        padding: 8px; /* spacing(1) */
+      }
+
+      .quiz-card,
+      .feedback-card,
+      .progress-chart-container {
+        padding: 16px; /* spacing(2) */
+      }
+
+      .quiz-section h1,
+      .progress-section h2 {
+        font-size: 1.75rem;
+      }
+
+      .stats-summary {
+        grid-template-columns: 1fr;
+      }
+
+      .story-completion-list {
+        grid-template-columns: 1fr;
+      }
+
+      .voice-control {
+        flex-direction: column;
+      }
+    }
+  </style>
+</head>
+<body>
+  <!--
+    📌 ページタイプ: 公開ページ（認証不要）
+    📌 レイアウト: PublicLayout使用（React実装時）
+    📌 このモックアップはコンテンツ部分のみを含む
+    📌 ヘッダー・背景はPublicLayoutが提供
+  -->
+
+  <!-- MUI: Container maxWidth="lg" -->
+  <div class="quiz-progress-container">
+
+    <!-- Quiz Section - MUI: Box mb={4} -->
+    <div class="quiz-section">
+
+      <!-- MUI: Typography variant="h4" component="h1" mb={3} -->
+      <h1>理解度チェック</h1>
+
+      <!-- Quiz Card - MUI: Card elevation={2} -->
+      <div class="quiz-card">
+
+        <!-- MUI: Chip color="primary" size="small" label="読解問題・N3" mb={2} -->
+        <div class="quiz-badge">読解問題・N3</div>
+
+        <!-- MUI: Typography variant="h5" component="h2" mb={3} -->
+        <h2 class="quiz-question">次の文章の内容に最も近いものを選んでください。</h2>
+
+        <!-- Audio Control - MUI: Box display="flex" alignItems="center" gap={2} mb={3} -->
+        <div class="quiz-audio-control">
+          <!-- MUI: Button variant="contained" color="primary" startIcon={<VolumeUpIcon />} -->
+          <button class="audio-play-btn" id="audio-play-btn">
+            <span id="audio-icon">🔊</span>
+            <span id="audio-text">問題文を聞く</span>
+          </button>
+
+          <!-- MUI: Button variant="outlined" size="small" -->
+          <button class="toggle-text-btn" id="toggle-question-text">
+            <span>テキストを表示</span>
+          </button>
+        </div>
+
+        <!-- Question Text Display - MUI: Box display={show ? 'block' : 'none'} mt={2} -->
+        <div class="question-text" id="question-text">
+          「<ruby>渋谷<rt>しぶや</rt></ruby>の<ruby>駅<rt>えき</rt></ruby>に<ruby>着<rt>つ</rt></ruby>いて、<ruby>人<rt>ひと</rt></ruby>の<ruby>多<rt>おお</rt></ruby>さに<ruby>驚<rt>おどろ</rt></ruby>きました。」この<ruby>文<rt>ぶん</rt></ruby>が<ruby>表<rt>あらわ</rt></ruby>していることは？
+        </div>
+
+        <!-- Answer Methods Container - MUI: Box mb={4} -->
+        <div class="answer-methods">
+
+          <!-- MUI: Typography variant="subtitle2" mb={2} color="text.secondary" -->
+          <div class="answer-label">回答方法を選択してください</div>
+
+          <!-- Voice Input Container - MUI: Box mb={3} -->
+          <div class="voice-input-container">
+
+            <!-- MUI: Box display="flex" gap={2} mb={2} -->
+            <div class="voice-control">
+              <!-- MUI: Button variant="outlined" color="secondary" startIcon={<MicIcon />} -->
+              <button class="voice-record-btn" id="voice-record-btn">
+                <span id="mic-icon">🎤</span>
+                <span id="voice-btn-text">音声で回答</span>
+              </button>
+
+              <!-- MUI: Button variant="text" size="small" color="primary" -->
+              <button class="switch-input-btn" id="switch-to-manual">
+                または、手動入力に切り替え
+              </button>
+            </div>
+
+            <!-- Voice Recognition Result - MUI: Typography variant="body2" color="text.secondary" p={2} bgcolor="action.hover" -->
+            <div class="voice-recognition-result" id="voice-result">
+              <strong>認識結果:</strong> 渋谷に着いて、人が多くて驚きました
+            </div>
+
+          </div>
+
+          <!-- Manual Input Container - MUI: Box mb={3} display={show ? 'block' : 'none'} -->
+          <div class="manual-input-container" id="manual-input-container">
+            <!-- MUI: TextField fullWidth variant="outlined" label="あなたの回答" multiline rows={3} -->
+            <textarea
+              class="answer-input"
+              id="answer-input"
+              placeholder="あなたの回答を入力してください..."
+              rows="3"
+            ></textarea>
+
+            <!-- MUI: Button variant="contained" color="primary" fullWidth mt={2} -->
+            <button class="submit-answer-btn" id="submit-answer-btn">
+              回答を送信
+            </button>
+          </div>
+
+        </div>
+
+        <!-- Feedback Card - MUI: Card elevation={2} display={show ? 'block' : 'none'} -->
+        <div class="feedback-card correct" id="feedback-card">
+
+          <!-- MUI: Box display="flex" alignItems="center" gap={1} mb={2} -->
+          <div class="feedback-header">
+            <span style="font-size: 2rem;">✓</span>
+            <!-- MUI: Typography variant="h6" component="h3" -->
+            <h3 class="feedback-title correct">正解です！</h3>
+          </div>
+
+          <!-- MUI: Typography variant="body1" mb={2} -->
+          <div class="feedback-explanation">
+            「人の多さに驚きました」は、「人が多くて驚いた」という意味です。渋谷駅に到着した時の印象を表現しています。
+          </div>
+
+          <!-- Sample Answer Section - MUI: Box mt={2} p={2} bgcolor="action.hover" borderRadius={1} display={show ? 'block' : 'none'} -->
+          <div class="sample-answer" id="sample-answer">
+
+            <!-- MUI: Typography variant="subtitle2" mb={1} color="text.secondary" -->
+            <div class="sample-answer-label">サンプル回答:</div>
+
+            <!-- MUI: Box display="flex" gap={2} alignItems="center" -->
+            <div class="sample-answer-content">
+              <!-- MUI: Typography variant="body1" -->
+              <div class="sample-answer-text">渋谷駅に到着して、人の多さに驚いたという意味です。</div>
+
+              <!-- MUI: IconButton size="small" color="primary" -->
+              <button class="sample-audio-btn" id="sample-audio-btn">
+                🔊
+              </button>
+            </div>
+
+          </div>
+
+          <!-- MUI: Button variant="contained" color="warning" mt={2} -->
+          <button class="next-quiz-btn" id="next-quiz-btn">
+            次の問題へ
+          </button>
+
+          <!-- MUI: Button variant="outlined" size="small" ml={2} -->
+          <button class="retry-btn" id="retry-btn">
+            もう一度試す
+          </button>
+
+        </div>
+
+      </div>
+
+    </div>
+
+    <!-- Progress Section - MUI: Box mt={6} -->
+    <div class="progress-section">
+
+      <!-- MUI: Typography variant="h5" component="h2" mb={4} -->
+      <h2>学習進捗</h2>
+
+      <!-- Stats Summary - MUI: Grid container spacing={3} mb={4} -->
+      <div class="stats-summary">
+
+        <!-- Stat Card 1 - MUI: Card + CardContent -->
+        <div class="stat-card">
+          <!-- MUI: Typography variant="h3" component="div" color="primary" mb={1} -->
+          <div class="stat-value">85%</div>
+          <!-- MUI: Typography variant="body2" color="text.secondary" -->
+          <div class="stat-label">総合正答率</div>
+        </div>
+
+        <!-- Stat Card 2 - MUI: Card + CardContent -->
+        <div class="stat-card">
+          <div class="stat-value">24</div>
+          <div class="stat-label">完了問題数</div>
+        </div>
+
+        <!-- Stat Card 3 - MUI: Card + CardContent -->
+        <div class="stat-card">
+          <div class="stat-value">3</div>
+          <div class="stat-label">完了ストーリー</div>
+        </div>
+
+      </div>
+
+      <!-- Progress Chart Container - MUI: Paper elevation={1} p={3} mb={4} -->
+      <div class="progress-chart-container">
+
+        <!-- MUI: Typography variant="h6" component="h3" mb={3} -->
+        <h3 class="chart-title">レベル別正答率の推移</h3>
+
+        <!-- Chart SVG (React実装時はRecharts LineChartに変換) -->
+        <svg class="chart-svg" viewBox="0 0 800 300" xmlns="http://www.w3.org/2000/svg">
+
+          <!-- Grid Lines -->
+          <line class="chart-grid" x1="80" y1="50" x2="780" y2="50"/>
+          <line class="chart-grid" x1="80" y1="100" x2="780" y2="100"/>
+          <line class="chart-grid" x1="80" y1="150" x2="780" y2="150"/>
+          <line class="chart-grid" x1="80" y1="200" x2="780" y2="200"/>
+          <line class="chart-grid" x1="80" y1="250" x2="780" y2="250"/>
+
+          <!-- Axes -->
+          <line class="chart-axis" x1="80" y1="250" x2="780" y2="250"/>
+          <line class="chart-axis" x1="80" y1="50" x2="80" y2="250"/>
+
+          <!-- Y-axis Labels -->
+          <text class="chart-label" x="50" y="55">100%</text>
+          <text class="chart-label" x="55" y="105">80%</text>
+          <text class="chart-label" x="55" y="155">60%</text>
+          <text class="chart-label" x="55" y="205">40%</text>
+          <text class="chart-label" x="55" y="255">20%</text>
+
+          <!-- X-axis Labels -->
+          <text class="chart-label" x="100" y="275">1週間前</text>
+          <text class="chart-label" x="280" y="275">5日前</text>
+          <text class="chart-label" x="460" y="275">3日前</text>
+          <text class="chart-label" x="640" y="275">今日</text>
+
+          <!-- N5 Line (Green) -->
+          <polyline class="chart-line-n5" points="120,200 300,170 480,140 660,90"/>
+          <circle class="chart-dot" style="color: #7A9C5E;" cx="120" cy="200" r="4"/>
+          <circle class="chart-dot" style="color: #7A9C5E;" cx="300" cy="170" r="4"/>
+          <circle class="chart-dot" style="color: #7A9C5E;" cx="480" cy="140" r="4"/>
+          <circle class="chart-dot" style="color: #7A9C5E;" cx="660" cy="90" r="4"/>
+
+          <!-- N4 Line (Brown) -->
+          <polyline class="chart-line-n4" points="120,220 300,200 480,180 660,150"/>
+          <circle class="chart-dot" style="color: #A67C52;" cx="120" cy="220" r="4"/>
+          <circle class="chart-dot" style="color: #A67C52;" cx="300" cy="200" r="4"/>
+          <circle class="chart-dot" style="color: #A67C52;" cx="480" cy="180" r="4"/>
+          <circle class="chart-dot" style="color: #A67C52;" cx="660" cy="150" r="4"/>
+
+          <!-- N3 Line (Gold) -->
+          <polyline class="chart-line-n3" points="120,230 300,215 480,200 660,170"/>
+          <circle class="chart-dot" style="color: #C9A573;" cx="120" cy="230" r="4"/>
+          <circle class="chart-dot" style="color: #C9A573;" cx="300" cy="215" r="4"/>
+          <circle class="chart-dot" style="color: #C9A573;" cx="480" cy="200" r="4"/>
+          <circle class="chart-dot" style="color: #C9A573;" cx="660" cy="170" r="4"/>
+
+        </svg>
+
+        <!-- Chart Legend - MUI: Box display="flex" gap={2} justifyContent="center" mt={2} -->
+        <div class="chart-legend">
+
+          <!-- MUI: Box display="flex" alignItems="center" gap={1} -->
+          <div class="legend-item">
+            <div class="legend-color" style="background: #7A9C5E;"></div>
+            <!-- MUI: Typography variant="body2" -->
+            <span class="legend-label">N5 / A1</span>
+          </div>
+
+          <div class="legend-item">
+            <div class="legend-color" style="background: #A67C52;"></div>
+            <span class="legend-label">N4 / A2</span>
+          </div>
+
+          <div class="legend-item">
+            <div class="legend-color" style="background: #C9A573;"></div>
+            <span class="legend-label">N3 / B1</span>
+          </div>
+
+        </div>
+
+      </div>
+
+      <!-- Learning History - MUI: Box mb={4} -->
+      <div class="learning-history">
+
+        <!-- MUI: Typography variant="h6" component="h3" mb={3} -->
+        <h3>学習履歴</h3>
+
+        <!-- Story Completion List - MUI: Grid container spacing={2} -->
+        <div class="story-completion-list">
+
+          <!-- Story Completion Card 1 - MUI: Card + CardContent -->
+          <div class="story-completion-card">
+
+            <!-- MUI: Box display="flex" justifyContent="space-between" alignItems="center" mb={1} -->
+            <div class="story-completion-header">
+              <!-- MUI: Typography variant="subtitle1" fontWeight="medium" -->
+              <div class="story-completion-title">東京での新しい生活</div>
+              <!-- MUI: Chip color="success" size="small" label="完了" -->
+              <div class="story-completion-badge">完了</div>
+            </div>
+
+            <!-- MUI: Typography variant="body2" color="text.secondary" mb={1} -->
+            <div class="story-completion-date">2026年1月10日</div>
+
+            <!-- MUI: Box display="flex" alignItems="center" gap={1} -->
+            <div class="story-completion-accuracy">
+              <span>✓</span>
+              <span>正答率: 90%</span>
+            </div>
+
+          </div>
+
+          <!-- Story Completion Card 2 - MUI: Card + CardContent -->
+          <div class="story-completion-card">
+            <div class="story-completion-header">
+              <div class="story-completion-title">カフェでの出会い</div>
+              <div class="story-completion-badge">完了</div>
+            </div>
+            <div class="story-completion-date">2026年1月09日</div>
+            <div class="story-completion-accuracy">
+              <span>✓</span>
+              <span>正答率: 85%</span>
+            </div>
+          </div>
+
+          <!-- Story Completion Card 3 - MUI: Card + CardContent -->
+          <div class="story-completion-card">
+            <div class="story-completion-header">
+              <div class="story-completion-title">初めてのコンビニ</div>
+              <div class="story-completion-badge">完了</div>
+            </div>
+            <div class="story-completion-date">2026年1月08日</div>
+            <div class="story-completion-accuracy">
+              <span>✓</span>
+              <span>正答率: 80%</span>
+            </div>
+          </div>
+
+        </div>
+
+      </div>
+
+      <!-- Recommendations Section - MUI: Box mt={4} -->
+      <div class="recommendations-section">
+
+        <!-- MUI: Typography variant="h6" component="h3" mb={3} -->
+        <h3>次のおすすめストーリー</h3>
+
+        <!-- Recommendation Card - MUI: Card + CardContent -->
+        <div class="recommendation-card">
+
+          <!-- MUI: Chip color="warning" size="small" label="おすすめ" mb={1} -->
+          <div class="recommendation-badge">おすすめ</div>
+
+          <!-- MUI: Typography variant="h6" component="h4" mb={1} -->
+          <h4 class="recommendation-title">週末の旅行計画</h4>
+
+          <!-- MUI: Typography variant="body2" color="text.secondary" -->
+          <div class="recommendation-desc">
+            あなたの学習履歴から、このストーリーが最適です。N3レベルの会話表現を学べます。
+          </div>
+
+        </div>
+
+      </div>
+
+    </div>
+
+    <!-- Loading Indicator - MUI: Box display={loading ? 'flex' : 'none'} textAlign="center" p={4} -->
+    <div class="loading" id="loading">
+      <!-- MUI: CircularProgress -->
+      <div class="spinner"></div>
+      <!-- MUI: Typography variant="body1" -->
+      <p>読み込み中...</p>
+    </div>
+
+  </div>
+
+  <script>
+    // State Management (React実装時はZustand + LocalStorageに変換)
+    const appState = {
+      currentQuizId: 1,
+      userAnswer: null,
+      isCorrect: null,
+      showFeedback: false,
+      showQuestionText: false,
+      voiceRecording: false,
+      voiceRecognitionResult: null,
+      inputMethod: 'voice', // 'voice' or 'manual'
+      totalQuizzes: 24,
+      correctCount: 20,
+      accuracyRate: 85,
+      completedStories: [
+        { id: 1, title: '東京での新しい生活', date: '2026年1月10日', accuracy: 90 },
+        { id: 2, title: 'カフェでの出会い', date: '2026年1月09日', accuracy: 85 },
+        { id: 3, title: '初めてのコンビニ', date: '2026年1月08日', accuracy: 80 }
+      ]
+    };
+
+    // DOM Elements
+    const audioPlayBtn = document.getElementById('audio-play-btn');
+    const audioIcon = document.getElementById('audio-icon');
+    const audioText = document.getElementById('audio-text');
+    const toggleQuestionTextBtn = document.getElementById('toggle-question-text');
+    const questionText = document.getElementById('question-text');
+    const voiceRecordBtn = document.getElementById('voice-record-btn');
+    const micIcon = document.getElementById('mic-icon');
+    const voiceBtnText = document.getElementById('voice-btn-text');
+    const voiceResult = document.getElementById('voice-result');
+    const switchToManualBtn = document.getElementById('switch-to-manual');
+    const manualInputContainer = document.getElementById('manual-input-container');
+    const answerInput = document.getElementById('answer-input');
+    const submitAnswerBtn = document.getElementById('submit-answer-btn');
+    const feedbackCard = document.getElementById('feedback-card');
+    const sampleAnswer = document.getElementById('sample-answer');
+    const sampleAudioBtn = document.getElementById('sample-audio-btn');
+    const nextQuizBtn = document.getElementById('next-quiz-btn');
+    const retryBtn = document.getElementById('retry-btn');
+    const loading = document.getElementById('loading');
+
+    // Audio Play Button (React実装時はGoogle Cloud TTS API呼び出し)
+    let isPlayingAudio = false;
+    audioPlayBtn.addEventListener('click', () => {
+      if (!isPlayingAudio) {
+        isPlayingAudio = true;
+        audioPlayBtn.classList.add('playing');
+        audioIcon.textContent = '🔊';
+        audioText.textContent = '音声再生中...';
+
+        // Simulate audio playback
+        setTimeout(() => {
+          isPlayingAudio = false;
+          audioPlayBtn.classList.remove('playing');
+          audioIcon.textContent = '🔊';
+          audioText.textContent = '問題文を聞く';
+        }, 3000);
+      }
+    });
+
+    // Toggle Question Text Display
+    toggleQuestionTextBtn.addEventListener('click', () => {
+      appState.showQuestionText = !appState.showQuestionText;
+      if (appState.showQuestionText) {
+        questionText.classList.add('show');
+        toggleQuestionTextBtn.textContent = 'テキストを隠す';
+      } else {
+        questionText.classList.remove('show');
+        toggleQuestionTextBtn.textContent = 'テキストを表示';
+      }
+    });
+
+    // Voice Record Button (React実装時はWeb Speech API使用)
+    let isRecording = false;
+    voiceRecordBtn.addEventListener('click', () => {
+      if (!isRecording) {
+        isRecording = true;
+        voiceRecordBtn.classList.add('recording');
+        micIcon.textContent = '🎤';
+        voiceBtnText.textContent = '録音中...';
+
+        // Simulate voice recognition
+        setTimeout(() => {
+          isRecording = false;
+          voiceRecordBtn.classList.remove('recording');
+          micIcon.textContent = '🎤';
+          voiceBtnText.textContent = '音声で回答';
+
+          // Show recognition result
+          voiceResult.classList.add('show');
+          appState.voiceRecognitionResult = '渋谷に着いて、人が多くて驚きました';
+
+          // Auto-submit after recognition (with 2s delay for review)
+          setTimeout(() => {
+            checkAnswer(appState.voiceRecognitionResult);
+          }, 2000);
+        }, 3000);
+      }
+    });
+
+    // Switch to Manual Input
+    switchToManualBtn.addEventListener('click', () => {
+      appState.inputMethod = 'manual';
+      manualInputContainer.classList.add('show');
+      voiceResult.classList.remove('show');
+    });
+
+    // Submit Answer Button
+    submitAnswerBtn.addEventListener('click', () => {
+      const answer = answerInput.value.trim();
+      if (answer) {
+        checkAnswer(answer);
+      }
+    });
+
+    // Check Answer Function (React実装時はAPI呼び出し)
+    function checkAnswer(answer) {
+      appState.userAnswer = answer;
+
+      // Show loading
+      loading.classList.add('show');
+
+      // Simulate API call
+      setTimeout(() => {
+        loading.classList.remove('show');
+
+        // Determine if correct (simple simulation)
+        appState.isCorrect = answer.includes('人が多') || answer.includes('驚');
+
+        // Show feedback
+        feedbackCard.classList.add('show');
+
+        if (appState.isCorrect) {
+          feedbackCard.className = 'feedback-card correct show';
+          feedbackCard.querySelector('.feedback-title').className = 'feedback-title correct';
+          feedbackCard.querySelector('.feedback-title').textContent = '正解です！';
+          feedbackCard.querySelector('.feedback-header span').textContent = '✓';
+
+          // Don't show sample answer for correct responses
+          sampleAnswer.classList.remove('show');
+        } else {
+          feedbackCard.className = 'feedback-card incorrect show';
+          feedbackCard.querySelector('.feedback-title').className = 'feedback-title incorrect';
+          feedbackCard.querySelector('.feedback-title').textContent = '惜しい！もう一度確認しましょう';
+          feedbackCard.querySelector('.feedback-header span').textContent = '✗';
+
+          // Show sample answer for incorrect responses
+          sampleAnswer.classList.add('show');
+        }
+
+        // Save result to LocalStorage (React実装時も同様)
+        saveQuizResult();
+
+      }, 1000);
+    }
+
+    // Sample Audio Button
+    let isPlayingSample = false;
+    sampleAudioBtn.addEventListener('click', () => {
+      if (!isPlayingSample) {
+        isPlayingSample = true;
+
+        // Simulate audio playback
+        setTimeout(() => {
+          isPlayingSample = false;
+        }, 2000);
+      }
+    });
+
+    // Next Quiz Button
+    nextQuizBtn.addEventListener('click', () => {
+      // Reset state
+      feedbackCard.classList.remove('show');
+      voiceResult.classList.remove('show');
+      manualInputContainer.classList.remove('show');
+      answerInput.value = '';
+      appState.inputMethod = 'voice';
+      appState.userAnswer = null;
+      appState.isCorrect = null;
+
+      // Show loading
+      loading.classList.add('show');
+
+      // Simulate loading next quiz
+      setTimeout(() => {
+        loading.classList.remove('show');
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      }, 800);
+    });
+
+    // Retry Button
+    retryBtn.addEventListener('click', () => {
+      // Reset state
+      feedbackCard.classList.remove('show');
+      voiceResult.classList.remove('show');
+      manualInputContainer.classList.remove('show');
+      answerInput.value = '';
+      appState.inputMethod = 'voice';
+      appState.userAnswer = null;
+      appState.isCorrect = null;
+
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    });
+
+    // Save Quiz Result to LocalStorage (React実装時も同様)
+    function saveQuizResult() {
+      const result = {
+        quizId: appState.currentQuizId,
+        userAnswer: appState.userAnswer,
+        isCorrect: appState.isCorrect,
+        answeredAt: new Date().toISOString(),
+        responseMethod: appState.inputMethod
+      };
+
+      // Get existing results
+      const existingResults = JSON.parse(
+        localStorage.getItem('lingo_keeper_quiz_results') || '[]'
+      );
+
+      // Add new result
+      existingResults.push(result);
+
+      // Save back to LocalStorage
+      localStorage.setItem(
+        'lingo_keeper_quiz_results',
+        JSON.stringify(existingResults)
+      );
+
+      // Update progress
+      updateProgress();
+    }
+
+    // Update Progress in LocalStorage
+    function updateProgress() {
+      const progressData = {
+        totalQuizzes: appState.totalQuizzes,
+        correctCount: appState.correctCount + (appState.isCorrect ? 1 : 0),
+        accuracyRate: Math.round(
+          ((appState.correctCount + (appState.isCorrect ? 1 : 0)) / appState.totalQuizzes) * 100
+        ),
+        lastUpdated: new Date().toISOString()
+      };
+
+      localStorage.setItem(
+        'lingo_keeper_progress',
+        JSON.stringify(progressData)
+      );
+    }
+
+    // Initialize - Load from LocalStorage (React実装時も同様)
+    function loadProgress() {
+      const savedProgress = localStorage.getItem('lingo_keeper_progress');
+      if (savedProgress) {
+        const progress = JSON.parse(savedProgress);
+        appState.totalQuizzes = progress.totalQuizzes;
+        appState.correctCount = progress.correctCount;
+        appState.accuracyRate = progress.accuracyRate;
+      }
+    }
+
+    // Load progress on page load
+    loadProgress();
+  </script>
+</body>
+</html>

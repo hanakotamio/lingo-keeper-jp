@@ -1,0 +1,15 @@
+displayName: "Cloud Run Service Down Alert"
+documentation:
+  content: "No requests received for 5 minutes on lingo-keeper-backend"
+  mimeType: "text/markdown"
+conditions:
+  - displayName: "No requests for 5 minutes"
+    conditionAbsent:
+      filter: 'resource.type="cloud_run_revision" AND resource.labels.service_name="lingo-keeper-backend" AND metric.type="run.googleapis.com/request_count"'
+      aggregations:
+        - alignmentPeriod: 60s
+          perSeriesAligner: ALIGN_RATE
+      duration: 300s
+notificationChannels:
+  - projects/lingo-keeper/notificationChannels/11640311287788014734
+combiner: OR
