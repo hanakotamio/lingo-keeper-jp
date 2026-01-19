@@ -81,3 +81,4 @@ Desktop.ini
 # Test results
 test-results/
 playwright-report/
+gcp-service-account-key.json
