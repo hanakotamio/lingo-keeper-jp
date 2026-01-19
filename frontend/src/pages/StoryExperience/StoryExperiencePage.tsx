@@ -26,7 +26,7 @@ import { useStoryViewer } from '@/hooks/useStoryViewer';
 import { StoryApiService } from '@/services/api/StoryApiService';
 import { TTSApiService } from '@/services/api/TTSApiService';
 import { StoryCompletionModal } from '@/components/StoryCompletionModal';
-import { LanguageSelectionModal } from '@/components/LanguageSelectionModal';
+// Language selection removed - app now targets English speakers only
 import type { LevelFilter, Chapter, Story, StoryCompletion } from '@/types';
 import { logger } from '@/lib/logger';
 import {
@@ -34,6 +34,7 @@ import {
   saveStoryCompletion,
   calculateStoryQuizAccuracy,
   getLanguagePreference,
+  saveLanguagePreference,
 } from '@/lib/storage';
 import { getRecommendedStory, getRecommendedStories } from '@/lib/recommendation';
 
@@ -56,12 +57,12 @@ export const StoryExperiencePage: React.FC = () => {
   const [currentChapter, setCurrentChapter] = useState<Chapter | null>(null);
   const [showStoryViewer, setShowStoryViewer] = useState(false);
   const [showCompletionModal, setShowCompletionModal] = useState(false);
-  const [showLanguageModal, setShowLanguageModal] = useState(false);
   const [completedStoryData, setCompletedStoryData] = useState<{
     story: Story;
     quizAccuracy: number;
   } | null>(null);
   const [recommendedStories, setRecommendedStories] = useState<Story[]>([]);
+  const [nextRecommendedStory, setNextRecommendedStory] = useState<Story | null>(null);
 
   const { stories, loading: storiesLoading } = useStoryData(selectedLevel);
   const {
@@ -77,12 +78,11 @@ export const StoryExperiencePage: React.FC = () => {
     resetState,
   } = useStoryViewer();
 
-  // Check for language preference on mount
+  // Set default language to English for English-speaking users
   useEffect(() => {
     const languagePreference = getLanguagePreference();
-    const languageSelected = localStorage.getItem('lingo_keeper_language_selected');
-    if (!languagePreference && !languageSelected) {
-      setShowLanguageModal(true);
+    if (!languagePreference) {
+      saveLanguagePreference('en');
     }
   }, []);
 
@@ -120,6 +120,10 @@ export const StoryExperiencePage: React.FC = () => {
                 chapters_completed: viewerState.completedChapters,
               };
               saveStoryCompletion(completion);
+
+              // Get recommended story for next reading
+              const recommended = getRecommendedStory(stories);
+              setNextRecommendedStory(recommended);
 
               // Show completion modal
               setCompletedStoryData({
@@ -228,8 +232,31 @@ export const StoryExperiencePage: React.FC = () => {
 
   // Handle go to recommended story from completion modal
   const handleGoToRecommendedStory = async (storyId: string) => {
-    setShowCompletionModal(false);
-    await handleStoryClick(storyId);
+    try {
+      setShowCompletionModal(false);
+      setLoading(true);
+
+      // Load the new story
+      const story = await StoryApiService.getStoryById(storyId);
+
+      // Reset progress for the new story
+      resetState();
+      setCurrentChapter(null);
+
+      // Select the new story and load its first chapter
+      selectStory(storyId);
+      loadChapter(story.root_chapter_id);
+
+      // Keep story viewer open
+      setShowStoryViewer(true);
+      setLoading(false);
+
+      logger.info('Jumped to recommended story', { storyId });
+    } catch (err) {
+      const error = err instanceof Error ? err : new Error(String(err));
+      logger.error('Failed to jump to recommended story', { error: error.message, storyId });
+      setLoading(false);
+    }
   };
 
   // Handle back to list from completion modal
@@ -806,15 +833,9 @@ export const StoryExperiencePage: React.FC = () => {
             quizAccuracy={completedStoryData.quizAccuracy}
             onGoToRecommended={handleGoToRecommendedStory}
             onBackToList={handleBackToListFromModal}
-            recommendedStory={getRecommendedStory(stories)}
+            recommendedStory={nextRecommendedStory}
           />
         )}
-
-        {/* Language Selection Modal */}
-        <LanguageSelectionModal
-          open={showLanguageModal}
-          onClose={() => setShowLanguageModal(false)}
-        />
       </Container>
     </PublicLayout>
   );

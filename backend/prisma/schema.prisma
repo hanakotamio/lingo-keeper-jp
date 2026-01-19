@@ -27,6 +27,8 @@ model Story {
   chapters Chapter[]
   quizzes  Quiz[]
 
+  @@index([level_jlpt])
+  @@index([level_jlpt, level_cefr])
   @@map("stories")
 }
 
@@ -90,6 +92,8 @@ model Quiz {
   quiz_results  QuizResult[]
 
   @@index([story_id])
+  @@index([difficulty_level])
+  @@index([story_id, difficulty_level])
   @@map("quizzes")
 }
 
@@ -121,6 +125,7 @@ model QuizResult {
   quiz Quiz @relation(fields: [quiz_id], references: [quiz_id], onDelete: Cascade)
 
   @@index([quiz_id])
+  @@unique([quiz_id, answered_at], name: "unique_quiz_answer")
   @@map("quiz_results")
 }
 

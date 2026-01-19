@@ -10,6 +10,7 @@ import quizRoutes from '@/routes/quiz.routes.js';
 import ttsRoutes from '@/routes/tts.routes.js';
 import progressRoutes from '@/routes/progress.routes.js';
 import { errorHandler, notFoundHandler } from '@/middleware/error.middleware.js';
+import { metricsMiddleware, metricsHandler } from '@/middleware/metrics.middleware.js';
 
 // Load environment variables
 dotenv.config();
@@ -39,9 +40,9 @@ app.use(helmet({
 // CORS configuration - allow Vercel frontend
 const allowedOrigins = [
   'http://localhost:3847',
-  'https://frontend-7qpyjq6dv-mio-furumakis-projects.vercel.app',
-  'https://frontend-q8fwwnapk-mio-furumakis-projects.vercel.app',
-  /^https:\/\/frontend-[a-z0-9]+-mio-furumakis-projects\.vercel\.app$/,
+  'https://frontend-seven-beta-72.vercel.app', // Production alias
+  /^https:\/\/frontend-[a-z0-9-]+-mio-furumakis-projects\.vercel\.app$/, // Preview deployments
+  /^https:\/\/frontend-[a-z0-9-]+\.vercel\.app$/, // All Vercel deployments
 ];
 
 app.use(cors({
@@ -76,6 +77,9 @@ app.use((req, _res, next) => {
   next();
 });
 
+// Metrics collection middleware
+app.use(metricsMiddleware);
+
 // Health check endpoint
 app.get('/api/health', async (_req, res) => {
   try {
@@ -101,6 +105,9 @@ app.get('/api/health', async (_req, res) => {
     });
   }
 });
+
+// Metrics endpoint (Prometheus format)
+app.get('/api/metrics', metricsHandler);
 
 // API Routes
 app.use('/api/stories', storyRoutes);

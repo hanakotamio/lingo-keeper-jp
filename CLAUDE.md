@@ -477,3 +477,39 @@ gcloud run deploy lingo-keeper-jp-backend \
 - [ ] クイズページ表示確認
 
 **最終更新日**: 2026-01-15
+
+---
+
+## 🎉 本番環境デプロイ完了 (2026-01-17)
+
+### デプロイ情報
+- **フロントエンド (Vercel)**: https://frontend-c47f1zha1-mio-furumakis-projects.vercel.app
+  - **別名URL**: https://frontend-seven-beta-72.vercel.app
+- **バックエンド (Cloud Run)**: https://lingo-keeper-jp-backend-16378814888.asia-northeast1.run.app
+- **データベース (Neon)**: PostgreSQL (本番環境用DB)
+
+### 最新の変更 (2026-01-17 17:00)
+- **母国語選択機能を削除**: 英語話者向けアプリに変更
+- **デフォルト言語**: 英語 (en) に固定
+- **ストーリー完了モーダルの英語化**:
+  - "Story Completed!"
+  - "Quiz Accuracy"
+  - "Recommended Next Story"
+  - "Go to Next Story" / "Back to Story List"
+- **お勧めストーリー機能**: 既に実装済み（ストーリー完了後に表示）
+
+### デプロイ構成
+- **環境変数管理**: Secret Manager（暗号化保存）
+- **データベース構成**: シンプル構成（開発DB + 本番DB）
+- **ビルド方式**: Cloud Build（リモートビルド）
+
+### ヘルスチェック
+```bash
+curl https://lingo-keeper-jp-backend-16378814888.asia-northeast1.run.app/api/health
+# {"success":true,"status":"healthy","timestamp":"...","database":"connected"}
+```
+
+### 次回デプロイ時の注意点
+- Dockerfileは`node:18-slim`ベース（OpenSSL対応済み）
+- `.dockerignore`から`tsconfig.json`を除外しない
+- Secret Manager使用時は`roles/secretmanager.secretAccessor`権限が必要

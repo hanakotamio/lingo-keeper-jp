@@ -41,10 +41,13 @@ export class ProgressService {
       };
 
       // Group results by level
+      // Optimization: Fetch all level counts in a single query to avoid N+1 problem
+      const allLevelCounts = await progressRepository.getTotalQuizCountByAllLevels();
+
       for (const level of this.JLPT_LEVELS) {
         const levelResults = allResults.filter((r) => r.difficulty_level === level);
         const levelCorrect = levelResults.filter((r) => r.is_correct).length;
-        const totalQuizzesForLevel = await progressRepository.getTotalQuizCountByLevel(level);
+        const totalQuizzesForLevel = allLevelCounts[level] || 0;
 
         levelProgress[level] = {
           completed: levelResults.length,

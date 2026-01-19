@@ -206,6 +206,42 @@ export class ProgressRepository {
       throw error;
     }
   }
+
+  /**
+   * Get total quiz count by all levels (optimization for N+1 problem)
+   * Uses groupBy to fetch all counts in a single query
+   */
+  async getTotalQuizCountByAllLevels(): Promise<Record<JLPTLevel, number>> {
+    const tracker = new PerformanceTracker('ProgressRepository.getTotalQuizCountByAllLevels');
+    logger.debug('Getting total quiz count by all levels');
+
+    try {
+      const counts = await prisma.quiz.groupBy({
+        by: ['difficulty_level'],
+        _count: {
+          quiz_id: true,
+        },
+      });
+
+      const result: Record<string, number> = {};
+      counts.forEach((item) => {
+        result[item.difficulty_level] = item._count.quiz_id;
+      });
+
+      logger.info('Total quiz counts by all levels retrieved', {
+        counts: result,
+      });
+
+      tracker.end({ counts: result });
+
+      return result as Record<JLPTLevel, number>;
+    } catch (error) {
+      logger.error('Failed to get total quiz count by all levels', {
+        error: error instanceof Error ? error.message : String(error),
+      });
+      throw error;
+    }
+  }
 }
 
 export const progressRepository = new ProgressRepository();

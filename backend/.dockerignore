@@ -1,51 +1,17 @@
-# Node modules
 node_modules/
-npm-debug.log
-yarn-error.log
-
-# Build output
 dist/
-
-# Tests
-tests/
-*.test.ts
-*.spec.ts
-jest.config.js
-
-# Development files
+*.log
+*.tar.gz
 .env
 .env.local
 .env.*.local
-
-# Editor files
-.vscode/
-.idea/
-*.swp
-*.swo
-*~
-
-# Git
+*.test.ts
+*.spec.ts
+coverage/
 .git/
-.gitignore
-.gitattributes
-
-# Documentation
 README.md
 docs/
-
-# CI/CD
-.github/
-.gitlab-ci.yml
-.travis.yml
-
-# Logs
-logs/
-*.log
-
-# OS files
-.DS_Store
-Thumbs.db
-
-# Temporary files
-tmp/
-temp/
+tests/
+jest.config.js
+.eslintrc.js
+.prettierrc

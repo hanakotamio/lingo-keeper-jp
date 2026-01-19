@@ -26,5 +26,6 @@ export default {
   ],
   coverageDirectory: 'coverage',
   verbose: true,
-  testTimeout: 30000
+  testTimeout: 30000,
+  maxWorkers: 1  // テストを順次実行してポート競合を防ぐ
 };

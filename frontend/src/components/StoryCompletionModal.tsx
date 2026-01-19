@@ -46,26 +46,26 @@ export const StoryCompletionModal: React.FC<StoryCompletionModalProps> = ({
   onBackToList,
   recommendedStory,
 }) => {
-  // 正答率に基づくメッセージとバッジ色
+  // Message and badge color based on accuracy
   const getAccuracyMessage = (accuracy: number): { message: string; color: string } => {
     if (accuracy >= 90) {
       return {
-        message: '素晴らしい！完璧な理解です！',
+        message: 'Excellent! Perfect understanding!',
         color: '#FFD700', // Gold
       };
     } else if (accuracy >= 70) {
       return {
-        message: 'よくできました！',
+        message: 'Well done!',
         color: '#C0C0C0', // Silver
       };
     } else if (accuracy >= 50) {
       return {
-        message: '頑張りました！',
+        message: 'Good effort!',
         color: '#CD7F32', // Bronze
       };
     } else {
       return {
-        message: '復習しましょう！',
+        message: "Let's review!",
         color: '#7A9C5E', // Theme green
       };
     }
@@ -110,7 +110,7 @@ export const StoryCompletionModal: React.FC<StoryCompletionModalProps> = ({
           </Box>
 
           <Typography variant="h4" component="h2" color="white" mt={2} mb={1}>
-            ストーリー完了！
+            Story Completed!
           </Typography>
 
           <Chip
@@ -141,7 +141,7 @@ export const StoryCompletionModal: React.FC<StoryCompletionModalProps> = ({
           <CardContent>
             <Box display="flex" justifyContent="space-between" alignItems="center" mb={1}>
               <Typography variant="body1" fontWeight="medium">
-                理解度チェック正答率
+                Quiz Accuracy
               </Typography>
               <Typography variant="h6" color="primary" fontWeight="bold">
                 {quizAccuracy}%
@@ -172,7 +172,7 @@ export const StoryCompletionModal: React.FC<StoryCompletionModalProps> = ({
           <Card sx={{ mb: 3, bgcolor: 'rgba(255, 255, 255, 0.95)' }}>
             <CardContent>
               <Typography variant="subtitle1" fontWeight="medium" mb={2} color="primary">
-                おすすめの次のストーリー
+                Recommended Next Story
               </Typography>
 
               <Box
@@ -218,7 +218,7 @@ export const StoryCompletionModal: React.FC<StoryCompletionModalProps> = ({
                 boxShadow: '0px 4px 8px rgba(0,0,0,0.2)',
               }}
             >
-              次のストーリーへ
+              Go to Next Story
             </Button>
           )}
 
@@ -237,7 +237,7 @@ export const StoryCompletionModal: React.FC<StoryCompletionModalProps> = ({
               },
             }}
           >
-            ストーリー一覧に戻る
+            Back to Story List
           </Button>
         </Box>
       </DialogContent>
