@@ -10,6 +10,7 @@ const StoriesPage = lazy(() => import('@/pages/StoriesPage').then(m => ({ defaul
 const ProfilePage = lazy(() => import('@/pages/ProfilePage').then(m => ({ default: m.ProfilePage })));
 const AdminPage = lazy(() => import('@/pages/AdminPage').then(m => ({ default: m.AdminPage })));
 const StoryExperiencePage = lazy(() => import('@/pages/StoryExperience/StoryExperiencePage').then(m => ({ default: m.StoryExperiencePage })));
+const QuizPage = lazy(() => import('@/pages/QuizPage').then(m => ({ default: m.QuizPage })));
 const QuizProgressPage = lazy(() => import('@/pages/QuizProgress/QuizProgressPage').then(m => ({ default: m.QuizProgressPage })));
 
 // Loading fallback component
@@ -31,8 +32,10 @@ function App() {
         {/* 公開ルート */}
         <Route path="/login" element={<LoginPage />} />
         <Route path="/story" element={<StoryExperiencePage />} />
+        <Route path="/story-experience" element={<StoryExperiencePage />} />
         <Route path="/stories" element={<StoriesPage />} />
-        <Route path="/quiz" element={<QuizProgressPage />} />
+        <Route path="/quiz" element={<QuizPage />} />
+        <Route path="/quiz-progress" element={<QuizProgressPage />} />
 
         {/* 認証が必要なルート */}
         <Route

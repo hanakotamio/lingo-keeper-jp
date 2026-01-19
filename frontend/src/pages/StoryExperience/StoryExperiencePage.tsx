@@ -19,7 +19,7 @@ import {
   CheckCircle as CheckCircleIcon,
   Star as StarIcon,
 } from '@mui/icons-material';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useSearchParams } from 'react-router-dom';
 import { PublicLayout } from '@/layouts/PublicLayout';
 import { useStoryData } from '@/hooks/useStoryData';
 import { useStoryViewer } from '@/hooks/useStoryViewer';
@@ -53,6 +53,7 @@ import { getRecommendedStory, getRecommendedStories } from '@/lib/recommendation
  */
 export const StoryExperiencePage: React.FC = () => {
   const navigate = useNavigate();
+  const [searchParams, setSearchParams] = useSearchParams();
   const [selectedLevel, setSelectedLevel] = useState<LevelFilter>('all');
   const [currentChapter, setCurrentChapter] = useState<Chapter | null>(null);
   const [showStoryViewer, setShowStoryViewer] = useState(false);
@@ -94,6 +95,50 @@ export const StoryExperiencePage: React.FC = () => {
     }
   }, [stories]);
 
+  // Handle quiz completion - show completion modal
+  useEffect(() => {
+    const quizCompleted = searchParams.get('quizCompleted');
+    const completedStoryId = searchParams.get('storyId');
+
+    if (quizCompleted === 'true' && completedStoryId && stories.length > 0) {
+      const story = stories.find(s => s.story_id === completedStoryId);
+
+      if (story) {
+        // Calculate quiz accuracy from LocalStorage
+        const quizAccuracy = calculateStoryQuizAccuracy(completedStoryId);
+
+        // Save completion data
+        const completion: StoryCompletion = {
+          story_id: story.story_id,
+          completed_at: new Date().toISOString(),
+          completion_percentage: 100,
+          quiz_accuracy: quizAccuracy,
+          chapters_completed: viewerState.completedChapters,
+        };
+        saveStoryCompletion(completion);
+
+        // Get recommended story for next reading
+        const recommended = getRecommendedStory(stories);
+        setNextRecommendedStory(recommended);
+
+        // Show completion modal
+        setCompletedStoryData({
+          story,
+          quizAccuracy,
+        });
+        setShowCompletionModal(true);
+
+        // Clear URL parameters
+        setSearchParams({});
+
+        logger.info('Story and quiz completed', {
+          storyId: story.story_id,
+          quizAccuracy,
+        });
+      }
+    }
+  }, [searchParams, stories, viewerState.completedChapters, setSearchParams]);
+
   // Load chapter when currentChapterId changes
   useEffect(() => {
     if (viewerState.currentChapterId) {
@@ -106,36 +151,17 @@ export const StoryExperiencePage: React.FC = () => {
 
           // Check if this is the final chapter (chapter_number === 5 and no choices)
           if (chapter.chapter_number === 5 && (!chapter.choices || chapter.choices.length === 0)) {
-            // Story completed! Show completion modal
+            // Story completed! Navigate to quiz page
             const currentStory = stories.find(s => s.story_id === viewerState.currentStoryId);
             if (currentStory && !isStoryCompleted(currentStory.story_id)) {
-              const quizAccuracy = calculateStoryQuizAccuracy(currentStory.story_id);
-
-              // Save completion data
-              const completion: StoryCompletion = {
-                story_id: currentStory.story_id,
-                completed_at: new Date().toISOString(),
-                completion_percentage: 100,
-                quiz_accuracy: quizAccuracy,
-                chapters_completed: viewerState.completedChapters,
-              };
-              saveStoryCompletion(completion);
-
-              // Get recommended story for next reading
-              const recommended = getRecommendedStory(stories);
-              setNextRecommendedStory(recommended);
-
-              // Show completion modal
-              setCompletedStoryData({
-                story: currentStory,
-                quizAccuracy,
-              });
-              setShowCompletionModal(true);
-
-              logger.info('Story completed', {
+              logger.info('Story completed, navigating to quiz', {
                 storyId: currentStory.story_id,
-                quizAccuracy,
               });
+
+              // Navigate to quiz page with parameters
+              navigate(
+                `/quiz?story=${currentStory.story_id}&returnTo=/story-experience&fromCompletion=true`
+              );
             }
           }
         } catch (err) {
