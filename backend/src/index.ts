@@ -9,6 +9,7 @@ import chapterRoutes from '@/routes/chapter.routes.js';
 import quizRoutes from '@/routes/quiz.routes.js';
 import ttsRoutes from '@/routes/tts.routes.js';
 import progressRoutes from '@/routes/progress.routes.js';
+import adminRoutes from '@/routes/admin.routes.js';
 import { errorHandler, notFoundHandler } from '@/middleware/error.middleware.js';
 import { metricsMiddleware, metricsHandler } from '@/middleware/metrics.middleware.js';
 
@@ -115,6 +116,7 @@ app.use('/api/chapters', chapterRoutes);
 app.use('/api/quizzes', quizRoutes);
 app.use('/api/tts', ttsRoutes);
 app.use('/api/progress', progressRoutes);
+app.use('/api/admin', adminRoutes);
 
 // 404 handler (must be after all routes)
 app.use(notFoundHandler);
