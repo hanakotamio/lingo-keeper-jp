@@ -50,6 +50,16 @@ For Pre-N5 or N5 levels:
 - Use hiragana/katakana primarily, minimal kanji
 - All kanji must have furigana
 
+IMPORTANT - Quiz Question Guidelines:
+Since this is a BRANCHING story, quiz questions must be path-independent:
+- Focus on vocabulary and grammar from Chapter 1 (which all users see)
+- Test word meanings, readings, and basic grammar patterns
+- Avoid questions about plot details that depend on user choices
+- Example GOOD questions: "What does '公園' mean?", "What is the reading of '花'?", "Choose the correct particle: 公園___行きます"
+- Example BAD questions: "What color flower did Sakura see?" (varies by path)
+- All quiz questions must have CLEAR, UNAMBIGUOUS correct answers
+- Wrong answer choices should be plausible but clearly incorrect
+
 Format the response as valid JSON with this exact structure:
 {
   "title": "Story title in Japanese",
@@ -94,7 +104,7 @@ Format the response as valid JSON with this exact structure:
 }`;
 
     const response = await this.client.chat.completions.create({
-      model: 'gpt-4',
+      model: 'gpt-4o-mini', // Using gpt-4o-mini for better availability and cost
       messages: [
         {
           role: 'system',
@@ -128,19 +138,37 @@ Format the response as valid JSON with this exact structure:
   }): Promise<any> {
     const { storyContent, level, count = 3 } = params;
 
-    const prompt = `Generate ${count} comprehension quiz questions for the following Japanese story.
+    const prompt = `Generate ${count} quiz questions for the following Japanese story.
 
 Story content:
 ${storyContent}
 
 Target level: ${level}
 
-Requirements:
-1. Create ${count} questions that test comprehension
-2. Each question should have 4 answer choices
-3. Mark the correct answer
-4. Provide explanations in English
-5. Mix question types: 読解 (reading comprehension), 語彙 (vocabulary), 文法 (grammar)
+CRITICAL REQUIREMENTS:
+1. Focus on VOCABULARY and GRAMMAR, not plot details
+2. Test words, readings, and grammar patterns from the story
+3. Each question should have 4 answer choices
+4. Mark the correct answer
+5. Provide explanations in English
+6. Question types: 読解 (reading comprehension - use sparingly), 語彙 (vocabulary - preferred), 文法 (grammar - preferred)
+
+QUESTION DESIGN:
+- 語彙 questions: "What does 'X' mean?", "What is the reading of 'X'?", "Which word means 'Y'?"
+- 文法 questions: "Choose the correct particle", "Fill in the blank with the correct form"
+- 読解 questions: Only ask about facts explicitly stated in Chapter 1, avoid ambiguous interpretations
+- All questions must have ONE clear correct answer
+- Wrong choices should be plausible but clearly incorrect
+
+EXAMPLES OF GOOD QUESTIONS:
+- "「公園」の意味は何ですか？" (What does '公園' mean?) - vocabulary
+- "「花」の読み方は何ですか？" (What is the reading of '花'?) - vocabulary
+- "正しい助詞を選んでください：公園___行きます" (Choose the correct particle: go___park) - grammar
+
+EXAMPLES OF BAD QUESTIONS (DO NOT CREATE THESE):
+- Questions about branching plot details that depend on user choices
+- Ambiguous questions with multiple possible correct answers
+- Questions testing information not in the provided content
 
 Format as valid JSON:
 {
@@ -160,7 +188,7 @@ Format as valid JSON:
 }`;
 
     const response = await this.client.chat.completions.create({
-      model: 'gpt-4',
+      model: 'gpt-4o-mini', // Using gpt-4o-mini for better availability and cost
       messages: [
         {
           role: 'system',

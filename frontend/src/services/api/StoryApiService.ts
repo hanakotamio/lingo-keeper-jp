@@ -96,6 +96,43 @@ export class StoryApiService {
   }
 
   /**
+   * Get all chapters for a story
+   * Endpoint: GET /api/stories/:id/chapters
+   * Response: { success: boolean, data: Chapter[] }
+   */
+  static async getChaptersByStoryId(storyId: string): Promise<Chapter[]> {
+    logger.debug('Fetching chapters by story ID from API', {
+      storyId,
+      endpoint: API_PATHS.STORIES.CHAPTERS(storyId),
+    });
+
+    try {
+      const response = await apiClient.get<{
+        success: boolean;
+        data: Chapter[];
+      }>(API_PATHS.STORIES.CHAPTERS(storyId));
+
+      if (!response.data.success) {
+        throw new Error('API returned unsuccessful response');
+      }
+
+      logger.info('Chapters fetched successfully from API', {
+        storyId,
+        count: response.data.data.length,
+      });
+
+      return response.data.data;
+    } catch (err) {
+      const error = err instanceof Error ? err : new Error(String(err));
+      logger.error('Failed to fetch chapters from API', {
+        error: error.message,
+        storyId,
+      });
+      throw error;
+    }
+  }
+
+  /**
    * Get chapter by ID
    * Endpoint: GET /api/chapters/:id
    * Response: { success: boolean, data: Chapter }

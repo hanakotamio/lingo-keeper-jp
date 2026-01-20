@@ -24,7 +24,6 @@ import { PublicLayout } from '@/layouts/PublicLayout';
 import { useStoryData } from '@/hooks/useStoryData';
 import { useStoryViewer } from '@/hooks/useStoryViewer';
 import { StoryApiService } from '@/services/api/StoryApiService';
-import { TTSApiService } from '@/services/api/TTSApiService';
 import { StoryCompletionModal } from '@/components/StoryCompletionModal';
 // Language selection removed - app now targets English speakers only
 import type { LevelFilter, Chapter, Story, StoryCompletion } from '@/types';
@@ -56,6 +55,7 @@ export const StoryExperiencePage: React.FC = () => {
   const [searchParams, setSearchParams] = useSearchParams();
   const [selectedLevel, setSelectedLevel] = useState<LevelFilter>('all');
   const [currentChapter, setCurrentChapter] = useState<Chapter | null>(null);
+  const [currentStory, setCurrentStory] = useState<Story | null>(null);
   const [showStoryViewer, setShowStoryViewer] = useState(false);
   const [showCompletionModal, setShowCompletionModal] = useState(false);
   const [completedStoryData, setCompletedStoryData] = useState<{
@@ -141,26 +141,28 @@ export const StoryExperiencePage: React.FC = () => {
 
   // Load chapter when currentChapterId changes
   useEffect(() => {
+    console.log('[DEBUG] useEffect triggered', { currentChapterId: viewerState.currentChapterId });
     if (viewerState.currentChapterId) {
       const fetchChapter = async () => {
         try {
+          console.log('[DEBUG] Fetching chapter', { chapterId: viewerState.currentChapterId });
           setLoading(true);
           const chapter = await StoryApiService.getChapterById(viewerState.currentChapterId!);
+          console.log('[DEBUG] Chapter fetched successfully', { chapter });
           setCurrentChapter(chapter);
           setLoading(false);
 
           // Check if this is the final chapter (chapter_number === 5 and no choices)
           if (chapter.chapter_number === 5 && (!chapter.choices || chapter.choices.length === 0)) {
             // Story completed! Navigate to quiz page
-            const currentStory = stories.find(s => s.story_id === viewerState.currentStoryId);
-            if (currentStory && !isStoryCompleted(currentStory.story_id)) {
+            if (viewerState.currentStoryId && !isStoryCompleted(viewerState.currentStoryId)) {
               logger.info('Story completed, navigating to quiz', {
-                storyId: currentStory.story_id,
+                storyId: viewerState.currentStoryId,
               });
 
               // Navigate to quiz page with parameters
               navigate(
-                `/quiz?story=${currentStory.story_id}&returnTo=/story-experience&fromCompletion=true`
+                `/quiz?story=${viewerState.currentStoryId}&returnTo=/story-experience&fromCompletion=true`
               );
             }
           }
@@ -173,23 +175,37 @@ export const StoryExperiencePage: React.FC = () => {
 
       fetchChapter();
     }
-  }, [viewerState.currentChapterId, setLoading, viewerState.currentStoryId, viewerState.completedChapters, stories]);
+  }, [viewerState.currentChapterId, viewerState.currentStoryId, navigate]);
 
   // Handle story card click
   const handleStoryClick = async (storyId: string) => {
     try {
+      console.log('[DEBUG] Story card clicked', { storyId });
       logger.info('Story card clicked', { storyId });
 
       setLoading(true);
-      const story = await StoryApiService.getStoryById(storyId);
 
+      // Load story
+      const story = await StoryApiService.getStoryById(storyId);
+      console.log('[DEBUG] Story loaded', { story, root_chapter_id: story.root_chapter_id });
+
+      // Load first chapter
+      const firstChapter = await StoryApiService.getChapterById(story.root_chapter_id);
+      console.log('[DEBUG] First chapter loaded', { firstChapter });
+
+      // Update state
+      setCurrentStory(story);
+      setCurrentChapter(firstChapter);
       selectStory(storyId);
       loadChapter(story.root_chapter_id);
+      console.log('[DEBUG] Story and chapter loaded');
 
       setShowStoryViewer(true);
+      console.log('[DEBUG] Story viewer shown');
       setLoading(false);
     } catch (err) {
       const error = err instanceof Error ? err : new Error(String(err));
+      console.error('[DEBUG] Failed to load story', error);
       logger.error('Failed to load story', { error: error.message, storyId });
       setLoading(false);
     }
@@ -200,6 +216,7 @@ export const StoryExperiencePage: React.FC = () => {
     setShowStoryViewer(false);
     resetState();
     setCurrentChapter(null);
+    setCurrentStory(null);
   };
 
   // Handle choice selection
@@ -211,29 +228,42 @@ export const StoryExperiencePage: React.FC = () => {
     updateProgress(newProgress);
   };
 
-  // Handle audio playback
+  // Handle audio playback using browser's Web Speech API
   const handleAudioPlay = async () => {
     if (!currentChapter) return;
 
     try {
       setAudioPlaying(true);
 
-      // Get audio from Google Cloud TTS API
-      const { audioUrl } = await TTSApiService.synthesizeSpeech(currentChapter.content);
+      // Check if browser supports speech synthesis
+      if (!('speechSynthesis' in window)) {
+        alert('お使いのブラウザは音声合成に対応していません。Chrome、Edge、またはSafariをお使いください。');
+        setAudioPlaying(false);
+        return;
+      }
 
-      // Create and play audio element
-      const audio = new Audio(audioUrl);
+      // Cancel any ongoing speech
+      window.speechSynthesis.cancel();
 
-      audio.onended = () => {
+      // Create speech utterance
+      const utterance = new SpeechSynthesisUtterance(currentChapter.content);
+      utterance.lang = 'ja-JP';
+      utterance.rate = 0.9; // Slightly slower for learners
+      utterance.pitch = 1.0;
+
+      utterance.onend = () => {
         setAudioPlaying(false);
       };
 
-      audio.onerror = (err) => {
+      utterance.onerror = (err) => {
         logger.error('Audio playback error', { error: String(err) });
         setAudioPlaying(false);
       };
 
-      await audio.play();
+      // Speak
+      window.speechSynthesis.speak(utterance);
+
+      logger.info('Audio playback started (Web Speech API)');
     } catch (err) {
       const error = err instanceof Error ? err : new Error(String(err));
       logger.error('Failed to play audio', { error: error.message });
@@ -268,6 +298,7 @@ export const StoryExperiencePage: React.FC = () => {
       // Reset progress for the new story
       resetState();
       setCurrentChapter(null);
+      setCurrentStory(story);
 
       // Select the new story and load its first chapter
       selectStory(storyId);
@@ -598,13 +629,13 @@ export const StoryExperiencePage: React.FC = () => {
               <Chip
                 data-testid="story-level"
                 icon={<BookIcon />}
-                label={`${stories.find(s => s.story_id === viewerState.currentStoryId)?.level_jlpt} / ${stories.find(s => s.story_id === viewerState.currentStoryId)?.level_cefr}`}
+                label={`${currentStory?.level_jlpt} / ${currentStory?.level_cefr}`}
                 color="primary"
                 sx={{ mb: 2, display: 'flex', width: 'fit-content' }}
               />
 
               <Typography variant="h4" component="h1" mb={3}>
-                {stories.find(s => s.story_id === viewerState.currentStoryId)?.title}
+                {currentStory?.title}
               </Typography>
 
               {/* Progress Container */}
@@ -736,10 +767,8 @@ export const StoryExperiencePage: React.FC = () => {
                 </Typography>
                 <Box display="flex" flexDirection="column" gap={2}>
                   {currentChapter.vocabulary.map((item, index) => {
-                    const userLang = getLanguagePreference();
-                    const meaning = userLang && item.meanings[userLang.language]
-                      ? item.meanings[userLang.language]
-                      : item.meanings['en'] || Object.values(item.meanings)[0];
+                    // Use English meaning from the meanings object
+                    const meaning = item.meanings.en || item.meanings['en'] || '';
 
                     return (
                       <Card key={index} sx={{ bgcolor: 'background.paper' }}>
