@@ -47,29 +47,32 @@ export class TTSService {
       }
 
       // Prepare the request (CLAUDE.md specifications)
+      // Optimized for natural Japanese learning experience
       const request: google.cloud.texttospeech.v1.ISynthesizeSpeechRequest = {
         input: { text },
         voice: {
           languageCode: 'ja-JP',
-          name: 'ja-JP-Neural2-B', // Neural2 voice for better quality (Female voice)
+          name: 'ja-JP-Neural2-C', // Neural2-C: Natural male voice (more natural than B)
         },
         audioConfig: {
           audioEncoding: 'MP3', // MP3 format for web compatibility
-          speakingRate: 1.0, // Normal speed
-          pitch: 0.0, // Normal pitch
-          volumeGainDb: 0.0, // Normal volume
+          speakingRate: 0.85, // Slower speed for Japanese learners (15% slower)
+          pitch: -2.0, // Slightly lower pitch for clearer pronunciation
+          volumeGainDb: 2.0, // Slightly louder volume for better clarity
         },
       };
 
       logger.debug('Request prepared', {
         languageCode: 'ja-JP',
-        voiceName: 'ja-JP-Neural2-B',
+        voiceName: 'ja-JP-Neural2-C',
+        speakingRate: 0.85,
+        pitch: -2.0,
       });
 
       // Call Google Cloud TTS API
       logger.info('Calling Google Cloud TTS API', {
         languageCode: 'ja-JP',
-        voiceName: 'ja-JP-Neural2-B',
+        voiceName: 'ja-JP-Neural2-C',
         textLength: text.length,
       });
 
