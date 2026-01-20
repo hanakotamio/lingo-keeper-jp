@@ -509,14 +509,28 @@ curl https://lingo-keeper-jp-backend-16378814888.asia-northeast1.run.app/api/hea
 # {"success":true,"status":"healthy","timestamp":"...","database":"connected"}
 ```
 
-### 最新の更新 (2026-01-20)
-- **TypeScript型エラー修正**: StoryExperiencePage.tsx
-  - `VocabularyItem.meaning` → `VocabularyItem.meanings.en` に修正
-  - 語彙ヘルプ機能の型安全性を確保
+### 最新の更新 (2026-01-20 10:35 JST)
+
+#### TypeScript型エラー修正
+- **StoryExperiencePage.tsx**: `VocabularyItem.meaning` → `VocabularyItem.meanings.en` に修正
 - **ビルド状態**: ✅ TypeScriptエラー 0件
-- **デプロイ**: Vercel本番環境に反映済み
-  - 新しいデプロイURL: https://frontend-1rgoede8j-mio-furumakis-projects.vercel.app
-  - エイリアスURL（変更なし）: https://frontend-seven-beta-72.vercel.app
+
+#### ストーリーカード表示問題の修正
+**問題**: 本番環境でストーリーカードが表示されない
+
+**原因**: Vercel環境変数 `VITE_API_URL` に2つの問題
+1. URLの末尾に改行文字 `\n` が含まれていた
+2. バックエンドURL名が間違っていた（`lingo-keeper-backend` → 正しくは `lingo-keeper-jp-backend`）
+
+**修正内容**:
+- 全環境（production/preview/development）の環境変数を修正
+- 正しい値: `https://lingo-keeper-jp-backend-16378814888.asia-northeast1.run.app`
+- キャッシュクリアして再デプロイ実施
+
+**デプロイ状態**:
+- 新しいデプロイURL: https://frontend-7ux8u0dnq-mio-furumakis-projects.vercel.app
+- エイリアスURL（固定）: https://frontend-seven-beta-72.vercel.app
+- バックエンドAPI: ✅ 正常動作確認済み（9個のストーリーを返却）
 
 ### 次回デプロイ時の注意点
 - Dockerfileは`node:18-slim`ベース（OpenSSL対応済み）
