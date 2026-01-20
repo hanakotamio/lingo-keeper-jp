@@ -509,6 +509,15 @@ curl https://lingo-keeper-jp-backend-16378814888.asia-northeast1.run.app/api/hea
 # {"success":true,"status":"healthy","timestamp":"...","database":"connected"}
 ```
 
+### 最新の更新 (2026-01-20)
+- **TypeScript型エラー修正**: StoryExperiencePage.tsx
+  - `VocabularyItem.meaning` → `VocabularyItem.meanings.en` に修正
+  - 語彙ヘルプ機能の型安全性を確保
+- **ビルド状態**: ✅ TypeScriptエラー 0件
+- **デプロイ**: Vercel本番環境に反映済み
+  - 新しいデプロイURL: https://frontend-1rgoede8j-mio-furumakis-projects.vercel.app
+  - エイリアスURL（変更なし）: https://frontend-seven-beta-72.vercel.app
+
 ### 次回デプロイ時の注意点
 - Dockerfileは`node:18-slim`ベース（OpenSSL対応済み）
 - `.dockerignore`から`tsconfig.json`を除外しない
