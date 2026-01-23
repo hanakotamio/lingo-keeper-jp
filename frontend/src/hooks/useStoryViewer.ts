@@ -10,8 +10,8 @@ const initialState: StoryViewerState = {
   currentChapterId: null,
   selectedChoiceId: null,
   progress: 0,
-  showRuby: true,
-  showTranslation: true, // 初心者向けにデフォルトで翻訳を表示
+  showRuby: false, // Learners can enable ruby/translation when needed
+  showTranslation: false,
   completedChapters: [],
   isAudioPlaying: false,
   isLoading: false,

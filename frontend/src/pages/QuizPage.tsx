@@ -19,6 +19,8 @@ import {
   Cancel as CancelIcon,
   ArrowForward as ArrowForwardIcon,
   QuizOutlined as QuizIcon,
+  Mic as MicIcon,
+  MicOff as MicOffIcon,
 } from '@mui/icons-material';
 import { useNavigate, useSearchParams } from 'react-router-dom';
 import { PublicLayout } from '@/layouts/PublicLayout';
@@ -52,6 +54,167 @@ export const QuizPage: React.FC = () => {
   const [results, setResults] = useState<UserQuizResult[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+  const [isListening, setIsListening] = useState(false);
+  const [voiceRecognition, setVoiceRecognition] = useState<SpeechRecognition | null>(null);
+
+  // Initialize voice recognition
+  useEffect(() => {
+    // Check if browser supports Speech Recognition
+    const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+
+    if (SpeechRecognition) {
+      const recognition = new SpeechRecognition();
+      recognition.lang = 'ja-JP';
+      recognition.continuous = false;
+      recognition.interimResults = false;
+      recognition.maxAlternatives = 5; // Increased for better accuracy
+
+      recognition.onresult = (event) => {
+        // Get all alternative transcripts
+        const alternatives = Array.from(event.results[0])
+          .map(alt => alt.transcript.trim())
+          .filter(Boolean);
+
+        logger.info('Voice input received', {
+          alternatives,
+          confidence: event.results[0][0].confidence
+        });
+
+        // Match voice input with choices
+        const quiz = quizzes[currentQuizIndex];
+        if (quiz && !showFeedback) {
+          let matchedChoice = null;
+
+          // Helper function to normalize text for comparison
+          const normalize = (text: string) => {
+            return text
+              .toLowerCase()
+              .replace(/[、。！？\s]/g, '') // Remove Japanese punctuation and spaces
+              .trim();
+          };
+
+          // Try all alternatives
+          for (const transcript of alternatives) {
+            // Try to match with choice letter (A, B, C, D) - Japanese or English
+            const letterMatch = transcript.match(/([abcdａｂｃｄエー|ビー|シー|ディー])/i);
+            if (letterMatch) {
+              const letter = letterMatch[1].toUpperCase();
+              let index = -1;
+
+              // Map Japanese letters to index
+              if (letter === 'エー' || letter === 'A' || letter === 'Ａ') index = 0;
+              else if (letter === 'ビー' || letter === 'B' || letter === 'Ｂ') index = 1;
+              else if (letter === 'シー' || letter === 'C' || letter === 'Ｃ') index = 2;
+              else if (letter === 'ディー' || letter === 'D' || letter === 'Ｄ') index = 3;
+              else if (letter >= 'A' && letter <= 'D') {
+                index = letter.charCodeAt(0) - 65;
+              }
+
+              if (index >= 0 && index < quiz.choices.length) {
+                matchedChoice = quiz.choices[index];
+                logger.info('Matched by letter', { letter, index, choice: matchedChoice.choice_text });
+                break;
+              }
+            }
+
+            // Try to match with choice text
+            const normalizedTranscript = normalize(transcript);
+
+            // Find best match using multiple strategies
+            const scores = quiz.choices.map((choice, idx) => {
+              const normalizedChoice = normalize(choice.choice_text);
+              let score = 0;
+
+              // Exact match (highest score)
+              if (normalizedTranscript === normalizedChoice) {
+                score = 100;
+              }
+              // Contains match
+              else if (normalizedTranscript.includes(normalizedChoice) ||
+                       normalizedChoice.includes(normalizedTranscript)) {
+                score = 80;
+              }
+              // Partial match (calculate similarity)
+              else {
+                // Count matching characters
+                let matches = 0;
+                const shorter = normalizedTranscript.length < normalizedChoice.length
+                  ? normalizedTranscript
+                  : normalizedChoice;
+                const longer = normalizedTranscript.length >= normalizedChoice.length
+                  ? normalizedTranscript
+                  : normalizedChoice;
+
+                for (let i = 0; i < shorter.length; i++) {
+                  if (longer.includes(shorter[i])) {
+                    matches++;
+                  }
+                }
+
+                score = (matches / longer.length) * 60;
+              }
+
+              return { choice, score, idx };
+            });
+
+            // Sort by score
+            scores.sort((a, b) => b.score - a.score);
+
+            logger.info('Match scores', {
+              transcript: normalizedTranscript,
+              scores: scores.map(s => ({
+                text: s.choice.choice_text,
+                score: s.score.toFixed(2)
+              }))
+            });
+
+            // Use best match if score is high enough
+            if (scores[0].score >= 50) {
+              matchedChoice = scores[0].choice;
+              logger.info('Matched by similarity', {
+                score: scores[0].score,
+                choice: matchedChoice.choice_text
+              });
+              break;
+            }
+          }
+
+          if (matchedChoice) {
+            handleAnswerSelect(matchedChoice.choice_id);
+          } else {
+            logger.warn('No matching choice found', { alternatives });
+            alert('回答が認識できませんでした。もう一度試すか、選択肢をクリックしてください。\n(Could not match your answer. Please try again or click an option.)');
+          }
+        }
+
+        setIsListening(false);
+      };
+
+      recognition.onerror = (event) => {
+        logger.error('Voice recognition error', { error: event.error });
+        setIsListening(false);
+        if (event.error === 'not-allowed') {
+          alert('Microphone access denied. Please enable microphone permissions.');
+        } else {
+          alert('Voice recognition error. Please try again.');
+        }
+      };
+
+      recognition.onend = () => {
+        setIsListening(false);
+      };
+
+      setVoiceRecognition(recognition);
+    } else {
+      logger.warn('Speech Recognition not supported');
+    }
+
+    return () => {
+      if (voiceRecognition) {
+        voiceRecognition.stop();
+      }
+    };
+  }, [quizzes, currentQuizIndex, showFeedback]);
 
   // Load quizzes when component mounts
   useEffect(() => {
@@ -84,6 +247,28 @@ export const QuizPage: React.FC = () => {
     loadQuizzes();
   }, [storyId]);
 
+  // Handle voice input
+  const handleVoiceInput = () => {
+    if (!voiceRecognition) {
+      alert('Voice recognition is not supported in your browser. Please use Chrome or Edge.');
+      return;
+    }
+
+    if (isListening) {
+      voiceRecognition.stop();
+      setIsListening(false);
+    } else {
+      try {
+        voiceRecognition.start();
+        setIsListening(true);
+        logger.info('Voice recognition started');
+      } catch (error) {
+        logger.error('Failed to start voice recognition', { error });
+        setIsListening(false);
+      }
+    }
+  };
+
   // Handle answer selection
   const handleAnswerSelect = (choiceId: string) => {
     if (!showFeedback) {
@@ -115,10 +300,10 @@ export const QuizPage: React.FC = () => {
       setResults(prev => [...prev, result]);
 
       // Save to LocalStorage
-      const existingResults = localStorage.getItem(`lingo_keeper_quiz_results_${storyId}`);
+      const existingResults = localStorage.getItem('lingo_keeper_quiz_results');
       const allResults = existingResults ? JSON.parse(existingResults) : [];
       allResults.push(result);
-      localStorage.setItem(`lingo_keeper_quiz_results_${storyId}`, JSON.stringify(allResults));
+      localStorage.setItem('lingo_keeper_quiz_results', JSON.stringify(allResults));
 
       logger.info('Quiz answer submitted', {
         quizId: currentQuiz.quiz_id,
@@ -305,6 +490,33 @@ export const QuizPage: React.FC = () => {
                 ))}
               </RadioGroup>
             </FormControl>
+
+            {/* Voice Input Button */}
+            {!showFeedback && voiceRecognition && (
+              <Box mt={3} textAlign="center">
+                <Button
+                  variant={isListening ? 'contained' : 'outlined'}
+                  color={isListening ? 'secondary' : 'primary'}
+                  startIcon={isListening ? <MicIcon /> : <MicOffIcon />}
+                  onClick={handleVoiceInput}
+                  sx={{
+                    px: 3,
+                    ...(isListening && {
+                      animation: 'pulse 1.5s ease-in-out infinite',
+                      '@keyframes pulse': {
+                        '0%, 100%': { opacity: 1 },
+                        '50%': { opacity: 0.7 },
+                      },
+                    }),
+                  }}
+                >
+                  {isListening ? '聞いています...' : '音声で回答'}
+                </Button>
+                <Typography variant="caption" display="block" mt={1} color="text.secondary">
+                  選択肢の文字（A、B、C、D）または答えの文を言ってください
+                </Typography>
+              </Box>
+            )}
           </CardContent>
         </Card>
 
