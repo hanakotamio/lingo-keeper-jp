@@ -29,11 +29,18 @@ RUN apt-get update && apt-get install -y openssl ca-certificates && rm -rf /var/
 
 WORKDIR /app
 
-# 本番用依存関係のみコピー
-COPY --from=builder /app/node_modules ./node_modules
-COPY --from=builder /app/dist ./dist
+# package.jsonとprismaスキーマを先にコピー
 COPY --from=builder /app/package*.json ./
 COPY --from=builder /app/prisma ./prisma
+
+# 本番用依存関係のみコピー
+COPY --from=builder /app/node_modules ./node_modules
+
+# Prismaクライアントを再生成（本番環境用）
+RUN npx prisma generate
+
+# ビルド済みコードをコピー
+COPY --from=builder /app/dist ./dist
 
 # ⚠️ 環境変数はDockerfileに絶対に記載しない
 # Cloud Runの--set-env-varsまたはSecret Managerで設定
