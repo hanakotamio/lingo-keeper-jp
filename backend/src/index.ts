@@ -10,8 +10,14 @@ import quizRoutes from '@/routes/quiz.routes.js';
 import ttsRoutes from '@/routes/tts.routes.js';
 import progressRoutes from '@/routes/progress.routes.js';
 import adminRoutes from '@/routes/admin.routes.js';
+import healthRoutes from '@/routes/health.routes.js';
 import { errorHandler, notFoundHandler } from '@/middleware/error.middleware.js';
 import { metricsMiddleware, metricsHandler } from '@/middleware/metrics.middleware.js';
+import {
+  requestIdMiddleware,
+  performanceMonitoringMiddleware,
+  errorRateMonitoringMiddleware,
+} from '@/middleware/monitoring.middleware.js';
 
 // Load environment variables
 dotenv.config();
@@ -68,9 +74,16 @@ app.use(cors({
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
+// Monitoring middleware
+app.use(requestIdMiddleware);
+app.use(performanceMonitoringMiddleware);
+app.use(errorRateMonitoringMiddleware);
+
 // Request logging middleware
 app.use((req, _res, next) => {
+  const requestId = req.headers['x-request-id'] as string;
   logger.info('Incoming request', {
+    requestId,
     method: req.method,
     url: req.url,
     ip: req.ip,
@@ -81,33 +94,26 @@ app.use((req, _res, next) => {
 // Metrics collection middleware
 app.use(metricsMiddleware);
 
-// Health check endpoint
-app.get('/api/health', async (_req, res) => {
-  try {
-    // Test database connection
-    await prisma.$queryRaw`SELECT 1`;
-
-    res.status(200).json({
-      success: true,
-      status: 'healthy',
-      timestamp: new Date().toISOString(),
-      database: 'connected',
-    });
-  } catch (error) {
-    logger.error('Health check failed', {
-      error: error instanceof Error ? error.message : String(error),
-    });
-
-    res.status(503).json({
-      success: false,
-      status: 'unhealthy',
-      timestamp: new Date().toISOString(),
-      database: 'disconnected',
-    });
-  }
+// Root endpoint - API welcome message
+app.get('/', (_req, res) => {
+  res.json({
+    success: true,
+    message: 'Welcome to Lingo Keeper JP API',
+    version: '1.0.0',
+    endpoints: {
+      health: '/api/health',
+      stories: '/api/stories',
+      chapters: '/api/chapters',
+      quizzes: '/api/quizzes',
+      tts: '/api/tts',
+      progress: '/api/progress',
+      metrics: '/api/metrics',
+    },
+  });
 });
 
-// Metrics endpoint (Prometheus format)
+// Health and metrics endpoints
+app.use('/api/health', healthRoutes);
 app.get('/api/metrics', metricsHandler);
 
 // API Routes
