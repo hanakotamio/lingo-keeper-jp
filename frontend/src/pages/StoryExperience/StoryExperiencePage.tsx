@@ -10,6 +10,8 @@ import {
   Chip,
   Avatar,
   Badge,
+  ButtonGroup,
+  Tooltip,
 } from '@mui/material';
 import {
   ArrowBack as ArrowBackIcon,
@@ -18,6 +20,7 @@ import {
   Book as BookIcon,
   CheckCircle as CheckCircleIcon,
   Star as StarIcon,
+  Speed as SpeedIcon,
 } from '@mui/icons-material';
 import { useNavigate, useSearchParams } from 'react-router-dom';
 import { PublicLayout } from '@/layouts/PublicLayout';
@@ -50,6 +53,14 @@ import { getRecommendedStory, getRecommendedStories } from '@/lib/recommendation
  *
  * Layout: PublicLayout (no authentication required)
  */
+/**
+ * Convert ruby tags to kanji(reading) format
+ * Converts <ruby>漢字<rt>かんじ</rt></ruby> to 漢字(かんじ)
+ */
+const convertRubyToParentheses = (htmlWithRuby: string): string => {
+  return htmlWithRuby.replace(/<ruby>([^<]+)<rt>([^<]+)<\/rt><\/ruby>/g, '$1($2)');
+};
+
 export const StoryExperiencePage: React.FC = () => {
   const navigate = useNavigate();
   const [searchParams, setSearchParams] = useSearchParams();
@@ -64,6 +75,7 @@ export const StoryExperiencePage: React.FC = () => {
   } | null>(null);
   const [recommendedStories, setRecommendedStories] = useState<Story[]>([]);
   const [nextRecommendedStory, setNextRecommendedStory] = useState<Story | null>(null);
+  const [speechSpeed, setSpeechSpeed] = useState<number>(1.0); // 0.75, 1.0, or 1.25
 
   const { stories, loading: storiesLoading } = useStoryData(selectedLevel);
   const {
@@ -228,46 +240,56 @@ export const StoryExperiencePage: React.FC = () => {
     updateProgress(newProgress);
   };
 
-  // Handle audio playback using browser's Web Speech API
+  // Handle audio playback using Google Cloud TTS API (backend)
   const handleAudioPlay = async () => {
     if (!currentChapter) return;
 
     try {
       setAudioPlaying(true);
+      logger.info('Starting audio playback with Google Cloud TTS', { speechSpeed });
 
-      // Check if browser supports speech synthesis
-      if (!('speechSynthesis' in window)) {
-        alert('お使いのブラウザは音声合成に対応していません。Chrome、Edge、またはSafariをお使いください。');
-        setAudioPlaying(false);
-        return;
+      // Call backend TTS API with speech speed
+      const response = await fetch(`${import.meta.env.VITE_API_URL}/api/tts/synthesize`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          text: currentChapter.content,
+          speakingRate: speechSpeed,
+        }),
+      });
+
+      if (!response.ok) {
+        throw new Error('Failed to synthesize speech');
       }
 
-      // Cancel any ongoing speech
-      window.speechSynthesis.cancel();
+      const data = await response.json();
 
-      // Create speech utterance
-      const utterance = new SpeechSynthesisUtterance(currentChapter.content);
-      utterance.lang = 'ja-JP';
-      utterance.rate = 0.9; // Slightly slower for learners
-      utterance.pitch = 1.0;
+      if (!data.success || !data.data?.audioUrl) {
+        throw new Error('Invalid TTS response');
+      }
 
-      utterance.onend = () => {
+      // Create audio element and play
+      const audio = new Audio(data.data.audioUrl);
+
+      audio.onended = () => {
         setAudioPlaying(false);
+        logger.info('Audio playback completed');
       };
 
-      utterance.onerror = (err) => {
+      audio.onerror = (err) => {
         logger.error('Audio playback error', { error: String(err) });
         setAudioPlaying(false);
       };
 
-      // Speak
-      window.speechSynthesis.speak(utterance);
-
-      logger.info('Audio playback started (Web Speech API)');
+      await audio.play();
+      logger.info('Audio playback started (Google Cloud TTS)');
     } catch (err) {
       const error = err instanceof Error ? err : new Error(String(err));
       logger.error('Failed to play audio', { error: error.message });
       setAudioPlaying(false);
+      alert('音声の再生に失敗しました。もう一度お試しください。');
     }
   };
 
@@ -690,22 +712,16 @@ export const StoryExperiencePage: React.FC = () => {
                 data-testid="chapter-content"
                 variant="body1"
                 component="div"
-                dangerouslySetInnerHTML={{
-                  __html: viewerState.showRuby
-                    ? currentChapter.content_with_ruby || currentChapter.content
-                    : currentChapter.content,
-                }}
                 sx={{
-                  '& ruby': {
-                    rubyPosition: 'over',
-                  },
-                  '& ruby rt': {
-                    display: viewerState.showRuby ? 'ruby-text' : 'none',
-                    fontSize: '0.6em',
-                    lineHeight: 1,
-                  },
+                  fontSize: '1.1rem',
+                  lineHeight: 2.2,
+                  whiteSpace: 'pre-wrap',
                 }}
-              />
+              >
+                {viewerState.showRuby && currentChapter.content_with_ruby
+                  ? convertRubyToParentheses(currentChapter.content_with_ruby)
+                  : currentChapter.content}
+              </Typography>
 
               {viewerState.showTranslation && currentChapter.translation && (
                 <Box
@@ -726,25 +742,57 @@ export const StoryExperiencePage: React.FC = () => {
 
             {/* Audio Control */}
             <Box my={3}>
-              <Button
-                variant="contained"
-                color="primary"
-                startIcon={<VolumeUpIcon />}
-                onClick={handleAudioPlay}
-                disabled={viewerState.isAudioPlaying}
-                sx={{
-                  ...(viewerState.isAudioPlaying && {
-                    bgcolor: 'secondary.main',
-                    animation: 'pulse 1.5s ease-in-out infinite',
-                    '@keyframes pulse': {
-                      '0%, 100%': { opacity: 1 },
-                      '50%': { opacity: 0.85 },
-                    },
-                  }),
-                }}
-              >
-                {viewerState.isAudioPlaying ? '音声再生中...' : '音声を聞く'}
-              </Button>
+              <Box display="flex" alignItems="center" gap={2} flexWrap="wrap">
+                <Button
+                  variant="contained"
+                  color="primary"
+                  startIcon={<VolumeUpIcon />}
+                  onClick={handleAudioPlay}
+                  disabled={viewerState.isAudioPlaying}
+                  sx={{
+                    ...(viewerState.isAudioPlaying && {
+                      bgcolor: 'secondary.main',
+                      animation: 'pulse 1.5s ease-in-out infinite',
+                      '@keyframes pulse': {
+                        '0%, 100%': { opacity: 1 },
+                        '50%': { opacity: 0.85 },
+                      },
+                    }),
+                  }}
+                >
+                  {viewerState.isAudioPlaying ? '音声再生中...' : '音声を聞く'}
+                </Button>
+
+                {/* Speech Speed Selector */}
+                <Box display="flex" alignItems="center" gap={1}>
+                  <Tooltip title="Speech speed">
+                    <SpeedIcon sx={{ color: 'text.secondary' }} />
+                  </Tooltip>
+                  <ButtonGroup size="small" variant="outlined">
+                    <Button
+                      onClick={() => setSpeechSpeed(0.75)}
+                      variant={speechSpeed === 0.75 ? 'contained' : 'outlined'}
+                      sx={{ minWidth: '60px' }}
+                    >
+                      Slow
+                    </Button>
+                    <Button
+                      onClick={() => setSpeechSpeed(1.0)}
+                      variant={speechSpeed === 1.0 ? 'contained' : 'outlined'}
+                      sx={{ minWidth: '70px' }}
+                    >
+                      Normal
+                    </Button>
+                    <Button
+                      onClick={() => setSpeechSpeed(1.25)}
+                      variant={speechSpeed === 1.25 ? 'contained' : 'outlined'}
+                      sx={{ minWidth: '60px' }}
+                    >
+                      Fast
+                    </Button>
+                  </ButtonGroup>
+                </Box>
+              </Box>
             </Box>
 
             {/* 語彙ヘルプ */}
@@ -767,8 +815,8 @@ export const StoryExperiencePage: React.FC = () => {
                 </Typography>
                 <Box display="flex" flexDirection="column" gap={2}>
                   {currentChapter.vocabulary.map((item, index) => {
-                    // Use English meaning from the meanings object
-                    const meaning = item.meanings.en || item.meanings['en'] || '';
+                    // Use English meaning from the meanings object (with safe access)
+                    const meaning = item.meanings?.en || item.meanings?.['en'] || '';
 
                     return (
                       <Card key={index} sx={{ bgcolor: 'background.paper' }}>

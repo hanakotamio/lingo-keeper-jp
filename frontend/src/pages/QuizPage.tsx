@@ -56,6 +56,25 @@ export const QuizPage: React.FC = () => {
   const [error, setError] = useState<string | null>(null);
   const [isListening, setIsListening] = useState(false);
   const [voiceRecognition, setVoiceRecognition] = useState<SpeechRecognition | null>(null);
+  const [shuffledChoices, setShuffledChoices] = useState<typeof quizzes[number]['choices']>([]);
+
+  // Fisher-Yates shuffle algorithm
+  const shuffleArray = <T,>(array: T[]): T[] => {
+    const shuffled = [...array];
+    for (let i = shuffled.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
+    }
+    return shuffled;
+  };
+
+  // Shuffle choices when quiz changes
+  useEffect(() => {
+    if (quizzes.length > 0 && quizzes[currentQuizIndex]) {
+      const currentQuiz = quizzes[currentQuizIndex];
+      setShuffledChoices(shuffleArray(currentQuiz.choices));
+    }
+  }, [quizzes, currentQuizIndex]);
 
   // Initialize voice recognition
   useEffect(() => {
@@ -82,7 +101,7 @@ export const QuizPage: React.FC = () => {
 
         // Match voice input with choices
         const quiz = quizzes[currentQuizIndex];
-        if (quiz && !showFeedback) {
+        if (quiz && !showFeedback && shuffledChoices.length > 0) {
           let matchedChoice = null;
 
           // Helper function to normalize text for comparison
@@ -110,8 +129,8 @@ export const QuizPage: React.FC = () => {
                 index = letter.charCodeAt(0) - 65;
               }
 
-              if (index >= 0 && index < quiz.choices.length) {
-                matchedChoice = quiz.choices[index];
+              if (index >= 0 && index < shuffledChoices.length) {
+                matchedChoice = shuffledChoices[index];
                 logger.info('Matched by letter', { letter, index, choice: matchedChoice.choice_text });
                 break;
               }
@@ -121,7 +140,7 @@ export const QuizPage: React.FC = () => {
             const normalizedTranscript = normalize(transcript);
 
             // Find best match using multiple strategies
-            const scores = quiz.choices.map((choice, idx) => {
+            const scores = shuffledChoices.map((choice, idx) => {
               const normalizedChoice = normalize(choice.choice_text);
               let score = 0;
 
@@ -214,7 +233,7 @@ export const QuizPage: React.FC = () => {
         voiceRecognition.stop();
       }
     };
-  }, [quizzes, currentQuizIndex, showFeedback]);
+  }, [quizzes, currentQuizIndex, showFeedback, shuffledChoices]);
 
   // Load quizzes when component mounts
   useEffect(() => {
@@ -443,7 +462,7 @@ export const QuizPage: React.FC = () => {
                 value={selectedAnswer || ''}
                 onChange={(e) => handleAnswerSelect(e.target.value)}
               >
-                {currentQuiz.choices.map((choice, index) => (
+                {shuffledChoices.map((choice, index) => (
                   <Card
                     key={choice.choice_id}
                     sx={{

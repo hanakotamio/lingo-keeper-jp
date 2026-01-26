@@ -1,5 +1,5 @@
 {
-  "name": "frontend",
+  "name": "lingo-keeper-jp-frontend",
   "private": true,
   "version": "0.0.0",
   "type": "module",
@@ -18,7 +18,10 @@
     "build-storybook": "storybook build",
     "test:e2e": "playwright test",
     "test:e2e:ui": "playwright test --ui",
-    "test:e2e:headed": "playwright test --headed"
+    "test:e2e:headed": "playwright test --headed",
+    "test:e2e:prod": "playwright test --config=playwright.config.production.ts",
+    "test:e2e:prod:headed": "playwright test --config=playwright.config.production.ts --headed",
+    "test:e2e:prod:ui": "playwright test --config=playwright.config.production.ts --ui"
   },
   "dependencies": {
     "@emotion/react": "^11.14.0",
