@@ -378,3 +378,4 @@ MIT License - 詳細は [LICENSE](LICENSE) を参照
 ---
 
 **Made with ❤️ for Japanese learners worldwide**
+Last updated: 2026-01-25
