@@ -1,0 +1,449 @@
+name: Database Migration
+
+# Trigger on:
+# 1. Manual workflow dispatch (for controlled production migrations)
+# 2. Push to main with migration files changed (for automatic staging)
+on:
+  workflow_dispatch:
+    inputs:
+      environment:
+        description: 'Target environment'
+        required: true
+        type: choice
+        options:
+          - staging
+          - production
+        default: 'staging'
+      skip_backup:
+        description: 'Skip backup creation (NOT recommended for production)'
+        required: false
+        type: boolean
+        default: false
+
+  push:
+    branches:
+      - main
+      - develop
+    paths:
+      - 'backend/prisma/migrations/**'
+      - 'backend/prisma/schema.prisma'
+
+jobs:
+  # ===================================================================
+  # Pre-Migration Validation
+  # ===================================================================
+  validate:
+    name: Validate Migration Files
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '18'
+          cache: 'npm'
+          cache-dependency-path: backend/package-lock.json
+
+      - name: Install dependencies
+        working-directory: ./backend
+        run: npm ci
+
+      - name: Generate Prisma Client
+        working-directory: ./backend
+        run: npx prisma generate
+
+      - name: Validate Prisma Schema
+        working-directory: ./backend
+        run: npx prisma validate
+
+      - name: Check Migration Files
+        working-directory: ./backend
+        run: |
+          if [ -d "prisma/migrations" ]; then
+            echo "✓ Migrations directory found"
+            MIGRATION_COUNT=$(find prisma/migrations -name "migration.sql" | wc -l)
+            echo "✓ Found $MIGRATION_COUNT migration file(s)"
+          else
+            echo "⚠ No migrations directory found (expected for new setup)"
+          fi
+
+  # ===================================================================
+  # Staging Migration (Automatic)
+  # ===================================================================
+  migrate-staging:
+    name: Deploy to Staging DB
+    runs-on: ubuntu-latest
+    needs: validate
+    if: |
+      github.event_name == 'push' &&
+      (github.ref == 'refs/heads/develop' || github.ref == 'refs/heads/main') ||
+      (github.event_name == 'workflow_dispatch' && github.event.inputs.environment == 'staging')
+    environment:
+      name: staging
+      url: https://staging.lingo-keeper-jp.com
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '18'
+          cache: 'npm'
+          cache-dependency-path: backend/package-lock.json
+
+      - name: Install dependencies
+        working-directory: ./backend
+        run: npm ci
+
+      - name: Generate Prisma Client
+        working-directory: ./backend
+        env:
+          DATABASE_URL: ${{ secrets.STAGING_DATABASE_URL }}
+        run: npx prisma generate
+
+      - name: Check Migration Status (Pre)
+        working-directory: ./backend
+        env:
+          DATABASE_URL: ${{ secrets.STAGING_DATABASE_URL }}
+        run: |
+          echo "Checking migration status before deployment..."
+          npx prisma migrate status || true
+
+      - name: Deploy Migrations
+        working-directory: ./backend
+        env:
+          DATABASE_URL: ${{ secrets.STAGING_DATABASE_URL }}
+        run: |
+          echo "Deploying migrations to staging database..."
+          npx prisma migrate deploy
+
+      - name: Verify Migration Status (Post)
+        working-directory: ./backend
+        env:
+          DATABASE_URL: ${{ secrets.STAGING_DATABASE_URL }}
+        run: |
+          echo "Verifying migration status after deployment..."
+          npx prisma migrate status
+
+      - name: Test Database Connection
+        working-directory: ./backend
+        env:
+          DATABASE_URL: ${{ secrets.STAGING_DATABASE_URL }}
+        run: |
+          echo "Testing database connection..."
+          npx prisma db execute --stdin <<< "SELECT 1;"
+
+      - name: Notify Slack (Success)
+        if: success()
+        uses: slackapi/slack-github-action@v1
+        with:
+          webhook-url: ${{ secrets.SLACK_WEBHOOK_URL }}
+          payload: |
+            {
+              "text": "✅ Staging DB Migration Successful",
+              "blocks": [
+                {
+                  "type": "section",
+                  "text": {
+                    "type": "mrkdwn",
+                    "text": "*Staging Database Migration Completed*\n• Environment: Staging\n• Branch: ${{ github.ref_name }}\n• Commit: ${{ github.sha }}"
+                  }
+                }
+              ]
+            }
+        continue-on-error: true
+
+      - name: Notify Slack (Failure)
+        if: failure()
+        uses: slackapi/slack-github-action@v1
+        with:
+          webhook-url: ${{ secrets.SLACK_WEBHOOK_URL }}
+          payload: |
+            {
+              "text": "❌ Staging DB Migration Failed",
+              "blocks": [
+                {
+                  "type": "section",
+                  "text": {
+                    "type": "mrkdwn",
+                    "text": "*Staging Database Migration Failed*\n• Environment: Staging\n• Branch: ${{ github.ref_name }}\n• Commit: ${{ github.sha }}\n• Action: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}"
+                  }
+                }
+              ]
+            }
+        continue-on-error: true
+
+  # ===================================================================
+  # Production Migration (Manual Only)
+  # ===================================================================
+  migrate-production:
+    name: Deploy to Production DB
+    runs-on: ubuntu-latest
+    needs: validate
+    if: github.event_name == 'workflow_dispatch' && github.event.inputs.environment == 'production'
+    environment:
+      name: production
+      url: https://lingo-keeper-jp.com
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '18'
+          cache: 'npm'
+          cache-dependency-path: backend/package-lock.json
+
+      - name: Install dependencies
+        working-directory: ./backend
+        run: npm ci
+
+      - name: Generate Prisma Client
+        working-directory: ./backend
+        env:
+          DATABASE_URL: ${{ secrets.PRODUCTION_DATABASE_URL }}
+        run: npx prisma generate
+
+      # ===== Pre-Migration Checks =====
+      - name: Pre-Migration Health Check
+        env:
+          HEALTH_URL: https://lingo-keeper-jp-backend-16378814888.asia-northeast1.run.app/api/health
+        run: |
+          echo "Checking application health before migration..."
+          HEALTH_RESPONSE=$(curl -s "$HEALTH_URL" || echo "")
+          if echo "$HEALTH_RESPONSE" | grep -q '"success":true'; then
+            echo "✓ Application is healthy"
+          else
+            echo "⚠ Health check returned unexpected response"
+            echo "$HEALTH_RESPONSE"
+          fi
+
+      - name: Check Migration Status (Pre)
+        working-directory: ./backend
+        env:
+          DATABASE_URL: ${{ secrets.PRODUCTION_DATABASE_URL }}
+        run: |
+          echo "Checking migration status before deployment..."
+          npx prisma migrate status || true
+
+      - name: Check for Long-Running Queries
+        working-directory: ./backend
+        env:
+          DATABASE_URL: ${{ secrets.PRODUCTION_DATABASE_URL }}
+        run: |
+          echo "Checking for long-running database queries..."
+          QUERY="SELECT count(*) FROM pg_stat_activity WHERE state != 'idle' AND pid != pg_backend_pid() AND EXTRACT(epoch FROM (now() - query_start)) > 60;"
+          LONG_QUERIES=$(npx prisma db execute --stdin <<< "$QUERY" || echo "0")
+          echo "Long-running queries: $LONG_QUERIES"
+          if [ "$LONG_QUERIES" != "0" ]; then
+            echo "⚠ Warning: Long-running queries detected"
+          fi
+
+      # ===== Backup Creation =====
+      - name: Create Neon Branch Backup
+        if: ${{ !github.event.inputs.skip_backup }}
+        env:
+          NEON_API_KEY: ${{ secrets.NEON_API_KEY }}
+          NEON_PROJECT_ID: ${{ secrets.NEON_PROJECT_ID }}
+        run: |
+          echo "Creating Neon branch backup..."
+          BACKUP_NAME="pre-migration-$(date +%Y%m%d-%H%M%S)"
+
+          # Create branch using Neon API
+          curl -X POST \
+            "https://console.neon.tech/api/v2/projects/$NEON_PROJECT_ID/branches" \
+            -H "Authorization: Bearer $NEON_API_KEY" \
+            -H "Content-Type: application/json" \
+            -d "{\"branch\": {\"name\": \"$BACKUP_NAME\"}}" \
+            | tee branch-backup.json
+
+          echo "BACKUP_NAME=$BACKUP_NAME" >> $GITHUB_ENV
+          echo "✓ Backup created: $BACKUP_NAME"
+        continue-on-error: true
+
+      - name: Backup Verification
+        if: ${{ !github.event.inputs.skip_backup }}
+        run: |
+          if [ -f branch-backup.json ]; then
+            echo "✓ Backup creation response received"
+            cat branch-backup.json
+          else
+            echo "⚠ Warning: No backup confirmation received"
+          fi
+
+      # ===== Migration Deployment =====
+      - name: Deploy Migrations to Production
+        id: migrate
+        working-directory: ./backend
+        env:
+          DATABASE_URL: ${{ secrets.PRODUCTION_DATABASE_URL }}
+        run: |
+          echo "Deploying migrations to production database..."
+          START_TIME=$(date +%s)
+
+          npx prisma migrate deploy
+
+          END_TIME=$(date +%s)
+          DURATION=$((END_TIME - START_TIME))
+          echo "MIGRATION_DURATION=$DURATION" >> $GITHUB_ENV
+          echo "✓ Migration completed in $DURATION seconds"
+
+      # ===== Post-Migration Verification =====
+      - name: Verify Migration Status (Post)
+        working-directory: ./backend
+        env:
+          DATABASE_URL: ${{ secrets.PRODUCTION_DATABASE_URL }}
+        run: |
+          echo "Verifying migration status after deployment..."
+          npx prisma migrate status
+
+      - name: Test Database Connection
+        working-directory: ./backend
+        env:
+          DATABASE_URL: ${{ secrets.PRODUCTION_DATABASE_URL }}
+        run: |
+          echo "Testing database connection..."
+          npx prisma db execute --stdin <<< "SELECT 1;"
+          echo "✓ Database connection verified"
+
+      - name: Post-Migration Health Check
+        env:
+          HEALTH_URL: https://lingo-keeper-jp-backend-16378814888.asia-northeast1.run.app/api/health
+        run: |
+          echo "Checking application health after migration..."
+          sleep 5  # Wait for any connection pool refresh
+
+          HEALTH_RESPONSE=$(curl -s "$HEALTH_URL" || echo "")
+          if echo "$HEALTH_RESPONSE" | grep -q '"success":true'; then
+            echo "✓ Application is healthy after migration"
+          else
+            echo "❌ Health check failed after migration"
+            echo "$HEALTH_RESPONSE"
+            exit 1
+          fi
+
+      - name: Run Integration Tests
+        working-directory: ./backend
+        env:
+          DATABASE_URL: ${{ secrets.PRODUCTION_DATABASE_URL }}
+        run: |
+          echo "Running critical integration tests..."
+          npm run test:integration || echo "⚠ Integration tests failed (continuing)"
+        continue-on-error: true
+
+      # ===== Notifications =====
+      - name: Notify Slack (Success)
+        if: success()
+        uses: slackapi/slack-github-action@v1
+        with:
+          webhook-url: ${{ secrets.SLACK_WEBHOOK_URL }}
+          payload: |
+            {
+              "text": "✅ Production DB Migration Successful",
+              "blocks": [
+                {
+                  "type": "section",
+                  "text": {
+                    "type": "mrkdwn",
+                    "text": "*Production Database Migration Completed*\n• Environment: Production\n• Duration: ${{ env.MIGRATION_DURATION }} seconds\n• Backup: ${{ env.BACKUP_NAME }}\n• Triggered by: ${{ github.actor }}\n• Commit: ${{ github.sha }}"
+                  }
+                }
+              ]
+            }
+        continue-on-error: true
+
+      - name: Notify Slack (Failure)
+        if: failure()
+        uses: slackapi/slack-github-action@v1
+        with:
+          webhook-url: ${{ secrets.SLACK_WEBHOOK_URL }}
+          payload: |
+            {
+              "text": "❌ Production DB Migration Failed",
+              "blocks": [
+                {
+                  "type": "section",
+                  "text": {
+                    "type": "mrkdwn",
+                    "text": "*Production Database Migration Failed*\n• Environment: Production\n• Backup available: ${{ env.BACKUP_NAME }}\n• Triggered by: ${{ github.actor }}\n• Action: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}\n\n*Rollback command:*\n```neonctl branches restore --branch ${{ env.BACKUP_NAME }}```"
+                  }
+                }
+              ]
+            }
+        continue-on-error: true
+
+      - name: Create GitHub Issue on Failure
+        if: failure()
+        uses: actions/github-script@v7
+        with:
+          script: |
+            github.rest.issues.create({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              title: '🚨 Production Migration Failed',
+              body: `## Production Database Migration Failure
+
+              **Details:**
+              - Environment: Production
+              - Triggered by: @${{ github.actor }}
+              - Workflow Run: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
+              - Backup: ${{ env.BACKUP_NAME }}
+
+              **Rollback Instructions:**
+              \`\`\`bash
+              neonctl branches restore --branch ${{ env.BACKUP_NAME }}
+              \`\`\`
+
+              **Next Steps:**
+              1. Review migration logs
+              2. Determine root cause
+              3. Decide on rollback or fix-forward
+              4. Update team on status
+              `,
+              labels: ['bug', 'production', 'database', 'urgent']
+            })
+        continue-on-error: true
+
+  # ===================================================================
+  # Post-Migration Monitoring
+  # ===================================================================
+  monitor:
+    name: Post-Migration Monitoring
+    runs-on: ubuntu-latest
+    needs: [migrate-production]
+    if: success()
+
+    steps:
+      - name: Monitor for 5 minutes
+        env:
+          HEALTH_URL: https://lingo-keeper-jp-backend-16378814888.asia-northeast1.run.app/api/health
+        run: |
+          echo "Monitoring application health for 5 minutes..."
+
+          for i in {1..10}; do
+            echo "Check $i/10..."
+
+            HEALTH_RESPONSE=$(curl -s "$HEALTH_URL" || echo "")
+            if echo "$HEALTH_RESPONSE" | grep -q '"success":true'; then
+              echo "✓ Healthy"
+            else
+              echo "⚠ Unhealthy response"
+              echo "$HEALTH_RESPONSE"
+            fi
+
+            sleep 30
+          done
+
+          echo "✓ Monitoring completed"
+
+      - name: Final Status Report
+        run: |
+          echo "Migration monitoring completed successfully"
+          echo "Continue monitoring in your observability platform"

@@ -1,0 +1,314 @@
+{
+  "displayName": "Lingo Keeper JP - Cloud Run Monitoring",
+  "mosaicLayout": {
+    "columns": 12,
+    "tiles": [
+      {
+        "width": 6,
+        "height": 4,
+        "widget": {
+          "title": "Request Count",
+          "xyChart": {
+            "dataSets": [
+              {
+                "timeSeriesQuery": {
+                  "timeSeriesFilter": {
+                    "filter": "metric.type=\"run.googleapis.com/request_count\" resource.type=\"cloud_run_revision\"",
+                    "aggregation": {
+                      "alignmentPeriod": "60s",
+                      "perSeriesAligner": "ALIGN_RATE",
+                      "crossSeriesReducer": "REDUCE_SUM",
+                      "groupByFields": [
+                        "resource.service_name"
+                      ]
+                    }
+                  }
+                },
+                "plotType": "LINE",
+                "targetAxis": "Y1"
+              }
+            ],
+            "yAxis": {
+              "label": "Requests/sec",
+              "scale": "LINEAR"
+            }
+          }
+        }
+      },
+      {
+        "xPos": 6,
+        "width": 6,
+        "height": 4,
+        "widget": {
+          "title": "Request Latencies (P50, P95, P99)",
+          "xyChart": {
+            "dataSets": [
+              {
+                "timeSeriesQuery": {
+                  "timeSeriesFilter": {
+                    "filter": "metric.type=\"run.googleapis.com/request_latencies\" resource.type=\"cloud_run_revision\"",
+                    "aggregation": {
+                      "alignmentPeriod": "60s",
+                      "perSeriesAligner": "ALIGN_DELTA",
+                      "crossSeriesReducer": "REDUCE_PERCENTILE_50"
+                    }
+                  }
+                },
+                "plotType": "LINE",
+                "targetAxis": "Y1",
+                "legendTemplate": "P50"
+              },
+              {
+                "timeSeriesQuery": {
+                  "timeSeriesFilter": {
+                    "filter": "metric.type=\"run.googleapis.com/request_latencies\" resource.type=\"cloud_run_revision\"",
+                    "aggregation": {
+                      "alignmentPeriod": "60s",
+                      "perSeriesAligner": "ALIGN_DELTA",
+                      "crossSeriesReducer": "REDUCE_PERCENTILE_95"
+                    }
+                  }
+                },
+                "plotType": "LINE",
+                "targetAxis": "Y1",
+                "legendTemplate": "P95"
+              },
+              {
+                "timeSeriesQuery": {
+                  "timeSeriesFilter": {
+                    "filter": "metric.type=\"run.googleapis.com/request_latencies\" resource.type=\"cloud_run_revision\"",
+                    "aggregation": {
+                      "alignmentPeriod": "60s",
+                      "perSeriesAligner": "ALIGN_DELTA",
+                      "crossSeriesReducer": "REDUCE_PERCENTILE_99"
+                    }
+                  }
+                },
+                "plotType": "LINE",
+                "targetAxis": "Y1",
+                "legendTemplate": "P99"
+              }
+            ],
+            "yAxis": {
+              "label": "Latency (ms)",
+              "scale": "LINEAR"
+            },
+            "thresholds": [
+              {
+                "value": 500,
+                "color": "YELLOW",
+                "direction": "ABOVE",
+                "label": "Warning (500ms)"
+              },
+              {
+                "value": 1000,
+                "color": "RED",
+                "direction": "ABOVE",
+                "label": "Critical (1000ms)"
+              }
+            ]
+          }
+        }
+      },
+      {
+        "yPos": 4,
+        "width": 6,
+        "height": 4,
+        "widget": {
+          "title": "Error Rate",
+          "xyChart": {
+            "dataSets": [
+              {
+                "timeSeriesQuery": {
+                  "timeSeriesFilter": {
+                    "filter": "metric.type=\"run.googleapis.com/request_count\" resource.type=\"cloud_run_revision\" metric.label.response_code_class=\"5xx\"",
+                    "aggregation": {
+                      "alignmentPeriod": "60s",
+                      "perSeriesAligner": "ALIGN_RATE",
+                      "crossSeriesReducer": "REDUCE_SUM"
+                    }
+                  }
+                },
+                "plotType": "LINE",
+                "targetAxis": "Y1",
+                "legendTemplate": "5xx Errors"
+              },
+              {
+                "timeSeriesQuery": {
+                  "timeSeriesFilter": {
+                    "filter": "metric.type=\"run.googleapis.com/request_count\" resource.type=\"cloud_run_revision\" metric.label.response_code_class=\"4xx\"",
+                    "aggregation": {
+                      "alignmentPeriod": "60s",
+                      "perSeriesAligner": "ALIGN_RATE",
+                      "crossSeriesReducer": "REDUCE_SUM"
+                    }
+                  }
+                },
+                "plotType": "LINE",
+                "targetAxis": "Y1",
+                "legendTemplate": "4xx Errors"
+              }
+            ],
+            "yAxis": {
+              "label": "Errors/sec",
+              "scale": "LINEAR"
+            }
+          }
+        }
+      },
+      {
+        "xPos": 6,
+        "yPos": 4,
+        "width": 6,
+        "height": 4,
+        "widget": {
+          "title": "Container Instance Count",
+          "xyChart": {
+            "dataSets": [
+              {
+                "timeSeriesQuery": {
+                  "timeSeriesFilter": {
+                    "filter": "metric.type=\"run.googleapis.com/container/instance_count\" resource.type=\"cloud_run_revision\"",
+                    "aggregation": {
+                      "alignmentPeriod": "60s",
+                      "perSeriesAligner": "ALIGN_MEAN",
+                      "crossSeriesReducer": "REDUCE_SUM"
+                    }
+                  }
+                },
+                "plotType": "LINE",
+                "targetAxis": "Y1"
+              }
+            ],
+            "yAxis": {
+              "label": "Instances",
+              "scale": "LINEAR"
+            }
+          }
+        }
+      },
+      {
+        "yPos": 8,
+        "width": 6,
+        "height": 4,
+        "widget": {
+          "title": "CPU Utilization",
+          "xyChart": {
+            "dataSets": [
+              {
+                "timeSeriesQuery": {
+                  "timeSeriesFilter": {
+                    "filter": "metric.type=\"run.googleapis.com/container/cpu/utilizations\" resource.type=\"cloud_run_revision\"",
+                    "aggregation": {
+                      "alignmentPeriod": "60s",
+                      "perSeriesAligner": "ALIGN_MEAN",
+                      "crossSeriesReducer": "REDUCE_MEAN"
+                    }
+                  }
+                },
+                "plotType": "LINE",
+                "targetAxis": "Y1"
+              }
+            ],
+            "yAxis": {
+              "label": "CPU %",
+              "scale": "LINEAR"
+            },
+            "thresholds": [
+              {
+                "value": 0.7,
+                "color": "YELLOW",
+                "direction": "ABOVE",
+                "label": "Warning (70%)"
+              },
+              {
+                "value": 0.9,
+                "color": "RED",
+                "direction": "ABOVE",
+                "label": "Critical (90%)"
+              }
+            ]
+          }
+        }
+      },
+      {
+        "xPos": 6,
+        "yPos": 8,
+        "width": 6,
+        "height": 4,
+        "widget": {
+          "title": "Memory Utilization",
+          "xyChart": {
+            "dataSets": [
+              {
+                "timeSeriesQuery": {
+                  "timeSeriesFilter": {
+                    "filter": "metric.type=\"run.googleapis.com/container/memory/utilizations\" resource.type=\"cloud_run_revision\"",
+                    "aggregation": {
+                      "alignmentPeriod": "60s",
+                      "perSeriesAligner": "ALIGN_MEAN",
+                      "crossSeriesReducer": "REDUCE_MEAN"
+                    }
+                  }
+                },
+                "plotType": "LINE",
+                "targetAxis": "Y1"
+              }
+            ],
+            "yAxis": {
+              "label": "Memory %",
+              "scale": "LINEAR"
+            },
+            "thresholds": [
+              {
+                "value": 0.75,
+                "color": "YELLOW",
+                "direction": "ABOVE",
+                "label": "Warning (75%)"
+              },
+              {
+                "value": 0.9,
+                "color": "RED",
+                "direction": "ABOVE",
+                "label": "Critical (90%)"
+              }
+            ]
+          }
+        }
+      },
+      {
+        "yPos": 12,
+        "width": 12,
+        "height": 4,
+        "widget": {
+          "title": "HTTP Response Codes Distribution",
+          "xyChart": {
+            "dataSets": [
+              {
+                "timeSeriesQuery": {
+                  "timeSeriesFilter": {
+                    "filter": "metric.type=\"run.googleapis.com/request_count\" resource.type=\"cloud_run_revision\"",
+                    "aggregation": {
+                      "alignmentPeriod": "60s",
+                      "perSeriesAligner": "ALIGN_RATE",
+                      "crossSeriesReducer": "REDUCE_SUM",
+                      "groupByFields": [
+                        "metric.response_code_class"
+                      ]
+                    }
+                  }
+                },
+                "plotType": "STACKED_AREA",
+                "targetAxis": "Y1"
+              }
+            ],
+            "yAxis": {
+              "label": "Requests/sec",
+              "scale": "LINEAR"
+            }
+          }
+        }
+      }
+    ]
+  }
+}

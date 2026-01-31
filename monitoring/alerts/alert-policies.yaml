@@ -1,0 +1,278 @@
+# Alert Policies for Lingo Keeper JP
+# Deploy these using: gcloud alpha monitoring policies create --policy-from-file=<file>
+
+---
+# High Error Rate Alert
+displayName: "High Error Rate (5xx)"
+documentation:
+  content: |
+    The service is experiencing a high rate of 5xx errors (> 5% of requests).
+
+    **Steps to investigate:**
+    1. Check Cloud Run logs for error details
+    2. Review recent deployments
+    3. Check database connectivity
+    4. Verify external API availability (OpenAI, Google TTS)
+
+    **Dashboard:** Lingo Keeper JP - Cloud Run Monitoring
+  mimeType: text/markdown
+conditions:
+  - displayName: "5xx Error Rate > 5%"
+    conditionThreshold:
+      filter: |
+        resource.type = "cloud_run_revision"
+        AND resource.labels.service_name = "lingo-keeper-jp-backend"
+        AND metric.type = "run.googleapis.com/request_count"
+        AND metric.labels.response_code_class = "5xx"
+      aggregations:
+        - alignmentPeriod: 60s
+          perSeriesAligner: ALIGN_RATE
+          crossSeriesReducer: REDUCE_SUM
+      comparison: COMPARISON_GT
+      thresholdValue: 0.05  # 5% error rate
+      duration: 300s  # 5 minutes
+      trigger:
+        count: 1
+alertStrategy:
+  autoClose: 1800s  # 30 minutes
+notificationChannels:
+  # Add your notification channel IDs here
+  # - projects/[PROJECT_ID]/notificationChannels/[CHANNEL_ID]
+enabled: true
+combiner: OR
+
+---
+# High Latency Alert
+displayName: "High Request Latency (P95 > 1s)"
+documentation:
+  content: |
+    Request latency (P95) has exceeded 1 second.
+
+    **Steps to investigate:**
+    1. Check CPU and memory utilization
+    2. Review database query performance
+    3. Check for slow external API calls
+    4. Review recent code changes
+    5. Consider scaling up resources
+
+    **Dashboard:** Lingo Keeper JP - Cloud Run Monitoring
+  mimeType: text/markdown
+conditions:
+  - displayName: "P95 Latency > 1000ms"
+    conditionThreshold:
+      filter: |
+        resource.type = "cloud_run_revision"
+        AND resource.labels.service_name = "lingo-keeper-jp-backend"
+        AND metric.type = "run.googleapis.com/request_latencies"
+      aggregations:
+        - alignmentPeriod: 60s
+          perSeriesAligner: ALIGN_DELTA
+          crossSeriesReducer: REDUCE_PERCENTILE_95
+      comparison: COMPARISON_GT
+      thresholdValue: 1000  # 1000ms = 1s
+      duration: 300s  # 5 minutes
+      trigger:
+        count: 1
+alertStrategy:
+  autoClose: 1800s
+notificationChannels: []
+enabled: true
+combiner: OR
+
+---
+# High CPU Utilization Alert
+displayName: "High CPU Utilization (> 90%)"
+documentation:
+  content: |
+    CPU utilization has exceeded 90% for an extended period.
+
+    **Steps to investigate:**
+    1. Check for CPU-intensive operations in logs
+    2. Review request volume and patterns
+    3. Consider increasing CPU allocation
+    4. Check for infinite loops or inefficient code
+
+    **Dashboard:** Lingo Keeper JP - Cloud Run Monitoring
+  mimeType: text/markdown
+conditions:
+  - displayName: "CPU > 90%"
+    conditionThreshold:
+      filter: |
+        resource.type = "cloud_run_revision"
+        AND resource.labels.service_name = "lingo-keeper-jp-backend"
+        AND metric.type = "run.googleapis.com/container/cpu/utilizations"
+      aggregations:
+        - alignmentPeriod: 60s
+          perSeriesAligner: ALIGN_MEAN
+          crossSeriesReducer: REDUCE_MEAN
+      comparison: COMPARISON_GT
+      thresholdValue: 0.9  # 90%
+      duration: 600s  # 10 minutes
+      trigger:
+        count: 1
+alertStrategy:
+  autoClose: 1800s
+notificationChannels: []
+enabled: true
+combiner: OR
+
+---
+# High Memory Utilization Alert
+displayName: "High Memory Utilization (> 90%)"
+documentation:
+  content: |
+    Memory utilization has exceeded 90%.
+
+    **Steps to investigate:**
+    1. Check for memory leaks in application code
+    2. Review large data processing operations
+    3. Consider increasing memory allocation
+    4. Monitor for out-of-memory errors
+
+    **Dashboard:** Lingo Keeper JP - Cloud Run Monitoring
+  mimeType: text/markdown
+conditions:
+  - displayName: "Memory > 90%"
+    conditionThreshold:
+      filter: |
+        resource.type = "cloud_run_revision"
+        AND resource.labels.service_name = "lingo-keeper-jp-backend"
+        AND metric.type = "run.googleapis.com/container/memory/utilizations"
+      aggregations:
+        - alignmentPeriod: 60s
+          perSeriesAligner: ALIGN_MEAN
+          crossSeriesReducer: REDUCE_MEAN
+      comparison: COMPARISON_GT
+      thresholdValue: 0.9  # 90%
+      duration: 600s  # 10 minutes
+      trigger:
+        count: 1
+alertStrategy:
+  autoClose: 1800s
+notificationChannels: []
+enabled: true
+combiner: OR
+
+---
+# Database Connection Failure Alert
+displayName: "Database Connection Failures"
+documentation:
+  content: |
+    The application is unable to connect to the database.
+
+    **Steps to investigate:**
+    1. Check Neon database status
+    2. Verify DATABASE_URL secret is correct
+    3. Check network connectivity
+    4. Review Neon connection limits
+    5. Check for database maintenance windows
+
+    **Dashboard:** Lingo Keeper JP - Application Metrics
+  mimeType: text/markdown
+conditions:
+  - displayName: "Health Check Failures"
+    conditionThreshold:
+      filter: |
+        resource.type = "cloud_run_revision"
+        AND resource.labels.service_name = "lingo-keeper-jp-backend"
+        AND metric.type = "run.googleapis.com/request_count"
+        AND resource.labels.route = "/api/health"
+        AND metric.labels.response_code = "503"
+      aggregations:
+        - alignmentPeriod: 60s
+          perSeriesAligner: ALIGN_RATE
+          crossSeriesReducer: REDUCE_SUM
+      comparison: COMPARISON_GT
+      thresholdValue: 0.1  # > 0.1 failures per second
+      duration: 120s  # 2 minutes
+      trigger:
+        count: 1
+alertStrategy:
+  autoClose: 1800s
+notificationChannels: []
+enabled: true
+combiner: OR
+
+---
+# Deployment Failure Alert
+displayName: "Cloud Run Deployment Failure"
+documentation:
+  content: |
+    A deployment to Cloud Run has failed.
+
+    **Steps to investigate:**
+    1. Check Cloud Build logs
+    2. Verify Dockerfile configuration
+    3. Check container image build
+    4. Review environment variables and secrets
+    5. Check service account permissions
+
+    **Dashboard:** Cloud Build History
+  mimeType: text/markdown
+conditions:
+  - displayName: "Deployment Failed"
+    conditionThreshold:
+      filter: |
+        resource.type = "cloud_run_revision"
+        AND metric.type = "run.googleapis.com/container/startup_latencies"
+      aggregations:
+        - alignmentPeriod: 60s
+          perSeriesAligner: ALIGN_MAX
+          crossSeriesReducer: REDUCE_MAX
+      comparison: COMPARISON_GT
+      thresholdValue: 300000  # 5 minutes startup time indicates failure
+      duration: 60s
+      trigger:
+        count: 1
+alertStrategy:
+  autoClose: 3600s  # 1 hour
+notificationChannels: []
+enabled: true
+combiner: OR
+
+---
+# Low Availability Alert (SLO-based)
+displayName: "Low Availability (< 99.5%)"
+documentation:
+  content: |
+    Service availability has dropped below the SLO threshold of 99.5%.
+
+    **Steps to investigate:**
+    1. Review error logs for patterns
+    2. Check infrastructure health
+    3. Verify all dependencies are operational
+    4. Review recent changes and deployments
+
+    **Dashboard:** Lingo Keeper JP - Application Metrics
+  mimeType: text/markdown
+conditions:
+  - displayName: "Availability < 99.5%"
+    conditionThreshold:
+      filter: |
+        resource.type = "cloud_run_revision"
+        AND resource.labels.service_name = "lingo-keeper-jp-backend"
+        AND metric.type = "run.googleapis.com/request_count"
+      aggregations:
+        - alignmentPeriod: 300s
+          perSeriesAligner: ALIGN_RATE
+          crossSeriesReducer: REDUCE_SUM
+          groupByFields:
+            - metric.label.response_code_class
+      denominatorFilter: |
+        resource.type = "cloud_run_revision"
+        AND resource.labels.service_name = "lingo-keeper-jp-backend"
+        AND metric.type = "run.googleapis.com/request_count"
+      denominatorAggregations:
+        - alignmentPeriod: 300s
+          perSeriesAligner: ALIGN_RATE
+          crossSeriesReducer: REDUCE_SUM
+      comparison: COMPARISON_LT
+      thresholdValue: 0.995  # 99.5% availability
+      duration: 900s  # 15 minutes
+      trigger:
+        count: 1
+alertStrategy:
+  autoClose: 1800s
+notificationChannels: []
+enabled: true
+combiner: OR

@@ -15,6 +15,9 @@ export class TTSController {
    * Request body:
    * {
    *   text: string // Japanese text to synthesize
+   *   speakingRate?: number // Optional speaking rate (0.25 to 4.0, default: 0.85)
+   *   voiceName?: string // Optional voice (default: ja-JP-Neural2-B)
+   *   pitch?: number // Optional pitch adjustment (-20.0 to 20.0, default: -1.0)
    * }
    *
    * Response:
@@ -33,7 +36,7 @@ export class TTSController {
 
     try {
       // Validate request body
-      const { text } = req.body;
+      const { text, speakingRate, voiceName, pitch } = req.body;
 
       if (!text) {
         logger.error('Missing text in request body');
@@ -65,8 +68,95 @@ export class TTSController {
         return;
       }
 
+      // Validate speakingRate if provided
+      let validatedSpeakingRate: number | undefined = undefined;
+      if (speakingRate !== undefined) {
+        if (typeof speakingRate !== 'number') {
+          logger.error('Invalid speakingRate type', { type: typeof speakingRate });
+          res.status(400).json({
+            success: false,
+            error: 'Bad Request',
+            message: 'speakingRate must be a number',
+          });
+          return;
+        }
+        if (speakingRate < 0.25 || speakingRate > 4.0) {
+          logger.error('speakingRate out of range', { speakingRate });
+          res.status(400).json({
+            success: false,
+            error: 'Bad Request',
+            message: 'speakingRate must be between 0.25 and 4.0',
+          });
+          return;
+        }
+        validatedSpeakingRate = speakingRate;
+      }
+
+      // Validate voiceName if provided
+      let validatedVoiceName: string | undefined = undefined;
+      if (voiceName !== undefined) {
+        if (typeof voiceName !== 'string') {
+          logger.error('Invalid voiceName type', { type: typeof voiceName });
+          res.status(400).json({
+            success: false,
+            error: 'Bad Request',
+            message: 'voiceName must be a string',
+          });
+          return;
+        }
+        // List of valid Japanese voices
+        const validVoices = [
+          'ja-JP-Neural2-B', // Female (most natural)
+          'ja-JP-Neural2-C', // Male
+          'ja-JP-Neural2-D', // Male
+          'ja-JP-Wavenet-A', // Female (legacy)
+          'ja-JP-Wavenet-B', // Female (legacy)
+          'ja-JP-Wavenet-C', // Male (legacy)
+          'ja-JP-Wavenet-D', // Male (legacy)
+        ];
+        if (!validVoices.includes(voiceName)) {
+          logger.error('Invalid voiceName', { voiceName });
+          res.status(400).json({
+            success: false,
+            error: 'Bad Request',
+            message: `voiceName must be one of: ${validVoices.join(', ')}`,
+          });
+          return;
+        }
+        validatedVoiceName = voiceName;
+      }
+
+      // Validate pitch if provided
+      let validatedPitch: number | undefined = undefined;
+      if (pitch !== undefined) {
+        if (typeof pitch !== 'number') {
+          logger.error('Invalid pitch type', { type: typeof pitch });
+          res.status(400).json({
+            success: false,
+            error: 'Bad Request',
+            message: 'pitch must be a number',
+          });
+          return;
+        }
+        if (pitch < -20.0 || pitch > 20.0) {
+          logger.error('pitch out of range', { pitch });
+          res.status(400).json({
+            success: false,
+            error: 'Bad Request',
+            message: 'pitch must be between -20.0 and 20.0',
+          });
+          return;
+        }
+        validatedPitch = pitch;
+      }
+
       // Synthesize speech
-      const audioUrl = await ttsService.synthesizeSpeech(text);
+      const audioUrl = await ttsService.synthesizeSpeech(
+        text,
+        validatedSpeakingRate,
+        validatedVoiceName,
+        validatedPitch
+      );
 
       res.status(200).json({
         success: true,

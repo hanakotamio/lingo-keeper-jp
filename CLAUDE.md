@@ -532,7 +532,23 @@ curl https://lingo-keeper-jp-backend-16378814888.asia-northeast1.run.app/api/hea
 - エイリアスURL（固定）: https://frontend-seven-beta-72.vercel.app
 - バックエンドAPI: ✅ 正常動作確認済み（9個のストーリーを返却）
 
+### 最新の更新 (2026-01-26 21:52 JST)
+
+#### 再デプロイ完了
+- **バックエンド**: TypeScriptエラー修正（monitoring.middleware.ts の未使用変数）
+- **フロントエンド**: Git作者メール変更でVercelチームアクセス権問題を解決
+- **CORS設定**: 正常動作確認済み
+- **デプロイスクリプト修正**: Cloud Run の PORT 環境変数を削除（--port 8080 に変更）
+
+**動作確認結果**:
+- ✅ バックエンドヘルスチェック: 正常
+- ✅ フロントエンドアクセス: 正常
+- ✅ API動作確認: 9個のストーリー取得成功
+- ✅ CORS設定: https://frontend-seven-beta-72.vercel.app が許可済み
+
 ### 次回デプロイ時の注意点
 - Dockerfileは`node:18-slim`ベース（OpenSSL対応済み）
 - `.dockerignore`から`tsconfig.json`を除外しない
 - Secret Manager使用時は`roles/secretmanager.secretAccessor`権限が必要
+- Cloud Runでは PORT 環境変数は予約済み（--port オプションを使用）
+- Vercelチームデプロイ時は Git作者メールが認証済みアカウントと一致する必要あり

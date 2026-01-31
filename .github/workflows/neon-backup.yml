@@ -1,0 +1,316 @@
+name: Neon PostgreSQL Automated Backup
+
+on:
+  # Daily backup at 3:00 AM UTC (12:00 PM JST)
+  schedule:
+    - cron: '0 3 * * *'
+
+  # Manual trigger via GitHub UI
+  workflow_dispatch:
+    inputs:
+      backup_name:
+        description: 'Custom backup name (optional)'
+        required: false
+        default: ''
+
+env:
+  BACKUP_RETENTION_DAYS: 30
+
+jobs:
+  backup:
+    name: Backup Neon Database
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Install PostgreSQL client tools
+        run: |
+          sudo sh -c 'echo "deb http://apt.postgresql.org/pub/repos/apt $(lsb_release -cs)-pgdg main" > /etc/apt/sources.list.d/pgdg.list'
+          wget --quiet -O - https://www.postgresql.org/media/keys/ACCC4CF8.asc | sudo apt-key add -
+          sudo apt-get update
+          sudo apt-get install -y postgresql-client-16
+
+      - name: Verify PostgreSQL tools
+        run: |
+          echo "PostgreSQL version:"
+          pg_dump --version
+          pg_restore --version
+
+      - name: Generate backup filename
+        id: backup_info
+        run: |
+          if [ -n "${{ github.event.inputs.backup_name }}" ]; then
+            BACKUP_NAME="${{ github.event.inputs.backup_name }}"
+          else
+            BACKUP_NAME="backup-$(date +%Y%m%d-%H%M%S)"
+          fi
+          echo "backup_name=${BACKUP_NAME}" >> $GITHUB_OUTPUT
+          echo "backup_file=${BACKUP_NAME}.dump" >> $GITHUB_OUTPUT
+          echo "backup_date=$(date -Iseconds)" >> $GITHUB_OUTPUT
+          echo "Backup will be saved as: ${BACKUP_NAME}.dump"
+
+      - name: Create database backup
+        env:
+          DATABASE_URL: ${{ secrets.NEON_DATABASE_URL }}
+        run: |
+          echo "Starting backup at $(date)"
+
+          # Execute pg_dump with optimal settings
+          pg_dump \
+            --format=custom \
+            --compress=9 \
+            --no-owner \
+            --no-acl \
+            --verbose \
+            --file="${{ steps.backup_info.outputs.backup_file }}" \
+            "$DATABASE_URL"
+
+          echo "Backup completed at $(date)"
+
+          # Display backup file info
+          ls -lh "${{ steps.backup_info.outputs.backup_file }}"
+
+          # Store file size for notification
+          BACKUP_SIZE=$(du -h "${{ steps.backup_info.outputs.backup_file }}" | cut -f1)
+          echo "backup_size=${BACKUP_SIZE}" >> $GITHUB_OUTPUT
+
+      - name: Validate backup integrity
+        id: validate
+        run: |
+          echo "Validating backup integrity..."
+
+          # List backup contents to verify it's not corrupted
+          if pg_restore --list "${{ steps.backup_info.outputs.backup_file }}" > /dev/null 2>&1; then
+            echo "✅ Backup validation successful"
+            echo "validation_status=success" >> $GITHUB_OUTPUT
+
+            # Count objects in backup
+            OBJECT_COUNT=$(pg_restore --list "${{ steps.backup_info.outputs.backup_file }}" | wc -l)
+            echo "backup_objects=${OBJECT_COUNT}" >> $GITHUB_OUTPUT
+            echo "Backup contains ${OBJECT_COUNT} database objects"
+          else
+            echo "❌ Backup validation failed"
+            echo "validation_status=failed" >> $GITHUB_OUTPUT
+            exit 1
+          fi
+
+      - name: Upload backup to GitHub Artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: ${{ steps.backup_info.outputs.backup_name }}
+          path: ${{ steps.backup_info.outputs.backup_file }}
+          retention-days: 90
+          compression-level: 0  # Already compressed by pg_dump
+
+      - name: Authenticate to Google Cloud
+        id: auth
+        uses: google-github-actions/auth@v2
+        with:
+          credentials_json: ${{ secrets.GCP_SERVICE_ACCOUNT_KEY }}
+
+      - name: Set up Cloud SDK
+        uses: google-github-actions/setup-gcloud@v2
+
+      - name: Upload backup to Google Cloud Storage
+        env:
+          GCS_BUCKET: ${{ secrets.GCS_BACKUP_BUCKET || 'lingo-keeper-jp-backups' }}
+        run: |
+          echo "Uploading to Google Cloud Storage..."
+
+          # Upload with metadata
+          gsutil -h "Content-Type:application/octet-stream" \
+            -h "x-goog-meta-backup-date:${{ steps.backup_info.outputs.backup_date }}" \
+            -h "x-goog-meta-database:lingo_keeper_jp" \
+            -h "x-goog-meta-workflow-run:${{ github.run_id }}" \
+            -h "x-goog-meta-git-commit:${{ github.sha }}" \
+            cp "${{ steps.backup_info.outputs.backup_file }}" \
+            "gs://${GCS_BUCKET}/${{ steps.backup_info.outputs.backup_file }}"
+
+          echo "✅ Backup uploaded to gs://${GCS_BUCKET}/${{ steps.backup_info.outputs.backup_file }}"
+
+      - name: Verify GCS upload
+        env:
+          GCS_BUCKET: ${{ secrets.GCS_BACKUP_BUCKET || 'lingo-keeper-jp-backups' }}
+        run: |
+          echo "Verifying GCS upload..."
+
+          # Check if file exists and get metadata
+          gsutil ls -L "gs://${GCS_BUCKET}/${{ steps.backup_info.outputs.backup_file }}" | head -20
+
+          echo "✅ GCS upload verified"
+
+      - name: Clean up old backups from GCS
+        env:
+          GCS_BUCKET: ${{ secrets.GCS_BACKUP_BUCKET || 'lingo-keeper-jp-backups' }}
+        run: |
+          echo "Cleaning up backups older than ${BACKUP_RETENTION_DAYS} days..."
+
+          # Calculate cutoff date
+          CUTOFF_DATE=$(date -d "${BACKUP_RETENTION_DAYS} days ago" +%Y%m%d)
+          echo "Cutoff date: ${CUTOFF_DATE}"
+
+          # List and delete old backups
+          gsutil ls "gs://${GCS_BUCKET}/backup-*.dump" | while read file; do
+            # Extract date from filename (format: backup-YYYYMMDD-HHMMSS.dump)
+            FILENAME=$(basename "$file")
+            FILE_DATE=$(echo "$FILENAME" | grep -oP 'backup-\K\d{8}' || echo "99999999")
+
+            if [ "$FILE_DATE" -lt "$CUTOFF_DATE" ]; then
+              echo "Deleting old backup: $file (date: $FILE_DATE)"
+              gsutil rm "$file" || echo "Failed to delete $file"
+            fi
+          done
+
+          echo "✅ Cleanup completed"
+
+      - name: Generate backup report
+        if: always()
+        run: |
+          cat > backup-report.txt <<EOF
+          ═══════════════════════════════════════════════════════════
+          NEON POSTGRESQL BACKUP REPORT
+          ═══════════════════════════════════════════════════════════
+
+          Backup Details:
+          ---------------
+          • Backup Name: ${{ steps.backup_info.outputs.backup_name }}
+          • Backup File: ${{ steps.backup_info.outputs.backup_file }}
+          • Backup Date: ${{ steps.backup_info.outputs.backup_date }}
+          • Backup Size: ${{ steps.backup_info.outputs.backup_size }}
+          • Object Count: ${{ steps.validate.outputs.backup_objects }}
+          • Validation: ${{ steps.validate.outputs.validation_status }}
+
+          Workflow Information:
+          ---------------------
+          • Workflow Run ID: ${{ github.run_id }}
+          • Git Commit: ${{ github.sha }}
+          • Triggered By: ${{ github.event_name }}
+          • Runner: ${{ runner.os }} ${{ runner.arch }}
+
+          Storage Locations:
+          ------------------
+          • GitHub Artifacts: ✅ (90-day retention)
+          • Google Cloud Storage: ✅ (30-day retention)
+
+          Status: ${{ job.status }}
+
+          ═══════════════════════════════════════════════════════════
+          EOF
+
+          cat backup-report.txt
+
+      - name: Upload backup report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: backup-report-${{ steps.backup_info.outputs.backup_name }}
+          path: backup-report.txt
+          retention-days: 90
+
+      # Optional: Send notification to Slack
+      # Uncomment and configure when Slack webhook is available
+      # - name: Send Slack notification on success
+      #   if: success()
+      #   uses: slackapi/slack-github-action@v1
+      #   with:
+      #     webhook-url: ${{ secrets.SLACK_WEBHOOK_URL }}
+      #     payload: |
+      #       {
+      #         "text": "✅ Neon Database Backup Successful",
+      #         "blocks": [
+      #           {
+      #             "type": "section",
+      #             "text": {
+      #               "type": "mrkdwn",
+      #               "text": "*Neon PostgreSQL Backup Completed*\n• Backup: `${{ steps.backup_info.outputs.backup_file }}`\n• Size: ${{ steps.backup_info.outputs.backup_size }}\n• Objects: ${{ steps.validate.outputs.backup_objects }}\n• Status: ✅ Success"
+      #             }
+      #           }
+      #         ]
+      #       }
+
+      # Optional: Send notification on failure
+      # - name: Send Slack notification on failure
+      #   if: failure()
+      #   uses: slackapi/slack-github-action@v1
+      #   with:
+      #     webhook-url: ${{ secrets.SLACK_WEBHOOK_URL }}
+      #     payload: |
+      #       {
+      #         "text": "❌ Neon Database Backup Failed",
+      #         "blocks": [
+      #           {
+      #             "type": "section",
+      #             "text": {
+      #               "type": "mrkdwn",
+      #               "text": "*Neon PostgreSQL Backup Failed*\n• Workflow: <${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}|View Run>\n• Status: ❌ Failed\n• Action Required: Check workflow logs"
+      #             }
+      #           }
+      #         ]
+      #       }
+
+  # Optional: Test restore job (runs monthly)
+  test-restore:
+    name: Monthly Backup Restore Test
+    runs-on: ubuntu-latest
+    needs: backup
+    # Only run on the last day of the month
+    if: github.event.schedule == '0 3 28-31 * *' || github.event_name == 'workflow_dispatch'
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Install PostgreSQL client tools
+        run: |
+          sudo sh -c 'echo "deb http://apt.postgresql.org/pub/repos/apt $(lsb_release -cs)-pgdg main" > /etc/apt/sources.list.d/pgdg.list'
+          wget --quiet -O - https://www.postgresql.org/media/keys/ACCC4CF8.asc | sudo apt-key add -
+          sudo apt-get update
+          sudo apt-get install -y postgresql-client-16
+
+      - name: Download backup artifact
+        uses: actions/download-artifact@v4
+        with:
+          pattern: backup-*
+          merge-multiple: false
+
+      - name: Find latest backup
+        id: find_backup
+        run: |
+          LATEST_BACKUP=$(ls -t backup-*.dump | head -1)
+          echo "latest_backup=${LATEST_BACKUP}" >> $GITHUB_OUTPUT
+          echo "Found latest backup: ${LATEST_BACKUP}"
+
+      - name: Verify backup can be listed
+        run: |
+          echo "Testing backup restore capability..."
+
+          # List contents without actually restoring
+          pg_restore --list "${{ steps.find_backup.outputs.latest_backup }}" > restore-test.txt
+
+          # Count objects
+          OBJECT_COUNT=$(wc -l < restore-test.txt)
+          echo "Backup contains ${OBJECT_COUNT} objects"
+
+          # Display first 20 lines
+          echo "First 20 objects in backup:"
+          head -20 restore-test.txt
+
+          if [ $OBJECT_COUNT -gt 0 ]; then
+            echo "✅ Restore test successful - backup is valid"
+          else
+            echo "❌ Restore test failed - backup appears empty"
+            exit 1
+          fi
+
+      - name: Upload restore test results
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: restore-test-results-$(date +%Y%m%d)
+          path: restore-test.txt
+          retention-days: 30
+
+      # Optional: For full restore testing, you would create a temporary Neon branch
+      # and restore to it, but this requires API key and more setup

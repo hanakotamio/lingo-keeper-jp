@@ -1,0 +1,54 @@
+# Notification Channels Configuration
+# These examples show how to configure different notification channels
+# Deploy using: gcloud alpha monitoring channels create --channel-content-from-file=<file>
+
+---
+# Slack Notification Channel
+type: slack
+displayName: "Lingo Keeper JP - Slack Alerts"
+description: "Slack channel for production alerts"
+enabled: true
+labels:
+  # Replace with your Slack webhook URL from environment or Secret Manager
+  # Create webhook at: https://api.slack.com/messaging/webhooks
+  channel_name: "#lingo-keeper-alerts"
+  url: "${SLACK_WEBHOOK_URL}"  # Set this as environment variable or secret
+
+---
+# Email Notification Channel
+type: email
+displayName: "Lingo Keeper JP - Email Alerts"
+description: "Email notifications for critical alerts"
+enabled: true
+labels:
+  email_address: "alerts@example.com"  # Replace with your email
+
+---
+# PagerDuty Notification Channel (for on-call)
+type: pagerduty
+displayName: "Lingo Keeper JP - PagerDuty"
+description: "PagerDuty integration for critical incidents"
+enabled: true
+labels:
+  # Get this from PagerDuty integration settings
+  service_key: "${PAGERDUTY_SERVICE_KEY}"
+
+---
+# SMS Notification Channel (Google Cloud Console setup required)
+type: sms
+displayName: "Lingo Keeper JP - SMS Alerts"
+description: "SMS notifications for critical alerts"
+enabled: true
+labels:
+  number: "+1234567890"  # Replace with your phone number
+
+---
+# Webhook Notification Channel (for custom integrations)
+type: webhook_tokenauth
+displayName: "Lingo Keeper JP - Custom Webhook"
+description: "Custom webhook for integrations"
+enabled: true
+labels:
+  url: "${CUSTOM_WEBHOOK_URL}"
+  # Optional: Add authentication token
+  # token: "${WEBHOOK_AUTH_TOKEN}"

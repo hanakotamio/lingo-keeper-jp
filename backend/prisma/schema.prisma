@@ -1,6 +1,3 @@
-// Prisma Schema for Lingo Keeper JP
-// Database: PostgreSQL (Neon)
-
 generator client {
   provider = "prisma-client-js"
 }
@@ -10,136 +7,446 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-// ストーリーテーブル
 model Story {
-  story_id        String   @id @default(uuid())
-  title           String   @db.VarChar(200)
-  description     String   @db.Text
-  level_jlpt      String   @db.VarChar(10) // N5, N4, N3, N2, N1
-  level_cefr      String   @db.VarChar(10) // A1, A2, B1, B2, C1, C2
-  estimated_time  Int // 分
-  thumbnail_url   String?  @db.VarChar(500)
-  root_chapter_id String   @db.VarChar(100)
-  created_at      DateTime @default(now())
-  updated_at      DateTime @updatedAt
+  story_id                   String   @id @default(uuid()) @db.VarChar
+  title                      String   @unique(map: "unique_story_title") @db.VarChar(200)
+  description                String?
+  category                   String   @db.VarChar(50)
+  difficulty_level           String   @db.VarChar(20)
+  level_jlpt                 String?  @db.VarChar(10)
+  level_cefr                 String?  @db.VarChar(10)
+  estimated_time             Int?
+  root_chapter_id            String?  @db.VarChar
+  thumbnail_url              String?  @db.VarChar(500)
+  estimated_duration_minutes Int
+  is_active                  Boolean
+  created_at                 DateTime @default(now()) @db.Timestamptz(6)
+  updated_at                 DateTime @default(now()) @updatedAt @db.Timestamptz(6)
 
-  // リレーション
-  chapters Chapter[]
-  quizzes  Quiz[]
-
-  @@index([level_jlpt])
-  @@index([level_jlpt, level_cefr])
   @@map("stories")
 }
 
-// チャプターテーブル（ツリー構造）
 model Chapter {
-  chapter_id         String   @id @default(uuid())
-  story_id           String
-  parent_chapter_id  String?  // ツリー構造用（NULL = ルートチャプター）
-  chapter_number     Int
-  depth_level        Int      @default(0) // ツリー深度（0=ルート）
-  content            String   @db.Text
-  content_with_ruby  String?  @db.Text // ルビ付き本文（HTML）
-  translation        String?  @db.Text // 翻訳テキスト
-  vocabulary         Json?    // 語彙ヘルプデータ（JSON配列）
-  created_at         DateTime @default(now())
-  updated_at         DateTime @updatedAt
+  chapter_id      String   @id @default(uuid()) @db.VarChar
+  story_id        String   @db.VarChar
+  chapter_number  Int
+  title           String   @db.VarChar(200)
+  content         String
+  audio_url       String?  @db.VarChar(500)
+  learning_points Json     @db.Json
+  vocabulary      Json     @db.Json
+  created_at      DateTime @default(now()) @db.Timestamptz(6)
 
-  // リレーション
-  story           Story    @relation(fields: [story_id], references: [story_id], onDelete: Cascade)
-  choices         Choice[]
-  parent_chapter  Chapter? @relation("ChapterTree", fields: [parent_chapter_id], references: [chapter_id])
-  child_chapters  Chapter[] @relation("ChapterTree")
+  choices         Choice[] @relation("ChapterChoices")
 
-  @@index([story_id])
-  @@index([parent_chapter_id])
+  @@index([story_id], map: "ix_chapters_story_id")
   @@map("chapters")
 }
 
-// 選択肢テーブル
 model Choice {
-  choice_id          String   @id @default(uuid())
-  chapter_id         String
-  choice_text        String   @db.VarChar(500)
-  choice_description String?  @db.Text // カードUI用説明
-  next_chapter_id    String   @db.VarChar(100)
-  display_order      Int      @default(0)
-  created_at         DateTime @default(now())
+  choice_id             String   @id @default(uuid()) @db.VarChar
+  chapter_id            String   @db.VarChar
+  choice_text           String   @db.VarChar(500)
+  next_chapter_id       String?  @db.VarChar
+  difficulty_adjustment Int
+  ending_type           String?  @db.VarChar(20)
+  created_at            DateTime @default(now()) @db.Timestamptz(6)
 
-  // リレーション
-  chapter Chapter @relation(fields: [chapter_id], references: [chapter_id], onDelete: Cascade)
+  chapter               Chapter  @relation("ChapterChoices", fields: [chapter_id], references: [chapter_id])
 
-  @@index([chapter_id])
+  @@index([chapter_id], map: "ix_choices_chapter_id")
   @@map("choices")
 }
 
-// クイズテーブル
-model Quiz {
-  quiz_id          String   @id @default(uuid())
-  story_id         String
-  question_text    String   @db.Text
-  question_type    String   @db.VarChar(50) // 読解, 語彙, 文法, リスニング
-  difficulty_level String   @db.VarChar(10) // N5, N4, N3, N2, N1
-  is_ai_generated  Boolean  @default(false)
-  source_text      String?  @db.Text // 生成元テキスト
-  created_at       DateTime @default(now())
-  updated_at       DateTime @updatedAt
-
-  // リレーション
-  story         Story         @relation(fields: [story_id], references: [story_id], onDelete: Cascade)
-  quiz_choices  QuizChoice[]
-  quiz_results  QuizResult[]
-
-  @@index([story_id])
-  @@index([difficulty_level])
-  @@index([story_id, difficulty_level])
-  @@map("quizzes")
-}
-
-// クイズ選択肢テーブル
-model QuizChoice {
-  choice_id   String  @id @default(uuid())
-  quiz_id     String
-  choice_text String  @db.VarChar(500)
-  is_correct  Boolean @default(false)
-  explanation String? @db.Text
-
-  // リレーション
-  quiz Quiz @relation(fields: [quiz_id], references: [quiz_id], onDelete: Cascade)
-
-  @@index([quiz_id])
-  @@map("quiz_choices")
-}
-
-// クイズ結果テーブル（LocalStorageとの同期用）
-model QuizResult {
-  result_id       String   @id @default(uuid())
-  quiz_id         String
-  user_answer     String   @db.Text
-  is_correct      Boolean
-  answered_at     DateTime @default(now())
-  response_method String   @db.VarChar(50) // 音声, テキスト
-
-  // リレーション
-  quiz Quiz @relation(fields: [quiz_id], references: [quiz_id], onDelete: Cascade)
-
-  @@index([quiz_id])
-  @@unique([quiz_id, answered_at], name: "unique_quiz_answer")
-  @@map("quiz_results")
-}
-
-// ユーザー進捗テーブル（LocalStorageとの同期用）
 model UserProgress {
-  progress_id        String   @id @default(uuid())
-  story_id           String
-  current_chapter_id String   @db.VarChar(100)
-  completed_chapters String[] // チャプターIDの配列
-  completion_rate    Int      @default(0) // 0-100
-  last_accessed      DateTime @default(now())
-  created_at         DateTime @default(now())
-  updated_at         DateTime @updatedAt
+  progress_id       String    @id @default(uuid()) @db.VarChar
+  character_id      String    @db.VarChar
+  story_id          String    @db.VarChar
+  chapter_id        String    @db.VarChar
+  completion_status String    @db.VarChar(20)
+  score             Int?
+  accuracy_rate     Float?
+  choices_made      Json      @db.Json
+  quiz_results      Json?     @db.Json
+  version           Int       @default(1)
+  started_at        DateTime  @default(now()) @db.Timestamptz(6)
+  completed_at      DateTime? @db.Timestamptz(6)
+  last_accessed     DateTime  @default(now()) @db.Timestamptz(6)
 
-  @@index([story_id])
+  @@index([character_id], map: "ix_user_progress_character_id")
+  @@index([character_id, started_at], map: "ix_user_progress_character_started")
+  @@index([character_id, story_id], map: "ix_user_progress_character_story")
   @@map("user_progress")
+}
+
+model achievements {
+  achievement_id      String    @id @db.VarChar
+  user_id             String    @db.VarChar
+  total_study_days    Int?
+  current_streak      Int?
+  longest_streak      Int?
+  last_study_date     DateTime? @db.Timestamp(6)
+  chapters_completed  Int?
+  stories_completed   Int?
+  total_quiz_attempts Int?
+  perfect_quiz_scores Int?
+  total_quiz_score    Int?
+  max_level_reached   Int?
+  total_exp_earned    Int?
+  badges_earned       Int?
+  extra_data          Json?     @db.Json
+  updated_at          DateTime? @db.Timestamp(6)
+  created_at          DateTime? @db.Timestamp(6)
+
+  @@index([user_id], map: "ix_achievements_user_id")
+}
+
+model badges {
+  badge_id          String    @id @db.VarChar
+  name              String    @db.VarChar(100)
+  description       String
+  icon              String    @db.VarChar(50)
+  category          String    @db.VarChar(50)
+  requirement_type  String    @db.VarChar(50)
+  requirement_value Int
+  rarity            String    @db.VarChar(20)
+  created_at        DateTime? @db.Timestamp(6)
+}
+
+model characters {
+  character_id       String   @id @db.VarChar
+  user_id            String   @db.VarChar
+  name               String   @db.VarChar(100)
+  level              Int
+  experience_points  Int
+  current_story_id   String?  @db.VarChar
+  current_chapter_id String?  @db.VarChar
+  skills             Json     @db.Json
+  created_at         DateTime @default(now()) @db.Timestamptz(6)
+  last_active        DateTime @default(now()) @db.Timestamptz(6)
+
+  @@index([user_id], map: "ix_characters_user_id")
+}
+
+model conversation_history {
+  conversation_id  String   @id @db.VarChar
+  user_id          String   @db.VarChar
+  character_id     String   @db.VarChar
+  user_message     String
+  ai_response      String
+  user_language    String   @db.VarChar(10)
+  target_language  String   @db.VarChar(10)
+  difficulty_level String   @db.VarChar(2)
+  created_at       DateTime @default(now()) @db.Timestamptz(6)
+  metadata_info    Json?    @db.Json
+
+  @@index([user_id, created_at], map: "ix_conversation_history_user_created")
+  @@index([user_id], map: "ix_conversation_history_user_id")
+}
+
+model favorite_stories {
+  favorite_id String   @id @db.VarChar
+  user_id     String   @db.VarChar
+  story_id    String   @db.VarChar
+  created_at  DateTime @default(now()) @db.Timestamptz(6)
+
+  @@index([story_id], map: "ix_favorite_stories_story_id")
+  @@index([user_id], map: "ix_favorite_stories_user_id")
+}
+
+model feedback {
+  feedback_id    String       @id @db.VarChar
+  user_id        String       @db.VarChar
+  feedback_type  feedbacktype
+  rating         Int?
+  title          String       @db.VarChar(200)
+  comment        String?
+  page_url       String?      @db.VarChar(500)
+  user_agent     String?      @db.VarChar(500)
+  admin_response String?
+  responded_at   DateTime?    @db.Timestamptz(6)
+  responded_by   String?      @db.VarChar
+  status         String       @db.VarChar(50)
+  created_at     DateTime     @default(now()) @db.Timestamptz(6)
+  updated_at     DateTime     @default(now()) @db.Timestamptz(6)
+
+  @@index([user_id], map: "ix_feedback_user_id")
+}
+
+model learning_sessions {
+  session_id       String   @id @db.VarChar
+  user_id          String   @db.VarChar
+  character_id     String   @db.VarChar
+  session_date     DateTime @default(now()) @db.Timestamptz(6)
+  duration_seconds Int
+  messages_count   Int
+  words_practiced  Int
+  completed        Int
+  topics_covered   Json?    @db.Json
+  achievements     Json?    @db.Json
+
+  @@index([user_id, session_date], map: "ix_learning_sessions_user_date")
+  @@index([user_id], map: "ix_learning_sessions_user_id")
+}
+
+model learning_stats {
+  stat_id               String    @id @db.VarChar
+  user_id               String    @unique(map: "ix_learning_stats_user_id") @db.VarChar
+  total_conversations   Int
+  total_messages        Int
+  total_time_seconds    Int
+  total_words_practiced Int
+  current_streak_days   Int
+  longest_streak_days   Int
+  last_activity_date    DateTime? @db.Timestamptz(6)
+  level_progress        Json?     @db.Json
+  badges_earned         Json?     @db.Json
+  version               Int       @default(1)
+  created_at            DateTime  @default(now()) @db.Timestamptz(6)
+  updated_at            DateTime  @default(now()) @db.Timestamptz(6)
+}
+
+model level_history {
+  history_id      String   @id @db.VarChar
+  character_id    String   @db.VarChar
+  old_level       String   @db.VarChar(2)
+  new_level       String   @db.VarChar(2)
+  reason          String?  @db.VarChar(500)
+  assessment_data String?  @db.VarChar
+  changed_at      DateTime @default(now()) @db.Timestamptz(6)
+
+  @@index([character_id], map: "ix_level_history_character_id")
+}
+
+model notifications {
+  notification_id   String    @id @db.VarChar
+  user_id           String    @db.VarChar
+  notification_type String    @db.VarChar(50)
+  title             String    @db.VarChar(200)
+  message           String
+  data              Json?     @db.Json
+  is_read           Boolean?
+  read_at           DateTime? @db.Timestamp(6)
+  created_at        DateTime? @db.Timestamp(6)
+
+  @@index([user_id], map: "ix_notifications_user_id")
+}
+
+model quiz_answers {
+  answer_id   String   @id @db.VarChar
+  attempt_id  String   @db.VarChar
+  question_id String   @db.VarChar
+  user_answer String   @db.VarChar
+  is_correct  Boolean
+  answered_at DateTime @default(now()) @db.Timestamptz(6)
+
+  @@index([attempt_id], map: "ix_quiz_answers_attempt_id")
+  @@index([question_id], map: "ix_quiz_answers_question_id")
+}
+
+model quiz_attempts {
+  attempt_id         String   @id @db.VarChar
+  user_id            String   @db.VarChar
+  chapter_id         String   @db.VarChar
+  score              Float
+  total_questions    Int
+  correct_answers    Int
+  time_taken_seconds Int?
+  completed_at       DateTime @default(now()) @db.Timestamptz(6)
+  created_at         DateTime @default(now()) @db.Timestamptz(6)
+
+  @@index([chapter_id], map: "ix_quiz_attempts_chapter_id")
+  @@index([user_id, chapter_id], map: "ix_quiz_attempts_user_chapter")
+  @@index([user_id, created_at], map: "ix_quiz_attempts_user_created")
+  @@index([user_id], map: "ix_quiz_attempts_user_id")
+}
+
+model quiz_questions {
+  question_id    String   @id @db.VarChar
+  chapter_id     String   @db.VarChar
+  question_text  String
+  question_type  String   @db.VarChar(20)
+  options        Json?    @db.Json
+  correct_answer String   @db.VarChar
+  explanation    String?
+  difficulty     String   @db.VarChar(2)
+  created_at     DateTime @default(now()) @db.Timestamptz(6)
+
+  @@index([chapter_id], map: "ix_quiz_questions_chapter_id")
+}
+
+model reminders {
+  reminder_id          String    @id @db.VarChar
+  user_id              String    @db.VarChar
+  reminder_type        String    @db.VarChar(50)
+  time_of_day          String    @db.VarChar(5)
+  days_of_week         Json?     @db.Json
+  is_enabled           Boolean?
+  notification_message String?
+  last_sent_at         DateTime? @db.Timestamp(6)
+  created_at           DateTime? @db.Timestamp(6)
+  updated_at           DateTime? @db.Timestamp(6)
+
+  @@index([user_id], map: "ix_reminders_user_id")
+}
+
+model review_items {
+  review_id         String    @id @db.VarChar
+  user_id           String    @db.VarChar
+  question_id       String    @db.VarChar
+  incorrect_count   Int
+  last_incorrect_at DateTime  @default(now()) @db.Timestamptz(6)
+  reviewed          Boolean
+  reviewed_at       DateTime? @db.Timestamptz(6)
+  created_at        DateTime  @default(now()) @db.Timestamptz(6)
+
+  @@index([question_id], map: "ix_review_items_question_id")
+  @@index([user_id], map: "ix_review_items_user_id")
+  @@index([user_id, reviewed], map: "ix_review_items_user_reviewed")
+}
+
+model statistics {
+  stats_id                  String    @id @db.VarChar
+  character_id              String    @unique(map: "ix_statistics_character_id") @db.VarChar
+  total_study_days          Int
+  current_streak            Int
+  longest_streak            Int
+  chapters_completed        Int
+  total_quizzes_taken       Int
+  average_accuracy          Float
+  pronunciation_scores      Json      @db.Json
+  listening_scores          Json      @db.Json
+  ai_conversations_count    Int
+  last_ai_conversation_date DateTime? @db.Timestamptz(6)
+  created_at                DateTime  @default(now()) @db.Timestamptz(6)
+  updated_at                DateTime  @default(now()) @db.Timestamptz(6)
+}
+
+model story_progress {
+  progress_id        String    @id @db.VarChar
+  user_id            String    @db.VarChar
+  story_id           String    @db.VarChar
+  current_chapter_id String?   @db.VarChar
+  completed_chapters Json      @db.Json
+  is_completed       Boolean
+  started_at         DateTime  @default(now()) @db.Timestamptz(6)
+  last_accessed_at   DateTime  @default(now()) @db.Timestamptz(6)
+  completed_at       DateTime? @db.Timestamptz(6)
+
+  @@index([story_id], map: "ix_story_progress_story_id")
+  @@index([user_id, last_accessed_at], map: "ix_story_progress_user_accessed")
+  @@index([user_id], map: "ix_story_progress_user_id")
+  @@index([user_id, story_id], map: "ix_story_progress_user_story")
+}
+
+model user_badges {
+  user_badge_id String    @id @db.VarChar
+  user_id       String    @db.VarChar
+  badge_id      String    @db.VarChar
+  earned_at     DateTime? @db.Timestamp(6)
+  progress      Int?
+  is_new        Boolean?
+
+  @@index([user_id, earned_at], map: "ix_user_badges_user_earned")
+  @@index([user_id], map: "ix_user_badges_user_id")
+  @@index([user_id, is_new], map: "ix_user_badges_user_new")
+}
+
+model user_preferences {
+  preference_id                    String    @id @db.VarChar
+  user_id                          String    @unique(map: "ix_user_preferences_user_id") @db.VarChar
+  enable_push_notifications        Boolean?
+  enable_email_notifications       Boolean?
+  enable_reminder_notifications    Boolean?
+  enable_achievement_notifications Boolean?
+  daily_goal_minutes               Int?
+  weekly_goal_days                 Int?
+  timezone                         String?   @db.VarChar(50)
+  language                         String?   @db.VarChar(10)
+  created_at                       DateTime? @db.Timestamp(6)
+  updated_at                       DateTime? @db.Timestamp(6)
+}
+
+model users {
+  user_id         String    @id @db.VarChar
+  email           String    @unique(map: "ix_users_email") @db.VarChar
+  username        String    @unique(map: "ix_users_username") @db.VarChar
+  hashed_password String    @db.VarChar
+  full_name       String?   @db.VarChar
+  language_level  String    @db.VarChar(2)
+  target_language String    @db.VarChar(10)
+  learning_goals  Json?     @db.Json
+  is_active       Boolean
+  is_admin        Boolean
+  created_at      DateTime  @default(now()) @db.Timestamptz(6)
+  updated_at      DateTime  @default(now()) @db.Timestamptz(6)
+  last_login      DateTime? @db.Timestamptz(6)
+}
+
+model vocabulary_items {
+  vocabulary_id     String           @id @db.VarChar
+  user_id           String           @db.VarChar
+  word              String           @db.VarChar(100)
+  meaning           String
+  pronunciation     String?          @db.VarChar(100)
+  example_sentence  String?
+  translation       String?
+  difficulty_level  difficultylevel?
+  source_story_id   String?          @db.VarChar
+  source_chapter_id String?          @db.VarChar
+  review_status     reviewstatus?
+  easiness_factor   Float?
+  interval          Int?
+  repetitions       Int?
+  next_review_date  DateTime?        @db.Timestamp(6)
+  last_reviewed_at  DateTime?        @db.Timestamp(6)
+  total_reviews     Int?
+  correct_reviews   Int?
+  incorrect_reviews Int?
+  is_favorite       Boolean?
+  notes             String?
+  tags              String?          @db.VarChar(500)
+  created_at        DateTime?        @db.Timestamp(6)
+  updated_at        DateTime?        @db.Timestamp(6)
+}
+
+model vocabulary_reviews {
+  review_id          String    @id @db.VarChar
+  vocabulary_id      String    @db.VarChar
+  user_id            String    @db.VarChar
+  is_correct         Boolean
+  difficulty_rating  Int
+  time_spent_seconds Int
+  review_mode        String    @db.VarChar(50)
+  reviewed_at        DateTime? @db.Timestamp(6)
+}
+
+model vocabulary_tags {
+  tag_id     String    @id @db.VarChar
+  user_id    String    @db.VarChar
+  tag_name   String    @db.VarChar(50)
+  color      String?   @db.VarChar(7)
+  created_at DateTime? @db.Timestamp(6)
+}
+
+enum difficultylevel {
+  EASY
+  MEDIUM
+  HARD
+}
+
+enum feedbacktype {
+  BUG_REPORT
+  FEATURE_REQUEST
+  GENERAL_FEEDBACK
+  CONTENT_ISSUE
+  USABILITY
+  OTHER
+}
+
+enum reviewstatus {
+  NEW
+  LEARNING
+  REVIEW
+  MASTERED
 }

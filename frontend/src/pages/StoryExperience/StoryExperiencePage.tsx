@@ -28,7 +28,6 @@ import { useStoryData } from '@/hooks/useStoryData';
 import { useStoryViewer } from '@/hooks/useStoryViewer';
 import { StoryApiService } from '@/services/api/StoryApiService';
 import { StoryCompletionModal } from '@/components/StoryCompletionModal';
-// Language selection removed - app now targets English speakers only
 import type { LevelFilter, Chapter, Story, StoryCompletion } from '@/types';
 import { logger } from '@/lib/logger';
 import {
@@ -53,14 +52,6 @@ import { getRecommendedStory, getRecommendedStories } from '@/lib/recommendation
  *
  * Layout: PublicLayout (no authentication required)
  */
-/**
- * Convert ruby tags to kanji(reading) format
- * Converts <ruby>漢字<rt>かんじ</rt></ruby> to 漢字(かんじ)
- */
-const convertRubyToParentheses = (htmlWithRuby: string): string => {
-  return htmlWithRuby.replace(/<ruby>([^<]+)<rt>([^<]+)<\/rt><\/ruby>/g, '$1($2)');
-};
-
 export const StoryExperiencePage: React.FC = () => {
   const navigate = useNavigate();
   const [searchParams, setSearchParams] = useSearchParams();
@@ -718,26 +709,8 @@ export const StoryExperiencePage: React.FC = () => {
                   whiteSpace: 'pre-wrap',
                 }}
               >
-                {viewerState.showRuby && currentChapter.content_with_ruby
-                  ? convertRubyToParentheses(currentChapter.content_with_ruby)
-                  : currentChapter.content}
+                {currentChapter.content}
               </Typography>
-
-              {viewerState.showTranslation && currentChapter.translation && (
-                <Box
-                  mt={2}
-                  pt={2}
-                  borderTop="1px dashed"
-                  borderColor="divider"
-                  sx={{
-                    color: 'text.secondary',
-                    fontStyle: 'italic',
-                    lineHeight: 1.8,
-                  }}
-                >
-                  <Typography variant="body1">{currentChapter.translation}</Typography>
-                </Box>
-              )}
             </Box>
 
             {/* Audio Control */}
@@ -814,9 +787,9 @@ export const StoryExperiencePage: React.FC = () => {
                   このチャプターで使われている重要な単語と表現の説明です。
                 </Typography>
                 <Box display="flex" flexDirection="column" gap={2}>
-                  {currentChapter.vocabulary.map((item, index) => {
-                    // Use English meaning from the meanings object (with safe access)
-                    const meaning = item.meanings?.en || item.meanings?.['en'] || '';
+                  {(currentChapter.vocabulary?.words || []).map((item: any, index: number) => {
+                    // Vocabulary structure: { word, reading, meaning }
+                    const meaning = item.meaning || '';
 
                     return (
                       <Card key={index} sx={{ bgcolor: 'background.paper' }}>
@@ -864,7 +837,7 @@ export const StoryExperiencePage: React.FC = () => {
                   {currentChapter.choices.map((choice, index) => (
                     <Card
                       key={choice.choice_id}
-                      onClick={() => handleChoiceClick(choice.choice_id, choice.next_chapter_id)}
+                      onClick={() => handleChoiceClick(choice.choice_id, choice.next_chapter_id || '')}
                       sx={{
                         cursor: 'pointer',
                         transition: 'all 300ms cubic-bezier(0.4, 0, 0.2, 1)',
@@ -900,12 +873,6 @@ export const StoryExperiencePage: React.FC = () => {
                         <Typography variant="subtitle1" fontWeight="medium" mb={1}>
                           {choice.choice_text}
                         </Typography>
-
-                        {choice.choice_description && (
-                          <Typography variant="body2" color="text.secondary">
-                            {choice.choice_description}
-                          </Typography>
-                        )}
                       </CardContent>
                     </Card>
                   ))}

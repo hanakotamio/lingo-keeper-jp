@@ -1,0 +1,217 @@
+{
+  "displayName": "Lingo Keeper JP - Application Metrics (Prometheus)",
+  "mosaicLayout": {
+    "columns": 12,
+    "tiles": [
+      {
+        "width": 6,
+        "height": 4,
+        "widget": {
+          "title": "HTTP Request Rate by Route",
+          "xyChart": {
+            "dataSets": [
+              {
+                "timeSeriesQuery": {
+                  "prometheusQuery": "rate(http_requests_total[5m])",
+                  "unitOverride": "1/s"
+                },
+                "plotType": "LINE",
+                "targetAxis": "Y1"
+              }
+            ],
+            "yAxis": {
+              "label": "Requests/sec",
+              "scale": "LINEAR"
+            }
+          }
+        }
+      },
+      {
+        "xPos": 6,
+        "width": 6,
+        "height": 4,
+        "widget": {
+          "title": "HTTP Request Duration (P95)",
+          "xyChart": {
+            "dataSets": [
+              {
+                "timeSeriesQuery": {
+                  "prometheusQuery": "histogram_quantile(0.95, rate(http_request_duration_seconds_bucket[5m]))",
+                  "unitOverride": "s"
+                },
+                "plotType": "LINE",
+                "targetAxis": "Y1"
+              }
+            ],
+            "yAxis": {
+              "label": "Duration (seconds)",
+              "scale": "LINEAR"
+            },
+            "thresholds": [
+              {
+                "value": 0.5,
+                "color": "YELLOW",
+                "direction": "ABOVE",
+                "label": "Warning (0.5s)"
+              },
+              {
+                "value": 1.0,
+                "color": "RED",
+                "direction": "ABOVE",
+                "label": "Critical (1.0s)"
+              }
+            ]
+          }
+        }
+      },
+      {
+        "yPos": 4,
+        "width": 6,
+        "height": 4,
+        "widget": {
+          "title": "Error Rate by Status Code",
+          "xyChart": {
+            "dataSets": [
+              {
+                "timeSeriesQuery": {
+                  "prometheusQuery": "rate(http_requests_total{status_code=~\"5..\"}[5m])",
+                  "unitOverride": "1/s"
+                },
+                "plotType": "LINE",
+                "targetAxis": "Y1",
+                "legendTemplate": "5xx Errors"
+              },
+              {
+                "timeSeriesQuery": {
+                  "prometheusQuery": "rate(http_requests_total{status_code=~\"4..\"}[5m])",
+                  "unitOverride": "1/s"
+                },
+                "plotType": "LINE",
+                "targetAxis": "Y1",
+                "legendTemplate": "4xx Errors"
+              }
+            ],
+            "yAxis": {
+              "label": "Errors/sec",
+              "scale": "LINEAR"
+            }
+          }
+        }
+      },
+      {
+        "xPos": 6,
+        "yPos": 4,
+        "width": 6,
+        "height": 4,
+        "widget": {
+          "title": "Active Connections",
+          "xyChart": {
+            "dataSets": [
+              {
+                "timeSeriesQuery": {
+                  "prometheusQuery": "active_connections"
+                },
+                "plotType": "LINE",
+                "targetAxis": "Y1"
+              }
+            ],
+            "yAxis": {
+              "label": "Connections",
+              "scale": "LINEAR"
+            }
+          }
+        }
+      },
+      {
+        "yPos": 8,
+        "width": 6,
+        "height": 4,
+        "widget": {
+          "title": "Database Query Rate",
+          "xyChart": {
+            "dataSets": [
+              {
+                "timeSeriesQuery": {
+                  "prometheusQuery": "rate(database_queries_total[5m])",
+                  "unitOverride": "1/s"
+                },
+                "plotType": "LINE",
+                "targetAxis": "Y1"
+              }
+            ],
+            "yAxis": {
+              "label": "Queries/sec",
+              "scale": "LINEAR"
+            }
+          }
+        }
+      },
+      {
+        "xPos": 6,
+        "yPos": 8,
+        "width": 6,
+        "height": 4,
+        "widget": {
+          "title": "Node.js Memory Usage",
+          "xyChart": {
+            "dataSets": [
+              {
+                "timeSeriesQuery": {
+                  "prometheusQuery": "process_resident_memory_bytes / 1024 / 1024",
+                  "unitOverride": "MiBy"
+                },
+                "plotType": "LINE",
+                "targetAxis": "Y1",
+                "legendTemplate": "Resident Memory"
+              },
+              {
+                "timeSeriesQuery": {
+                  "prometheusQuery": "nodejs_heap_size_used_bytes / 1024 / 1024",
+                  "unitOverride": "MiBy"
+                },
+                "plotType": "LINE",
+                "targetAxis": "Y1",
+                "legendTemplate": "Heap Used"
+              }
+            ],
+            "yAxis": {
+              "label": "Memory (MB)",
+              "scale": "LINEAR"
+            }
+          }
+        }
+      },
+      {
+        "yPos": 12,
+        "width": 12,
+        "height": 4,
+        "widget": {
+          "title": "Request Success Rate (Availability)",
+          "scorecard": {
+            "timeSeriesQuery": {
+              "prometheusQuery": "sum(rate(http_requests_total{status_code!~\"5..\"}[5m])) / sum(rate(http_requests_total[5m])) * 100",
+              "unitOverride": "%"
+            },
+            "sparkChartView": {
+              "sparkChartType": "SPARK_LINE"
+            },
+            "thresholds": [
+              {
+                "value": 99.9,
+                "color": "GREEN"
+              },
+              {
+                "value": 99.0,
+                "color": "YELLOW"
+              },
+              {
+                "value": 0,
+                "color": "RED"
+              }
+            ]
+          }
+        }
+      }
+    ]
+  }
+}

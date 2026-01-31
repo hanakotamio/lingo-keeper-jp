@@ -20,11 +20,19 @@ export class TTSService {
   /**
    * Synthesize text to speech using Google Cloud TTS
    * @param text - Text to synthesize (Japanese text)
+   * @param speakingRate - Speaking rate (0.25 to 4.0, default: 0.85 for learners)
+   * @param voiceName - Voice to use (default: ja-JP-Neural2-B for most natural pronunciation)
+   * @param pitch - Voice pitch adjustment (-20.0 to 20.0, default: -1.0 for natural female voice)
    * @returns Audio content as base64-encoded string
    */
-  async synthesizeSpeech(text: string): Promise<string> {
+  async synthesizeSpeech(
+    text: string,
+    speakingRate: number = 0.85,
+    voiceName: string = 'ja-JP-Neural2-B',
+    pitch: number = -1.0
+  ): Promise<string> {
     const tracker = new PerformanceTracker('TTSService.synthesizeSpeech');
-    logger.info('Synthesizing speech', { textLength: text.length });
+    logger.info('Synthesizing speech', { textLength: text.length, speakingRate, voiceName, pitch });
 
     try {
       // Validate input
@@ -46,33 +54,34 @@ export class TTSService {
         throw error;
       }
 
-      // Prepare the request (CLAUDE.md specifications)
-      // Optimized for natural Japanese learning experience
+      // Prepare the request with Neural2 voice (most natural)
+      // Neural2 models provide the highest quality and most natural-sounding speech
       const request: google.cloud.texttospeech.v1.ISynthesizeSpeechRequest = {
         input: { text },
         voice: {
           languageCode: 'ja-JP',
-          name: 'ja-JP-Neural2-C', // Neural2-C: Natural male voice (more natural than B)
+          name: voiceName, // Neural2-B: Most natural female voice (newer and better than Wavenet)
         },
         audioConfig: {
           audioEncoding: 'MP3', // MP3 format for web compatibility
-          speakingRate: 0.85, // Slower speed for Japanese learners (15% slower)
-          pitch: -2.0, // Slightly lower pitch for clearer pronunciation
-          volumeGainDb: 2.0, // Slightly louder volume for better clarity
+          speakingRate, // User-configurable speed (0.75=slow, 1.0=normal, 1.25=fast)
+          pitch, // Slight adjustment for more natural female voice
+          volumeGainDb: 2.0, // Clear volume for better comprehension
+          effectsProfileId: ['headphone-class-device'], // Optimized for headphones/earbuds
         },
       };
 
       logger.debug('Request prepared', {
         languageCode: 'ja-JP',
-        voiceName: 'ja-JP-Neural2-C',
-        speakingRate: 0.85,
-        pitch: -2.0,
+        voiceName,
+        speakingRate,
+        pitch,
       });
 
       // Call Google Cloud TTS API
       logger.info('Calling Google Cloud TTS API', {
         languageCode: 'ja-JP',
-        voiceName: 'ja-JP-Neural2-C',
+        voiceName,
         textLength: text.length,
       });
 

@@ -82,3 +82,5 @@ Desktop.ini
 test-results/
 playwright-report/
 gcp-service-account-key.json
+.vercel
+.env*.local

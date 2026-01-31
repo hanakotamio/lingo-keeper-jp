@@ -6,10 +6,10 @@ import logger from '@/lib/logger.js';
 import prisma from '@/lib/db.js';
 import storyRoutes from '@/routes/story.routes.js';
 import chapterRoutes from '@/routes/chapter.routes.js';
-import quizRoutes from '@/routes/quiz.routes.js';
+// import quizRoutes from '@/routes/quiz.routes.js'; // Temporarily disabled
 import ttsRoutes from '@/routes/tts.routes.js';
-import progressRoutes from '@/routes/progress.routes.js';
-import adminRoutes from '@/routes/admin.routes.js';
+// import progressRoutes from '@/routes/progress.routes.js'; // Temporarily disabled
+// import adminRoutes from '@/routes/admin.routes.js'; // Temporarily disabled
 import healthRoutes from '@/routes/health.routes.js';
 import { errorHandler, notFoundHandler } from '@/middleware/error.middleware.js';
 import { metricsMiddleware, metricsHandler } from '@/middleware/metrics.middleware.js';
@@ -119,10 +119,10 @@ app.get('/api/metrics', metricsHandler);
 // API Routes
 app.use('/api/stories', storyRoutes);
 app.use('/api/chapters', chapterRoutes);
-app.use('/api/quizzes', quizRoutes);
+// app.use('/api/quizzes', quizRoutes); // Temporarily disabled - quiz tables not in schema
 app.use('/api/tts', ttsRoutes);
-app.use('/api/progress', progressRoutes);
-app.use('/api/admin', adminRoutes);
+// app.use('/api/progress', progressRoutes); // Temporarily disabled - quiz tables not in schema
+// app.use('/api/admin', adminRoutes); // Temporarily disabled
 
 // 404 handler (must be after all routes)
 app.use(notFoundHandler);

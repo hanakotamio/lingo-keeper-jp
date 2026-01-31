@@ -31,13 +31,12 @@ export interface Chapter {
   story_id: string;
   parent_chapter_id?: string; // ツリー構造用
   chapter_number: number;
-  depth_level: number; // ツリー深度（0=ルート）
+  title: string;
   content: string;
-  content_with_ruby?: string; // ルビ付き本文
-  translation?: string;
-  vocabulary?: VocabularyItem[]; // 語彙ヘルプデータ
+  audio_url?: string;
+  learning_points?: any; // JSON field
+  vocabulary?: any; // JSON field with vocabulary data
   created_at: string;
-  updated_at: string;
   choices: Choice[]; // 関連する選択肢
 }
 
@@ -45,9 +44,9 @@ export interface Choice {
   choice_id: string;
   chapter_id: string;
   choice_text: string;
-  choice_description?: string; // カードUI用説明
-  next_chapter_id: string;
-  display_order: number;
+  next_chapter_id?: string;
+  difficulty_adjustment: number;
+  ending_type?: string;
   created_at: string;
 }
 

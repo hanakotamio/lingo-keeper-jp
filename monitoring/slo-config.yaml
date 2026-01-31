@@ -1,0 +1,189 @@
+# Service Level Objectives (SLO) Configuration for Lingo Keeper JP
+# Based on Google SRE practices and Sloth framework
+
+service: lingo-keeper-jp
+version: v1
+
+slos:
+  # Availability SLO - 99.5% uptime
+  - name: "availability"
+    displayName: "API Availability"
+    description: "Percentage of requests that return non-5xx status codes"
+    objective: 0.995  # 99.5%
+    sli:
+      # Good events: all requests that don't return 5xx
+      # Total events: all requests
+      ratioQuery: |
+        sum(rate(http_requests_total{status_code!~"5.."}[5m]))
+        /
+        sum(rate(http_requests_total[5m]))
+    alerting:
+      # Multi-window, multi-burn-rate alerts
+      # Based on Google SRE Workbook recommendations
+      pageAlerts:
+        - shortWindow: 5m
+          longWindow: 1h
+          burnRate: 14.4  # 1% error budget consumed in 1 hour
+          severity: critical
+        - shortWindow: 30m
+          longWindow: 6h
+          burnRate: 6  # 5% error budget consumed in 6 hours
+          severity: critical
+      ticketAlerts:
+        - shortWindow: 2h
+          longWindow: 1d
+          burnRate: 3  # 10% error budget consumed in 1 day
+          severity: warning
+        - shortWindow: 6h
+          longWindow: 3d
+          burnRate: 1  # 25% error budget consumed in 3 days
+          severity: warning
+    errorBudget:
+      window: 30d  # 30-day rolling window
+      # At 99.5% availability, error budget is 0.5% = ~3.6 hours/month
+
+  # Latency SLO - 95% of requests complete within 500ms
+  - name: "latency"
+    displayName: "API Latency"
+    description: "Percentage of requests completed within 500ms"
+    objective: 0.95  # 95%
+    sli:
+      # Good events: requests completed in < 500ms
+      # Total events: all requests
+      ratioQuery: |
+        sum(rate(http_request_duration_seconds_bucket{le="0.5"}[5m]))
+        /
+        sum(rate(http_request_duration_seconds_count[5m]))
+    alerting:
+      pageAlerts:
+        - shortWindow: 5m
+          longWindow: 1h
+          burnRate: 14.4
+          severity: critical
+        - shortWindow: 30m
+          longWindow: 6h
+          burnRate: 6
+          severity: critical
+      ticketAlerts:
+        - shortWindow: 2h
+          longWindow: 1d
+          burnRate: 3
+          severity: warning
+    errorBudget:
+      window: 30d
+      # At 95% latency SLO, error budget is 5% = ~36 hours/month
+
+  # Database Query Performance SLO
+  - name: "database-latency"
+    displayName: "Database Query Latency"
+    description: "Percentage of database queries completing within 200ms"
+    objective: 0.99  # 99%
+    sli:
+      # This would require custom metrics from your database monitoring
+      ratioQuery: |
+        # Placeholder - implement based on your database metrics
+        sum(rate(database_query_duration_seconds_bucket{le="0.2"}[5m]))
+        /
+        sum(rate(database_query_duration_seconds_count[5m]))
+    alerting:
+      pageAlerts:
+        - shortWindow: 5m
+          longWindow: 1h
+          burnRate: 14.4
+          severity: critical
+      ticketAlerts:
+        - shortWindow: 1h
+          longWindow: 6h
+          burnRate: 3
+          severity: warning
+    errorBudget:
+      window: 30d
+
+  # External API Success Rate (OpenAI, Google TTS)
+  - name: "external-api-success"
+    displayName: "External API Success Rate"
+    description: "Percentage of successful calls to external APIs"
+    objective: 0.98  # 98%
+    sli:
+      # This requires custom instrumentation for external API calls
+      ratioQuery: |
+        # Placeholder - implement based on your external API metrics
+        sum(rate(external_api_requests_total{status="success"}[5m]))
+        /
+        sum(rate(external_api_requests_total[5m]))
+    alerting:
+      pageAlerts:
+        - shortWindow: 5m
+          longWindow: 1h
+          burnRate: 14.4
+          severity: critical
+      ticketAlerts:
+        - shortWindow: 1h
+          longWindow: 6h
+          burnRate: 3
+          severity: warning
+    errorBudget:
+      window: 30d
+
+# Recording Rules for SLI Metrics
+# These should be configured in your Prometheus or Cloud Monitoring
+recordingRules:
+  # Availability recording rules (different time windows)
+  - record: "slo:availability:ratio_rate_5m"
+    expr: |
+      sum(rate(http_requests_total{status_code!~"5.."}[5m]))
+      /
+      sum(rate(http_requests_total[5m]))
+
+  - record: "slo:availability:ratio_rate_30m"
+    expr: |
+      sum(rate(http_requests_total{status_code!~"5.."}[30m]))
+      /
+      sum(rate(http_requests_total[30m]))
+
+  - record: "slo:availability:ratio_rate_1h"
+    expr: |
+      sum(rate(http_requests_total{status_code!~"5.."}[1h]))
+      /
+      sum(rate(http_requests_total[1h]))
+
+  - record: "slo:availability:ratio_rate_6h"
+    expr: |
+      sum(rate(http_requests_total{status_code!~"5.."}[6h]))
+      /
+      sum(rate(http_requests_total[6h]))
+
+  - record: "slo:availability:ratio_rate_1d"
+    expr: |
+      sum(rate(http_requests_total{status_code!~"5.."}[1d]))
+      /
+      sum(rate(http_requests_total[1d]))
+
+  - record: "slo:availability:ratio_rate_30d"
+    expr: |
+      sum(rate(http_requests_total{status_code!~"5.."}[30d]))
+      /
+      sum(rate(http_requests_total[30d]))
+
+  # Latency recording rules
+  - record: "slo:latency:ratio_rate_5m"
+    expr: |
+      sum(rate(http_request_duration_seconds_bucket{le="0.5"}[5m]))
+      /
+      sum(rate(http_request_duration_seconds_count[5m]))
+
+  # Error budget burn rate calculations
+  - record: "slo:availability:error_budget_burn_rate_1h"
+    expr: |
+      (1 - (
+        sum(rate(http_requests_total{status_code!~"5.."}[1h]))
+        /
+        sum(rate(http_requests_total[1h]))
+      )) / (1 - 0.995)  # Divide by error budget (1 - SLO)
+
+# Dashboard Links
+dashboards:
+  - name: "SLO Dashboard"
+    url: "https://console.cloud.google.com/monitoring/dashboards/custom/slo"
+  - name: "Error Budget Dashboard"
+    url: "https://console.cloud.google.com/monitoring/dashboards/custom/error-budget"
