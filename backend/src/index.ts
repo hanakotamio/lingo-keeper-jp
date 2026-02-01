@@ -6,7 +6,7 @@ import logger from '@/lib/logger.js';
 import prisma from '@/lib/db.js';
 import storyRoutes from '@/routes/story.routes.js';
 import chapterRoutes from '@/routes/chapter.routes.js';
-// import quizRoutes from '@/routes/quiz.routes.js'; // Temporarily disabled
+import quizRoutes from '@/routes/quiz.routes.js';
 import ttsRoutes from '@/routes/tts.routes.js';
 // import progressRoutes from '@/routes/progress.routes.js'; // Temporarily disabled
 // import adminRoutes from '@/routes/admin.routes.js'; // Temporarily disabled
@@ -119,7 +119,7 @@ app.get('/api/metrics', metricsHandler);
 // API Routes
 app.use('/api/stories', storyRoutes);
 app.use('/api/chapters', chapterRoutes);
-// app.use('/api/quizzes', quizRoutes); // Temporarily disabled - quiz tables not in schema
+app.use('/api/quizzes', quizRoutes);
 app.use('/api/tts', ttsRoutes);
 // app.use('/api/progress', progressRoutes); // Temporarily disabled - quiz tables not in schema
 // app.use('/api/admin', adminRoutes); // Temporarily disabled

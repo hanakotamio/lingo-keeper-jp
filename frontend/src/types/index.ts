@@ -258,7 +258,7 @@ export const API_PATHS = {
   },
   QUIZZES: {
     LIST: '/api/quizzes',
-    BY_STORY: (storyId: string) => `/api/quizzes/story/${storyId}`,
+    BY_STORY: (storyId: string) => `/api/quizzes?story_id=${storyId}`,
     ANSWER: '/api/quizzes/answer',
   },
   PROGRESS: {

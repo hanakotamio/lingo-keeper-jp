@@ -36,7 +36,6 @@ model Chapter {
   learning_points Json     @db.Json
   vocabulary      Json     @db.Json
   created_at      DateTime @default(now()) @db.Timestamptz(6)
-
   choices         Choice[] @relation("ChapterChoices")
 
   @@index([story_id], map: "ix_chapters_story_id")
@@ -51,11 +50,38 @@ model Choice {
   difficulty_adjustment Int
   ending_type           String?  @db.VarChar(20)
   created_at            DateTime @default(now()) @db.Timestamptz(6)
-
   chapter               Chapter  @relation("ChapterChoices", fields: [chapter_id], references: [chapter_id])
 
   @@index([chapter_id], map: "ix_choices_chapter_id")
   @@map("choices")
+}
+
+model Quiz {
+  quiz_id          String       @id @default(uuid()) @db.VarChar
+  story_id         String       @db.VarChar
+  question_text    String
+  question_type    String       @db.VarChar(20)
+  difficulty_level String       @db.VarChar(10)
+  is_ai_generated  Boolean      @default(false)
+  source_text      String?
+  created_at       DateTime     @default(now()) @db.Timestamptz(6)
+  choices          QuizChoice[] @relation("QuizChoices")
+
+  @@index([story_id], map: "ix_quizzes_story_id")
+  @@map("quizzes")
+}
+
+model QuizChoice {
+  choice_id   String   @id @default(uuid()) @db.VarChar
+  quiz_id     String   @db.VarChar
+  choice_text String   @db.VarChar(500)
+  is_correct  Boolean
+  explanation String?
+  created_at  DateTime @default(now()) @db.Timestamptz(6)
+  quiz        Quiz     @relation("QuizChoices", fields: [quiz_id], references: [quiz_id])
+
+  @@index([quiz_id], map: "ix_quiz_choices_quiz_id")
+  @@map("quiz_choices")
 }
 
 model UserProgress {
