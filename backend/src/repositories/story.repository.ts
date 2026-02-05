@@ -1,5 +1,6 @@
 import prisma from '@/lib/db.js';
 import logger, { PerformanceTracker } from '@/lib/logger.js';
+import cache, { CacheKeys, CacheTTL } from '@/lib/cache.js';
 import type { Story, Chapter, JLPTLevel, CEFRLevel, LevelFilter } from '@/types/index.js';
 
 /**
@@ -38,6 +39,7 @@ export class StoryRepository {
       chapter_number: prismaChapter.chapter_number,
       title: prismaChapter.title,
       content: prismaChapter.content,
+      content_en: prismaChapter.content_en || undefined,
       audio_url: prismaChapter.audio_url || undefined,
       learning_points: prismaChapter.learning_points ? (prismaChapter.learning_points as any) : undefined,
       vocabulary: prismaChapter.vocabulary ? (prismaChapter.vocabulary as any) : undefined,
@@ -61,7 +63,21 @@ export class StoryRepository {
     const tracker = new PerformanceTracker('StoryRepository.findAllStories');
     logger.debug('Finding all stories', { levelFilter });
 
-    try {
+    // Check cache first
+    const cacheKey = levelFilter
+      ? CacheKeys.STORIES_BY_LEVEL(levelFilter)
+      : CacheKeys.STORIES_ALL;
+
+    const cached = cache.get<Story[]>(cacheKey);
+    if (cached) {
+      logger.debug('Cache HIT', { cacheKey, count: cached.length });
+      tracker.end({ cached: true });
+      return cached;
+    }
+
+    logger.debug('Cache MISS', { cacheKey });
+
+    try{
       const whereClause: { level_jlpt?: string; level_cefr?: string } = {};
 
       // Apply level filter if provided
@@ -92,8 +108,14 @@ export class StoryRepository {
         levelFilter,
       });
 
+      const result = validStories.map((story) => this.toDomainStory(story));
+
+      // Store in cache
+      cache.set(cacheKey, result, CacheTTL.STORIES);
+      logger.debug('Cache SET', { cacheKey, count: result.length });
+
       tracker.end({ storiesCount: validStories.length });
-      return validStories.map((story) => this.toDomainStory(story));
+      return result;
     } catch (error) {
       logger.error('Failed to retrieve stories', {
         error: error instanceof Error ? error.message : String(error),
