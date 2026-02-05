@@ -8,21 +8,26 @@ datasource db {
 }
 
 model Story {
-  story_id                   String   @id @default(uuid()) @db.VarChar
-  title                      String   @unique(map: "unique_story_title") @db.VarChar(200)
+  story_id                   String    @id @default(uuid()) @db.VarChar
+  title                      String    @unique(map: "unique_story_title") @db.VarChar(200)
   description                String?
-  category                   String   @db.VarChar(50)
-  difficulty_level           String   @db.VarChar(20)
-  level_jlpt                 String?  @db.VarChar(10)
-  level_cefr                 String?  @db.VarChar(10)
+  category                   String    @db.VarChar(50)
+  difficulty_level           String    @db.VarChar(20)
+  level_jlpt                 String?   @db.VarChar(10)
+  level_cefr                 String?   @db.VarChar(10)
   estimated_time             Int?
-  root_chapter_id            String?  @db.VarChar
-  thumbnail_url              String?  @db.VarChar(500)
+  root_chapter_id            String?   @db.VarChar
+  thumbnail_url              String?   @db.VarChar(500)
   estimated_duration_minutes Int
   is_active                  Boolean
-  created_at                 DateTime @default(now()) @db.Timestamptz(6)
-  updated_at                 DateTime @default(now()) @updatedAt @db.Timestamptz(6)
+  created_at                 DateTime  @default(now()) @db.Timestamptz(6)
+  updated_at                 DateTime  @default(now()) @updatedAt @db.Timestamptz(6)
+  chapters                   Chapter[] @relation("StoryChapters")
+  quizzes                    Quiz[]    @relation("StoryQuizzes")
 
+  @@index([level_jlpt], map: "ix_stories_level_jlpt")
+  @@index([level_cefr], map: "ix_stories_level_cefr")
+  @@index([level_jlpt, level_cefr], map: "ix_stories_levels_composite")
   @@map("stories")
 }
 
@@ -32,10 +37,12 @@ model Chapter {
   chapter_number  Int
   title           String   @db.VarChar(200)
   content         String
+  content_en      String?
   audio_url       String?  @db.VarChar(500)
   learning_points Json     @db.Json
   vocabulary      Json     @db.Json
   created_at      DateTime @default(now()) @db.Timestamptz(6)
+  story           Story    @relation("StoryChapters", fields: [story_id], references: [story_id], onDelete: NoAction, onUpdate: NoAction)
   choices         Choice[] @relation("ChapterChoices")
 
   @@index([story_id], map: "ix_chapters_story_id")
@@ -65,9 +72,13 @@ model Quiz {
   is_ai_generated  Boolean      @default(false)
   source_text      String?
   created_at       DateTime     @default(now()) @db.Timestamptz(6)
+  updated_at       DateTime     @default(now()) @updatedAt @db.Timestamptz(6)
+  story            Story?       @relation("StoryQuizzes", fields: [story_id], references: [story_id], onDelete: NoAction, onUpdate: NoAction)
   choices          QuizChoice[] @relation("QuizChoices")
 
   @@index([story_id], map: "ix_quizzes_story_id")
+  @@index([difficulty_level], map: "ix_quizzes_difficulty_level")
+  @@index([story_id, difficulty_level], map: "ix_quizzes_story_difficulty")
   @@map("quizzes")
 }
 
