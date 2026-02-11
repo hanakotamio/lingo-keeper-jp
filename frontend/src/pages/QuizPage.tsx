@@ -76,6 +76,13 @@ export const QuizPage: React.FC = () => {
     }
   }, [quizzes, currentQuizIndex]);
 
+  // Handle answer selection
+  const handleAnswerSelect = (choiceId: string) => {
+    if (!showFeedback) {
+      setSelectedAnswer(choiceId);
+    }
+  };
+
   // Initialize voice recognition
   useEffect(() => {
     // Check if browser supports Speech Recognition
@@ -285,13 +292,6 @@ export const QuizPage: React.FC = () => {
         logger.error('Failed to start voice recognition', { error });
         setIsListening(false);
       }
-    }
-  };
-
-  // Handle answer selection
-  const handleAnswerSelect = (choiceId: string) => {
-    if (!showFeedback) {
-      setSelectedAnswer(choiceId);
     }
   };
 
