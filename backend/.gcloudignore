@@ -1,0 +1,63 @@
+# Node modules
+node_modules/
+
+# Build artifacts
+dist/
+
+# Test files
+tests/
+*.test.ts
+*.spec.ts
+
+# Development files
+*.log
+.env
+.env.*
+!.env.example
+
+# Git
+.git/
+.gitignore
+
+# IDE
+.vscode/
+.idea/
+
+# Service account keys (managed via Secret Manager)
+gcp-service-account-key.json
+*-key.json
+
+# Scripts
+fix-*.ts
+check-*.ts
+verify-*.ts
+seed-*.ts
+add-*.ts
+update-*.ts
+list-*.ts
+manual-*.ts
+create-*.ts
+rebuild-*.ts
+show-*.ts
+audit-*.ts
+analyze-*.ts
+identify-*.ts
+count-*.ts
+find-*.ts
+raw-*.ts
+quick-*.ts
+full-*.ts
+final-*.ts
+story-*.ts
+
+# Reports
+*.md
+!README.md
+*.json
+!package.json
+!package-lock.json
+!tsconfig.json
+
+# Prisma
+prisma/migrations/
+prisma/seed_*.ts

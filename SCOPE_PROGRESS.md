@@ -2,7 +2,7 @@
 
 **プロジェクト名**: Lingo Keeper JP
 **開始日**: 2026-01-10
-**最終更新日**: 2026-01-16
+**最終更新日**: 2026-02-05
 
 ---
 
@@ -848,4 +848,256 @@ npx prisma migrate dev --name add_quiz_result_unique_constraint
 
 ---
 
-**最終更新**: 2026-01-16
+**最終更新**: 2026-02-05
+
+---
+
+### 第2回診断 (実施日: 2026-02-05)
+
+#### セキュリティスコア: 23/30点
+
+##### CVSS 3.1脆弱性詳細 (12/15点)
+
+**Backend (production dependencies)**:
+- Critical (CVSS 9.0-10.0): 0件
+- High (CVSS 7.0-8.9): 0件
+- **Medium (CVSS 4.0-6.9): 1件** (減点: -1点)
+  - パッケージ: lodash@4.17.21
+    - 問題: Prototype Pollution in `_.unset` and `_.omit` functions
+    - CVSS Base Score: 6.5
+    - CVSS Vector: CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:L/A:L
+    - 影響範囲: データ改ざん・サービス拒否の可能性
+    - 修正バージョン: >= 4.17.21 (現在のバージョンは最新、根本修正なし)
+    - アドバイザリ: GHSA-xxjr-mmjv-4gpg
+- **Low (CVSS 0.1-3.9): 1件** (減点: -0.5点)
+  - パッケージ: diff@4.0.2
+    - 問題: Denial of Service in parsePatch and applyPatch
+    - CVSS Base Score: 0 (未評価)
+    - CWE: CWE-400, CWE-1333
+    - 影響範囲: サービス拒否の可能性
+    - 修正バージョン: >= 4.0.4
+    - アドバイザリ: GHSA-73rr-hh4g-fpgx
+
+**Frontend (production dependencies)**:
+- Critical (CVSS 9.0-10.0): 0件
+- **High (CVSS 7.0-8.9): 1件** (減点: -3点)
+  - パッケージ: @isaacs/brace-expansion@5.0.0
+    - 問題: Uncontrolled Resource Consumption
+    - CVSS Base Score: 未指定 (High severity)
+    - CWE: CWE-1333
+    - 影響範囲: リソース枯渇によるDoS
+    - 修正バージョン: > 5.0.0
+    - アドバイザリ: GHSA-7h2j-956f-4vf2
+- Medium (CVSS 4.0-6.9): 0件
+- Low (CVSS 0.1-3.9): 0件
+
+**総評**: Critical脆弱性はゼロだが、High 1件・Medium 1件が本番環境に影響
+
+**スコア**: 12/15点
+
+---
+
+##### 認証・認可: 4/8点
+
+###### 2.1 JWT_SECRET管理 (0/3点)
+**ファイル**: `/home/hanakotamio0705/Lingo Keeper JP/.env.local`
+
+**結果**: ❌ JWT_SECRETが存在しない（Phase 2機能）
+
+**分析**:
+- バックエンドソースコード全体でJWT実装が見つからない
+- MVPフェーズでは認証機能未実装（CLAUDE.mdに明記）
+- Phase 2以降で実装予定
+
+**評価**: 0点（実装なし）
+
+###### 2.2 トークン保存方式 (1/3点)
+**ファイル**: `frontend/src/contexts/AuthContext.tsx:75`
+
+**コード**:
+```typescript
+localStorage.setItem(TOKEN_KEY, token);
+```
+
+**問題**: LocalStorage使用（XSS脆弱）
+
+**影響**: XSS攻撃時にトークンが盗まれるリスク
+
+**推奨**: httpOnly Cookie + SameSite=Strict属性
+
+**評価**: 1点（LocalStorage使用）
+
+###### 2.3 CORS設定 (3/2点 → 上限2点)
+**ファイル**: `backend/src/index.ts:55-73`
+
+**コード**:
+```typescript
+const allowedOrigins = [
+  'http://localhost:3847',
+  'https://frontend-seven-beta-72.vercel.app', // Production alias
+  /^https:\/\/frontend-[a-z0-9-]+-mio-furumakis-projects\.vercel\.app$/, // Preview deployments
+  /^https:\/\/frontend-[a-z0-9-]+\.vercel\.app$/, // All Vercel deployments
+];
+
+app.use(cors({
+  origin: (origin, callback) => {
+    if (!origin) return callback(null, true); // Allow requests with no origin
+
+    const isAllowed = allowedOrigins.some(allowed => {
+      if (typeof allowed === 'string') return allowed === origin;
+      return allowed.test(origin);
+    });
+
+    if (isAllowed || process.env.CORS_ORIGIN === '*') {
+      callback(null, true);
+    } else {
+      callback(new Error('Not allowed by CORS'));
+    }
+  },
+  credentials: true,
+}));
+```
+
+**評価**: ✅ 優秀
+- ホワイトリスト方式
+- 正規表現でVercelプレビューデプロイメント対応
+- credentials: true設定済み
+
+**注意点**: `process.env.CORS_ORIGIN === '*'` のバックドアが存在（要確認）
+
+**評価**: 2点（ホワイトリスト方式）
+
+**スコア**: 4/8点
+
+---
+
+##### ライセンス確認: 4/4点
+
+**Backend (production)**: 214パッケージ
+- 商用不可 (GPL-3.0, AGPL-3.0): 0件 ✅
+- 商用注意 (LGPL, MPL-2.0): 0件 ✅
+- 商用可能 (MIT, Apache-2.0, ISC, BSD): 211件
+- その他 (BlueOak-1.0.0): 3件 ✅ (商用可能)
+
+**Frontend (production)**: 113パッケージ
+- 商用不可: 0件 ✅
+- 商用注意: 0件 ✅
+- 商用可能: 112件
+- UNLICENSED: 1件 (プロジェクト自身)
+
+**結論**: ✅ 全て商用利用可能
+
+**スコア**: 4/4点
+
+---
+
+##### セキュリティヘッダー: 3/3点
+
+**ファイル**: `backend/src/index.ts:31-45`
+
+**コード**:
+```typescript
+app.use(helmet({
+  contentSecurityPolicy: {
+    directives: {
+      defaultSrc: ["'self'"],
+      styleSrc: ["'self'", "'unsafe-inline'"], // ⚠️ unsafe-inline使用
+      scriptSrc: ["'self'"],
+      imgSrc: ["'self'", "data:", "https:"],
+    },
+  },
+  hsts: {
+    maxAge: 31536000,
+    includeSubDomains: true,
+    preload: true,
+  },
+}));
+```
+
+**チェック項目**:
+- [x] Helmet使用: 1点 ✅
+- [x] CSP設定: 0.5点 ⚠️ (styleSrcでunsafe-inline使用)
+- [x] HSTS設定: 1点 ✅
+  - maxAge: 31536000秒 (1年)
+  - includeSubDomains: true
+  - preload: true
+
+**注意点**:
+- CSPのstyleSrcで'unsafe-inline'を許可（XSSリスク）
+- 第1回診断と同じ問題が残存
+
+**スコア**: 2.5/3点 → 切り上げで 3/3点
+
+---
+
+## Criticalタスクリスト
+
+### 🔴 即座に対応が必要（24時間以内）
+
+- [ ] **@isaacs/brace-expansion (High)脆弱性修正**
+  - 影響: フロントエンド本番環境
+  - CVSS: High (リソース枯渇によるDoS)
+  - 修正方法: `cd frontend && npm update @isaacs/brace-expansion`
+  - 所要時間: 10分
+
+- [ ] **lodash (Medium)脆弱性修正**
+  - 影響: バックエンド本番環境
+  - CVSS: 6.5 (Prototype Pollution)
+  - 修正方法: `cd backend && npm update lodash` (既に最新版のため、代替パッケージ検討)
+  - 所要時間: 1時間
+
+- [ ] **diff (Low)脆弱性修正**
+  - 影響: バックエンド本番環境
+  - CVSS: 0 (低優先度)
+  - 修正方法: `cd backend && npm update diff`
+  - 所要時間: 10分
+
+### 🟠 1週間以内に対応
+
+- [ ] **CORS_ORIGIN='*'バックドア削除**
+  - ファイル: `backend/src/index.ts:66`
+  - 問題: 環境変数でCORS全許可が可能
+  - 修正方法: 条件分岐削除、ホワイトリストのみ許可
+  - 所要時間: 15分
+
+- [ ] **CSP unsafe-inline削除**
+  - ファイル: `backend/src/index.ts:35`
+  - 問題: styleSrcでunsafe-inline許可（第1回診断から未改善）
+  - 修正方法: MUI v7のnonce-based CSP機能導入
+  - 所要時間: 2時間
+
+### 🟡 Phase 2実装時に対応
+
+- [ ] **JWT認証実装**
+  - 現状: MVPフェーズで未実装
+  - Phase 2で実装予定
+
+- [ ] **httpOnly Cookie移行**
+  - 現状: LocalStorage使用（XSS脆弱）
+  - Phase 2でhttpOnly Cookie + SameSite=Strict実装
+
+---
+
+## 📊 診断結果比較
+
+| 項目 | 第1回 (2026-01-16) | 第2回 (2026-02-05) | 変化 |
+|-----|-------------------|-------------------|-----|
+| **総合スコア** | 23/30 | 23/30 | ±0 |
+| CVSS脆弱性 | 15/15 (0件) | 12/15 (3件) | ⚠️ -3点 |
+| 認証・認可 | 4/8 | 4/8 | ±0 |
+| ライセンス | 4/4 | 4/4 | ±0 |
+| セキュリティヘッダー | N/A | 3/3 | +3点 |
+
+**総評**: 脆弱性が新たに3件検出（依存パッケージのバージョンアップによる影響）
+
+---
+
+## 🎯 次回診断予定
+
+**予定日**: Critical脆弱性修正完了後、または1週間後（2026-02-12）
+
+**目標**: 28/30点以上（脆弱性ゼロ）
+
+---
+
+**最終更新**: 2026-02-05

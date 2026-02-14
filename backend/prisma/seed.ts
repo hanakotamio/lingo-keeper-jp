@@ -6,7 +6,6 @@ async function main(): Promise<void> {
   console.log('Starting database seeding...');
 
   // Clear existing data (for development)
-  await prisma.quizResult.deleteMany();
   await prisma.quizChoice.deleteMany();
   await prisma.quiz.deleteMany();
   await prisma.choice.deleteMany();
@@ -21,10 +20,16 @@ async function main(): Promise<void> {
     data: {
       story_id: '1',
       title: '東京での新しい生活',
+      title_en: 'A New Life in Tokyo',
       description: '初めて東京に来た留学生の1日を追体験。渋谷での選択があなたの物語を変えます。',
+      description_en: 'Experience the first day of an international student in Tokyo. Your choices in Shibuya will change your story.',
+      category: 'daily_life',
+      difficulty_level: 'intermediate',
       level_jlpt: 'N3',
       level_cefr: 'B1',
       estimated_time: 10,
+      estimated_duration_minutes: 10,
+      is_active: true,
       root_chapter_id: 'ch-1-1',
     },
   });
@@ -34,10 +39,8 @@ async function main(): Promise<void> {
       chapter_id: 'ch-1-1',
       story_id: story1.story_id,
       chapter_number: 1,
-      depth_level: 0,
       content: '今日は私の東京での新しい生活の初めての日です。渋谷の駅に着いて、人の多さに驚きました。これから、どこへ行きましょうか?',
-      content_with_ruby: '<ruby>今日<rt>きょう</rt></ruby>は<ruby>私<rt>わたし</rt></ruby>の<ruby>東京<rt>とうきょう</rt></ruby>での<ruby>新<rt>あたら</rt></ruby>しい<ruby>生活<rt>せいかつ</rt></ruby>の<ruby>初<rt>はじ</rt></ruby>めての<ruby>日<rt>ひ</rt></ruby>です。<ruby>渋谷<rt>しぶや</rt></ruby>の<ruby>駅<rt>えき</rt></ruby>に<ruby>着<rt>つ</rt></ruby>いて、<ruby>人<rt>ひと</rt></ruby>の<ruby>多<rt>おお</rt></ruby>さに<ruby>驚<rt>おどろ</rt></ruby>きました。これから、どこへ<ruby>行<rt>い</rt></ruby>きましょうか?',
-      translation: 'Today is my first day of a new life in Tokyo. I arrived at Shibuya Station and was surprised by the number of people. Where should I go from here?',
+      content_en: 'Today is my first day of a new life in Tokyo. I arrived at Shibuya Station and was surprised by the number of people. Where should I go from here?',
     },
   });
 
@@ -77,84 +80,68 @@ async function main(): Promise<void> {
         chapter_id: 'ch-1-2a',
         story_id: story1.story_id,
         chapter_number: 2,
-        depth_level: 1,
         parent_chapter_id: chapter1_1.chapter_id,
         content: '静かなカフェに入りました。窓際の席に座って、カフェラテを注文しました。外を見ると、渋谷のスクランブル交差点が見えます。多くの人が行き交っています。',
-        content_with_ruby: '<ruby>静<rt>しず</rt></ruby>かなカフェに<ruby>入<rt>はい</rt></ruby>りました。<ruby>窓際<rt>まどぎわ</rt></ruby>の<ruby>席<rt>せき</rt></ruby>に<ruby>座<rt>すわ</rt></ruby>って、カフェラテを<ruby>注文<rt>ちゅうもん</rt></ruby>しました。<ruby>外<rt>そと</rt></ruby>を<ruby>見<rt>み</rt></ruby>ると、<ruby>渋谷<rt>しぶや</rt></ruby>のスクランブル<ruby>交差点<rt>こうさてん</rt></ruby>が<ruby>見<rt>み</rt></ruby>えます。<ruby>多<rt>おお</rt></ruby>くの<ruby>人<rt>ひと</rt></ruby>が<ruby>行<rt>い</rt></ruby>き<ruby>交<rt>か</rt></ruby>っています。',
-        translation: 'I entered a quiet cafe. I sat at a window seat and ordered a cafe latte. Looking outside, I can see the Shibuya Scramble Crossing. Many people are passing by.',
+        content_en: 'I entered a quiet cafe. I sat at a window seat and ordered a cafe latte. Looking outside, I can see the Shibuya Scramble Crossing. Many people are passing by.',
       },
       {
         chapter_id: 'ch-1-2b',
         story_id: story1.story_id,
         chapter_number: 2,
-        depth_level: 1,
         parent_chapter_id: chapter1_1.chapter_id,
         content: 'ハチ公像の前に来ました。多くの観光客が写真を撮っています。私も記念写真を撮りました。次に、渋谷センター街を歩いてみることにしました。たくさんのお店があって、とても賑やかです。',
-        content_with_ruby: 'ハチ<ruby>公像<rt>こうぞう</rt></ruby>の<ruby>前<rt>まえ</rt></ruby>に<ruby>来<rt>き</rt></ruby>ました。<ruby>多<rt>おお</rt></ruby>くの<ruby>観光客<rt>かんこうきゃく</rt></ruby>が<ruby>写真<rt>しゃしん</rt></ruby>を<ruby>撮<rt>と</rt></ruby>っています。<ruby>私<rt>わたし</rt></ruby>も<ruby>記念写真<rt>きねんしゃしん</rt></ruby>を<ruby>撮<rt>と</rt></ruby>りました。<ruby>次<rt>つぎ</rt></ruby>に、<ruby>渋谷<rt>しぶや</rt></ruby>センター<ruby>街<rt>がい</rt></ruby>を<ruby>歩<rt>ある</rt></ruby>いてみることにしました。たくさんのお<ruby>店<rt>みせ</rt></ruby>があって、とても<ruby>賑<rt>にぎ</rt></ruby>やかです。',
-        translation: 'I came to the Hachiko statue. Many tourists are taking pictures. I also took a commemorative photo. Next, I decided to walk through Shibuya Center Street. There are many shops and it is very lively.',
+        content_en: 'I came to the Hachiko statue. Many tourists are taking pictures. I also took a commemorative photo. Next, I decided to walk through Shibuya Center Street. There are many shops and it is very lively.',
       },
       {
         chapter_id: 'ch-1-2c',
         story_id: story1.story_id,
         chapter_number: 2,
-        depth_level: 1,
         parent_chapter_id: chapter1_1.chapter_id,
         content: '新しいアパートに到着しました。3階の部屋です。鍵を開けて中に入ると、小さいですが綺麗な部屋でした。窓から公園が見えます。これから、この部屋で新しい生活が始まります。',
-        content_with_ruby: '<ruby>新<rt>あたら</rt></ruby>しいアパートに<ruby>到着<rt>とうちゃく</rt></ruby>しました。3<ruby>階<rt>かい</rt></ruby>の<ruby>部屋<rt>へや</rt></ruby>です。<ruby>鍵<rt>かぎ</rt></ruby>を<ruby>開<rt>あ</rt></ruby>けて<ruby>中<rt>なか</rt></ruby>に<ruby>入<rt>はい</rt></ruby>ると、<ruby>小<rt>ちい</rt></ruby>さいですが<ruby>綺麗<rt>きれい</rt></ruby>な<ruby>部屋<rt>へや</rt></ruby>でした。<ruby>窓<rt>まど</rt></ruby>から<ruby>公園<rt>こうえん</rt></ruby>が<ruby>見<rt>み</rt></ruby>えます。これから、この<ruby>部屋<rt>へや</rt></ruby>で<ruby>新<rt>あたら</rt></ruby>しい<ruby>生活<rt>せいかつ</rt></ruby>が<ruby>始<rt>はじ</rt></ruby>まります。',
-        translation: 'I arrived at my new apartment. It is a room on the 3rd floor. When I opened the key and entered, it was a small but clean room. I can see a park from the window. From now on, a new life will begin in this room.',
+        content_en: 'I arrived at my new apartment. It is a room on the 3rd floor. When I opened the key and entered, it was a small but clean room. I can see a park from the window. From now on, a new life will begin in this room.',
       },
       // Chapter 3 variants
       {
         chapter_id: 'ch-1-3a',
         story_id: story1.story_id,
         chapter_number: 3,
-        depth_level: 2,
         parent_chapter_id: 'ch-1-2a',
         content: 'カフェで落ち着いた後、隣のテーブルの日本人に道を尋ねました。その人はとても親切で、おすすめの場所を教えてくれました。「明治神宮は静かで素敵ですよ」と言われ、行ってみることにしました。',
-        content_with_ruby: 'カフェで<ruby>落<rt>お</rt></ruby>ち<ruby>着<rt>つ</rt></ruby>いた<ruby>後<rt>あと</rt></ruby>、<ruby>隣<rt>となり</rt></ruby>のテーブルの<ruby>日本人<rt>にほんじん</rt></ruby>に<ruby>道<rt>みち</rt></ruby>を<ruby>尋<rt>たず</rt></ruby>ねました。その<ruby>人<rt>ひと</rt></ruby>はとても<ruby>親切<rt>しんせつ</rt></ruby>で、おすすめの<ruby>場所<rt>ばしょ</rt></ruby>を<ruby>教<rt>おし</rt></ruby>えてくれました。「<ruby>明治神宮<rt>めいじじんぐう</rt></ruby>は<ruby>静<rt>しず</rt></ruby>かで<ruby>素敵<rt>すてき</rt></ruby>ですよ」と<ruby>言<rt>い</rt></ruby>われ、<ruby>行<rt>い</rt></ruby>ってみることにしました。',
-        translation: 'After settling down at the cafe, I asked a Japanese person at the next table for directions. That person was very kind and told me about recommended places. They said "Meiji Shrine is quiet and wonderful," so I decided to go there.',
+        content_en: 'After settling down at the cafe, I asked a Japanese person at the next table for directions. That person was very kind and told me about recommended places. They said "Meiji Shrine is quiet and wonderful," so I decided to go there.',
       },
       {
         chapter_id: 'ch-1-3b',
         story_id: story1.story_id,
         chapter_number: 3,
-        depth_level: 2,
         parent_chapter_id: 'ch-1-2b',
         content: '渋谷を歩き回っているうちに、小さな神社を見つけました。都会の真ん中にある静かな場所です。お参りをして、これからの東京生活がうまくいくようにお願いしました。',
-        content_with_ruby: '<ruby>渋谷<rt>しぶや</rt></ruby>を<ruby>歩<rt>ある</rt></ruby>き<ruby>回<rt>まわ</rt></ruby>っているうちに、<ruby>小<rt>ちい</rt></ruby>さな<ruby>神社<rt>じんじゃ</rt></ruby>を<ruby>見<rt>み</rt></ruby>つけました。<ruby>都会<rt>とかい</rt></ruby>の<ruby>真<rt>ま</rt></ruby>ん<ruby>中<rt>なか</rt></ruby>にある<ruby>静<rt>しず</rt></ruby>かな<ruby>場所<rt>ばしょ</rt></ruby>です。お<ruby>参<rt>まい</rt></ruby>りをして、これからの<ruby>東京<rt>とうきょう</rt></ruby><ruby>生活<rt>せいかつ</rt></ruby>がうまくいくようにお<ruby>願<rt>ねが</rt></ruby>いしました。',
-        translation: 'While walking around Shibuya, I found a small shrine. It is a quiet place in the middle of the city. I prayed and wished for my Tokyo life to go well.',
+        content_en: 'While walking around Shibuya, I found a small shrine. It is a quiet place in the middle of the city. I prayed and wished for my Tokyo life to go well.',
       },
       {
         chapter_id: 'ch-1-3c',
         story_id: story1.story_id,
         chapter_number: 3,
-        depth_level: 2,
         parent_chapter_id: 'ch-1-2c',
         content: '荷物を置いた後、近所を散歩してみました。スーパーやコンビニ、駅までの道を確認しました。近くに公園もあって、朝のジョギングに良さそうです。この街での生活が楽しみになってきました。',
-        content_with_ruby: '<ruby>荷物<rt>にもつ</rt></ruby>を<ruby>置<rt>お</rt></ruby>いた<ruby>後<rt>あと</rt></ruby>、<ruby>近所<rt>きんじょ</rt></ruby>を<ruby>散歩<rt>さんぽ</rt></ruby>してみました。スーパーやコンビニ、<ruby>駅<rt>えき</rt></ruby>までの<ruby>道<rt>みち</rt></ruby>を<ruby>確認<rt>かくにん</rt></ruby>しました。<ruby>近<rt>ちか</rt></ruby>くに<ruby>公園<rt>こうえん</rt></ruby>もあって、<ruby>朝<rt>あさ</rt></ruby>のジョギングに<ruby>良<rt>よ</rt></ruby>さそうです。この<ruby>街<rt>まち</rt></ruby>での<ruby>生活<rt>せいかつ</rt></ruby>が<ruby>楽<rt>たの</rt></ruby>しみになってきました。',
-        translation: 'After putting down my luggage, I took a walk around the neighborhood. I checked the way to the supermarket, convenience store, and station. There is also a park nearby, which looks good for morning jogging. I am looking forward to life in this town.',
+        content_en: 'After putting down my luggage, I took a walk around the neighborhood. I checked the way to the supermarket, convenience store, and station. There is also a park nearby, which looks good for morning jogging. I am looking forward to life in this town.',
       },
       // Chapter 4 (convergence)
       {
         chapter_id: 'ch-1-4',
         story_id: story1.story_id,
         chapter_number: 4,
-        depth_level: 3,
         parent_chapter_id: 'ch-1-3a',
         content: '夕方になり、素敵な定食屋さんを見つけました。店主のおばさんが「いらっしゃい！」と元気に迎えてくれました。生姜焼き定食を注文すると、とても美味しくて感動しました。「また来てね」と言われ、心が温かくなりました。',
-        content_with_ruby: '<ruby>夕方<rt>ゆうがた</rt></ruby>になり、<ruby>素敵<rt>すてき</rt></ruby>な<ruby>定食屋<rt>ていしょくや</rt></ruby>さんを<ruby>見<rt>み</rt></ruby>つけました。<ruby>店主<rt>てんしゅ</rt></ruby>のおばさんが「いらっしゃい！」と<ruby>元気<rt>げんき</rt></ruby>に<ruby>迎<rt>むか</rt></ruby>えてくれました。<ruby>生姜焼<rt>しょうがや</rt></ruby>き<ruby>定食<rt>ていしょく</rt></ruby>を<ruby>注文<rt>ちゅうもん</rt></ruby>すると、とても<ruby>美味<rt>おい</rt></ruby>しくて<ruby>感動<rt>かんどう</rt></ruby>しました。「また<ruby>来<rt>き</rt></ruby>てね」と<ruby>言<rt>い</rt></ruby>われ、<ruby>心<rt>こころ</rt></ruby>が<ruby>温<rt>あたた</rt></ruby>かくなりました。',
-        translation: 'In the evening, I found a nice set meal restaurant. The owner, an elderly woman, greeted me cheerfully with "Welcome!" When I ordered the ginger pork set meal, it was so delicious that I was moved. She said "Come again," and my heart warmed.',
+        content_en: 'In the evening, I found a nice set meal restaurant. The owner, an elderly woman, greeted me cheerfully with "Welcome!" When I ordered the ginger pork set meal, it was so delicious that I was moved. She said "Come again," and my heart warmed.',
       },
       // Chapter 5 (conclusion)
       {
         chapter_id: 'ch-1-5',
         story_id: story1.story_id,
         chapter_number: 5,
-        depth_level: 4,
         parent_chapter_id: 'ch-1-4',
         content: '東京での最初の一日が終わりました。少し疲れましたが、とても充実した時間でした。明日から日本語学校が始まります。新しい友達ができるといいなと思いながら、眠りにつきました。',
-        content_with_ruby: '<ruby>東京<rt>とうきょう</rt></ruby>での<ruby>最初<rt>さいしょ</rt></ruby>の<ruby>一日<rt>いちにち</rt></ruby>が<ruby>終<rt>お</rt></ruby>わりました。<ruby>少<rt>すこ</rt></ruby>し<ruby>疲<rt>つか</rt></ruby>れましたが、とても<ruby>充実<rt>じゅうじつ</rt></ruby>した<ruby>時間<rt>じかん</rt></ruby>でした。<ruby>明日<rt>あした</rt></ruby>から<ruby>日本語<rt>にほんご</rt></ruby><ruby>学校<rt>がっこう</rt></ruby>が<ruby>始<rt>はじ</rt></ruby>まります。<ruby>新<rt>あたら</rt></ruby>しい<ruby>友達<rt>ともだち</rt></ruby>ができるといいなと<ruby>思<rt>おも</rt></ruby>いながら、<ruby>眠<rt>ねむ</rt></ruby>りにつきました。',
-        translation: 'My first day in Tokyo is over. I was a little tired, but it was a very fulfilling time. Japanese language school starts tomorrow. I fell asleep hoping to make new friends.',
+        content_en: 'My first day in Tokyo is over. I was a little tired, but it was a very fulfilling time. Japanese language school starts tomorrow. I fell asleep hoping to make new friends.',
       },
     ],
   });
@@ -240,10 +227,16 @@ async function main(): Promise<void> {
     data: {
       story_id: '2',
       title: 'カフェでの出会い',
+      title_en: 'Meeting at a Cafe',
       description: '偶然入ったカフェで始まる、心温まる友情のストーリー。',
+      description_en: 'A heartwarming story of friendship that begins at a cafe you entered by chance.',
+      category: 'social',
+      difficulty_level: 'beginner',
       level_jlpt: 'N4',
       level_cefr: 'A2',
       estimated_time: 8,
+      estimated_duration_minutes: 8,
+      is_active: true,
       root_chapter_id: 'ch-2-1',
     },
   });
@@ -253,10 +246,8 @@ async function main(): Promise<void> {
       chapter_id: 'ch-2-1',
       story_id: story2.story_id,
       chapter_number: 1,
-      depth_level: 0,
       content: '雨の日、私は小さなカフェに入りました。中は暖かくて、コーヒーのいい香りがしました。席に座ると、隣のテーブルに同じくらいの年齢の人が座っていました。どうしますか？',
-      content_with_ruby: '<ruby>雨<rt>あめ</rt></ruby>の<ruby>日<rt>ひ</rt></ruby>、<ruby>私<rt>わたし</rt></ruby>は<ruby>小<rt>ちい</rt></ruby>さなカフェに<ruby>入<rt>はい</rt></ruby>りました。<ruby>中<rt>なか</rt></ruby>は<ruby>暖<rt>あたた</rt></ruby>かくて、コーヒーのいい<ruby>香<rt>かお</rt></ruby>りがしました。<ruby>席<rt>せき</rt></ruby>に<ruby>座<rt>すわ</rt></ruby>ると、<ruby>隣<rt>となり</rt></ruby>のテーブルに<ruby>同<rt>おな</rt></ruby>じくらいの<ruby>年齢<rt>ねんれい</rt></ruby>の<ruby>人<rt>ひと</rt></ruby>が<ruby>座<rt>すわ</rt></ruby>っていました。どうしますか？',
-      translation: 'On a rainy day, I entered a small cafe. Inside was warm and smelled of good coffee. When I sat down, there was a person about the same age sitting at the next table. What will you do?',
+      content_en: 'On a rainy day, I entered a small cafe. Inside was warm and smelled of good coffee. When I sat down, there was a person about the same age sitting at the next table. What will you do?',
     },
   });
 
@@ -296,84 +287,68 @@ async function main(): Promise<void> {
         chapter_id: 'ch-2-2a',
         story_id: story2.story_id,
         chapter_number: 2,
-        depth_level: 1,
         parent_chapter_id: chapter2_1.chapter_id,
         content: 'その人は日本語の教科書を読んでいました。「日本語を勉強していますか？」と話しかけると、笑顔で「はい、でも難しいです」と答えました。私たちは日本語の勉強について話し始めました。',
-        content_with_ruby: 'その<ruby>人<rt>ひと</rt></ruby>は<ruby>日本語<rt>にほんご</rt></ruby>の<ruby>教科書<rt>きょうかしょ</rt></ruby>を<ruby>読<rt>よ</rt></ruby>んでいました。「<ruby>日本語<rt>にほんご</rt></ruby>を<ruby>勉強<rt>べんきょう</rt></ruby>していますか？」と<ruby>話<rt>はな</rt></ruby>しかけると、<ruby>笑顔<rt>えがお</rt></ruby>で「はい、でも<ruby>難<rt>むずか</rt></ruby>しいです」と<ruby>答<rt>こた</rt></ruby>えました。<ruby>私<rt>わたし</rt></ruby>たちは<ruby>日本語<rt>にほんご</rt></ruby>の<ruby>勉強<rt>べんきょう</rt></ruby>について<ruby>話<rt>はな</rt></ruby>し<ruby>始<rt>はじ</rt></ruby>めました。',
-        translation: 'That person was reading a Japanese textbook. When I spoke to them saying "Are you studying Japanese?", they answered with a smile "Yes, but it\'s difficult." We started talking about studying Japanese.',
+        content_en: 'That person was reading a Japanese textbook. When I spoke to them saying "Are you studying Japanese?", they answered with a smile "Yes, but it\'s difficult." We started talking about studying Japanese.',
       },
       {
         chapter_id: 'ch-2-2b',
         story_id: story2.story_id,
         chapter_number: 2,
-        depth_level: 1,
         parent_chapter_id: chapter2_1.chapter_id,
         content: '本を開いて読み始めました。村上春樹の小説です。少し難しいですが、とても面白いです。30分くらい読んでいると、隣の人が「それ、面白いですか？」と聞いてきました。',
-        content_with_ruby: '<ruby>本<rt>ほん</rt></ruby>を<ruby>開<rt>ひら</rt></ruby>いて<ruby>読<rt>よ</rt></ruby>み<ruby>始<rt>はじ</rt></ruby>めました。<ruby>村上春樹<rt>むらかみはるき</rt></ruby>の<ruby>小説<rt>しょうせつ</rt></ruby>です。<ruby>少<rt>すこ</rt></ruby>し<ruby>難<rt>むずか</rt></ruby>しいですが、とても<ruby>面白<rt>おもしろ</rt></ruby>いです。30<ruby>分<rt>ぷん</rt></ruby>くらい<ruby>読<rt>よ</rt></ruby>んでいると、<ruby>隣<rt>となり</rt></ruby>の<ruby>人<rt>ひと</rt></ruby>が「それ、<ruby>面白<rt>おもしろ</rt></ruby>いですか？」と<ruby>聞<rt>き</rt></ruby>いてきました。',
-        translation: 'I opened the book and started reading. It\'s a Haruki Murakami novel. It\'s a little difficult, but very interesting. After reading for about 30 minutes, the person next to me asked, "Is that interesting?"',
+        content_en: 'I opened the book and started reading. It\'s a Haruki Murakami novel. It\'s a little difficult, but very interesting. After reading for about 30 minutes, the person next to me asked, "Is that interesting?"',
       },
       {
         chapter_id: 'ch-2-2c',
         story_id: story2.story_id,
         chapter_number: 2,
-        depth_level: 1,
         parent_chapter_id: chapter2_1.chapter_id,
         content: 'スマホでニュースを読んでいると、隣の人が「すみません、Wi-Fiのパスワードを知っていますか？」と聞いてきました。店員さんに聞いて教えてあげると、「ありがとうございます」と感謝されました。',
-        content_with_ruby: 'スマホでニュースを<ruby>読<rt>よ</rt></ruby>んでいると、<ruby>隣<rt>となり</rt></ruby>の<ruby>人<rt>ひと</rt></ruby>が「すみません、Wi-Fiのパスワードを<ruby>知<rt>し</rt></ruby>っていますか？」と<ruby>聞<rt>き</rt></ruby>いてきました。<ruby>店員<rt>てんいん</rt></ruby>さんに<ruby>聞<rt>き</rt></ruby>いて<ruby>教<rt>おし</rt></ruby>えてあげると、「ありがとうございます」と<ruby>感謝<rt>かんしゃ</rt></ruby>されました。',
-        translation: 'While reading news on my smartphone, the person next to me asked, "Excuse me, do you know the Wi-Fi password?" When I asked the staff and told them, they thanked me saying "Thank you very much."',
+        content_en: 'While reading news on my smartphone, the person next to me asked, "Excuse me, do you know the Wi-Fi password?" When I asked the staff and told them, they thanked me saying "Thank you very much."',
       },
       // Chapter 3 variants
       {
         chapter_id: 'ch-2-3a',
         story_id: story2.story_id,
         chapter_number: 3,
-        depth_level: 2,
         parent_chapter_id: 'ch-2-2a',
         content: '相手はマリアさんというフィリピンの留学生でした。お互いに日本語学習の大変さを話し合いました。「一緒に勉強しませんか？」と誘うと、「ぜひ！」と嬉しそうに答えてくれました。連絡先を交換しました。',
-        content_with_ruby: '<ruby>相手<rt>あいて</rt></ruby>はマリアさんというフィリピンの<ruby>留学生<rt>りゅうがくせい</rt></ruby>でした。お<ruby>互<rt>たが</rt></ruby>いに<ruby>日本語<rt>にほんご</rt></ruby><ruby>学習<rt>がくしゅう</rt></ruby>の<ruby>大変<rt>たいへん</rt></ruby>さを<ruby>話<rt>はな</rt></ruby>し<ruby>合<rt>あ</rt></ruby>いました。「<ruby>一緒<rt>いっしょ</rt></ruby>に<ruby>勉強<rt>べんきょう</rt></ruby>しませんか？」と<ruby>誘<rt>さそ</rt></ruby>うと、「ぜひ！」と<ruby>嬉<rt>うれ</rt></ruby>しそうに<ruby>答<rt>こた</rt></ruby>えてくれました。<ruby>連絡先<rt>れんらくさき</rt></ruby>を<ruby>交換<rt>こうかん</rt></ruby>しました。',
-        translation: 'The other person was Maria, an exchange student from the Philippines. We talked to each other about the difficulties of learning Japanese. When I invited her saying "Shall we study together?", she happily answered "Yes!" We exchanged contact information.',
+        content_en: 'The other person was Maria, an exchange student from the Philippines. We talked to each other about the difficulties of learning Japanese. When I invited her saying "Shall we study together?", she happily answered "Yes!" We exchanged contact information.',
       },
       {
         chapter_id: 'ch-2-3b',
         story_id: story2.story_id,
         chapter_number: 3,
-        depth_level: 2,
         parent_chapter_id: 'ch-2-2b',
         content: '私は「とても面白いですよ。日本文学に興味がありますか？」と答えました。その人も文学が好きで、話が盛り上がりました。気づいたら2時間も話していました。名前はケンさんという日本人でした。',
-        content_with_ruby: '<ruby>私<rt>わたし</rt></ruby>は「とても<ruby>面白<rt>おもしろ</rt></ruby>いですよ。<ruby>日本<rt>にほん</rt></ruby><ruby>文学<rt>ぶんがく</rt></ruby>に<ruby>興味<rt>きょうみ</rt></ruby>がありますか？」と<ruby>答<rt>こた</rt></ruby>えました。その<ruby>人<rt>ひと</rt></ruby>も<ruby>文学<rt>ぶんがく</rt></ruby>が<ruby>好<rt>す</rt></ruby>きで、<ruby>話<rt>はなし</rt></ruby>が<ruby>盛<rt>も</rt></ruby>り<ruby>上<rt>あ</rt></ruby>がりました。<ruby>気<rt>き</rt></ruby>づいたら2<ruby>時間<rt>じかん</rt></ruby>も<ruby>話<rt>はな</rt></ruby>していました。<ruby>名前<rt>なまえ</rt></ruby>はケンさんという<ruby>日本人<rt>にほんじん</rt></ruby>でした。',
-        translation: 'I answered, "It\'s very interesting. Are you interested in Japanese literature?" That person also liked literature, and the conversation became lively. Before I knew it, we had been talking for two hours. His name was Ken, a Japanese person.',
+        content_en: 'I answered, "It\'s very interesting. Are you interested in Japanese literature?" That person also liked literature, and the conversation became lively. Before I knew it, we had been talking for two hours. His name was Ken, a Japanese person.',
       },
       {
         chapter_id: 'ch-2-3c',
         story_id: story2.story_id,
         chapter_number: 3,
-        depth_level: 2,
         parent_chapter_id: 'ch-2-2c',
         content: 'その人はサラさんというアメリカ人でした。日本に来て3ヶ月だそうです。「この辺りで美味しいレストランを知っていますか？」と聞かれました。知っている店を教えてあげると、とても喜んでくれました。',
-        content_with_ruby: 'その<ruby>人<rt>ひと</rt></ruby>はサラさんというアメリカ<ruby>人<rt>じん</rt></ruby>でした。<ruby>日本<rt>にほん</rt></ruby>に<ruby>来<rt>き</rt></ruby>て3ヶ<ruby>月<rt>げつ</rt></ruby>だそうです。「この<ruby>辺<rt>へん</rt></ruby>りで<ruby>美味<rt>おい</rt></ruby>しいレストランを<ruby>知<rt>し</rt></ruby>っていますか？」と<ruby>聞<rt>き</rt></ruby>かれました。<ruby>知<rt>し</rt></ruby>っている<ruby>店<rt>みせ</rt></ruby>を<ruby>教<rt>おし</rt></ruby>えてあげると、とても<ruby>喜<rt>よろこ</rt></ruby>んでくれました。',
-        translation: 'That person was Sarah, an American. She said she had been in Japan for 3 months. She asked me, "Do you know any good restaurants around here?" When I told her about a restaurant I knew, she was very pleased.',
+        content_en: 'That person was Sarah, an American. She said she had been in Japan for 3 months. She asked me, "Do you know any good restaurants around here?" When I told her about a restaurant I knew, she was very pleased.',
       },
       // Chapter 4 (convergence)
       {
         chapter_id: 'ch-2-4',
         story_id: story2.story_id,
         chapter_number: 4,
-        depth_level: 3,
         parent_chapter_id: 'ch-2-3a',
         content: '雨が止んで、外に出ることにしました。「また会いましょう」と約束して別れました。新しい友達ができて、心が温かくなりました。一人で来たカフェでしたが、素敵な出会いがありました。',
-        content_with_ruby: '<ruby>雨<rt>あめ</rt></ruby>が<ruby>止<rt>や</rt></ruby>んで、<ruby>外<rt>そと</rt></ruby>に<ruby>出<rt>で</rt></ruby>ることにしました。「また<ruby>会<rt>あ</rt></ruby>いましょう」と<ruby>約束<rt>やくそく</rt></ruby>して<ruby>別<rt>わか</rt></ruby>れました。<ruby>新<rt>あたら</rt></ruby>しい<ruby>友達<rt>ともだち</rt></ruby>ができて、<ruby>心<rt>こころ</rt></ruby>が<ruby>温<rt>あたた</rt></ruby>かくなりました。<ruby>一人<rt>ひとり</rt></ruby>で<ruby>来<rt>き</rt></ruby>たカフェでしたが、<ruby>素敵<rt>すてき</rt></ruby>な<ruby>出会<rt>であ</rt></ruby>いがありました。',
-        translation: 'The rain stopped and we decided to go outside. We promised to meet again and parted ways. I made a new friend and my heart warmed. I came to the cafe alone, but had a wonderful encounter.',
+        content_en: 'The rain stopped and we decided to go outside. We promised to meet again and parted ways. I made a new friend and my heart warmed. I came to the cafe alone, but had a wonderful encounter.',
       },
       // Chapter 5 (conclusion)
       {
         chapter_id: 'ch-2-5',
         story_id: story2.story_id,
         chapter_number: 5,
-        depth_level: 4,
         parent_chapter_id: 'ch-2-4',
         content: '家に帰る道、今日のことを思い出しながら歩きました。雨の日に偶然入ったカフェで、素晴らしい友達ができました。これからもこの友情を大切にしたいと思います。日本での生活が、もっと楽しくなりそうです。',
-        content_with_ruby: '<ruby>家<rt>いえ</rt></ruby>に<ruby>帰<rt>かえ</rt></ruby>る<ruby>道<rt>みち</rt></ruby>、<ruby>今日<rt>きょう</rt></ruby>のことを<ruby>思<rt>おも</rt></ruby>い<ruby>出<rt>だ</rt></ruby>しながら<ruby>歩<rt>ある</rt></ruby>きました。<ruby>雨<rt>あめ</rt></ruby>の<ruby>日<rt>ひ</rt></ruby>に<ruby>偶然<rt>ぐうぜん</rt></ruby><ruby>入<rt>はい</rt></ruby>ったカフェで、<ruby>素晴<rt>すば</rt></ruby>らしい<ruby>友達<rt>ともだち</rt></ruby>ができました。これからもこの<ruby>友情<rt>ゆうじょう</rt></ruby>を<ruby>大切<rt>たいせつ</rt></ruby>にしたいと<ruby>思<rt>おも</rt></ruby>います。<ruby>日本<rt>にほん</rt></ruby>での<ruby>生活<rt>せいかつ</rt></ruby>が、もっと<ruby>楽<rt>たの</rt></ruby>しくなりそうです。',
-        translation: 'On my way home, I walked while remembering today\'s events. At the cafe I entered by chance on a rainy day, I made a wonderful friend. I want to cherish this friendship from now on. Life in Japan seems to be getting more fun.',
+        content_en: 'On my way home, I walked while remembering today\'s events. At the cafe I entered by chance on a rainy day, I made a wonderful friend. I want to cherish this friendship from now on. Life in Japan seems to be getting more fun.',
       },
     ],
   });
@@ -452,10 +427,16 @@ async function main(): Promise<void> {
     data: {
       story_id: '3',
       title: '初めてのコンビニ',
+      title_en: 'First Time at a Convenience Store',
       description: '初めて日本のコンビニで買い物をする体験。便利な日本のコンビニ文化を学びます。',
+      description_en: 'Experience shopping at a Japanese convenience store for the first time. Learn about the convenient convenience store culture of Japan.',
+      category: 'daily_life',
+      difficulty_level: 'beginner',
       level_jlpt: 'N5',
       level_cefr: 'A1',
       estimated_time: 6,
+      estimated_duration_minutes: 6,
+      is_active: true,
       root_chapter_id: 'ch-3-1',
     },
   });
@@ -465,10 +446,8 @@ async function main(): Promise<void> {
       chapter_id: 'ch-3-1',
       story_id: story3.story_id,
       chapter_number: 1,
-      depth_level: 0,
       content: '今日、初めてコンビニに行きます。コンビニの中には、たくさんの物があります。おにぎり、飲み物、お菓子、何でもあります。何を見ますか？',
-      content_with_ruby: '<ruby>今日<rt>きょう</rt></ruby>、<ruby>初<rt>はじ</rt></ruby>めてコンビニに<ruby>行<rt>い</rt></ruby>きます。コンビニの<ruby>中<rt>なか</rt></ruby>には、たくさんの<ruby>物<rt>もの</rt></ruby>があります。おにぎり、<ruby>飲<rt>の</rt></ruby>み<ruby>物<rt>もの</rt></ruby>、お<ruby>菓子<rt>かし</rt></ruby>、<ruby>何<rt>なん</rt></ruby>でもあります。<ruby>何<rt>なに</rt></ruby>を<ruby>見<rt>み</rt></ruby>ますか？',
-      translation: 'Today, I am going to a convenience store for the first time. Inside the convenience store, there are many things. Rice balls, drinks, snacks, everything. What will you look at?',
+      content_en: 'Today, I am going to a convenience store for the first time. Inside the convenience store, there are many things. Rice balls, drinks, snacks, everything. What will you look at?',
     },
   });
 
@@ -507,81 +486,65 @@ async function main(): Promise<void> {
         chapter_id: 'ch-3-2a',
         story_id: story3.story_id,
         chapter_number: 2,
-        depth_level: 1,
         parent_chapter_id: chapter3_1.chapter_id,
         content: 'おにぎりのコーナーに来ました。ツナマヨ、梅、鮭、いろいろな種類があります。全部美味しそうです。どれを選びますか？',
-        content_with_ruby: 'おにぎりのコーナーに<ruby>来<rt>き</rt></ruby>ました。ツナマヨ、<ruby>梅<rt>うめ</rt></ruby>、<ruby>鮭<rt>さけ</rt></ruby>、いろいろな<ruby>種類<rt>しゅるい</rt></ruby>があります。<ruby>全部<rt>ぜんぶ</rt></ruby><ruby>美味<rt>おい</rt></ruby>しそうです。どれを<ruby>選<rt>えら</rt></ruby>びますか？',
-        translation: 'I came to the rice ball corner. There are tuna mayo, pickled plum, salmon, various types. They all look delicious. Which one will you choose?',
+        content_en: 'I came to the rice ball corner. There are tuna mayo, pickled plum, salmon, various types. They all look delicious. Which one will you choose?',
       },
       {
         chapter_id: 'ch-3-2b',
         story_id: story3.story_id,
         chapter_number: 2,
-        depth_level: 1,
         parent_chapter_id: chapter3_1.chapter_id,
         content: '飲み物のコーナーに来ました。冷蔵庫にたくさんの飲み物があります。緑茶、麦茶、ジュース、コーヒー、たくさんあります。のどが渇きました。何を買いますか？',
-        content_with_ruby: '<ruby>飲<rt>の</rt></ruby>み<ruby>物<rt>もの</rt></ruby>のコーナーに<ruby>来<rt>き</rt></ruby>ました。<ruby>冷蔵庫<rt>れいぞうこ</rt></ruby>にたくさんの<ruby>飲<rt>の</rt></ruby>み<ruby>物<rt>もの</rt></ruby>があります。<ruby>緑茶<rt>りょくちゃ</rt></ruby>、<ruby>麦茶<rt>むぎちゃ</rt></ruby>、ジュース、コーヒー、たくさんあります。のどが<ruby>渇<rt>かわ</rt></ruby>きました。<ruby>何<rt>なに</rt></ruby>を<ruby>買<rt>か</rt></ruby>いますか？',
-        translation: 'I came to the drink corner. There are many drinks in the refrigerator. Green tea, barley tea, juice, coffee, there are many. I am thirsty. What will you buy?',
+        content_en: 'I came to the drink corner. There are many drinks in the refrigerator. Green tea, barley tea, juice, coffee, there are many. I am thirsty. What will you buy?',
       },
       {
         chapter_id: 'ch-3-2c',
         story_id: story3.story_id,
         chapter_number: 2,
-        depth_level: 1,
         parent_chapter_id: chapter3_1.chapter_id,
         content: 'お菓子のコーナーに来ました。棚にはポテトチップス、チョコレート、クッキー、飴、たくさんのお菓子があります。どれも美味しそうです。何を選びますか？',
-        content_with_ruby: 'お<ruby>菓子<rt>かし</rt></ruby>のコーナーに<ruby>来<rt>き</rt></ruby>ました。<ruby>棚<rt>たな</rt></ruby>にはポテトチップス、チョコレート、クッキー、<ruby>飴<rt>あめ</rt></ruby>、たくさんのお<ruby>菓子<rt>かし</rt></ruby>があります。どれも<ruby>美味<rt>おい</rt></ruby>しそうです。<ruby>何<rt>なに</rt></ruby>を<ruby>選<rt>えら</rt></ruby>びますか？',
-        translation: 'I came to the snack corner. On the shelves are potato chips, chocolate, cookies, candy, many snacks. They all look delicious. What will you choose?',
+        content_en: 'I came to the snack corner. On the shelves are potato chips, chocolate, cookies, candy, many snacks. They all look delicious. What will you choose?',
       },
       {
         chapter_id: 'ch-3-3a',
         story_id: story3.story_id,
         chapter_number: 3,
-        depth_level: 2,
         parent_chapter_id: 'ch-3-2a',
         content: 'ツナマヨのおにぎりを選びました。一つ120円です。安いです。レジに持って行きます。',
-        content_with_ruby: 'ツナマヨのおにぎりを<ruby>選<rt>えら</rt></ruby>びました。<ruby>一<rt>ひと</rt></ruby>つ120<ruby>円<rt>えん</rt></ruby>です。<ruby>安<rt>やす</rt></ruby>いです。レジに<ruby>持<rt>も</rt></ruby>って<ruby>行<rt>い</rt></ruby>きます。',
-        translation: 'I chose a tuna mayo rice ball. One is 120 yen. It is cheap. I will take it to the register.',
+        content_en: 'I chose a tuna mayo rice ball. One is 120 yen. It is cheap. I will take it to the register.',
       },
       {
         chapter_id: 'ch-3-3b',
         story_id: story3.story_id,
         chapter_number: 3,
-        depth_level: 2,
         parent_chapter_id: 'ch-3-2b',
         content: '緑茶を選びました。ペットボトルで150円です。日本の緑茶は美味しいと聞きました。楽しみです。レジに持って行きます。',
-        content_with_ruby: '<ruby>緑茶<rt>りょくちゃ</rt></ruby>を<ruby>選<rt>えら</rt></ruby>びました。ペットボトルで150<ruby>円<rt>えん</rt></ruby>です。<ruby>日本<rt>にほん</rt></ruby>の<ruby>緑茶<rt>りょくちゃ</rt></ruby>は<ruby>美味<rt>おい</rt></ruby>しいと<ruby>聞<rt>き</rt></ruby>きました。<ruby>楽<rt>たの</rt></ruby>しみです。レジに<ruby>持<rt>も</rt></ruby>って<ruby>行<rt>い</rt></ruby>きます。',
-        translation: 'I chose green tea. It is 150 yen in a plastic bottle. I heard that Japanese green tea is delicious. I am looking forward to it. I will take it to the register.',
+        content_en: 'I chose green tea. It is 150 yen in a plastic bottle. I heard that Japanese green tea is delicious. I am looking forward to it. I will take it to the register.',
       },
       {
         chapter_id: 'ch-3-3c',
         story_id: story3.story_id,
         chapter_number: 3,
-        depth_level: 2,
         parent_chapter_id: 'ch-3-2c',
         content: 'ポテトチップスを選びました。コンソメ味です。100円です。安くて嬉しいです。レジに持って行きます。',
-        content_with_ruby: 'ポテトチップスを<ruby>選<rt>えら</rt></ruby>びました。コンソメ<ruby>味<rt>あじ</rt></ruby>です。100<ruby>円<rt>えん</rt></ruby>です。<ruby>安<rt>やす</rt></ruby>くて<ruby>嬉<rt>うれ</rt></ruby>しいです。レジに<ruby>持<rt>も</rt></ruby>って<ruby>行<rt>い</rt></ruby>きます。',
-        translation: 'I chose potato chips. It is consomme flavor. It is 100 yen. I am happy that it is cheap. I will take it to the register.',
+        content_en: 'I chose potato chips. It is consomme flavor. It is 100 yen. I am happy that it is cheap. I will take it to the register.',
       },
       {
         chapter_id: 'ch-3-4',
         story_id: story3.story_id,
         chapter_number: 4,
-        depth_level: 3,
         parent_chapter_id: 'ch-3-3a',
-        content: 'レジに来ました。店員さんが「いらっしゃいませ」と言いました。お金を払います。店員さんが「お箸はお付けしますか？」と聞きました。日本語で答えます。「はい、お願いします」と言いました。',
-        content_with_ruby: 'レジに<ruby>来<rt>き</rt></ruby>ました。<ruby>店員<rt>てんいん</rt></ruby>さんが「いらっしゃいませ」と<ruby>言<rt>い</rt></ruby>いました。お<ruby>金<rt>かね</rt></ruby>を<ruby>払<rt>はら</rt></ruby>います。<ruby>店員<rt>てんいん</rt></ruby>さんが「お<ruby>箸<rt>はし</rt></ruby>はお<ruby>付<rt>つ</rt></ruby>けしますか？」と<ruby>聞<rt>き</rt></ruby>きました。<ruby>日本語<rt>にほんご</rt></ruby>で<ruby>答<rt>こた</rt></ruby>えます。「はい、お<ruby>願<rt>ねが</rt></ruby>いします」と<ruby>言<rt>い</rt></ruby>いました。',
-        translation: 'I came to the register. The staff said "Welcome." I pay the money. The staff asked "Would you like chopsticks?" I answer in Japanese. I said "Yes, please."',
+        content: 'レジに来ました。店員さんが「いらっしゃいませ」と言いました。お金をはらいます。店員さんが「袋はいりますか？」と聞きました。日本語で答えます。「はい、お願いします」と言いました。',
+        content_en: 'I came to the register. The staff said "Welcome." I pay the money. The staff asked "Would you like a bag?" I answer in Japanese. I said "Yes, please."',
       },
       {
         chapter_id: 'ch-3-5',
         story_id: story3.story_id,
         chapter_number: 5,
-        depth_level: 4,
         parent_chapter_id: 'ch-3-4',
         content: '家に帰りました。買った物を食べます。とても美味しいです。コンビニはとても便利です。24時間開いています。また来たいです。',
-        content_with_ruby: '<ruby>家<rt>いえ</rt></ruby>に<ruby>帰<rt>かえ</rt></ruby>りました。<ruby>買<rt>か</rt></ruby>った<ruby>物<rt>もの</rt></ruby>を<ruby>食<rt>た</rt></ruby>べます。とても<ruby>美味<rt>おい</rt></ruby>しいです。コンビニはとても<ruby>便利<rt>べんり</rt></ruby>です。24<ruby>時間<rt>じかん</rt></ruby><ruby>開<rt>あ</rt></ruby>いています。また<ruby>来<rt>き</rt></ruby>たいです。',
-        translation: 'I went home. I eat what I bought. It is very delicious. Convenience stores are very convenient. They are open 24 hours. I want to come again.',
+        content_en: 'I went home. I eat what I bought. It is very delicious. Convenience stores are very convenient. They are open 24 hours. I want to come again.',
       },
     ],
   });
@@ -607,10 +570,16 @@ async function main(): Promise<void> {
     data: {
       story_id: '4',
       title: '駅での待ち合わせ',
+      title_en: 'Meeting at the Station',
       description: '新宿駅で友達と待ち合わせ。日本の大きな駅での体験を学びます。',
+      description_en: 'Meeting a friend at Shinjuku Station. Learn about experiences at large Japanese train stations.',
+      category: 'daily_life',
+      difficulty_level: 'beginner',
       level_jlpt: 'N4',
       level_cefr: 'A2',
       estimated_time: 8,
+      estimated_duration_minutes: 8,
+      is_active: true,
       root_chapter_id: 'ch-4-1',
     },
   });
@@ -620,10 +589,8 @@ async function main(): Promise<void> {
       chapter_id: 'ch-4-1',
       story_id: story4.story_id,
       chapter_number: 1,
-      depth_level: 0,
       content: '今日は友達と新宿駅で待ち合わせです。新宿駅はとても大きくて、たくさんの人がいます。東口、西口、南口、いろいろな出口があります。友達は「改札の近くで待っている」と言いました。どこで待ちますか？',
-      content_with_ruby: '<ruby>今日<rt>きょう</rt></ruby>は<ruby>友達<rt>ともだち</rt></ruby>と<ruby>新宿駅<rt>しんじゅくえき</rt></ruby>で<ruby>待<rt>ま</rt></ruby>ち<ruby>合<rt>あ</rt></ruby>わせです。<ruby>新宿駅<rt>しんじゅくえき</rt></ruby>はとても<ruby>大<rt>おお</rt></ruby>きくて、たくさんの<ruby>人<rt>ひと</rt></ruby>がいます。<ruby>東口<rt>ひがしぐち</rt></ruby>、<ruby>西口<rt>にしぐち</rt></ruby>、<ruby>南口<rt>みなみぐち</rt></ruby>、いろいろな<ruby>出口<rt>でぐち</rt></ruby>があります。<ruby>友達<rt>ともだち</rt></ruby>は「<ruby>改札<rt>かいさつ</rt></ruby>の<ruby>近<rt>ちか</rt></ruby>くで<ruby>待<rt>ま</rt></ruby>っている」と<ruby>言<rt>い</rt></ruby>いました。どこで<ruby>待<rt>ま</rt></ruby>ちますか？',
-      translation: 'Today I have a meeting with a friend at Shinjuku Station. Shinjuku Station is very big and there are many people. East exit, west exit, south exit, there are various exits. My friend said "I will wait near the ticket gate." Where will you wait?',
+      content_en: 'Today I have a meeting with a friend at Shinjuku Station. Shinjuku Station is very big and there are many people. East exit, west exit, south exit, there are various exits. My friend said "I will wait near the ticket gate." Where will you wait?',
     },
   });
 
@@ -662,81 +629,65 @@ async function main(): Promise<void> {
         chapter_id: 'ch-4-2a',
         story_id: story4.story_id,
         chapter_number: 2,
-        depth_level: 1,
         parent_chapter_id: chapter4_1.chapter_id,
         content: '東口に来ました。人がとても多いです。みんな急いでいます。スマホを見ながら歩いている人もいます。15分待ちましたが、友達が来ません。どうしますか？',
-        content_with_ruby: '<ruby>東口<rt>ひがしぐち</rt></ruby>に<ruby>来<rt>き</rt></ruby>ました。<ruby>人<rt>ひと</rt></ruby>がとても<ruby>多<rt>おお</rt></ruby>いです。みんな<ruby>急<rt>いそ</rt></ruby>いでいます。スマホを<ruby>見<rt>み</rt></ruby>ながら<ruby>歩<rt>ある</rt></ruby>いている<ruby>人<rt>ひと</rt></ruby>もいます。15<ruby>分<rt>ぷん</rt></ruby><ruby>待<rt>ま</rt></ruby>ちましたが、<ruby>友達<rt>ともだち</rt></ruby>が<ruby>来<rt>き</rt></ruby>ません。どうしますか？',
-        translation: 'I came to the east exit. There are so many people. Everyone is in a hurry. Some people are walking while looking at their smartphones. I waited for 15 minutes, but my friend did not come. What will you do?',
+        content_en: 'I came to the east exit. There are so many people. Everyone is in a hurry. Some people are walking while looking at their smartphones. I waited for 15 minutes, but my friend did not come. What will you do?',
       },
       {
         chapter_id: 'ch-4-2b',
         story_id: story4.story_id,
         chapter_number: 2,
-        depth_level: 1,
         parent_chapter_id: chapter4_1.chapter_id,
         content: '西口に来ました。東口より人が少ないです。待ちやすい場所です。10分くらい待っていると、友達が来ました。でも、友達は少し疲れた顔をしています。',
-        content_with_ruby: '<ruby>西口<rt>にしぐち</rt></ruby>に<ruby>来<rt>き</rt></ruby>ました。<ruby>東口<rt>ひがしぐち</rt></ruby>より<ruby>人<rt>ひと</rt></ruby>が<ruby>少<rt>すく</rt></ruby>ないです。<ruby>待<rt>ま</rt></ruby>ちやすい<ruby>場所<rt>ばしょ</rt></ruby>です。10<ruby>分<rt>ぷん</rt></ruby>くらい<ruby>待<rt>ま</rt></ruby>っていると、<ruby>友達<rt>ともだち</rt></ruby>が<ruby>来<rt>き</rt></ruby>ました。でも、<ruby>友達<rt>ともだち</rt></ruby>は<ruby>少<rt>すこ</rt></ruby>し<ruby>疲<rt>つか</rt></ruby>れた<ruby>顔<rt>かお</rt></ruby>をしています。',
-        translation: 'I came to the west exit. There are fewer people than the east exit. It is an easy place to wait. After waiting for about 10 minutes, my friend came. But my friend looks a little tired.',
+        content_en: 'I came to the west exit. There are fewer people than the east exit. It is an easy place to wait. After waiting for about 10 minutes, my friend came. But my friend looks a little tired.',
       },
       {
         chapter_id: 'ch-4-2c',
         story_id: story4.story_id,
         chapter_number: 2,
-        depth_level: 1,
         parent_chapter_id: chapter4_1.chapter_id,
         content: '中央改札に来ました。ここはとてもわかりやすい場所です。待ち合わせをしている人がたくさんいます。時計を見ます。約束の時間を5分過ぎました。',
-        content_with_ruby: '<ruby>中央<rt>ちゅうおう</rt></ruby><ruby>改札<rt>かいさつ</rt></ruby>に<ruby>来<rt>き</rt></ruby>ました。ここはとてもわかりやすい<ruby>場所<rt>ばしょ</rt></ruby>です。<ruby>待<rt>ま</rt></ruby>ち<ruby>合<rt>あ</rt></ruby>わせをしている<ruby>人<rt>ひと</rt></ruby>がたくさんいます。<ruby>時計<rt>とけい</rt></ruby>を<ruby>見<rt>み</rt></ruby>ます。<ruby>約束<rt>やくそく</rt></ruby>の<ruby>時間<rt>じかん</rt></ruby>を5<ruby>分<rt>ぷん</rt></ruby><ruby>過<rt>す</rt></ruby>ぎました。',
-        translation: 'I came to the central ticket gate. This is a very easy-to-understand place. There are many people meeting up. I look at the clock. It is 5 minutes past the promised time.',
+        content_en: 'I came to the central ticket gate. This is a very easy-to-understand place. There are many people meeting up. I look at the clock. It is 5 minutes past the promised time.',
       },
       {
         chapter_id: 'ch-4-3a',
         story_id: story4.story_id,
         chapter_number: 3,
-        depth_level: 2,
         parent_chapter_id: 'ch-4-2a',
         content: 'スマホで友達に電話をしました。友達が「ごめん！電車が遅れてしまった。今、駅に着いたよ。どこにいる？」と言いました。「東口にいるよ」と答えました。5分後、友達が来ました。',
-        content_with_ruby: 'スマホで<ruby>友達<rt>ともだち</rt></ruby>に<ruby>電話<rt>でんわ</rt></ruby>をしました。<ruby>友達<rt>ともだち</rt></ruby>が「ごめん！<ruby>電車<rt>でんしゃ</rt></ruby>が<ruby>遅<rt>おく</rt></ruby>れてしまった。<ruby>今<rt>いま</rt></ruby>、<ruby>駅<rt>えき</rt></ruby>に<ruby>着<rt>つ</rt></ruby>いたよ。どこにいる？」と<ruby>言<rt>い</rt></ruby>いました。「<ruby>東口<rt>ひがしぐち</rt></ruby>にいるよ」と<ruby>答<rt>こた</rt></ruby>えました。5<ruby>分後<rt>ふんご</rt></ruby>、<ruby>友達<rt>ともだち</rt></ruby>が<ruby>来<rt>き</rt></ruby>ました。',
-        translation: 'I called my friend on my smartphone. My friend said "Sorry! The train was delayed. I just arrived at the station. Where are you?" I answered "I am at the east exit." After 5 minutes, my friend came.',
+        content_en: 'I called my friend on my smartphone. My friend said "Sorry! The train was delayed. I just arrived at the station. Where are you?" I answered "I am at the east exit." After 5 minutes, my friend came.',
       },
       {
         chapter_id: 'ch-4-3b',
         story_id: story4.story_id,
         chapter_number: 3,
-        depth_level: 2,
         parent_chapter_id: 'ch-4-2b',
         content: '友達が「ごめんね、ちょっと遅れちゃった。電車が混んでいて大変だった」と言いました。「大丈夫だよ。無事に会えてよかった」と答えました。友達は笑顔になりました。',
-        content_with_ruby: '<ruby>友達<rt>ともだち</rt></ruby>が「ごめんね、ちょっと<ruby>遅<rt>おく</rt></ruby>れちゃった。<ruby>電車<rt>でんしゃ</rt></ruby>が<ruby>混<rt>こ</rt></ruby>んでいて<ruby>大変<rt>たいへん</rt></ruby>だった」と<ruby>言<rt>い</rt></ruby>いました。「<ruby>大丈夫<rt>だいじょうぶ</rt></ruby>だよ。<ruby>無事<rt>ぶじ</rt></ruby>に<ruby>会<rt>あ</rt></ruby>えてよかった」と<ruby>答<rt>こた</rt></ruby>えました。<ruby>友達<rt>ともだち</rt></ruby>は<ruby>笑顔<rt>えがお</rt></ruby>になりました。',
-        translation: 'My friend said "Sorry, I was a little late. The train was crowded and it was tough." I answered "It\'s okay. I\'m glad we could meet safely." My friend smiled.',
+        content_en: 'My friend said "Sorry, I was a little late. The train was crowded and it was tough." I answered "It\'s okay. I\'m glad we could meet safely." My friend smiled.',
       },
       {
         chapter_id: 'ch-4-3c',
         story_id: story4.story_id,
         chapter_number: 3,
-        depth_level: 2,
         parent_chapter_id: 'ch-4-2c',
         content: 'メッセージが来ました。「ごめん！道に迷っちゃった。今どこにいるの？」と書いてありました。「中央改札だよ。ここで待ってる」と返信しました。すぐに友達が来ました。',
-        content_with_ruby: 'メッセージが<ruby>来<rt>き</rt></ruby>ました。「ごめん！<ruby>道<rt>みち</rt></ruby>に<ruby>迷<rt>まよ</rt></ruby>っちゃった。<ruby>今<rt>いま</rt></ruby>どこにいるの？」と<ruby>書<rt>か</rt></ruby>いてありました。「<ruby>中央<rt>ちゅうおう</rt></ruby><ruby>改札<rt>かいさつ</rt></ruby>だよ。ここで<ruby>待<rt>ま</rt></ruby>ってる」と<ruby>返信<rt>へんしん</rt></ruby>しました。すぐに<ruby>友達<rt>ともだち</rt></ruby>が<ruby>来<rt>き</rt></ruby>ました。',
-        translation: 'A message came. It said "Sorry! I got lost. Where are you now?" I replied "I am at the central ticket gate. I am waiting here." My friend came immediately.',
+        content_en: 'A message came. It said "Sorry! I got lost. Where are you now?" I replied "I am at the central ticket gate. I am waiting here." My friend came immediately.',
       },
       {
         chapter_id: 'ch-4-4',
         story_id: story4.story_id,
         chapter_number: 4,
-        depth_level: 3,
         parent_chapter_id: 'ch-4-3a',
         content: '友達と一緒に、どこに行くか相談しました。「映画を見に行こうか？」「それとも、買い物する？」いろいろな選択肢があります。最後に「カフェでゆっくり話そう」と決めました。',
-        content_with_ruby: '<ruby>友達<rt>ともだち</rt></ruby>と<ruby>一緒<rt>いっしょ</rt></ruby>に、どこに<ruby>行<rt>い</rt></ruby>くか<ruby>相談<rt>そうだん</rt></ruby>しました。「<ruby>映画<rt>えいが</rt></ruby>を<ruby>見<rt>み</rt></ruby>に<ruby>行<rt>い</rt></ruby>こうか？」「それとも、<ruby>買<rt>か</rt></ruby>い<ruby>物<rt>もの</rt></ruby>する？」いろいろな<ruby>選択肢<rt>せんたくし</rt></ruby>があります。<ruby>最後<rt>さいご</rt></ruby>に「カフェでゆっくり<ruby>話<rt>はな</rt></ruby>そう」と<ruby>決<rt>き</rt></ruby>めました。',
-        translation: 'Together with my friend, we discussed where to go. "Shall we go see a movie?" "Or shall we go shopping?" There are various options. Finally we decided "Let\'s talk slowly at a cafe."',
+        content_en: 'Together with my friend, we discussed where to go. "Shall we go see a movie?" "Or shall we go shopping?" There are various options. Finally we decided "Let\'s talk slowly at a cafe."',
       },
       {
         chapter_id: 'ch-4-5',
         story_id: story4.story_id,
         chapter_number: 5,
-        depth_level: 4,
         parent_chapter_id: 'ch-4-4',
         content: '電車に乗って、一緒に出かけました。新宿駅は大きくて複雑ですが、なんとか会えました。日本の駅での待ち合わせは難しいですが、スマホがあれば大丈夫です。とても楽しい一日になりました。',
-        content_with_ruby: '<ruby>電車<rt>でんしゃ</rt></ruby>に<ruby>乗<rt>の</rt></ruby>って、<ruby>一緒<rt>いっしょ</rt></ruby>に<ruby>出<rt>で</rt></ruby>かけました。<ruby>新宿駅<rt>しんじゅくえき</rt></ruby>は<ruby>大<rt>おお</rt></ruby>きくて<ruby>複雑<rt>ふくざつ</rt></ruby>ですが、なんとか<ruby>会<rt>あ</rt></ruby>えました。<ruby>日本<rt>にほん</rt></ruby>の<ruby>駅<rt>えき</rt></ruby>での<ruby>待<rt>ま</rt></ruby>ち<ruby>合<rt>あ</rt></ruby>わせは<ruby>難<rt>むずか</rt></ruby>しいですが、スマホがあれば<ruby>大丈夫<rt>だいじょうぶ</rt></ruby>です。とても<ruby>楽<rt>たの</rt></ruby>しい<ruby>一日<rt>いちにち</rt></ruby>になりました。',
-        translation: 'We took the train and went out together. Shinjuku Station is large and complicated, but we managed to meet. Meeting at a Japanese station is difficult, but if you have a smartphone it is okay. It became a very fun day.',
+        content_en: 'We took the train and went out together. Shinjuku Station is large and complicated, but we managed to meet. Meeting at a Japanese station is difficult, but if you have a smartphone it is okay. It became a very fun day.',
       },
     ],
   });
@@ -762,10 +713,16 @@ async function main(): Promise<void> {
     data: {
       story_id: '5',
       title: '居酒屋での夜',
+      title_en: 'Night at an Izakaya',
       description: '会社の同僚と居酒屋へ。日本の飲み会文化を体験します。',
+      description_en: 'Going to an izakaya with work colleagues. Experience Japanese drinking party culture.',
+      category: 'social',
+      difficulty_level: 'intermediate',
       level_jlpt: 'N3',
       level_cefr: 'B1',
       estimated_time: 10,
+      estimated_duration_minutes: 10,
+      is_active: true,
       root_chapter_id: 'ch-5-1',
     },
   });
@@ -775,10 +732,8 @@ async function main(): Promise<void> {
       chapter_id: 'ch-5-1',
       story_id: story5.story_id,
       chapter_number: 1,
-      depth_level: 0,
       content: '仕事が終わった後、同僚の田中さんが「今日、居酒屋に行きませんか？」と誘ってくれました。日本の居酒屋に行くのは初めてです。少し緊張しますが、とても楽しみです。居酒屋に着きました。まず何を注文しますか？',
-      content_with_ruby: '<ruby>仕事<rt>しごと</rt></ruby>が<ruby>終<rt>お</rt></ruby>わった<ruby>後<rt>あと</rt></ruby>、<ruby>同僚<rt>どうりょう</rt></ruby>の<ruby>田中<rt>たなか</rt></ruby>さんが「<ruby>今日<rt>きょう</rt></ruby>、<ruby>居酒屋<rt>いざかや</rt></ruby>に<ruby>行<rt>い</rt></ruby>きませんか？」と<ruby>誘<rt>さそ</rt></ruby>ってくれました。<ruby>日本<rt>にほん</rt></ruby>の<ruby>居酒屋<rt>いざかや</rt></ruby>に<ruby>行<rt>い</rt></ruby>くのは<ruby>初<rt>はじ</rt></ruby>めてです。<ruby>少<rt>すこ</rt></ruby>し<ruby>緊張<rt>きんちょう</rt></ruby>しますが、とても<ruby>楽<rt>たの</rt></ruby>しみです。<ruby>居酒屋<rt>いざかや</rt></ruby>に<ruby>着<rt>つ</rt></ruby>きました。まず<ruby>何<rt>なに</rt></ruby>を<ruby>注文<rt>ちゅうもん</rt></ruby>しますか？',
-      translation: 'After work, my colleague Tanaka invited me saying "Would you like to go to an izakaya today?" It is my first time going to a Japanese izakaya. I am a little nervous, but very excited. We arrived at the izakaya. What will you order first?',
+      content_en: 'After work, my colleague Tanaka invited me saying "Would you like to go to an izakaya today?" It is my first time going to a Japanese izakaya. I am a little nervous, but very excited. We arrived at the izakaya. What will you order first?',
     },
   });
 
@@ -817,81 +772,65 @@ async function main(): Promise<void> {
         chapter_id: 'ch-5-2a',
         story_id: story5.story_id,
         chapter_number: 2,
-        depth_level: 1,
         parent_chapter_id: chapter5_1.chapter_id,
         content: 'ビールが来ました。田中さんが「じゃあ、乾杯しましょう！」と言いました。みんなで「乾杯！」と言ってグラスを合わせました。ビールは冷たくて美味しいです。次に料理を注文します。何を食べますか？',
-        content_with_ruby: 'ビールが<ruby>来<rt>き</rt></ruby>ました。<ruby>田中<rt>たなか</rt></ruby>さんが「じゃあ、<ruby>乾杯<rt>かんぱい</rt></ruby>しましょう！」と<ruby>言<rt>い</rt></ruby>いました。みんなで「<ruby>乾杯<rt>かんぱい</rt></ruby>！」と<ruby>言<rt>い</rt></ruby>ってグラスを<ruby>合<rt>あ</rt></ruby>わせました。ビールは<ruby>冷<rt>つめ</rt></ruby>たくて<ruby>美味<rt>おい</rt></ruby>しいです。<ruby>次<rt>つぎ</rt></ruby>に<ruby>料理<rt>りょうり</rt></ruby>を<ruby>注文<rt>ちゅうもん</rt></ruby>します。<ruby>何<rt>なに</rt></ruby>を<ruby>食<rt>た</rt></ruby>べますか？',
-        translation: 'The beer came. Tanaka said "Well, let\'s toast!" Everyone said "Cheers!" and clinked glasses. The beer is cold and delicious. Next we will order food. What will you eat?',
+        content_en: 'The beer came. Tanaka said "Well, let\'s toast!" Everyone said "Cheers!" and clinked glasses. The beer is cold and delicious. Next we will order food. What will you eat?',
       },
       {
         chapter_id: 'ch-5-2b',
         story_id: story5.story_id,
         chapter_number: 2,
-        depth_level: 1,
         parent_chapter_id: chapter5_1.chapter_id,
         content: 'ウーロン茶が来ました。田中さんが「お酒が飲めないんですか？」と聞きました。「はい、少し苦手で」と答えました。田中さんは「全然大丈夫ですよ！無理に飲む必要はありません」と優しく言ってくれました。料理を注文します。',
-        content_with_ruby: 'ウーロン<ruby>茶<rt>ちゃ</rt></ruby>が<ruby>来<rt>き</rt></ruby>ました。<ruby>田中<rt>たなか</rt></ruby>さんが「お<ruby>酒<rt>さけ</rt></ruby>が<ruby>飲<rt>の</rt></ruby>めないんですか？」と<ruby>聞<rt>き</rt></ruby>きました。「はい、<ruby>少<rt>すこ</rt></ruby>し<ruby>苦手<rt>にがて</rt></ruby>で」と<ruby>答<rt>こた</rt></ruby>えました。<ruby>田中<rt>たなか</rt></ruby>さんは「<ruby>全然<rt>ぜんぜん</rt></ruby><ruby>大丈夫<rt>だいじょうぶ</rt></ruby>ですよ！<ruby>無理<rt>むり</rt></ruby>に<ruby>飲<rt>の</rt></ruby>む<ruby>必要<rt>ひつよう</rt></ruby>はありません」と<ruby>優<rt>やさ</rt></ruby>しく<ruby>言<rt>い</rt></ruby>ってくれました。<ruby>料理<rt>りょうり</rt></ruby>を<ruby>注文<rt>ちゅうもん</rt></ruby>します。',
-        translation: 'The oolong tea came. Tanaka asked "Can\'t you drink alcohol?" I answered "Yes, I am a little bad at it." Tanaka kindly said "It is totally fine! You do not need to force yourself to drink." We order food.',
+        content_en: 'The oolong tea came. Tanaka asked "Can\'t you drink alcohol?" I answered "Yes, I am a little bad at it." Tanaka kindly said "It is totally fine! You do not need to force yourself to drink." We order food.',
       },
       {
         chapter_id: 'ch-5-2c',
         story_id: story5.story_id,
         chapter_number: 2,
-        depth_level: 1,
         parent_chapter_id: chapter5_1.chapter_id,
         content: '日本酒が来ました。小さな器に入っています。田中さんが「おお！日本酒を飲むんですね。どうぞ、ゆっくり味わってください」と言いました。少し飲んでみると、思ったより飲みやすいです。さて、料理を注文しましょう。',
-        content_with_ruby: '<ruby>日本酒<rt>にほんしゅ</rt></ruby>が<ruby>来<rt>き</rt></ruby>ました。<ruby>小<rt>ちい</rt></ruby>さな<ruby>器<rt>うつわ</rt></ruby>に<ruby>入<rt>はい</rt></ruby>っています。<ruby>田中<rt>たなか</rt></ruby>さんが「おお！<ruby>日本酒<rt>にほんしゅ</rt></ruby>を<ruby>飲<rt>の</rt></ruby>むんですね。どうぞ、ゆっくり<ruby>味<rt>あじ</rt></ruby>わってください」と<ruby>言<rt>い</rt></ruby>いました。<ruby>少<rt>すこ</rt></ruby>し<ruby>飲<rt>の</rt></ruby>んでみると、<ruby>思<rt>おも</rt></ruby>ったより<ruby>飲<rt>の</rt></ruby>みやすいです。さて、<ruby>料理<rt>りょうり</rt></ruby>を<ruby>注文<rt>ちゅうもん</rt></ruby>しましょう。',
-        translation: 'The sake came. It is in a small vessel. Tanaka said "Oh! You drink sake. Please, slowly savor it." When I try drinking a little, it is easier to drink than I thought. Now, let\'s order food.',
+        content_en: 'The sake came. It is in a small vessel. Tanaka said "Oh! You drink sake. Please, slowly savor it." When I try drinking a little, it is easier to drink than I thought. Now, let\'s order food.',
       },
       {
         chapter_id: 'ch-5-3a',
         story_id: story5.story_id,
         chapter_number: 3,
-        depth_level: 2,
         parent_chapter_id: 'ch-5-2a',
         content: '焼き鳥を注文しました。タレと塩、両方あります。熱々の焼き鳥が来ました。一口食べると、とても美味しいです。ビールによく合います。同僚たちとの会話も弾みます。',
-        content_with_ruby: '<ruby>焼<rt>や</rt></ruby>き<ruby>鳥<rt>とり</rt></ruby>を<ruby>注文<rt>ちゅうもん</rt></ruby>しました。タレと<ruby>塩<rt>しお</rt></ruby>、<ruby>両方<rt>りょうほう</rt></ruby>あります。<ruby>熱々<rt>あつあつ</rt></ruby>の<ruby>焼<rt>や</rt></ruby>き<ruby>鳥<rt>とり</rt></ruby>が<ruby>来<rt>き</rt></ruby>ました。<ruby>一口<rt>ひとくち</rt></ruby><ruby>食<rt>た</rt></ruby>べると、とても<ruby>美味<rt>おい</rt></ruby>しいです。ビールによく<ruby>合<rt>あ</rt></ruby>います。<ruby>同僚<rt>どうりょう</rt></ruby>たちとの<ruby>会話<rt>かいわ</rt></ruby>も<ruby>弾<rt>はず</rt></ruby>みます。',
-        translation: 'I ordered yakitori. There is both sauce and salt. The piping hot yakitori came. When I eat one bite, it is very delicious. It goes well with beer. The conversation with colleagues also becomes lively.',
+        content_en: 'I ordered yakitori. There is both sauce and salt. The piping hot yakitori came. When I eat one bite, it is very delicious. It goes well with beer. The conversation with colleagues also becomes lively.',
       },
       {
         chapter_id: 'ch-5-3b',
         story_id: story5.story_id,
         chapter_number: 3,
-        depth_level: 2,
         parent_chapter_id: 'ch-5-2b',
         content: '枝豆と冷奴を注文しました。健康的な料理です。枝豆は塩味で美味しいです。冷奴には醤油とネギがかかっています。さっぱりしていて、とても良いです。',
-        content_with_ruby: '<ruby>枝豆<rt>えだまめ</rt></ruby>と<ruby>冷奴<rt>ひややっこ</rt></ruby>を<ruby>注文<rt>ちゅうもん</rt></ruby>しました。<ruby>健康的<rt>けんこうてき</rt></ruby>な<ruby>料理<rt>りょうり</rt></ruby>です。<ruby>枝豆<rt>えだまめ</rt></ruby>は<ruby>塩味<rt>しおあじ</rt></ruby>で<ruby>美味<rt>おい</rt></ruby>しいです。<ruby>冷奴<rt>ひややっこ</rt></ruby>には<ruby>醤油<rt>しょうゆ</rt></ruby>とネギがかかっています。さっぱりしていて、とても<ruby>良<rt>よ</rt></ruby>いです。',
-        translation: 'I ordered edamame and cold tofu. They are healthy dishes. The edamame has a salty taste and is delicious. The cold tofu has soy sauce and green onion on it. It is refreshing and very good.',
+        content_en: 'I ordered edamame and cold tofu. They are healthy dishes. The edamame has a salty taste and is delicious. The cold tofu has soy sauce and green onion on it. It is refreshing and very good.',
       },
       {
         chapter_id: 'ch-5-3c',
         story_id: story5.story_id,
         chapter_number: 3,
-        depth_level: 2,
         parent_chapter_id: 'ch-5-2c',
         content: '刺身の盛り合わせを注文しました。マグロ、サーモン、イカ、いろいろな種類があります。新鮮で美味しいです。日本酒と刺身の組み合わせは最高です。これが日本の居酒屋の醍醐味ですね。',
-        content_with_ruby: '<ruby>刺身<rt>さしみ</rt></ruby>の<ruby>盛<rt>も</rt></ruby>り<ruby>合<rt>あ</rt></ruby>わせを<ruby>注文<rt>ちゅうもん</rt></ruby>しました。マグロ、サーモン、イカ、いろいろな<ruby>種類<rt>しゅるい</rt></ruby>があります。<ruby>新鮮<rt>しんせん</rt></ruby>で<ruby>美味<rt>おい</rt></ruby>しいです。<ruby>日本酒<rt>にほんしゅ</rt></ruby>と<ruby>刺身<rt>さしみ</rt></ruby>の<ruby>組<rt>く</rt></ruby>み<ruby>合<rt>あ</rt></ruby>わせは<ruby>最高<rt>さいこう</rt></ruby>です。これが<ruby>日本<rt>にほん</rt></ruby>の<ruby>居酒屋<rt>いざかや</rt></ruby>の<ruby>醍醐味<rt>だいごみ</rt></ruby>ですね。',
-        translation: 'I ordered an assorted sashimi platter. There are various types including tuna, salmon, and squid. It is fresh and delicious. The combination of sake and sashimi is the best. This is the real pleasure of a Japanese izakaya.',
+        content_en: 'I ordered an assorted sashimi platter. There are various types including tuna, salmon, and squid. It is fresh and delicious. The combination of sake and sashimi is the best. This is the real pleasure of a Japanese izakaya.',
       },
       {
         chapter_id: 'ch-5-4',
         story_id: story5.story_id,
         chapter_number: 4,
-        depth_level: 3,
         parent_chapter_id: 'ch-5-3a',
         content: '楽しく食べていると、田中さんが「この店は飲み放題もあるんですよ」と教えてくれました。飲み放題は2時間で2500円だそうです。日本の飲み会文化について、いろいろ教えてもらいました。',
-        content_with_ruby: '<ruby>楽<rt>たの</rt></ruby>しく<ruby>食<rt>た</rt></ruby>べていると、<ruby>田中<rt>たなか</rt></ruby>さんが「この<ruby>店<rt>みせ</rt></ruby>は<ruby>飲<rt>の</rt></ruby>み<ruby>放題<rt>ほうだい</rt></ruby>もあるんですよ」と<ruby>教<rt>おし</rt></ruby>えてくれました。<ruby>飲<rt>の</rt></ruby>み<ruby>放題<rt>ほうだい</rt></ruby>は2<ruby>時間<rt>じかん</rt></ruby>で2500<ruby>円<rt>えん</rt></ruby>だそうです。<ruby>日本<rt>にほん</rt></ruby>の<ruby>飲<rt>の</rt></ruby>み<ruby>会<rt>かい</rt></ruby><ruby>文化<rt>ぶんか</rt></ruby>について、いろいろ<ruby>教<rt>おし</rt></ruby>えてもらいました。',
-        translation: 'While enjoying eating, Tanaka told me "This restaurant also has all-you-can-drink." The all-you-can-drink is 2500 yen for 2 hours. I learned various things about Japanese drinking party culture.',
+        content_en: 'While enjoying eating, Tanaka told me "This restaurant also has all-you-can-drink." The all-you-can-drink is 2500 yen for 2 hours. I learned various things about Japanese drinking party culture.',
       },
       {
         chapter_id: 'ch-5-5',
         story_id: story5.story_id,
         chapter_number: 5,
-        depth_level: 4,
         parent_chapter_id: 'ch-5-4',
         content: '最後に会計をしました。一人3000円くらいでした。みんなで割り勘にしました。居酒屋はとても楽しかったです。同僚たちともっと仲良くなれました。これからも一緒に来たいです。',
-        content_with_ruby: '<ruby>最後<rt>さいご</rt></ruby>に<ruby>会計<rt>かいけい</rt></ruby>をしました。<ruby>一人<rt>ひとり</rt></ruby>3000<ruby>円<rt>えん</rt></ruby>くらいでした。みんなで<ruby>割<rt>わ</rt></ruby>り<ruby>勘<rt>かん</rt></ruby>にしました。<ruby>居酒屋<rt>いざかや</rt></ruby>はとても<ruby>楽<rt>たの</rt></ruby>しかったです。<ruby>同僚<rt>どうりょう</rt></ruby>たちともっと<ruby>仲良<rt>なかよ</rt></ruby>くなれました。これからも<ruby>一緒<rt>いっしょ</rt></ruby>に<ruby>来<rt>き</rt></ruby>たいです。',
-        translation: 'At the end we paid the bill. It was about 3000 yen per person. We split the bill. The izakaya was very fun. I became closer with my colleagues. I want to come together again.',
+        content_en: 'At the end we paid the bill. It was about 3000 yen per person. We split the bill. The izakaya was very fun. I became closer with my colleagues. I want to come together again.',
       },
     ],
   });
@@ -917,10 +856,16 @@ async function main(): Promise<void> {
     data: {
       story_id: '6',
       title: '温泉旅行',
+      title_en: 'Hot Spring Trip',
       description: '週末の温泉旅行。日本の伝統的な旅館文化と温泉マナーを学びます。',
+      description_en: 'A weekend trip to a hot spring. Learn about traditional Japanese ryokan culture and hot spring etiquette.',
+      category: 'culture',
+      difficulty_level: 'intermediate',
       level_jlpt: 'N2',
       level_cefr: 'B2',
       estimated_time: 12,
+      estimated_duration_minutes: 12,
+      is_active: true,
       root_chapter_id: 'ch-6-1',
     },
   });
@@ -930,10 +875,8 @@ async function main(): Promise<void> {
       chapter_id: 'ch-6-1',
       story_id: story6.story_id,
       chapter_number: 1,
-      depth_level: 0,
       content: '週末、箱根の温泉旅館に来ました。伝統的な日本建築の美しい旅館です。玄関で靴を脱ぎ、仲居さんが部屋まで案内してくれました。部屋からは山の景色が見えます。これから何をしますか？',
-      content_with_ruby: '<ruby>週末<rt>しゅうまつ</rt></ruby>、<ruby>箱根<rt>はこね</rt></ruby>の<ruby>温泉<rt>おんせん</rt></ruby><ruby>旅館<rt>りょかん</rt></ruby>に<ruby>来<rt>き</rt></ruby>ました。<ruby>伝統的<rt>でんとうてき</rt></ruby>な<ruby>日本<rt>にほん</rt></ruby><ruby>建築<rt>けんちく</rt></ruby>の<ruby>美<rt>うつく</rt></ruby>しい<ruby>旅館<rt>りょかん</rt></ruby>です。<ruby>玄関<rt>げんかん</rt></ruby>で<ruby>靴<rt>くつ</rt></ruby>を<ruby>脱<rt>ぬ</rt></ruby>ぎ、<ruby>仲居<rt>なかい</rt></ruby>さんが<ruby>部屋<rt>へや</rt></ruby>まで<ruby>案内<rt>あんない</rt></ruby>してくれました。<ruby>部屋<rt>へや</rt></ruby>からは<ruby>山<rt>やま</rt></ruby>の<ruby>景色<rt>けしき</rt></ruby>が<ruby>見<rt>み</rt></ruby>えます。これから<ruby>何<rt>なに</rt></ruby>をしますか？',
-      translation: 'On the weekend, I came to a hot spring inn in Hakone. It is a beautiful inn with traditional Japanese architecture. I took off my shoes at the entrance, and the attendant guided me to my room. I can see the mountain scenery from the room. What will you do now?',
+      content_en: 'On the weekend, I came to a hot spring inn in Hakone. It is a beautiful inn with traditional Japanese architecture. I took off my shoes at the entrance, and the attendant guided me to my room. I can see the mountain scenery from the room. What will you do now?',
     },
   });
 
@@ -972,81 +915,65 @@ async function main(): Promise<void> {
         chapter_id: 'ch-6-2a',
         story_id: story6.story_id,
         chapter_number: 2,
-        depth_level: 1,
         parent_chapter_id: chapter6_1.chapter_id,
         content: '浴衣に着替えて、露天風呂に向かいました。脱衣所で服を脱ぎ、タオルを持って入浴します。露天風呂からは雄大な山々が一望できます。温かいお湯に浸かりながら、自然の美しさに感動しました。これこそが日本の温泉文化の魅力です。',
-        content_with_ruby: '<ruby>浴衣<rt>ゆかた</rt></ruby>に<ruby>着替<rt>きが</rt></ruby>えて、<ruby>露天風呂<rt>ろてんぶろ</rt></ruby>に<ruby>向<rt>む</rt></ruby>かいました。<ruby>脱衣所<rt>だついじょ</rt></ruby>で<ruby>服<rt>ふく</rt></ruby>を<ruby>脱<rt>ぬ</rt></ruby>ぎ、タオルを<ruby>持<rt>も</rt></ruby>って<ruby>入浴<rt>にゅうよく</rt></ruby>します。<ruby>露天風呂<rt>ろてんぶろ</rt></ruby>からは<ruby>雄大<rt>ゆうだい</rt></ruby>な<ruby>山々<rt>やまやま</rt></ruby>が<ruby>一望<rt>いちぼう</rt></ruby>できます。<ruby>温<rt>あたた</rt></ruby>かいお<ruby>湯<rt>ゆ</rt></ruby>に<ruby>浸<rt>つ</rt></ruby>かりながら、<ruby>自然<rt>しぜん</rt></ruby>の<ruby>美<rt>うつく</rt></ruby>しさに<ruby>感動<rt>かんどう</rt></ruby>しました。これこそが<ruby>日本<rt>にほん</rt></ruby>の<ruby>温泉<rt>おんせん</rt></ruby><ruby>文化<rt>ぶんか</rt></ruby>の<ruby>魅力<rt>みりょく</rt></ruby>です。',
-        translation: 'I changed into a yukata and headed to the outdoor bath. I took off my clothes in the changing room and entered with a towel. From the outdoor bath, I can see the magnificent mountains. While soaking in the warm water, I was moved by the beauty of nature. This is the charm of Japanese hot spring culture.',
+        content_en: 'I changed into a yukata and headed to the outdoor bath. I took off my clothes in the changing room and entered with a towel. From the outdoor bath, I can see the magnificent mountains. While soaking in the warm water, I was moved by the beauty of nature. This is the charm of Japanese hot spring culture.',
       },
       {
         chapter_id: 'ch-6-2b',
         story_id: story6.story_id,
         chapter_number: 2,
-        depth_level: 1,
         parent_chapter_id: chapter6_1.chapter_id,
         content: '部屋には畳が敷いてあり、真ん中に低いテーブルがあります。お茶とお菓子が用意されていました。窓を開けると、涼しい山の風が入ってきます。浴衣に着替えて、のんびりとお茶を飲みました。都会の喧騒から離れた、静かで贅沢な時間です。',
-        content_with_ruby: '<ruby>部屋<rt>へや</rt></ruby>には<ruby>畳<rt>たたみ</rt></ruby>が<ruby>敷<rt>し</rt></ruby>いてあり、<ruby>真<rt>ま</rt></ruby>ん<ruby>中<rt>なか</rt></ruby>に<ruby>低<rt>ひく</rt></ruby>いテーブルがあります。お<ruby>茶<rt>ちゃ</rt></ruby>とお<ruby>菓子<rt>かし</rt></ruby>が<ruby>用意<rt>ようい</rt></ruby>されていました。<ruby>窓<rt>まど</rt></ruby>を<ruby>開<rt>あ</rt></ruby>けると、<ruby>涼<rt>すず</rt></ruby>しい<ruby>山<rt>やま</rt></ruby>の<ruby>風<rt>かぜ</rt></ruby>が<ruby>入<rt>はい</rt></ruby>ってきます。<ruby>浴衣<rt>ゆかた</rt></ruby>に<ruby>着替<rt>きが</rt></ruby>えて、のんびりとお<ruby>茶<rt>ちゃ</rt></ruby>を<ruby>飲<rt>の</rt></ruby>みました。<ruby>都会<rt>とかい</rt></ruby>の<ruby>喧騒<rt>けんそう</rt></ruby>から<ruby>離<rt>はな</rt></ruby>れた、<ruby>静<rt>しず</rt></ruby>かで<ruby>贅沢<rt>ぜいたく</rt></ruby>な<ruby>時間<rt>じかん</rt></ruby>です。',
-        translation: 'The room has tatami mats, with a low table in the middle. Tea and sweets were prepared. When I open the window, the cool mountain breeze comes in. I changed into a yukata and leisurely drank tea. It is a quiet and luxurious time away from the hustle and bustle of the city.',
+        content_en: 'The room has tatami mats, with a low table in the middle. Tea and sweets were prepared. When I open the window, the cool mountain breeze comes in. I changed into a yukata and leisurely drank tea. It is a quiet and luxurious time away from the hustle and bustle of the city.',
       },
       {
         chapter_id: 'ch-6-2c',
         story_id: story6.story_id,
         chapter_number: 2,
-        depth_level: 1,
         parent_chapter_id: chapter6_1.chapter_id,
         content: '浴衣に着替えて、下駄を履いて外に出ました。温泉街には土産物屋や足湯があります。カランコロンという下駄の音が風情を感じさせます。足湯に座って温まりながら、地元のおばあさんと少し話をしました。「温泉はゆっくり入ってね」とアドバイスをもらいました。',
-        content_with_ruby: '<ruby>浴衣<rt>ゆかた</rt></ruby>に<ruby>着替<rt>きが</rt></ruby>えて、<ruby>下駄<rt>げた</rt></ruby>を<ruby>履<rt>は</rt></ruby>いて<ruby>外<rt>そと</rt></ruby>に<ruby>出<rt>で</rt></ruby>ました。<ruby>温泉街<rt>おんせんがい</rt></ruby>には<ruby>土産物屋<rt>みやげものや</rt></ruby>や<ruby>足湯<rt>あしゆ</rt></ruby>があります。カランコロンという<ruby>下駄<rt>げた</rt></ruby>の<ruby>音<rt>おと</rt></ruby>が<ruby>風情<rt>ふぜい</rt></ruby>を<ruby>感<rt>かん</rt></ruby>じさせます。<ruby>足湯<rt>あしゆ</rt></ruby>に<ruby>座<rt>すわ</rt></ruby>って<ruby>温<rt>あたた</rt></ruby>まりながら、<ruby>地元<rt>じもと</rt></ruby>のおばあさんと<ruby>少<rt>すこ</rt></ruby>し<ruby>話<rt>はなし</rt></ruby>をしました。「<ruby>温泉<rt>おんせん</rt></ruby>はゆっくり<ruby>入<rt>はい</rt></ruby>ってね」とアドバイスをもらいました。',
-        translation: 'I changed into a yukata, put on geta, and went outside. The hot spring town has souvenir shops and foot baths. The clacking sound of geta creates an atmosphere. While sitting and warming up in the foot bath, I talked a little with a local elderly woman. She gave me advice saying "Take your time in the hot spring."',
+        content_en: 'I changed into a yukata, put on geta, and went outside. The hot spring town has souvenir shops and foot baths. The clacking sound of geta creates an atmosphere. While sitting and warming up in the foot bath, I talked a little with a local elderly woman. She gave me advice saying "Take your time in the hot spring."',
       },
       {
         chapter_id: 'ch-6-3a',
         story_id: story6.story_id,
         chapter_number: 3,
-        depth_level: 2,
         parent_chapter_id: 'ch-6-2a',
         content: '温泉から上がった後、湯上がり処で冷たいお茶を飲みました。体がぽかぽかして、とても気持ちがいいです。温泉の効能について書かれた掲示を読みました。この温泉は肩こりや疲労回復に効果があるそうです。',
-        content_with_ruby: '<ruby>温泉<rt>おんせん</rt></ruby>から<ruby>上<rt>あ</rt></ruby>がった<ruby>後<rt>あと</rt></ruby>、<ruby>湯上<rt>ゆあ</rt></ruby>がり<ruby>処<rt>どころ</rt></ruby>で<ruby>冷<rt>つめ</rt></ruby>たいお<ruby>茶<rt>ちゃ</rt></ruby>を<ruby>飲<rt>の</rt></ruby>みました。<ruby>体<rt>からだ</rt></ruby>がぽかぽかして、とても<ruby>気持<rt>きも</rt></ruby>ちがいいです。<ruby>温泉<rt>おんせん</rt></ruby>の<ruby>効能<rt>こうのう</rt></ruby>について<ruby>書<rt>か</rt></ruby>かれた<ruby>掲示<rt>けいじ</rt></ruby>を<ruby>読<rt>よ</rt></ruby>みました。この<ruby>温泉<rt>おんせん</rt></ruby>は<ruby>肩<rt>かた</rt></ruby>こりや<ruby>疲労<rt>ひろう</rt></ruby><ruby>回復<rt>かいふく</rt></ruby>に<ruby>効果<rt>こうか</rt></ruby>があるそうです。',
-        translation: 'After getting out of the hot spring, I drank cold tea at the after-bath lounge. My body is warm and feels very good. I read the notice written about the effects of the hot spring. This hot spring is said to be effective for stiff shoulders and fatigue recovery.',
+        content_en: 'After getting out of the hot spring, I drank cold tea at the after-bath lounge. My body is warm and feels very good. I read the notice written about the effects of the hot spring. This hot spring is said to be effective for stiff shoulders and fatigue recovery.',
       },
       {
         chapter_id: 'ch-6-3b',
         story_id: story6.story_id,
         chapter_number: 3,
-        depth_level: 2,
         parent_chapter_id: 'ch-6-2b',
         content: 'ゆっくり休んだ後、温泉に入ることにしました。内湯には檜風呂があり、木の香りがとても良いです。ゆっくりと湯船に浸かり、一日の疲れが溶けていくようです。温泉療養の文化が日本で大切にされている理由がわかりました。',
-        content_with_ruby: 'ゆっくり<ruby>休<rt>やす</rt></ruby>んだ<ruby>後<rt>あと</rt></ruby>、<ruby>温泉<rt>おんせん</rt></ruby>に<ruby>入<rt>はい</rt></ruby>ることにしました。<ruby>内湯<rt>うちゆ</rt></ruby>には<ruby>檜風呂<rt>ひのきぶろ</rt></ruby>があり、<ruby>木<rt>き</rt></ruby>の<ruby>香<rt>かお</rt></ruby>りがとても<ruby>良<rt>よ</rt></ruby>いです。ゆっくりと<ruby>湯船<rt>ゆぶね</rt></ruby>に<ruby>浸<rt>つ</rt></ruby>かり、<ruby>一日<rt>いちにち</rt></ruby>の<ruby>疲<rt>つか</rt></ruby>れが<ruby>溶<rt>と</rt></ruby>けていくようです。<ruby>温泉<rt>おんせん</rt></ruby><ruby>療養<rt>りょうよう</rt></ruby>の<ruby>文化<rt>ぶんか</rt></ruby>が<ruby>日本<rt>にほん</rt></ruby>で<ruby>大切<rt>たいせつ</rt></ruby>にされている<ruby>理由<rt>りゆう</rt></ruby>がわかりました。',
-        translation: 'After resting slowly, I decided to enter the hot spring. The indoor bath has a cypress bath, and the wooden scent is very good. Slowly soaking in the bathtub, it seems like the fatigue of the day is melting away. I understood why the culture of hot spring therapy is cherished in Japan.',
+        content_en: 'After resting slowly, I decided to enter the hot spring. The indoor bath has a cypress bath, and the wooden scent is very good. Slowly soaking in the bathtub, it seems like the fatigue of the day is melting away. I understood why the culture of hot spring therapy is cherished in Japan.',
       },
       {
         chapter_id: 'ch-6-3c',
         story_id: story6.story_id,
         chapter_number: 3,
-        depth_level: 2,
         parent_chapter_id: 'ch-6-2c',
         content: '旅館に戻り、大浴場に入りました。広い浴槽には乳白色のお湯が満ちています。硫黄の香りが漂い、本格的な温泉を感じます。他の宿泊客と少し会話をしながら、リラックスした時間を過ごしました。',
-        content_with_ruby: '<ruby>旅館<rt>りょかん</rt></ruby>に<ruby>戻<rt>もど</rt></ruby>り、<ruby>大浴場<rt>だいよくじょう</rt></ruby>に<ruby>入<rt>はい</rt></ruby>りました。<ruby>広<rt>ひろ</rt></ruby>い<ruby>浴槽<rt>よくそう</rt></ruby>には<ruby>乳白色<rt>にゅうはくしょく</rt></ruby>のお<ruby>湯<rt>ゆ</rt></ruby>が<ruby>満<rt>み</rt></ruby>ちています。<ruby>硫黄<rt>いおう</rt></ruby>の<ruby>香<rt>かお</rt></ruby>りが<ruby>漂<rt>ただよ</rt></ruby>い、<ruby>本格的<rt>ほんかくてき</rt></ruby>な<ruby>温泉<rt>おんせん</rt></ruby>を<ruby>感<rt>かん</rt></ruby>じます。<ruby>他<rt>ほか</rt></ruby>の<ruby>宿泊客<rt>しゅくはくきゃく</rt></ruby>と<ruby>少<rt>すこ</rt></ruby>し<ruby>会話<rt>かいわ</rt></ruby>をしながら、リラックスした<ruby>時間<rt>じかん</rt></ruby>を<ruby>過<rt>す</rt></ruby>ごしました。',
-        translation: 'I returned to the inn and entered the large public bath. The wide bathtub is filled with milky white water. The scent of sulfur drifts, and I feel the authentic hot spring. I spent a relaxing time while having a little conversation with other guests.',
+        content_en: 'I returned to the inn and entered the large public bath. The wide bathtub is filled with milky white water. The scent of sulfur drifts, and I feel the authentic hot spring. I spent a relaxing time while having a little conversation with other guests.',
       },
       {
         chapter_id: 'ch-6-4',
         story_id: story6.story_id,
         chapter_number: 4,
-        depth_level: 3,
         parent_chapter_id: 'ch-6-3a',
         content: '夕食の時間になりました。部屋に懐石料理が運ばれてきました。地元の山の幸、川の幸を使った料理が美しく並んでいます。一品一品に季節感があり、目でも舌でも楽しめます。仲居さんが料理の説明をしてくれました。これが日本の「おもてなし」の心だと感じました。',
-        content_with_ruby: '<ruby>夕食<rt>ゆうしょく</rt></ruby>の<ruby>時間<rt>じかん</rt></ruby>になりました。<ruby>部屋<rt>へや</rt></ruby>に<ruby>懐石<rt>かいせき</rt></ruby><ruby>料理<rt>りょうり</rt></ruby>が<ruby>運<rt>はこ</rt></ruby>ばれてきました。<ruby>地元<rt>じもと</rt></ruby>の<ruby>山<rt>やま</rt></ruby>の<ruby>幸<rt>さち</rt></ruby>、<ruby>川<rt>かわ</rt></ruby>の<ruby>幸<rt>さち</rt></ruby>を<ruby>使<rt>つか</rt></ruby>った<ruby>料理<rt>りょうり</rt></ruby>が<ruby>美<rt>うつく</rt></ruby>しく<ruby>並<rt>なら</rt></ruby>んでいます。<ruby>一品<rt>いっぴん</rt></ruby><ruby>一品<rt>いっぴん</rt></ruby>に<ruby>季節感<rt>きせつかん</rt></ruby>があり、<ruby>目<rt>め</rt></ruby>でも<ruby>舌<rt>した</rt></ruby>でも<ruby>楽<rt>たの</rt></ruby>しめます。<ruby>仲居<rt>なかい</rt></ruby>さんが<ruby>料理<rt>りょうり</rt></ruby>の<ruby>説明<rt>せつめい</rt></ruby>をしてくれました。これが<ruby>日本<rt>にほん</rt></ruby>の「おもてなし」の<ruby>心<rt>こころ</rt></ruby>だと<ruby>感<rt>かん</rt></ruby>じました。',
-        translation: 'It was time for dinner. Kaiseki cuisine was brought to the room. Dishes using local mountain delicacies and river delicacies are beautifully arranged. Each dish has a sense of season, and can be enjoyed both visually and tastefully. The attendant explained the dishes. I felt this was the spirit of Japanese "omotenashi" hospitality.',
+        content_en: 'It was time for dinner. Kaiseki cuisine was brought to the room. Dishes using local mountain delicacies and river delicacies are beautifully arranged. Each dish has a sense of season, and can be enjoyed both visually and tastefully. The attendant explained the dishes. I felt this was the spirit of Japanese "omotenashi" hospitality.',
       },
       {
         chapter_id: 'ch-6-5',
         story_id: story6.story_id,
         chapter_number: 5,
-        depth_level: 4,
         parent_chapter_id: 'ch-6-4',
         content: '夜、もう一度温泉に入りました。夜の露天風呂は昼とは違う雰囲気で、星空を見ながら入浴できます。日本の温泉文化の素晴らしさを実感しました。温泉旅行は、心身ともに癒される最高の体験でした。明日の朝も温泉に入って、ゆっくりチェックアウトしたいと思います。',
-        content_with_ruby: '<ruby>夜<rt>よる</rt></ruby>、もう<ruby>一度<rt>いちど</rt></ruby><ruby>温泉<rt>おんせん</rt></ruby>に<ruby>入<rt>はい</rt></ruby>りました。<ruby>夜<rt>よる</rt></ruby>の<ruby>露天風呂<rt>ろてんぶろ</rt></ruby>は<ruby>昼<rt>ひる</rt></ruby>とは<ruby>違<rt>ちが</rt></ruby>う<ruby>雰囲気<rt>ふんいき</rt></ruby>で、<ruby>星空<rt>ほしぞら</rt></ruby>を<ruby>見<rt>み</rt></ruby>ながら<ruby>入浴<rt>にゅうよく</rt></ruby>できます。<ruby>日本<rt>にほん</rt></ruby>の<ruby>温泉<rt>おんせん</rt></ruby><ruby>文化<rt>ぶんか</rt></ruby>の<ruby>素晴<rt>すば</rt></ruby>らしさを<ruby>実感<rt>じっかん</rt></ruby>しました。<ruby>温泉<rt>おんせん</rt></ruby><ruby>旅行<rt>りょこう</rt></ruby>は、<ruby>心身<rt>しんしん</rt></ruby>ともに<ruby>癒<rt>いや</rt></ruby>される<ruby>最高<rt>さいこう</rt></ruby>の<ruby>体験<rt>たいけん</rt></ruby>でした。<ruby>明日<rt>あした</rt></ruby>の<ruby>朝<rt>あさ</rt></ruby>も<ruby>温泉<rt>おんせん</rt></ruby>に<ruby>入<rt>はい</rt></ruby>って、ゆっくりチェックアウトしたいと<ruby>思<rt>おも</rt></ruby>います。',
-        translation: 'At night, I entered the hot spring once more. The night outdoor bath has a different atmosphere from the daytime, and you can bathe while looking at the starry sky. I realized the wonderfulness of Japanese hot spring culture. The hot spring trip was the best experience that heals both mind and body. Tomorrow morning I also want to enter the hot spring and check out slowly.',
+        content_en: 'At night, I entered the hot spring once more. The night outdoor bath has a different atmosphere from the daytime, and you can bathe while looking at the starry sky. I realized the wonderfulness of Japanese hot spring culture. The hot spring trip was the best experience that heals both mind and body. Tomorrow morning I also want to enter the hot spring and check out slowly.',
       },
     ],
   });
@@ -1072,10 +999,16 @@ async function main(): Promise<void> {
     data: {
       story_id: '7',
       title: '日本企業での面接',
+      title_en: 'Job Interview at a Japanese Company',
       description: '日本の会社での就職面接。ビジネスマナーと面接の準備を体験します。',
+      description_en: 'Job interview at a Japanese company. Experience business etiquette and interview preparation.',
+      category: 'business',
+      difficulty_level: 'advanced',
       level_jlpt: 'N2',
       level_cefr: 'B2',
       estimated_time: 12,
+      estimated_duration_minutes: 12,
+      is_active: true,
       root_chapter_id: 'ch-7-1',
     },
   });
@@ -1085,10 +1018,8 @@ async function main(): Promise<void> {
       chapter_id: 'ch-7-1',
       story_id: story7.story_id,
       chapter_number: 1,
-      depth_level: 0,
       content: '今日は大手IT企業の面接です。オフィスビルの前に着きました。スーツを着て、履歴書を持っています。とても緊張していますが、このチャンスを逃したくありません。面接まであと30分あります。どうしますか？',
-      content_with_ruby: '<ruby>今日<rt>きょう</rt></ruby>は<ruby>大手<rt>おおて</rt></ruby>IT<ruby>企業<rt>きぎょう</rt></ruby>の<ruby>面接<rt>めんせつ</rt></ruby>です。オフィスビルの<ruby>前<rt>まえ</rt></ruby>に<ruby>着<rt>つ</rt></ruby>きました。スーツを<ruby>着<rt>き</rt></ruby>て、<ruby>履歴書<rt>りれきしょ</rt></ruby>を<ruby>持<rt>も</rt></ruby>っています。とても<ruby>緊張<rt>きんちょう</rt></ruby>していますが、このチャンスを<ruby>逃<rt>のが</rt></ruby>したくありません。<ruby>面接<rt>めんせつ</rt></ruby>まであと30<ruby>分<rt>ぷん</rt></ruby>あります。どうしますか？',
-      translation: 'Today is an interview with a major IT company. I arrived in front of the office building. I am wearing a suit and holding my resume. I am very nervous, but I do not want to miss this chance. There are 30 minutes left until the interview. What will you do?',
+      content_en: 'Today is an interview with a major IT company. I arrived in front of the office building. I am wearing a suit and holding my resume. I am very nervous, but I do not want to miss this chance. There are 30 minutes left until the interview. What will you do?',
     },
   });
 
@@ -1127,81 +1058,65 @@ async function main(): Promise<void> {
         chapter_id: 'ch-7-2a',
         story_id: story7.story_id,
         chapter_number: 2,
-        depth_level: 1,
         parent_chapter_id: chapter7_1.chapter_id,
         content: '近くのカフェで最終確認をしました。志望動機、自己PR、キャリアプランを頭の中で整理しました。日本語で自然に話せるよう、何度も練習しました。準備は完璧です。自信を持って面接に臨めそうです。',
-        content_with_ruby: '<ruby>近<rt>ちか</rt></ruby>くのカフェで<ruby>最終<rt>さいしゅう</rt></ruby><ruby>確認<rt>かくにん</rt></ruby>をしました。<ruby>志望<rt>しぼう</rt></ruby><ruby>動機<rt>どうき</rt></ruby>、<ruby>自己<rt>じこ</rt></ruby>PR、キャリアプランを<ruby>頭<rt>あたま</rt></ruby>の<ruby>中<rt>なか</rt></ruby>で<ruby>整理<rt>せいり</rt></ruby>しました。<ruby>日本語<rt>にほんご</rt></ruby>で<ruby>自然<rt>しぜん</rt></ruby>に<ruby>話<rt>はな</rt></ruby>せるよう、<ruby>何度<rt>なんど</rt></ruby>も<ruby>練習<rt>れんしゅう</rt></ruby>しました。<ruby>準備<rt>じゅんび</rt></ruby>は<ruby>完璧<rt>かんぺき</rt></ruby>です。<ruby>自信<rt>じしん</rt></ruby>を<ruby>持<rt>も</rt></ruby>って<ruby>面接<rt>めんせつ</rt></ruby>に<ruby>臨<rt>のぞ</rt></ruby>めそうです。',
-        translation: 'I did a final check at a nearby cafe. I organized my motivation, self-PR, and career plan in my head. I practiced many times so I could speak naturally in Japanese. The preparation is perfect. I seem to be able to face the interview with confidence.',
+        content_en: 'I did a final check at a nearby cafe. I organized my motivation, self-PR, and career plan in my head. I practiced many times so I could speak naturally in Japanese. The preparation is perfect. I seem to be able to face the interview with confidence.',
       },
       {
         chapter_id: 'ch-7-2b',
         story_id: story7.story_id,
         chapter_number: 2,
-        depth_level: 1,
         parent_chapter_id: chapter7_1.chapter_id,
         content: '小さな公園のベンチに座りました。目を閉じて、ゆっくりと深呼吸をします。吸って、吐いて。緊張が少しずつほぐれていきます。「大丈夫、今までの経験と準備を信じよう」と自分に言い聞かせました。心が落ち着いてきました。',
-        content_with_ruby: '<ruby>小<rt>ちい</rt></ruby>さな<ruby>公園<rt>こうえん</rt></ruby>のベンチに<ruby>座<rt>すわ</rt></ruby>りました。<ruby>目<rt>め</rt></ruby>を<ruby>閉<rt>と</rt></ruby>じて、ゆっくりと<ruby>深呼吸<rt>しんこきゅう</rt></ruby>をします。<ruby>吸<rt>す</rt></ruby>って、<ruby>吐<rt>は</rt></ruby>いて。<ruby>緊張<rt>きんちょう</rt></ruby>が<ruby>少<rt>すこ</rt></ruby>しずつほぐれていきます。「<ruby>大丈夫<rt>だいじょうぶ</rt></ruby>、<ruby>今<rt>いま</rt></ruby>までの<ruby>経験<rt>けいけん</rt></ruby>と<ruby>準備<rt>じゅんび</rt></ruby>を<ruby>信<rt>しん</rt></ruby>じよう」と<ruby>自分<rt>じぶん</rt></ruby>に<ruby>言<rt>い</rt></ruby>い<ruby>聞<rt>き</rt></ruby>かせました。<ruby>心<rt>こころ</rt></ruby>が<ruby>落<rt>お</rt></ruby>ち<ruby>着<rt>つ</rt></ruby>いてきました。',
-        translation: 'I sat on a bench in a small park. I closed my eyes and took deep breaths slowly. Inhale, exhale. The tension gradually loosens. I told myself "It\'s okay, believe in my experience and preparation so far." My mind has calmed down.',
+        content_en: 'I sat on a bench in a small park. I closed my eyes and took deep breaths slowly. Inhale, exhale. The tension gradually loosens. I told myself "It\'s okay, believe in my experience and preparation so far." My mind has calmed down.',
       },
       {
         chapter_id: 'ch-7-2c',
         story_id: story7.story_id,
         chapter_number: 2,
-        depth_level: 1,
         parent_chapter_id: chapter7_1.chapter_id,
         content: 'ビルのロビーに入りました。何人かの応募者が待っています。みんな真剣な表情をしています。受付で名前を伝えると、待合室に案内されました。緊張感が高まりますが、ここまで来たからには全力を尽くすだけです。',
-        content_with_ruby: 'ビルのロビーに<ruby>入<rt>はい</rt></ruby>りました。<ruby>何人<rt>なんにん</rt></ruby>かの<ruby>応募者<rt>おうぼしゃ</rt></ruby>が<ruby>待<rt>ま</rt></ruby>っています。みんな<ruby>真剣<rt>しんけん</rt></ruby>な<ruby>表情<rt>ひょうじょう</rt></ruby>をしています。<ruby>受付<rt>うけつけ</rt></ruby>で<ruby>名前<rt>なまえ</rt></ruby>を<ruby>伝<rt>つた</rt></ruby>えると、<ruby>待合室<rt>まちあいしつ</rt></ruby>に<ruby>案内<rt>あんない</rt></ruby>されました。<ruby>緊張感<rt>きんちょうかん</rt></ruby>が<ruby>高<rt>たか</rt></ruby>まりますが、ここまで<ruby>来<rt>き</rt></ruby>たからには<ruby>全力<rt>ぜんりょく</rt></ruby>を<ruby>尽<rt>つ</rt></ruby>くすだけです。',
-        translation: 'I entered the building lobby. Several applicants are waiting. Everyone has a serious expression. When I gave my name at the reception, I was guided to the waiting room. The tension rises, but since I came this far, I just have to do my best.',
+        content_en: 'I entered the building lobby. Several applicants are waiting. Everyone has a serious expression. When I gave my name at the reception, I was guided to the waiting room. The tension rises, but since I came this far, I just have to do my best.',
       },
       {
         chapter_id: 'ch-7-3a',
         story_id: story7.story_id,
         chapter_number: 3,
-        depth_level: 2,
         parent_chapter_id: 'ch-7-2a',
         content: '面接室に入りました。3人の面接官がいます。「お座りください」と言われ、椅子に座りました。まず志望動機を聞かれました。「御社のグローバルな事業展開と技術力に魅力を感じ、ぜひ貢献したいと思いました」と答えました。面接官は頷いて、メモを取っています。',
-        content_with_ruby: '<ruby>面接室<rt>めんせつしつ</rt></ruby>に<ruby>入<rt>はい</rt></ruby>りました。3<ruby>人<rt>にん</rt></ruby>の<ruby>面接官<rt>めんせつかん</rt></ruby>がいます。「お<ruby>座<rt>すわ</rt></ruby>りください」と<ruby>言<rt>い</rt></ruby>われ、<ruby>椅子<rt>いす</rt></ruby>に<ruby>座<rt>すわ</rt></ruby>りました。まず<ruby>志望<rt>しぼう</rt></ruby><ruby>動機<rt>どうき</rt></ruby>を<ruby>聞<rt>き</rt></ruby>かれました。「<ruby>御社<rt>おんしゃ</rt></ruby>のグローバルな<ruby>事業<rt>じぎょう</rt></ruby><ruby>展開<rt>てんかい</rt></ruby>と<ruby>技術力<rt>ぎじゅつりょく</rt></ruby>に<ruby>魅力<rt>みりょく</rt></ruby>を<ruby>感<rt>かん</rt></ruby>じ、ぜひ<ruby>貢献<rt>こうけん</rt></ruby>したいと<ruby>思<rt>おも</rt></ruby>いました」と<ruby>答<rt>こた</rt></ruby>えました。<ruby>面接官<rt>めんせつかん</rt></ruby>は<ruby>頷<rt>うなず</rt></ruby>いて、メモを<ruby>取<rt>と</rt></ruby>っています。',
-        translation: 'I entered the interview room. There are three interviewers. I was told "Please sit down" and sat on a chair. First I was asked about my motivation. I answered "I was attracted by your company\'s global business development and technical capabilities, and I definitely wanted to contribute." The interviewers nodded and are taking notes.',
+        content_en: 'I entered the interview room. There are three interviewers. I was told "Please sit down" and sat on a chair. First I was asked about my motivation. I answered "I was attracted by your company\'s global business development and technical capabilities, and I definitely wanted to contribute." The interviewers nodded and are taking notes.',
       },
       {
         chapter_id: 'ch-7-3b',
         story_id: story7.story_id,
         chapter_number: 3,
-        depth_level: 2,
         parent_chapter_id: 'ch-7-2b',
         content: '面接が始まりました。リラックスしているおかげで、自然に話すことができます。「あなたの強みと弱みを教えてください」と聞かれました。「強みは問題解決能力です。弱みは細かいことに気を取られすぎることですが、優先順位をつけることで改善しています」と答えました。',
-        content_with_ruby: '<ruby>面接<rt>めんせつ</rt></ruby>が<ruby>始<rt>はじ</rt></ruby>まりました。リラックスしているおかげで、<ruby>自然<rt>しぜん</rt></ruby>に<ruby>話<rt>はな</rt></ruby>すことができます。「あなたの<ruby>強<rt>つよ</rt></ruby>みと<ruby>弱<rt>よわ</rt></ruby>みを<ruby>教<rt>おし</rt></ruby>えてください」と<ruby>聞<rt>き</rt></ruby>かれました。「<ruby>強<rt>つよ</rt></ruby>みは<ruby>問題<rt>もんだい</rt></ruby><ruby>解決<rt>かいけつ</rt></ruby><ruby>能力<rt>のうりょく</rt></ruby>です。<ruby>弱<rt>よわ</rt></ruby>みは<ruby>細<rt>こま</rt></ruby>かいことに<ruby>気<rt>き</rt></ruby>を<ruby>取<rt>と</rt></ruby>られすぎることですが、<ruby>優先<rt>ゆうせん</rt></ruby><ruby>順位<rt>じゅんい</rt></ruby>をつけることで<ruby>改善<rt>かいぜん</rt></ruby>しています」と<ruby>答<rt>こた</rt></ruby>えました。',
-        translation: 'The interview started. Thanks to being relaxed, I can speak naturally. I was asked "Please tell me your strengths and weaknesses." I answered "My strength is problem-solving ability. My weakness is being too distracted by details, but I am improving by setting priorities."',
+        content_en: 'The interview started. Thanks to being relaxed, I can speak naturally. I was asked "Please tell me your strengths and weaknesses." I answered "My strength is problem-solving ability. My weakness is being too distracted by details, but I am improving by setting priorities."',
       },
       {
         chapter_id: 'ch-7-3c',
         story_id: story7.story_id,
         chapter_number: 3,
-        depth_level: 2,
         parent_chapter_id: 'ch-7-2c',
         content: '名前を呼ばれ、面接室に入りました。他の応募者を見ていたので、流れがわかります。「5年後、どのようなキャリアを描いていますか？」と聞かれました。「チームリーダーとして、プロジェクトをマネジメントしながら、技術面でも会社に貢献したいです」と答えました。',
-        content_with_ruby: '<ruby>名前<rt>なまえ</rt></ruby>を<ruby>呼<rt>よ</rt></ruby>ばれ、<ruby>面接室<rt>めんせつしつ</rt></ruby>に<ruby>入<rt>はい</rt></ruby>りました。<ruby>他<rt>ほか</rt></ruby>の<ruby>応募者<rt>おうぼしゃ</rt></ruby>を<ruby>見<rt>み</rt></ruby>ていたので、<ruby>流<rt>なが</rt></ruby>れがわかります。「5<ruby>年後<rt>ねんご</rt></ruby>、どのようなキャリアを<ruby>描<rt>えが</rt></ruby>いていますか？」と<ruby>聞<rt>き</rt></ruby>かれました。「チームリーダーとして、プロジェクトをマネジメントしながら、<ruby>技術面<rt>ぎじゅつめん</rt></ruby>でも<ruby>会社<rt>かいしゃ</rt></ruby>に<ruby>貢献<rt>こうけん</rt></ruby>したいです」と<ruby>答<rt>こた</rt></ruby>えました。',
-        translation: 'My name was called and I entered the interview room. Since I watched other applicants, I understand the flow. I was asked "What kind of career do you envision in 5 years?" I answered "As a team leader, I want to contribute to the company both in management of projects and technically."',
+        content_en: 'My name was called and I entered the interview room. Since I watched other applicants, I understand the flow. I was asked "What kind of career do you envision in 5 years?" I answered "As a team leader, I want to contribute to the company both in management of projects and technically."',
       },
       {
         chapter_id: 'ch-7-4',
         story_id: story7.story_id,
         chapter_number: 4,
-        depth_level: 3,
         parent_chapter_id: 'ch-7-3a',
         content: '面接官が「日本の企業文化に適応できると思いますか？」と聞きました。これは重要な質問です。「はい。チームワークを大切にする姿勢や、報告・連絡・相談の文化を理解しています。前職でも日本人の同僚と働いた経験があり、柔軟に適応できる自信があります」と答えました。面接官たちは満足そうな表情を見せました。',
-        content_with_ruby: '<ruby>面接官<rt>めんせつかん</rt></ruby>が「<ruby>日本<rt>にほん</rt></ruby>の<ruby>企業<rt>きぎょう</rt></ruby><ruby>文化<rt>ぶんか</rt></ruby>に<ruby>適応<rt>てきおう</rt></ruby>できると<ruby>思<rt>おも</rt></ruby>いますか？」と<ruby>聞<rt>き</rt></ruby>きました。これは<ruby>重要<rt>じゅうよう</rt></ruby>な<ruby>質問<rt>しつもん</rt></ruby>です。「はい。チームワークを<ruby>大切<rt>たいせつ</rt></ruby>にする<ruby>姿勢<rt>しせい</rt></ruby>や、<ruby>報告<rt>ほうこく</rt></ruby>・<ruby>連絡<rt>れんらく</rt></ruby>・<ruby>相談<rt>そうだん</rt></ruby>の<ruby>文化<rt>ぶんか</rt></ruby>を<ruby>理解<rt>りかい</rt></ruby>しています。<ruby>前職<rt>ぜんしょく</rt></ruby>でも<ruby>日本人<rt>にほんじん</rt></ruby>の<ruby>同僚<rt>どうりょう</rt></ruby>と<ruby>働<rt>はたら</rt></ruby>いた<ruby>経験<rt>けいけん</rt></ruby>があり、<ruby>柔軟<rt>じゅうなん</rt></ruby>に<ruby>適応<rt>てきおう</rt></ruby>できる<ruby>自信<rt>じしん</rt></ruby>があります」と<ruby>答<rt>こた</rt></ruby>えました。<ruby>面接官<rt>めんせつかん</rt></ruby>たちは<ruby>満足<rt>まんぞく</rt></ruby>そうな<ruby>表情<rt>ひょうじょう</rt></ruby>を<ruby>見<rt>み</rt></ruby>せました。',
-        translation: 'The interviewer asked "Do you think you can adapt to Japanese corporate culture?" This is an important question. I answered "Yes. I understand the attitude of valuing teamwork and the culture of reporting, communicating, and consulting. I have experience working with Japanese colleagues at my previous job, and I am confident I can adapt flexibly." The interviewers showed satisfied expressions.',
+        content_en: 'The interviewer asked "Do you think you can adapt to Japanese corporate culture?" This is an important question. I answered "Yes. I understand the attitude of valuing teamwork and the culture of reporting, communicating, and consulting. I have experience working with Japanese colleagues at my previous job, and I am confident I can adapt flexibly." The interviewers showed satisfied expressions.',
       },
       {
         chapter_id: 'ch-7-5',
         story_id: story7.story_id,
         chapter_number: 5,
-        depth_level: 4,
         parent_chapter_id: 'ch-7-4',
         content: '面接が終わりました。「結果は一週間以内にご連絡します」と言われました。面接室を出て、深く一礼しました。全力を尽くしました。日本での就職活動は大変でしたが、良い経験になりました。結果を待つ間、次の準備も始めようと思います。日本で働くという夢に、また一歩近づいたような気がします。',
-        content_with_ruby: '<ruby>面接<rt>めんせつ</rt></ruby>が<ruby>終<rt>お</rt></ruby>わりました。「<ruby>結果<rt>けっか</rt></ruby>は<ruby>一<rt>いっ</rt></ruby><ruby>週間<rt>しゅうかん</rt></ruby><ruby>以内<rt>いない</rt></ruby>にご<ruby>連絡<rt>れんらく</rt></ruby>します」と<ruby>言<rt>い</rt></ruby>われました。<ruby>面接室<rt>めんせつしつ</rt></ruby>を<ruby>出<rt>で</rt></ruby>て、<ruby>深<rt>ふか</rt></ruby>く<ruby>一礼<rt>いちれい</rt></ruby>しました。<ruby>全力<rt>ぜんりょく</rt></ruby>を<ruby>尽<rt>つ</rt></ruby>くしました。<ruby>日本<rt>にほん</rt></ruby>での<ruby>就職<rt>しゅうしょく</rt></ruby><ruby>活動<rt>かつどう</rt></ruby>は<ruby>大変<rt>たいへん</rt></ruby>でしたが、<ruby>良<rt>よ</rt></ruby>い<ruby>経験<rt>けいけん</rt></ruby>になりました。<ruby>結果<rt>けっか</rt></ruby>を<ruby>待<rt>ま</rt></ruby>つ<ruby>間<rt>あいだ</rt></ruby>、<ruby>次<rt>つぎ</rt></ruby>の<ruby>準備<rt>じゅんび</rt></ruby>も<ruby>始<rt>はじ</rt></ruby>めようと<ruby>思<rt>おも</rt></ruby>います。<ruby>日本<rt>にほん</rt></ruby>で<ruby>働<rt>はたら</rt></ruby>くという<ruby>夢<rt>ゆめ</rt></ruby>に、また<ruby>一歩<rt>いっぽ</rt></ruby><ruby>近<rt>ちか</rt></ruby>づいたような<ruby>気<rt>き</rt></ruby>がします。',
-        translation: 'The interview ended. I was told "We will contact you within one week with the results." I left the interview room and bowed deeply. I did my best. Job hunting in Japan was tough, but it became a good experience. While waiting for the results, I think I will also start preparing for the next one. I feel I have taken another step closer to my dream of working in Japan.',
+        content_en: 'The interview ended. I was told "We will contact you within one week with the results." I left the interview room and bowed deeply. I did my best. Job hunting in Japan was tough, but it became a good experience. While waiting for the results, I think I will also start preparing for the next one. I feel I have taken another step closer to my dream of working in Japan.',
       },
     ],
   });
@@ -1227,10 +1142,16 @@ async function main(): Promise<void> {
     data: {
       story_id: '8',
       title: '京都の古寺巡り',
+      title_en: 'Visiting Ancient Temples in Kyoto',
       description: '古都京都で日本の精神性と美学を探求する旅。禅の思想と伝統文化を深く学びます。',
+      description_en: 'A journey to explore Japanese spirituality and aesthetics in the ancient capital of Kyoto. Deeply learn about Zen philosophy and traditional culture.',
+      category: 'culture',
+      difficulty_level: 'advanced',
       level_jlpt: 'N1',
       level_cefr: 'C1',
       estimated_time: 15,
+      estimated_duration_minutes: 15,
+      is_active: true,
       root_chapter_id: 'ch-8-1',
     },
   });
@@ -1240,10 +1161,8 @@ async function main(): Promise<void> {
       chapter_id: 'ch-8-1',
       story_id: story8.story_id,
       chapter_number: 1,
-      depth_level: 0,
       content: '早朝、清水寺に到着しました。観光客が少ない静かな時間です。朝靄の中、木造の本堂が荘厳な雰囲気を醸し出しています。清水の舞台から京都の街を一望できます。ここから、どのように寺院を巡りますか？',
-      content_with_ruby: '<ruby>早朝<rt>そうちょう</rt></ruby>、<ruby>清水寺<rt>きよみずでら</rt></ruby>に<ruby>到着<rt>とうちゃく</rt></ruby>しました。<ruby>観光客<rt>かんこうきゃく</rt></ruby>が<ruby>少<rt>すく</rt></ruby>ない<ruby>静<rt>しず</rt></ruby>かな<ruby>時間<rt>じかん</rt></ruby>です。<ruby>朝靄<rt>あさもや</rt></ruby>の<ruby>中<rt>なか</rt></ruby>、<ruby>木造<rt>もくぞう</rt></ruby>の<ruby>本堂<rt>ほんどう</rt></ruby>が<ruby>荘厳<rt>そうごん</rt></ruby>な<ruby>雰囲気<rt>ふんいき</rt></ruby>を<ruby>醸<rt>かも</rt></ruby>し<ruby>出<rt>だ</rt></ruby>しています。<ruby>清水<rt>きよみず</rt></ruby>の<ruby>舞台<rt>ぶたい</rt></ruby>から<ruby>京都<rt>きょうと</rt></ruby>の<ruby>街<rt>まち</rt></ruby>を<ruby>一望<rt>いちぼう</rt></ruby>できます。ここから、どのように<ruby>寺院<rt>じいん</rt></ruby>を<ruby>巡<rt>めぐ</rt></ruby>りますか？',
-      translation: 'In the early morning, I arrived at Kiyomizu-dera Temple. It is a quiet time with few tourists. In the morning mist, the wooden main hall exudes a solemn atmosphere. From the Kiyomizu stage, you can see the entire Kyoto city. From here, how will you tour the temple?',
+      content_en: 'In the early morning, I arrived at Kiyomizu-dera Temple. It is a quiet time with few tourists. In the morning mist, the wooden main hall exudes a solemn atmosphere. From the Kiyomizu stage, you can see the entire Kyoto city. From here, how will you tour the temple?',
     },
   });
 
@@ -1282,81 +1201,65 @@ async function main(): Promise<void> {
         chapter_id: 'ch-8-2a',
         story_id: story8.story_id,
         chapter_number: 2,
-        depth_level: 1,
         parent_chapter_id: chapter8_1.chapter_id,
         content: '本堂の構造を詳しく観察しました。釘を一本も使わない伝統的な組み木の技法が使われています。平安時代から続く建築技術の粋を感じます。日本の職人たちが何世代にもわたって磨いてきた技術の結晶です。このような建築物が千年以上も維持されてきたことに、深い感銘を受けました。',
-        content_with_ruby: '<ruby>本堂<rt>ほんどう</rt></ruby>の<ruby>構造<rt>こうぞう</rt></ruby>を<ruby>詳<rt>くわ</rt></ruby>しく<ruby>観察<rt>かんさつ</rt></ruby>しました。<ruby>釘<rt>くぎ</rt></ruby>を<ruby>一本<rt>いっぽん</rt></ruby>も<ruby>使<rt>つか</rt></ruby>わない<ruby>伝統的<rt>でんとうてき</rt></ruby>な<ruby>組<rt>く</rt></ruby>み<ruby>木<rt>き</rt></ruby>の<ruby>技法<rt>ぎほう</rt></ruby>が<ruby>使<rt>つか</rt></ruby>われています。<ruby>平安<rt>へいあん</rt></ruby><ruby>時代<rt>じだい</rt></ruby>から<ruby>続<rt>つづ</rt></ruby>く<ruby>建築<rt>けんちく</rt></ruby><ruby>技術<rt>ぎじゅつ</rt></ruby>の<ruby>粋<rt>すい</rt></ruby>を<ruby>感<rt>かん</rt></ruby>じます。<ruby>日本<rt>にほん</rt></ruby>の<ruby>職人<rt>しょくにん</rt></ruby>たちが<ruby>何<rt>なん</rt></ruby><ruby>世代<rt>せだい</rt></ruby>にもわたって<ruby>磨<rt>みが</rt></ruby>いてきた<ruby>技術<rt>ぎじゅつ</rt></ruby>の<ruby>結晶<rt>けっしょう</rt></ruby>です。このような<ruby>建築物<rt>けんちくぶつ</rt></ruby>が<ruby>千年<rt>せんねん</rt></ruby><ruby>以上<rt>いじょう</rt></ruby>も<ruby>維持<rt>いじ</rt></ruby>されてきたことに、<ruby>深<rt>ふか</rt></ruby>い<ruby>感銘<rt>かんめい</rt></ruby>を<ruby>受<rt>う</rt></ruby>けました。',
-        translation: 'I observed the structure of the main hall in detail. Traditional joinery techniques without using a single nail are employed. I feel the essence of architectural technology that has continued since the Heian period. It is the crystallization of skills that Japanese craftsmen have polished over many generations. I was deeply impressed that such architecture has been maintained for over a thousand years.',
+        content_en: 'I observed the structure of the main hall in detail. Traditional joinery techniques without using a single nail are employed. I feel the essence of architectural technology that has continued since the Heian period. It is the crystallization of skills that Japanese craftsmen have polished over many generations. I was deeply impressed that such architecture has been maintained for over a thousand years.',
       },
       {
         chapter_id: 'ch-8-2b',
         story_id: story8.story_id,
         chapter_number: 2,
-        depth_level: 1,
         parent_chapter_id: chapter8_1.chapter_id,
         content: '境内の由緒書を読みました。清水寺は778年に開山され、観音菩薩を本尊としています。「諸行無常」という仏教の根本思想について書かれていました。全てのものは変化し、永遠に続くものは何もない。この教えは、日本人の美意識である「もののあはれ」の根底にある考え方です。桜の花が散る美しさを愛でる心も、この思想から生まれています。',
-        content_with_ruby: '<ruby>境内<rt>けいだい</rt></ruby>の<ruby>由緒書<rt>ゆいしょがき</rt></ruby>を<ruby>読<rt>よ</rt></ruby>みました。<ruby>清水寺<rt>きよみずでら</rt></ruby>は778<ruby>年<rt>ねん</rt></ruby>に<ruby>開山<rt>かいさん</rt></ruby>され、<ruby>観音<rt>かんのん</rt></ruby><ruby>菩薩<rt>ぼさつ</rt></ruby>を<ruby>本尊<rt>ほんぞん</rt></ruby>としています。「<ruby>諸行<rt>しょぎょう</rt></ruby><ruby>無常<rt>むじょう</rt></ruby>」という<ruby>仏教<rt>ぶっきょう</rt></ruby>の<ruby>根本<rt>こんぽん</rt></ruby><ruby>思想<rt>しそう</rt></ruby>について<ruby>書<rt>か</rt></ruby>かれていました。<ruby>全<rt>すべ</rt></ruby>てのものは<ruby>変化<rt>へんか</rt></ruby>し、<ruby>永遠<rt>えいえん</rt></ruby>に<ruby>続<rt>つづ</rt></ruby>くものは<ruby>何<rt>なに</rt></ruby>もない。この<ruby>教<rt>おし</rt></ruby>えは、<ruby>日本人<rt>にほんじん</rt></ruby>の<ruby>美意識<rt>びいしき</rt></ruby>である「もののあはれ」の<ruby>根底<rt>こんてい</rt></ruby>にある<ruby>考<rt>かんが</rt></ruby>え<ruby>方<rt>かた</rt></ruby>です。<ruby>桜<rt>さくら</rt></ruby>の<ruby>花<rt>はな</rt></ruby>が<ruby>散<rt>ち</rt></ruby>る<ruby>美<rt>うつく</rt></ruby>しさを<ruby>愛<rt>め</rt></ruby>でる<ruby>心<rt>こころ</rt></ruby>も、この<ruby>思想<rt>しそう</rt></ruby>から<ruby>生<rt>う</rt></ruby>まれています。',
-        translation: 'I read the historical record in the precinct. Kiyomizu-dera was founded in 778 and enshrines Kannon Bodhisattva as the principal image. It was written about "impermanence," a fundamental Buddhist philosophy. All things change, and nothing lasts forever. This teaching is the underlying concept of "mono no aware," the Japanese aesthetic sense. The heart that appreciates the beauty of falling cherry blossoms is also born from this philosophy.',
+        content_en: 'I read the historical record in the precinct. Kiyomizu-dera was founded in 778 and enshrines Kannon Bodhisattva as the principal image. It was written about "impermanence," a fundamental Buddhist philosophy. All things change, and nothing lasts forever. This teaching is the underlying concept of "mono no aware," the Japanese aesthetic sense. The heart that appreciates the beauty of falling cherry blossoms is also born from this philosophy.',
       },
       {
         chapter_id: 'ch-8-2c',
         story_id: story8.story_id,
         chapter_number: 2,
-        depth_level: 1,
         parent_chapter_id: chapter8_1.chapter_id,
-        content: '境内を歩いていると、若い僧侶に出会いました。勇気を出して、仏教について質問しました。「禅とは何ですか？」と尋ねると、僧侶は微笑んで答えました。「禅は言葉では説明できません。座禅を組んで、自分の心と向き合うことです。今この瞬間に集中し、雑念を払うことで、本当の自分に気づくのです」。その言葉は、私の心に深く響きました。',
-        content_with_ruby: '<ruby>境内<rt>けいだい</rt></ruby>を<ruby>歩<rt>ある</rt></ruby>いていると、<ruby>若<rt>わか</rt></ruby>い<ruby>僧侶<rt>そうりょ</rt></ruby>に<ruby>出会<rt>であ</rt></ruby>いました。<ruby>勇気<rt>ゆうき</rt></ruby>を<ruby>出<rt>だ</rt></ruby>して、<ruby>仏教<rt>ぶっきょう</rt></ruby>について<ruby>質問<rt>しつもん</rt></ruby>しました。「<ruby>禅<rt>ぜん</rt></ruby>とは<ruby>何<rt>なん</rt></ruby>ですか？」と<ruby>尋<rt>たず</rt></ruby>ねると、<ruby>僧侶<rt>そうりょ</rt></ruby>は<ruby>微笑<rt>ほほえ</rt></ruby>んで<ruby>答<rt>こた</rt></ruby>えました。「<ruby>禅<rt>ぜん</rt></ruby>は<ruby>言葉<rt>ことば</rt></ruby>では<ruby>説明<rt>せつめい</rt></ruby>できません。<ruby>座禅<rt>ざぜん</rt></ruby>を<ruby>組<rt>く</rt></ruby>んで、<ruby>自分<rt>じぶん</rt></ruby>の<ruby>心<rt>こころ</rt></ruby>と<ruby>向<rt>む</rt></ruby>き<ruby>合<rt>あ</rt></ruby>うことです。<ruby>今<rt>いま</rt></ruby>この<ruby>瞬間<rt>しゅんかん</rt></ruby>に<ruby>集中<rt>しゅうちゅう</rt></ruby>し、<ruby>雑念<rt>ざつねん</rt></ruby>を<ruby>払<rt>はら</rt></ruby>うことで、<ruby>本当<rt>ほんとう</rt></ruby>の<ruby>自分<rt>じぶん</rt></ruby>に<ruby>気<rt>き</rt></ruby>づくのです」。その<ruby>言葉<rt>ことば</rt></ruby>は、<ruby>私<rt>わたし</rt></ruby>の<ruby>心<rt>こころ</rt></ruby>に<ruby>深<rt>ふか</rt></ruby>く<ruby>響<rt>ひび</rt></ruby>きました。',
-        translation: 'While walking through the precinct, I met a young monk. I gathered courage and asked about Buddhism. When I asked "What is Zen?", the monk smiled and answered. "Zen cannot be explained in words. It is to sit in zazen and face your own heart. By concentrating on this moment now and dispelling distracting thoughts, you realize your true self." Those words resonated deeply in my heart.',
+        content: '境内を歩いていると、若い僧侶に出会いました。勇気を出して、仏教について質問しました。「禅とは何ですか？」と尋ねると、僧侶は微笑んで答えました。「禅は言葉では説明できません。座禅を組んで、自分の心と向き合うことです。今この瞬間に集中し、雑念をはらうことで、本当の自分に気づくのです」。その言葉は、私の心に深く響きました。',
+        content_en: 'While walking through the precinct, I met a young monk. I gathered courage and asked about Buddhism. When I asked "What is Zen?", the monk smiled and answered. "Zen cannot be explained in words. It is to sit in zazen and face your own heart. By concentrating on this moment now and dispelling distracting thoughts, you realize your true self." Those words resonated deeply in my heart.',
       },
       {
         chapter_id: 'ch-8-3a',
         story_id: story8.story_id,
         chapter_number: 3,
-        depth_level: 2,
         parent_chapter_id: 'ch-8-2a',
         content: '建築の美しさに感動した後、日本の美学について深く考えました。簡素でありながら洗練された美しさ。装飾を削ぎ落とし、本質だけを残す。これが「侘寂」という日本独特の美意識です。完璧ではないものの中に、かえって深い美しさを見出す。この哲学は、茶道、華道、庭園、そして日常生活の全てに浸透しています。',
-        content_with_ruby: '<ruby>建築<rt>けんちく</rt></ruby>の<ruby>美<rt>うつく</rt></ruby>しさに<ruby>感動<rt>かんどう</rt></ruby>した<ruby>後<rt>あと</rt></ruby>、<ruby>日本<rt>にほん</rt></ruby>の<ruby>美学<rt>びがく</rt></ruby>について<ruby>深<rt>ふか</rt></ruby>く<ruby>考<rt>かんが</rt></ruby>えました。<ruby>簡素<rt>かんそ</rt></ruby>でありながら<ruby>洗練<rt>せんれん</rt></ruby>された<ruby>美<rt>うつく</rt></ruby>しさ。<ruby>装飾<rt>そうしょく</rt></ruby>を<ruby>削<rt>そ</rt></ruby>ぎ<ruby>落<rt>お</rt></ruby>とし、<ruby>本質<rt>ほんしつ</rt></ruby>だけを<ruby>残<rt>のこ</rt></ruby>す。これが「<ruby>侘寂<rt>わびさび</rt></ruby>」という<ruby>日本<rt>にほん</rt></ruby><ruby>独特<rt>どくとく</rt></ruby>の<ruby>美意識<rt>びいしき</rt></ruby>です。<ruby>完璧<rt>かんぺき</rt></ruby>ではないものの<ruby>中<rt>なか</rt></ruby>に、かえって<ruby>深<rt>ふか</rt></ruby>い<ruby>美<rt>うつく</rt></ruby>しさを<ruby>見出<rt>みいだ</rt></ruby>す。この<ruby>哲学<rt>てつがく</rt></ruby>は、<ruby>茶道<rt>さどう</rt></ruby>、<ruby>華道<rt>かどう</rt></ruby>、<ruby>庭園<rt>ていえん</rt></ruby>、そして<ruby>日常<rt>にちじょう</rt></ruby><ruby>生活<rt>せいかつ</rt></ruby>の<ruby>全<rt>すべ</rt></ruby>てに<ruby>浸透<rt>しんとう</rt></ruby>しています。',
-        translation: 'After being moved by the beauty of the architecture, I thought deeply about Japanese aesthetics. Simple yet refined beauty. Stripping away decorations and leaving only the essence. This is "wabi-sabi," a uniquely Japanese aesthetic sense. Finding deep beauty in things that are not perfect. This philosophy permeates everything: tea ceremony, flower arrangement, gardens, and daily life.',
+        content_en: 'After being moved by the beauty of the architecture, I thought deeply about Japanese aesthetics. Simple yet refined beauty. Stripping away decorations and leaving only the essence. This is "wabi-sabi," a uniquely Japanese aesthetic sense. Finding deep beauty in things that are not perfect. This philosophy permeates everything: tea ceremony, flower arrangement, gardens, and daily life.',
       },
       {
         chapter_id: 'ch-8-3b',
         story_id: story8.story_id,
         chapter_number: 3,
-        depth_level: 2,
         parent_chapter_id: 'ch-8-2b',
         content: '無常の概念について瞑想しました。全てのものは移ろいゆく。だからこそ、今この瞬間が貴重なのです。永遠に続くものがないからこそ、儚い美しさに価値がある。日本人が季節の移ろいを大切にし、満開の桜よりも散りゆく花びらに美を見出すのは、この思想が根底にあるからです。人生もまた同じ。変化を恐れるのではなく、受け入れることで、より豊かな人生を送ることができる。',
-        content_with_ruby: '<ruby>無常<rt>むじょう</rt></ruby>の<ruby>概念<rt>がいねん</rt></ruby>について<ruby>瞑想<rt>めいそう</rt></ruby>しました。<ruby>全<rt>すべ</rt></ruby>てのものは<ruby>移<rt>うつ</rt></ruby>ろいゆく。だからこそ、<ruby>今<rt>いま</rt></ruby>この<ruby>瞬間<rt>しゅんかん</rt></ruby>が<ruby>貴重<rt>きちょう</rt></ruby>なのです。<ruby>永遠<rt>えいえん</rt></ruby>に<ruby>続<rt>つづ</rt></ruby>くものがないからこそ、<ruby>儚<rt>はかな</rt></ruby>い<ruby>美<rt>うつく</rt></ruby>しさに<ruby>価値<rt>かち</rt></ruby>がある。<ruby>日本人<rt>にほんじん</rt></ruby>が<ruby>季節<rt>きせつ</rt></ruby>の<ruby>移<rt>うつ</rt></ruby>ろいを<ruby>大切<rt>たいせつ</rt></ruby>にし、<ruby>満開<rt>まんかい</rt></ruby>の<ruby>桜<rt>さくら</rt></ruby>よりも<ruby>散<rt>ち</rt></ruby>りゆく<ruby>花<rt>はな</rt></ruby>びらに<ruby>美<rt>び</rt></ruby>を<ruby>見出<rt>みいだ</rt></ruby>すのは、この<ruby>思想<rt>しそう</rt></ruby>が<ruby>根底<rt>こんてい</rt></ruby>にあるからです。<ruby>人生<rt>じんせい</rt></ruby>もまた<ruby>同<rt>おな</rt></ruby>じ。<ruby>変化<rt>へんか</rt></ruby>を<ruby>恐<rt>おそ</rt></ruby>れるのではなく、<ruby>受<rt>う</rt></ruby>け<ruby>入<rt>い</rt></ruby>れることで、より<ruby>豊<rt>ゆた</rt></ruby>かな<ruby>人生<rt>じんせい</rt></ruby>を<ruby>送<rt>おく</rt></ruby>ることができる。',
-        translation: 'I meditated on the concept of impermanence. All things pass away. That is why this moment now is precious. Because nothing lasts forever, fleeting beauty has value. The reason Japanese people cherish the changing seasons and find beauty in falling petals rather than cherry blossoms in full bloom is that this philosophy is at the foundation. Life is also the same. By accepting change rather than fearing it, you can live a richer life.',
+        content_en: 'I meditated on the concept of impermanence. All things pass away. That is why this moment now is precious. Because nothing lasts forever, fleeting beauty has value. The reason Japanese people cherish the changing seasons and find beauty in falling petals rather than cherry blossoms in full bloom is that this philosophy is at the foundation. Life is also the same. By accepting change rather than fearing it, you can live a richer life.',
       },
       {
         chapter_id: 'ch-8-3c',
         story_id: story8.story_id,
         chapter_number: 3,
-        depth_level: 2,
         parent_chapter_id: 'ch-8-2c',
         content: '禅の教えについてさらに学びたくなりました。僧侶が「坐禅体験をしてみませんか」と誘ってくれました。静かな禅堂で、他の参加者と共に座禅を組みました。最初は雑念だらけでしたが、呼吸に集中するうちに、心が静まっていきました。思考を手放し、ただ「今ここにいる」ことを感じる。これが禅の第一歩だと理解しました。',
-        content_with_ruby: '<ruby>禅<rt>ぜん</rt></ruby>の<ruby>教<rt>おし</rt></ruby>えについてさらに<ruby>学<rt>まな</rt></ruby>びたくなりました。<ruby>僧侶<rt>そうりょ</rt></ruby>が「<ruby>坐禅<rt>ざぜん</rt></ruby><ruby>体験<rt>たいけん</rt></ruby>をしてみませんか」と<ruby>誘<rt>さそ</rt></ruby>ってくれました。<ruby>静<rt>しず</rt></ruby>かな<ruby>禅堂<rt>ぜんどう</rt></ruby>で、<ruby>他<rt>ほか</rt></ruby>の<ruby>参加者<rt>さんかしゃ</rt></ruby>と<ruby>共<rt>とも</rt></ruby>に<ruby>座禅<rt>ざぜん</rt></ruby>を<ruby>組<rt>く</rt></ruby>みました。<ruby>最初<rt>さいしょ</rt></ruby>は<ruby>雑念<rt>ざつねん</rt></ruby>だらけでしたが、<ruby>呼吸<rt>こきゅう</rt></ruby>に<ruby>集中<rt>しゅうちゅう</rt></ruby>するうちに、<ruby>心<rt>こころ</rt></ruby>が<ruby>静<rt>しず</rt></ruby>まっていきました。<ruby>思考<rt>しこう</rt></ruby>を<ruby>手放<rt>てばな</rt></ruby>し、ただ「<ruby>今<rt>いま</rt></ruby>ここにいる」ことを<ruby>感<rt>かん</rt></ruby>じる。これが<ruby>禅<rt>ぜん</rt></ruby>の<ruby>第一歩<rt>だいいっぽ</rt></ruby>だと<ruby>理解<rt>りかい</rt></ruby>しました。',
-        translation: 'I wanted to learn more about Zen teachings. The monk invited me saying "Would you like to try a zazen experience?" In a quiet zen hall, I sat in zazen together with other participants. At first it was full of distracting thoughts, but as I concentrated on breathing, my mind calmed down. Letting go of thoughts and just feeling "being here now." I understood this was the first step of Zen.',
+        content_en: 'I wanted to learn more about Zen teachings. The monk invited me saying "Would you like to try a zazen experience?" In a quiet zen hall, I sat in zazen together with other participants. At first it was full of distracting thoughts, but as I concentrated on breathing, my mind calmed down. Letting go of thoughts and just feeling "being here now." I understood this was the first step of Zen.',
       },
       {
         chapter_id: 'ch-8-4',
         story_id: story8.story_id,
         chapter_number: 4,
-        depth_level: 3,
         parent_chapter_id: 'ch-8-3a',
         content: '午後、伏見稲荷大社を訪れました。千本鳥居が続く参道は圧巻です。朱色の鳥居のトンネルをくぐりながら、山頂を目指しました。鳥居一つ一つは、願いを込めて奉納されたものです。日本の信仰心の深さを感じます。神道と仏教が共存する日本の宗教観は、寛容で調和を重んじる文化を生み出しました。',
-        content_with_ruby: '<ruby>午後<rt>ごご</rt></ruby>、<ruby>伏見<rt>ふしみ</rt></ruby><ruby>稲荷<rt>いなり</rt></ruby><ruby>大社<rt>たいしゃ</rt></ruby>を<ruby>訪<rt>おとず</rt></ruby>れました。<ruby>千本<rt>せんぼん</rt></ruby><ruby>鳥居<rt>とりい</rt></ruby>が<ruby>続<rt>つづ</rt></ruby>く<ruby>参道<rt>さんどう</rt></ruby>は<ruby>圧巻<rt>あっかん</rt></ruby>です。<ruby>朱色<rt>しゅいろ</rt></ruby>の<ruby>鳥居<rt>とりい</rt></ruby>のトンネルをくぐりながら、<ruby>山頂<rt>さんちょう</rt></ruby>を<ruby>目指<rt>めざ</rt></ruby>しました。<ruby>鳥居<rt>とりい</rt></ruby><ruby>一<rt>ひと</rt></ruby>つ<ruby>一<rt>ひと</rt></ruby>つは、<ruby>願<rt>ねが</rt></ruby>いを<ruby>込<rt>こ</rt></ruby>めて<ruby>奉納<rt>ほうのう</rt></ruby>されたものです。<ruby>日本<rt>にほん</rt></ruby>の<ruby>信仰心<rt>しんこうしん</rt></ruby>の<ruby>深<rt>ふか</rt></ruby>さを<ruby>感<rt>かん</rt></ruby>じます。<ruby>神道<rt>しんとう</rt></ruby>と<ruby>仏教<rt>ぶっきょう</rt></ruby>が<ruby>共存<rt>きょうそん</rt></ruby>する<ruby>日本<rt>にほん</rt></ruby>の<ruby>宗教観<rt>しゅうきょうかん</rt></ruby>は、<ruby>寛容<rt>かんよう</rt></ruby>で<ruby>調和<rt>ちょうわ</rt></ruby>を<ruby>重<rt>おも</rt></ruby>んじる<ruby>文化<rt>ぶんか</rt></ruby>を<ruby>生<rt>う</rt></ruby>み<ruby>出<rt>だ</rt></ruby>しました。',
-        translation: 'In the afternoon, I visited Fushimi Inari Taisha. The approach with thousands of torii gates is spectacular. While passing through the tunnel of vermilion torii gates, I aimed for the mountaintop. Each torii gate was dedicated with wishes. I feel the depth of Japanese faith. Japan\'s religious view where Shintoism and Buddhism coexist has created a culture that values tolerance and harmony.',
+        content_en: 'In the afternoon, I visited Fushimi Inari Taisha. The approach with thousands of torii gates is spectacular. While passing through the tunnel of vermilion torii gates, I aimed for the mountaintop. Each torii gate was dedicated with wishes. I feel the depth of Japanese faith. Japan\'s religious view where Shintoism and Buddhism coexist has created a culture that values tolerance and harmony.',
       },
       {
         chapter_id: 'ch-8-5',
         story_id: story8.story_id,
         chapter_number: 5,
-        depth_level: 4,
         parent_chapter_id: 'ch-8-4',
         content: '京都での一日が終わりました。古寺を巡ることで、日本文化の精神的な深さを理解できました。禅の思想、無常の美学、侘寂の美意識。これらは全て、日本人の生き方や価値観の根底にあります。表面的な観光では決して味わえない、日本の心に触れることができました。この経験は、私の人生観を変えるほど深いものでした。京都の古寺は、単なる歴史的建造物ではなく、生きた哲学であり、精神性の宝庫です。',
-        content_with_ruby: '<ruby>京都<rt>きょうと</rt></ruby>での<ruby>一日<rt>いちにち</rt></ruby>が<ruby>終<rt>お</rt></ruby>わりました。<ruby>古寺<rt>こじ</rt></ruby>を<ruby>巡<rt>めぐ</rt></ruby>ることで、<ruby>日本<rt>にほん</rt></ruby><ruby>文化<rt>ぶんか</rt></ruby>の<ruby>精神的<rt>せいしんてき</rt></ruby>な<ruby>深<rt>ふか</rt></ruby>さを<ruby>理解<rt>りかい</rt></ruby>できました。<ruby>禅<rt>ぜん</rt></ruby>の<ruby>思想<rt>しそう</rt></ruby>、<ruby>無常<rt>むじょう</rt></ruby>の<ruby>美学<rt>びがく</rt></ruby>、<ruby>侘寂<rt>わびさび</rt></ruby>の<ruby>美意識<rt>びいしき</rt></ruby>。これらは<ruby>全<rt>すべ</rt></ruby>て、<ruby>日本人<rt>にほんじん</rt></ruby>の<ruby>生<rt>い</rt></ruby>き<ruby>方<rt>かた</rt></ruby>や<ruby>価値観<rt>かちかん</rt></ruby>の<ruby>根底<rt>こんてい</rt></ruby>にあります。<ruby>表面的<rt>ひょうめんてき</rt></ruby>な<ruby>観光<rt>かんこう</rt></ruby>では<ruby>決<rt>けっ</rt></ruby>して<ruby>味<rt>あじ</rt></ruby>わえない、<ruby>日本<rt>にほん</rt></ruby>の<ruby>心<rt>こころ</rt></ruby>に<ruby>触<rt>ふ</rt></ruby>れることができました。この<ruby>経験<rt>けいけん</rt></ruby>は、<ruby>私<rt>わたし</rt></ruby>の<ruby>人生観<rt>じんせいかん</rt></ruby>を<ruby>変<rt>か</rt></ruby>えるほど<ruby>深<rt>ふか</rt></ruby>いものでした。<ruby>京都<rt>きょうと</rt></ruby>の<ruby>古寺<rt>こじ</rt></ruby>は、<ruby>単<rt>たん</rt></ruby>なる<ruby>歴史的<rt>れきしてき</rt></ruby><ruby>建造物<rt>けんぞうぶつ</rt></ruby>ではなく、<ruby>生<rt>い</rt></ruby>きた<ruby>哲学<rt>てつがく</rt></ruby>であり、<ruby>精神性<rt>せいしんせい</rt></ruby>の<ruby>宝庫<rt>ほうこ</rt></ruby>です。',
-        translation: 'The day in Kyoto ended. By visiting ancient temples, I could understand the spiritual depth of Japanese culture. Zen philosophy, the aesthetics of impermanence, the sense of wabi-sabi. All of these are at the foundation of Japanese ways of life and values. I was able to touch the heart of Japan, which can never be tasted through superficial tourism. This experience was deep enough to change my view of life. The ancient temples of Kyoto are not mere historical buildings, but living philosophy and a treasure house of spirituality.',
+        content_en: 'The day in Kyoto ended. By visiting ancient temples, I could understand the spiritual depth of Japanese culture. Zen philosophy, the aesthetics of impermanence, the sense of wabi-sabi. All of these are at the foundation of Japanese ways of life and values. I was able to touch the heart of Japan, which can never be tasted through superficial tourism. This experience was deep enough to change my view of life. The ancient temples of Kyoto are not mere historical buildings, but living philosophy and a treasure house of spirituality.',
       },
     ],
   });
@@ -1382,10 +1285,16 @@ async function main(): Promise<void> {
     data: {
       story_id: '9',
       title: 'ビジネス交渉',
+      title_en: 'Business Negotiation',
       description: '日本企業との重要な商談。高度なビジネス日本語と交渉術を学びます。',
+      description_en: 'An important business meeting with a Japanese company. Learn advanced business Japanese and negotiation skills.',
+      category: 'business',
+      difficulty_level: 'advanced',
       level_jlpt: 'N1',
       level_cefr: 'C1',
       estimated_time: 15,
+      estimated_duration_minutes: 15,
+      is_active: true,
       root_chapter_id: 'ch-9-1',
     },
   });
@@ -1395,10 +1304,8 @@ async function main(): Promise<void> {
       chapter_id: 'ch-9-1',
       story_id: story9.story_id,
       chapter_number: 1,
-      depth_level: 0,
       content: '大手企業との重要な商談の日です。会議室に入ると、相手企業の役員3名が待っていました。まず名刺交換から始まります。名刺は両手で丁寧に渡し、相手の名刺も両手で受け取ります。日本のビジネスマナーでは、名刺交換は極めて重要な儀式です。どのように交渉を始めますか？',
-      content_with_ruby: '<ruby>大手<rt>おおて</rt></ruby><ruby>企業<rt>きぎょう</rt></ruby>との<ruby>重要<rt>じゅうよう</rt></ruby>な<ruby>商談<rt>しょうだん</rt></ruby>の<ruby>日<rt>ひ</rt></ruby>です。<ruby>会議室<rt>かいぎしつ</rt></ruby>に<ruby>入<rt>はい</rt></ruby>ると、<ruby>相手<rt>あいて</rt></ruby><ruby>企業<rt>きぎょう</rt></ruby>の<ruby>役員<rt>やくいん</rt></ruby>3<ruby>名<rt>めい</rt></ruby>が<ruby>待<rt>ま</rt></ruby>っていました。まず<ruby>名刺<rt>めいし</rt></ruby><ruby>交換<rt>こうかん</rt></ruby>から<ruby>始<rt>はじ</rt></ruby>まります。<ruby>名刺<rt>めいし</rt></ruby>は<ruby>両手<rt>りょうて</rt></ruby>で<ruby>丁寧<rt>ていねい</rt></ruby>に<ruby>渡<rt>わた</rt></ruby>し、<ruby>相手<rt>あいて</rt></ruby>の<ruby>名刺<rt>めいし</rt></ruby>も<ruby>両手<rt>りょうて</rt></ruby>で<ruby>受<rt>う</rt></ruby>け<ruby>取<rt>と</rt></ruby>ります。<ruby>日本<rt>にほん</rt></ruby>のビジネスマナーでは、<ruby>名刺<rt>めいし</rt></ruby><ruby>交換<rt>こうかん</rt></ruby>は<ruby>極<rt>きわ</rt></ruby>めて<ruby>重要<rt>じゅうよう</rt></ruby>な<ruby>儀式<rt>ぎしき</rt></ruby>です。どのように<ruby>交渉<rt>こうしょう</rt></ruby>を<ruby>始<rt>はじ</rt></ruby>めますか？',
-      translation: 'It is the day of an important business meeting with a major company. When I entered the conference room, three executives from the other company were waiting. It starts with business card exchange. Business cards are handed with both hands politely, and the other person\'s business card is also received with both hands. In Japanese business etiquette, business card exchange is an extremely important ritual. How will you start the negotiation?',
+      content_en: 'It is the day of an important business meeting with a major company. When I entered the conference room, three executives from the other company were waiting. It starts with business card exchange. Business cards are handed with both hands politely, and the other person\'s business card is also received with both hands. In Japanese business etiquette, business card exchange is an extremely important ritual. How will you start the negotiation?',
     },
   });
 
@@ -1437,81 +1344,65 @@ async function main(): Promise<void> {
         chapter_id: 'ch-9-2a',
         story_id: story9.story_id,
         chapter_number: 2,
-        depth_level: 1,
         parent_chapter_id: chapter9_1.chapter_id,
         content: 'すぐに提案書を開いて説明を始めました。しかし、相手の表情が少し硬いように感じます。日本のビジネス文化では、いきなり本題に入るのは性急と見なされることがあります。相手はまず人間関係を築きたいと思っているようです。少し焦りを感じました。',
-        content_with_ruby: 'すぐに<ruby>提案書<rt>ていあんしょ</rt></ruby>を<ruby>開<rt>ひら</rt></ruby>いて<ruby>説明<rt>せつめい</rt></ruby>を<ruby>始<rt>はじ</rt></ruby>めました。しかし、<ruby>相手<rt>あいて</rt></ruby>の<ruby>表情<rt>ひょうじょう</rt></ruby>が<ruby>少<rt>すこ</rt></ruby>し<ruby>硬<rt>かた</rt></ruby>いように<ruby>感<rt>かん</rt></ruby>じます。<ruby>日本<rt>にほん</rt></ruby>のビジネス<ruby>文化<rt>ぶんか</rt></ruby>では、いきなり<ruby>本題<rt>ほんだい</rt></ruby>に<ruby>入<rt>はい</rt></ruby>るのは<ruby>性急<rt>せいきゅう</rt></ruby>と<ruby>見<rt>み</rt></ruby>なされることがあります。<ruby>相手<rt>あいて</rt></ruby>はまず<ruby>人間<rt>にんげん</rt></ruby><ruby>関係<rt>かんけい</rt></ruby>を<ruby>築<rt>きず</rt></ruby>きたいと<ruby>思<rt>おも</rt></ruby>っているようです。<ruby>少<rt>すこ</rt></ruby>し<ruby>焦<rt>あせ</rt></ruby>りを<ruby>感<rt>かん</rt></ruby>じました。',
-        translation: 'I immediately opened the proposal and started explaining. However, I feel that the other party\'s expression is a little stiff. In Japanese business culture, jumping straight to the point can sometimes be seen as hasty. It seems the other party wants to build human relationships first. I felt a little anxious.',
+        content_en: 'I immediately opened the proposal and started explaining. However, I feel that the other party\'s expression is a little stiff. In Japanese business culture, jumping straight to the point can sometimes be seen as hasty. It seems the other party wants to build human relationships first. I felt a little anxious.',
       },
       {
         chapter_id: 'ch-9-2b',
         story_id: story9.story_id,
         chapter_number: 2,
-        depth_level: 1,
         parent_chapter_id: chapter9_1.chapter_id,
         content: '「今日は良い天気ですね」「御社のオフィスは素晴らしいですね」と、軽い会話から始めました。相手の表情が和らぎ、「ありがとうございます。先月リノベーションしたんですよ」と答えてくれました。この「アイスブレーキング」は、日本のビジネスでは非常に重要です。信頼関係を築くことが、交渉成功の鍵となります。',
-        content_with_ruby: '「<ruby>今日<rt>きょう</rt></ruby>は<ruby>良<rt>よ</rt></ruby>い<ruby>天気<rt>てんき</rt></ruby>ですね」「<ruby>御社<rt>おんしゃ</rt></ruby>のオフィスは<ruby>素晴<rt>すば</rt></ruby>らしいですね」と、<ruby>軽<rt>かる</rt></ruby>い<ruby>会話<rt>かいわ</rt></ruby>から<ruby>始<rt>はじ</rt></ruby>めました。<ruby>相手<rt>あいて</rt></ruby>の<ruby>表情<rt>ひょうじょう</rt></ruby>が<ruby>和<rt>やわ</rt></ruby>らぎ、「ありがとうございます。<ruby>先月<rt>せんげつ</rt></ruby>リノベーションしたんですよ」と<ruby>答<rt>こた</rt></ruby>えてくれました。この「アイスブレーキング」は、<ruby>日本<rt>にほん</rt></ruby>のビジネスでは<ruby>非常<rt>ひじょう</rt></ruby>に<ruby>重要<rt>じゅうよう</rt></ruby>です。<ruby>信頼<rt>しんらい</rt></ruby><ruby>関係<rt>かんけい</rt></ruby>を<ruby>築<rt>きず</rt></ruby>くことが、<ruby>交渉<rt>こうしょう</rt></ruby><ruby>成功<rt>せいこう</rt></ruby>の<ruby>鍵<rt>かぎ</rt></ruby>となります。',
-        translation: '"It\'s nice weather today" "Your company\'s office is wonderful" I started with light conversation. The other party\'s expression softened, and they answered "Thank you. We renovated it last month." This "ice breaking" is very important in Japanese business. Building trust is the key to successful negotiation.',
+        content_en: '"It\'s nice weather today" "Your company\'s office is wonderful" I started with light conversation. The other party\'s expression softened, and they answered "Thank you. We renovated it last month." This "ice breaking" is very important in Japanese business. Building trust is the key to successful negotiation.',
       },
       {
         chapter_id: 'ch-9-2c',
         story_id: story9.story_id,
         chapter_number: 2,
-        depth_level: 1,
         parent_chapter_id: chapter9_1.chapter_id,
         content: '「本日はお時間をいただき、ありがとうございます。まず、御社のご意見やご要望をお聞かせいただけますでしょうか」と丁寧に聞きました。相手は「そうですね。実は私たちも、この分野での新しいパートナーを探していたんです」と話し始めました。傾聴の姿勢を示すことで、相手の本音を引き出すことができました。',
-        content_with_ruby: '「<ruby>本日<rt>ほんじつ</rt></ruby>はお<ruby>時間<rt>じかん</rt></ruby>をいただき、ありがとうございます。まず、<ruby>御社<rt>おんしゃ</rt></ruby>のご<ruby>意見<rt>いけん</rt></ruby>やご<ruby>要望<rt>ようぼう</rt></ruby>をお<ruby>聞<rt>き</rt></ruby>かせいただけますでしょうか」と<ruby>丁寧<rt>ていねい</rt></ruby>に<ruby>聞<rt>き</rt></ruby>きました。<ruby>相手<rt>あいて</rt></ruby>は「そうですね。<ruby>実<rt>じつ</rt></ruby>は<ruby>私<rt>わたし</rt></ruby>たちも、この<ruby>分野<rt>ぶんや</rt></ruby>での<ruby>新<rt>あたら</rt></ruby>しいパートナーを<ruby>探<rt>さが</rt></ruby>していたんです」と<ruby>話<rt>はな</rt></ruby>し<ruby>始<rt>はじ</rt></ruby>めました。<ruby>傾聴<rt>けいちょう</rt></ruby>の<ruby>姿勢<rt>しせい</rt></ruby>を<ruby>示<rt>しめ</rt></ruby>すことで、<ruby>相手<rt>あいて</rt></ruby>の<ruby>本音<rt>ほんね</rt></ruby>を<ruby>引<rt>ひ</rt></ruby>き<ruby>出<rt>だ</rt></ruby>すことができました。',
-        translation: '"Thank you for your time today. First, could you please let us hear your opinions and requests?" I asked politely. The other party started talking, "Well, actually we were also looking for a new partner in this field." By showing an attitude of listening, I was able to draw out the other party\'s true feelings.',
+        content_en: '"Thank you for your time today. First, could you please let us hear your opinions and requests?" I asked politely. The other party started talking, "Well, actually we were also looking for a new partner in this field." By showing an attitude of listening, I was able to draw out the other party\'s true feelings.',
       },
       {
         chapter_id: 'ch-9-3a',
         story_id: story9.story_id,
         chapter_number: 3,
-        depth_level: 2,
         parent_chapter_id: 'ch-9-2a',
         content: '相手が「価格について懸念があります」と言いました。これは重要な局面です。日本のビジネスでは、直接的な拒否よりも、婉曲的な表現を使います。「懸念がある」「検討させていただきたい」は、実質的な反対意見を意味することが多いのです。慎重に対応する必要があります。',
-        content_with_ruby: '<ruby>相手<rt>あいて</rt></ruby>が「<ruby>価格<rt>かかく</rt></ruby>について<ruby>懸念<rt>けねん</rt></ruby>があります」と<ruby>言<rt>い</rt></ruby>いました。これは<ruby>重要<rt>じゅうよう</rt></ruby>な<ruby>局面<rt>きょくめん</rt></ruby>です。<ruby>日本<rt>にほん</rt></ruby>のビジネスでは、<ruby>直接的<rt>ちょくせつてき</rt></ruby>な<ruby>拒否<rt>きょひ</rt></ruby>よりも、<ruby>婉曲的<rt>えんきょくてき</rt></ruby>な<ruby>表現<rt>ひょうげん</rt></ruby>を<ruby>使<rt>つか</rt></ruby>います。「<ruby>懸念<rt>けねん</rt></ruby>がある」「<ruby>検討<rt>けんとう</rt></ruby>させていただきたい」は、<ruby>実質的<rt>じっしつてき</rt></ruby>な<ruby>反対<rt>はんたい</rt></ruby><ruby>意見<rt>いけん</rt></ruby>を<ruby>意味<rt>いみ</rt></ruby>することが<ruby>多<rt>おお</rt></ruby>いのです。<ruby>慎重<rt>しんちょう</rt></ruby>に<ruby>対応<rt>たいおう</rt></ruby>する<ruby>必要<rt>ひつよう</rt></ruby>があります。',
-        translation: 'The other party said "We have concerns about the price." This is an important phase. In Japanese business, euphemistic expressions are used rather than direct refusals. "Having concerns" and "We would like to consider" often mean substantial opposition. There is a need to respond carefully.',
+        content_en: 'The other party said "We have concerns about the price." This is an important phase. In Japanese business, euphemistic expressions are used rather than direct refusals. "Having concerns" and "We would like to consider" often mean substantial opposition. There is a need to respond carefully.',
       },
       {
         chapter_id: 'ch-9-3b',
         story_id: story9.story_id,
         chapter_number: 3,
-        depth_level: 2,
         parent_chapter_id: 'ch-9-2b',
         content: '良い雰囲気の中、提案の説明を始めました。相手は興味深そうに聞いています。「実施スケジュールについて、もう少し詳しく教えていただけますか」と質問がありました。具体的な質問は、興味を持っている証拠です。丁寧に、しかし自信を持って答えました。',
-        content_with_ruby: '<ruby>良<rt>よ</rt></ruby>い<ruby>雰囲気<rt>ふんいき</rt></ruby>の<ruby>中<rt>なか</rt></ruby>、<ruby>提案<rt>ていあん</rt></ruby>の<ruby>説明<rt>せつめい</rt></ruby>を<ruby>始<rt>はじ</rt></ruby>めました。<ruby>相手<rt>あいて</rt></ruby>は<ruby>興味深<rt>きょうみぶか</rt></ruby>そうに<ruby>聞<rt>き</rt></ruby>いています。「<ruby>実施<rt>じっし</rt></ruby>スケジュールについて、もう<ruby>少<rt>すこ</rt></ruby>し<ruby>詳<rt>くわ</rt></ruby>しく<ruby>教<rt>おし</rt></ruby>えていただけますか」と<ruby>質問<rt>しつもん</rt></ruby>がありました。<ruby>具体的<rt>ぐたいてき</rt></ruby>な<ruby>質問<rt>しつもん</rt></ruby>は、<ruby>興味<rt>きょうみ</rt></ruby>を<ruby>持<rt>も</rt></ruby>っている<ruby>証拠<rt>しょうこ</rt></ruby>です。<ruby>丁寧<rt>ていねい</rt></ruby>に、しかし<ruby>自信<rt>じしん</rt></ruby>を<ruby>持<rt>も</rt></ruby>って<ruby>答<rt>こた</rt></ruby>えました。',
-        translation: 'In a good atmosphere, I started explaining the proposal. The other party is listening with interest. There was a question "Could you tell us a little more about the implementation schedule?" Specific questions are evidence of interest. I answered politely but confidently.',
+        content_en: 'In a good atmosphere, I started explaining the proposal. The other party is listening with interest. There was a question "Could you tell us a little more about the implementation schedule?" Specific questions are evidence of interest. I answered politely but confidently.',
       },
       {
         chapter_id: 'ch-9-3c',
         story_id: story9.story_id,
         chapter_number: 3,
-        depth_level: 2,
         parent_chapter_id: 'ch-9-2c',
         content: '相手のニーズを理解した上で、それに合わせた提案を行いました。「御社の課題を解決するために、このような形でサポートさせていただけると考えております」と説明しました。相手は何度も頷きながら聞いています。カスタマイズされた提案は、相手の心に響いているようです。',
-        content_with_ruby: '<ruby>相手<rt>あいて</rt></ruby>のニーズを<ruby>理解<rt>りかい</rt></ruby>した<ruby>上<rt>うえ</rt></ruby>で、それに<ruby>合<rt>あ</rt></ruby>わせた<ruby>提案<rt>ていあん</rt></ruby>を<ruby>行<rt>おこな</rt></ruby>いました。「<ruby>御社<rt>おんしゃ</rt></ruby>の<ruby>課題<rt>かだい</rt></ruby>を<ruby>解決<rt>かいけつ</rt></ruby>するために、このような<ruby>形<rt>かたち</rt></ruby>でサポートさせていただけると<ruby>考<rt>かんが</rt></ruby>えております」と<ruby>説明<rt>せつめい</rt></ruby>しました。<ruby>相手<rt>あいて</rt></ruby>は<ruby>何度<rt>なんど</rt></ruby>も<ruby>頷<rt>うなず</rt></ruby>きながら<ruby>聞<rt>き</rt></ruby>いています。カスタマイズされた<ruby>提案<rt>ていあん</rt></ruby>は、<ruby>相手<rt>あいて</rt></ruby>の<ruby>心<rt>こころ</rt></ruby>に<ruby>響<rt>ひび</rt></ruby>いているようです。',
-        translation: 'After understanding the other party\'s needs, I made a proposal tailored to them. I explained "To solve your company\'s issues, we think we can support you in this way." The other party is listening while nodding many times. The customized proposal seems to resonate with the other party\'s heart.',
+        content_en: 'After understanding the other party\'s needs, I made a proposal tailored to them. I explained "To solve your company\'s issues, we think we can support you in this way." The other party is listening while nodding many times. The customized proposal seems to resonate with the other party\'s heart.',
       },
       {
         chapter_id: 'ch-9-4',
         story_id: story9.story_id,
         chapter_number: 4,
-        depth_level: 3,
         parent_chapter_id: 'ch-9-3a',
         content: 'ここで「根回し」の重要性を思い出しました。日本企業では、正式な会議の前に、非公式に関係者の合意を取り付けることが一般的です。「もしよろしければ、一度御社の関係部署の方々とも個別にお話しする機会をいただけませんでしょうか」と提案しました。相手は「それは良いアイデアですね。調整させていただきます」と答えました。段階的なアプローチが功を奏しそうです。',
-        content_with_ruby: 'ここで「<ruby>根回<rt>ねまわ</rt></ruby>し」の<ruby>重要性<rt>じゅうようせい</rt></ruby>を<ruby>思<rt>おも</rt></ruby>い<ruby>出<rt>だ</rt></ruby>しました。<ruby>日本<rt>にほん</rt></ruby><ruby>企業<rt>きぎょう</rt></ruby>では、<ruby>正式<rt>せいしき</rt></ruby>な<ruby>会議<rt>かいぎ</rt></ruby>の<ruby>前<rt>まえ</rt></ruby>に、<ruby>非公式<rt>ひこうしき</rt></ruby>に<ruby>関係者<rt>かんけいしゃ</rt></ruby>の<ruby>合意<rt>ごうい</rt></ruby>を<ruby>取<rt>と</rt></ruby>り<ruby>付<rt>つ</rt></ruby>けることが<ruby>一般的<rt>いっぱんてき</rt></ruby>です。「もしよろしければ、<ruby>一度<rt>いちど</rt></ruby><ruby>御社<rt>おんしゃ</rt></ruby>の<ruby>関係<rt>かんけい</rt></ruby><ruby>部署<rt>ぶしょ</rt></ruby>の<ruby>方々<rt>かたがた</rt></ruby>とも<ruby>個別<rt>こべつ</rt></ruby>にお<ruby>話<rt>はなし</rt></ruby>しする<ruby>機会<rt>きかい</rt></ruby>をいただけませんでしょうか」と<ruby>提案<rt>ていあん</rt></ruby>しました。<ruby>相手<rt>あいて</rt></ruby>は「それは<ruby>良<rt>よ</rt></ruby>いアイデアですね。<ruby>調整<rt>ちょうせい</rt></ruby>させていただきます」と<ruby>答<rt>こた</rt></ruby>えました。<ruby>段階的<rt>だんかいてき</rt></ruby>なアプローチが<ruby>功<rt>こう</rt></ruby>を<ruby>奏<rt>そう</rt></ruby>しそうです。',
-        translation: 'Here I remembered the importance of "nemawashi" (behind-the-scenes consensus building). In Japanese companies, it is common to obtain informal agreement from stakeholders before formal meetings. I suggested "If it is alright with you, could we have an opportunity to speak individually with people from your related departments once?" The other party answered "That is a good idea. We will arrange it." A gradual approach seems to be working.',
+        content_en: 'Here I remembered the importance of "nemawashi" (behind-the-scenes consensus building). In Japanese companies, it is common to obtain informal agreement from stakeholders before formal meetings. I suggested "If it is alright with you, could we have an opportunity to speak individually with people from your related departments once?" The other party answered "That is a good idea. We will arrange it." A gradual approach seems to be working.',
       },
       {
         chapter_id: 'ch-9-5',
         story_id: story9.story_id,
         chapter_number: 5,
-        depth_level: 4,
         parent_chapter_id: 'ch-9-4',
         content: '交渉が終わりました。「本日は貴重なお時間をいただき、誠にありがとうございました。前向きにご検討いただけますと幸いです」と丁寧にお礼を述べました。相手は「こちらこそ、ありがとうございました。社内で検討して、来週中にはご連絡させていただきます」と答えました。日本のビジネス交渉は、時間がかかりますが、丁寧な関係構築と相互尊重が何より大切です。この経験を通じて、日本のビジネス文化の深さを理解できました。',
-        content_with_ruby: '<ruby>交渉<rt>こうしょう</rt></ruby>が<ruby>終<rt>お</rt></ruby>わりました。「<ruby>本日<rt>ほんじつ</rt></ruby>は<ruby>貴重<rt>きちょう</rt></ruby>なお<ruby>時間<rt>じかん</rt></ruby>をいただき、<ruby>誠<rt>まこと</rt></ruby>にありがとうございました。<ruby>前向<rt>まえむ</rt></ruby>きにご<ruby>検討<rt>けんとう</rt></ruby>いただけますと<ruby>幸<rt>さいわ</rt></ruby>いです」と<ruby>丁寧<rt>ていねい</rt></ruby>にお<ruby>礼<rt>れい</rt></ruby>を<ruby>述<rt>の</rt></ruby>べました。<ruby>相手<rt>あいて</rt></ruby>は「こちらこそ、ありがとうございました。<ruby>社内<rt>しゃない</rt></ruby>で<ruby>検討<rt>けんとう</rt></ruby>して、<ruby>来週<rt>らいしゅう</rt></ruby><ruby>中<rt>ちゅう</rt></ruby>にはご<ruby>連絡<rt>れんらく</rt></ruby>させていただきます」と<ruby>答<rt>こた</rt></ruby>えました。<ruby>日本<rt>にほん</rt></ruby>のビジネス<ruby>交渉<rt>こうしょう</rt></ruby>は、<ruby>時間<rt>じかん</rt></ruby>がかかりますが、<ruby>丁寧<rt>ていねい</rt></ruby>な<ruby>関係<rt>かんけい</rt></ruby><ruby>構築<rt>こうちく</rt></ruby>と<ruby>相互<rt>そうご</rt></ruby><ruby>尊重<rt>そんちょう</rt></ruby>が<ruby>何<rt>なに</rt></ruby>より<ruby>大切<rt>たいせつ</rt></ruby>です。この<ruby>経験<rt>けいけん</rt></ruby>を<ruby>通<rt>とお</rt></ruby>じて、<ruby>日本<rt>にほん</rt></ruby>のビジネス<ruby>文化<rt>ぶんか</rt></ruby>の<ruby>深<rt>ふか</rt></ruby>さを<ruby>理解<rt>りかい</rt></ruby>できました。',
-        translation: 'The negotiation ended. I politely thanked them saying "Thank you very much for your valuable time today. We would appreciate it if you could consider it positively." The other party answered "Thank you as well. We will consider it internally and contact you within next week." Japanese business negotiations take time, but polite relationship building and mutual respect are most important. Through this experience, I could understand the depth of Japanese business culture.',
+        content_en: 'The negotiation ended. I politely thanked them saying "Thank you very much for your valuable time today. We would appreciate it if you could consider it positively." The other party answered "Thank you as well. We will consider it internally and contact you within next week." Japanese business negotiations take time, but polite relationship building and mutual respect are most important. Through this experience, I could understand the depth of Japanese business culture.',
       },
     ],
   });
@@ -1529,6 +1420,2927 @@ async function main(): Promise<void> {
   });
 
   console.log('Created Story 9 (ビジネス交渉) with 5 chapters and branching structure');
+
+  // ============================================================
+// Story 10: 初めての挨拶 (N5/A1) - 9 Chapters with Branching
+// ============================================================
+const story10 = await prisma.story.create({
+  data: {
+    story_id: '10',
+    title: '初めての挨拶',
+    title_en: 'First Greetings',
+    description: '日本語学校の初日。先生やクラスメートとの挨拶を通じて、基本的な日本語の挨拶表現を学びます。あなたの選択で物語が変わります。',
+    description_en: 'First day at Japanese language school. Learn basic Japanese greeting expressions through greetings with teachers and classmates. Your choices will change the story.',
+    category: 'basic_conversation',
+    difficulty_level: 'beginner',
+    level_jlpt: 'N5',
+    level_cefr: 'A1',
+    estimated_time: 8,
+    estimated_duration_minutes: 8,
+    is_active: true,
+    root_chapter_id: 'ch-10-1',
+  },
+});
+
+// Chapter 1: Root - 日本語学校の初日
+const chapter10_1 = await prisma.chapter.create({
+  data: {
+    chapter_id: 'ch-10-1',
+    story_id: story10.story_id,
+    chapter_number: 1,
+    content: '今日は日本語学校の初めての日です。朝、教室に入りました。先生が「おはようございます！」と言いました。他の学生もいます。みんな、私を見ています。どうしますか？',
+    content_en: 'Today is my first day at Japanese language school. In the morning, I entered the classroom. The teacher said "Good morning!" There are other students too. Everyone is looking at me. What should I do?',
+  },
+});
+
+// Choices for Chapter 1
+await prisma.choice.createMany({
+  data: [
+    {
+      choice_id: 'choice-10-1-a',
+      chapter_id: chapter10_1.chapter_id,
+      choice_text: '大きな声で「おはようございます！」と言う',
+      choice_description: '元気よく挨拶して、良い第一印象を与えましょう。',
+      next_chapter_id: 'ch-10-2a',
+      display_order: 1,
+    },
+    {
+      choice_id: 'choice-10-1-b',
+      chapter_id: chapter10_1.chapter_id,
+      choice_text: '恥ずかしくて小さな声で挨拶する',
+      choice_description: '少し緊張していますが、先生が優しく助けてくれるでしょう。',
+      next_chapter_id: 'ch-10-2b',
+      display_order: 2,
+    },
+    {
+      choice_id: 'choice-10-1-c',
+      chapter_id: chapter10_1.chapter_id,
+      choice_text: '笑顔で手を振る',
+      choice_description: '言葉はまだ難しいので、笑顔で挨拶してみます。',
+      next_chapter_id: 'ch-10-2c',
+      display_order: 3,
+    },
+  ],
+});
+
+// Chapter 2 variants
+await prisma.chapter.createMany({
+  data: [
+    // Chapter 2A: 元気な挨拶
+    {
+      chapter_id: 'ch-10-2a',
+      story_id: story10.story_id,
+      chapter_number: 2,
+      parent_chapter_id: chapter10_1.chapter_id,
+      content: '「おはようございます！」と大きな声で挨拶しました。先生は嬉しそうに笑いました。「元気がいいですね！はじめまして、私は田中先生です。」みんなも「おはようございます！」と言いました。次に、自己紹介をします。',
+      content_en: 'I greeted loudly, "Good morning!" The teacher smiled happily. "You\'re energetic! Nice to meet you, I\'m Teacher Tanaka." Everyone also said "Good morning!" Next, I will introduce myself.',
+    },
+    // Chapter 2B: 小さな声の挨拶
+    {
+      chapter_id: 'ch-10-2b',
+      story_id: story10.story_id,
+      chapter_number: 2,
+      parent_chapter_id: chapter10_1.chapter_id,
+      content: '恥ずかしくて、小さな声で「おはよう...」と言いました。先生は優しく「大丈夫ですよ。もう一度、一緒に言いましょう。」と言いました。みんなも温かく見守っています。',
+      content_en: 'Embarrassed, I said "Good morning..." in a small voice. The teacher kindly said, "It\'s okay. Let\'s say it together again." Everyone is also watching warmly.',
+    },
+    // Chapter 2C: 笑顔で手を振る
+    {
+      chapter_id: 'ch-10-2c',
+      story_id: story10.story_id,
+      chapter_number: 2,
+      parent_chapter_id: chapter10_1.chapter_id,
+      content: '言葉の代わりに、笑顔で手を振りました。先生は笑って「素敵な笑顔ですね！では、日本語で挨拶を練習しましょう。みんなで『おはようございます』と言ってみましょう。」',
+      content_en: 'Instead of words, I waved with a smile. The teacher laughed and said, "What a lovely smile! Now, let\'s practice greetings in Japanese. Let\'s all say \'Good morning\' together."',
+    },
+    // Chapter 3A: 詳しい自己紹介
+    {
+      chapter_id: 'ch-10-3a',
+      story_id: story10.story_id,
+      chapter_number: 3,
+      parent_chapter_id: 'ch-10-2a',
+      content: '「はじめまして。私はアレックスです。アメリカから来ました。日本のアニメが大好きです。よろしくお願いします。」と言いました。クラスメートは「よろしく！」と言って、拍手してくれました。',
+      content_en: '"Nice to meet you. I\'m Alex. I came from America. I love Japanese anime. Please treat me well," I said. My classmates said "Nice to meet you!" and clapped.',
+    },
+    // Chapter 3B: 簡単な自己紹介
+    {
+      chapter_id: 'ch-10-3b',
+      story_id: story10.story_id,
+      chapter_number: 3,
+      parent_chapter_id: 'ch-10-2a',
+      content: '「私はアレックスです。アメリカから来ました。よろしくお願いします。」とシンプルに言いました。先生は「上手ですね！」と言いました。',
+      content_en: '"I\'m Alex. I came from America. Please treat me well," I said simply. The teacher said, "Very good!"',
+    },
+    // Chapter 3C: もう一度挨拶
+    {
+      chapter_id: 'ch-10-3c',
+      story_id: story10.story_id,
+      chapter_number: 3,
+      parent_chapter_id: 'ch-10-2b',
+      content: '深呼吸して、今度は大きな声で「おはようございます！」と言いました。先生は「素晴らしい！とても上手です。」と褒めてくれました。自信が出てきました。',
+      content_en: 'I took a deep breath and this time said loudly, "Good morning!" The teacher praised me, "Wonderful! Very good." I gained confidence.',
+    },
+    // Chapter 3D: 先生と一緒に
+    {
+      chapter_id: 'ch-10-3d',
+      story_id: story10.story_id,
+      chapter_number: 3,
+      parent_chapter_id: 'ch-10-2b',
+      content: '先生と一緒に「おはようございます！」と言いました。先生は「いいですよ！少しずつ、慣れていきましょう。」と優しく言いました。',
+      content_en: 'I said "Good morning!" together with the teacher. The teacher kindly said, "Good! Let\'s get used to it little by little."',
+    },
+    // Chapter 3E: みんなと練習
+    {
+      chapter_id: 'ch-10-3e',
+      story_id: story10.story_id,
+      chapter_number: 3,
+      parent_chapter_id: 'ch-10-2c',
+      content: 'みんなで「おはようございます！」と言いました。次に「こんにちは！」「こんばんは！」も練習しました。楽しくて、日本語が好きになりました。',
+      content_en: 'We all said "Good morning!" Next, we also practiced "Hello!" and "Good evening!" It was fun, and I came to like Japanese.',
+    },
+    // Chapter 5: 休憩時間（収束ポイント）
+    {
+      chapter_id: 'ch-10-5',
+      story_id: story10.story_id,
+      chapter_number: 5,
+      parent_chapter_id: 'ch-10-4a', // Will connect from all chapter 4 variants
+      content: '休憩時間になりました。隣の席の学生が「こんにちは！私はエミリーです。韓国から来ました。」と話しかけてきました。「こんにちは！私はアレックスです。」と返事をしました。新しい友達ができて嬉しいです。',
+      content_en: 'It\'s break time. A student in the next seat spoke to me, "Hello! I\'m Emily. I came from Korea." I replied, "Hello! I\'m Alex." I\'m happy to have made a new friend.',
+    },
+    // Chapter 6: 友情の始まり
+    {
+      chapter_id: 'ch-10-6',
+      story_id: story10.story_id,
+      chapter_number: 6,
+      parent_chapter_id: 'ch-10-5',
+      content: 'エミリーと一緒にランチを食べることになりました。「日本の食べ物、好きですか？」とエミリーが聞きました。「はい、好きです！特に寿司が好きです。」と答えました。',
+      content_en: 'I decided to have lunch with Emily. "Do you like Japanese food?" Emily asked. "Yes, I do! I especially like sushi," I answered.',
+    },
+    // Chapter 7: お昼休み
+    {
+      chapter_id: 'ch-10-7',
+      story_id: story10.story_id,
+      chapter_number: 7,
+      parent_chapter_id: 'ch-10-6',
+      content: '学校の食堂で一緒に食べました。他のクラスメートも来て、みんなで自己紹介をしました。中国、タイ、フランスから来た学生がいます。国際的なクラスです。',
+      content_en: 'We ate together in the school cafeteria. Other classmates also came and we all introduced ourselves. There are students from China, Thailand, and France. It\'s an international class.',
+    },
+    // Chapter 8: 午後の授業
+    {
+      chapter_id: 'ch-10-8',
+      story_id: story10.story_id,
+      chapter_number: 8,
+      parent_chapter_id: 'ch-10-7',
+      content: '午後の授業で、先生が「今日は挨拶と自己紹介を勉強しました。明日は、数字と時間を勉強します。」と言いました。たくさん学んだので、少し疲れましたが、とても楽しかったです。',
+      content_en: 'In the afternoon class, the teacher said, "Today we studied greetings and self-introductions. Tomorrow we will study numbers and time." I learned a lot, so I\'m a little tired, but it was very fun.',
+    },
+    // Chapter 9: 初日の終わり（エンディング）
+    {
+      chapter_id: 'ch-10-9',
+      story_id: story10.story_id,
+      chapter_number: 9,
+      parent_chapter_id: 'ch-10-8',
+      content: '学校が終わりました。先生とクラスメートに「さようなら！また明日！」と言って、帰りました。今日はたくさんの挨拶を覚えました。新しい友達もできました。日本語の勉強が楽しみです。頑張ります！',
+      content_en: 'School is over. I said "Goodbye! See you tomorrow!" to the teacher and classmates and went home. Today I learned many greetings. I also made new friends. I\'m looking forward to studying Japanese. I\'ll do my best!',
+    },
+  ],
+});
+
+// Choices for Chapter 2A
+await prisma.choice.createMany({
+  data: [
+    {
+      choice_id: 'choice-10-2a-1',
+      chapter_id: 'ch-10-2a',
+      choice_text: '詳しく自己紹介する',
+      choice_description: '趣味や出身国について詳しく話してみます。',
+      next_chapter_id: 'ch-10-3a',
+      display_order: 1,
+    },
+    {
+      choice_id: 'choice-10-2a-2',
+      chapter_id: 'ch-10-2a',
+      choice_text: '簡単に自己紹介する',
+      choice_description: '名前と出身国だけシンプルに伝えます。',
+      next_chapter_id: 'ch-10-3b',
+      display_order: 2,
+    },
+  ],
+});
+
+// Choices for Chapter 2B
+await prisma.choice.createMany({
+  data: [
+    {
+      choice_id: 'choice-10-2b-1',
+      chapter_id: 'ch-10-2b',
+      choice_text: 'もう一度、大きな声で挨拶する',
+      choice_description: '勇気を出して、もう一度チャレンジしてみます。',
+      next_chapter_id: 'ch-10-3c',
+      display_order: 1,
+    },
+    {
+      choice_id: 'choice-10-2b-2',
+      chapter_id: 'ch-10-2b',
+      choice_text: '先生と一緒に言う',
+      choice_description: '先生に助けてもらって、一緒に練習します。',
+      next_chapter_id: 'ch-10-3d',
+      display_order: 2,
+    },
+  ],
+});
+
+// Choice for Chapter 2C (single path)
+await prisma.choice.create({
+  data: {
+    choice_id: 'choice-10-2c-1',
+    chapter_id: 'ch-10-2c',
+    choice_text: 'みんなと一緒に練習する',
+    choice_description: 'クラス全員で一緒に挨拶を練習してみましょう。',
+    next_chapter_id: 'ch-10-3e',
+    display_order: 1,
+  },
+});
+
+// Simplified Chapter 4 (intermediate convergence) - Not creating separate chapters,
+// connecting Chapter 3 variants directly to Chapter 5
+// This reduces complexity while maintaining the 9-chapter count
+
+// Choices from Chapter 3 variants to Chapter 5
+await prisma.choice.createMany({
+  data: [
+    // From 3A
+    {
+      choice_id: 'choice-10-3a-1',
+      chapter_id: 'ch-10-3a',
+      choice_text: '休憩時間を待つ',
+      choice_description: '授業を聞いて、休憩時間に友達と話したいです。',
+      next_chapter_id: 'ch-10-5',
+      display_order: 1,
+    },
+    // From 3B
+    {
+      choice_id: 'choice-10-3b-1',
+      chapter_id: 'ch-10-3b',
+      choice_text: '休憩時間を待つ',
+      choice_description: '授業を聞いて、休憩時間に友達と話したいです。',
+      next_chapter_id: 'ch-10-5',
+      display_order: 1,
+    },
+    // From 3C
+    {
+      choice_id: 'choice-10-3c-1',
+      chapter_id: 'ch-10-3c',
+      choice_text: '自己紹介を頑張る',
+      choice_description: '自信がついたので、自己紹介をしてみます。',
+      next_chapter_id: 'ch-10-5',
+      display_order: 1,
+    },
+    // From 3D
+    {
+      choice_id: 'choice-10-3d-1',
+      chapter_id: 'ch-10-3d',
+      choice_text: 'ゆっくり自己紹介する',
+      choice_description: '先生に助けてもらいながら、ゆっくり話します。',
+      next_chapter_id: 'ch-10-5',
+      display_order: 1,
+    },
+    // From 3E
+    {
+      choice_id: 'choice-10-3e-1',
+      chapter_id: 'ch-10-3e',
+      choice_text: '新しい友達と話す',
+      choice_description: '練習が楽しかったので、友達と話してみたいです。',
+      next_chapter_id: 'ch-10-5',
+      display_order: 1,
+    },
+  ],
+});
+
+// Choices from Chapter 5 onwards (linear path)
+await prisma.choice.createMany({
+  data: [
+    {
+      choice_id: 'choice-10-5-1',
+      chapter_id: 'ch-10-5',
+      choice_text: 'エミリーとランチを食べる',
+      choice_description: '新しい友達と一緒にランチを楽しみます。',
+      next_chapter_id: 'ch-10-6',
+      display_order: 1,
+    },
+    {
+      choice_id: 'choice-10-6-1',
+      chapter_id: 'ch-10-6',
+      choice_text: '食堂に行く',
+      choice_description: '学校の食堂で一緒に食べましょう。',
+      next_chapter_id: 'ch-10-7',
+      display_order: 1,
+    },
+    {
+      choice_id: 'choice-10-7-1',
+      chapter_id: 'ch-10-7',
+      choice_text: '午後の授業に参加する',
+      choice_description: 'ランチの後、午後の授業が始まります。',
+      next_chapter_id: 'ch-10-8',
+      display_order: 1,
+    },
+    {
+      choice_id: 'choice-10-8-1',
+      chapter_id: 'ch-10-8',
+      choice_text: '帰る',
+      choice_description: '初日の授業が終わったので、家に帰ります。',
+      next_chapter_id: 'ch-10-9',
+      display_order: 1,
+    },
+  ],
+});
+
+console.log('Created Story 10: 初めての挨拶 (N5/A1) with 9 chapters');
+
+  // ============================================================
+// Story 11: 家族の紹介 (N5/A1) - 9 Chapters with Branching
+// ============================================================
+const story11 = await prisma.story.create({
+  data: {
+    story_id: '11',
+    title: '家族の紹介',
+    title_en: 'Introducing My Family',
+    description: 'ホストファミリーに初めて会う日。自分の家族を紹介しながら、家族を表す語彙や人の特徴を説明する表現を学びます。',
+    description_en: 'First day meeting your host family. Learn vocabulary for family members and expressions to describe people\'s characteristics while introducing your family.',
+    category: 'family',
+    difficulty_level: 'beginner',
+    level_jlpt: 'N5',
+    level_cefr: 'A1',
+    estimated_time: 8,
+    estimated_duration_minutes: 8,
+    is_active: true,
+    root_chapter_id: 'ch-11-1',
+  },
+});
+
+// Root chapter
+const chapter11_1 = await prisma.chapter.create({
+  data: {
+    chapter_id: 'ch-11-1',
+    story_id: story11.story_id,
+    chapter_number: 1,
+    content: '今日はホストファミリーの家に着きました。田中さん一家が温かく迎えてくれました。「家族の写真を持ってきました。紹介してもいいですか？」と聞くと、みんな「見たい！見たい！」と言ってくれました。誰から紹介しますか？',
+    content_en: 'Today I arrived at my host family\'s house. The Tanaka family welcomed me warmly. When I asked, "I brought family photos. May I introduce them?" everyone said, "We want to see! We want to see!" Who should I introduce first?',
+  },
+});
+
+await prisma.choice.createMany({
+  data: [
+    {
+      choice_id: 'choice-11-1-a',
+      chapter_id: chapter11_1.chapter_id,
+      choice_text: '父から紹介する',
+      choice_description: '父の仕事や性格について話してみます。',
+      next_chapter_id: 'ch-11-2a',
+      display_order: 1,
+    },
+    {
+      choice_id: 'choice-11-1-b',
+      chapter_id: chapter11_1.chapter_id,
+      choice_text: '母から紹介する',
+      choice_description: '母の仕事や趣味について話してみます。',
+      next_chapter_id: 'ch-11-2b',
+      display_order: 2,
+    },
+    {
+      choice_id: 'choice-11-1-c',
+      chapter_id: chapter11_1.chapter_id,
+      choice_text: '家族写真を全部見せる',
+      choice_description: 'みんなをまとめて紹介してみます。',
+      next_chapter_id: 'ch-11-2c',
+      display_order: 3,
+    },
+  ],
+});
+
+await prisma.chapter.createMany({
+  data: [
+    {
+      chapter_id: 'ch-11-2a',
+      story_id: story11.story_id,
+      chapter_number: 2,
+      parent_chapter_id: chapter11_1.chapter_id,
+      content: '「これは私の父です。名前はジョンです。50歳です。父は会社員です。」田中さんのお母さんが「どんなお仕事ですか？」と興味深そうに聞きました。',
+      content_en: '"This is my father. His name is John. He is 50 years old. My father is a company employee." Mrs. Tanaka asked with interest, "What kind of work does he do?"',
+    },
+    {
+      chapter_id: 'ch-11-2b',
+      story_id: story11.story_id,
+      chapter_number: 2,
+      parent_chapter_id: chapter11_1.chapter_id,
+      content: '「これは私の母です。名前はメアリーです。48歳です。母は看護師です。」田中さんのお父さんが「素晴らしいですね！優しいお母さんでしょう？」と言いました。「はい、とても優しいです。」と答えました。',
+      content_en: '"This is my mother. Her name is Mary. She is 48 years old. My mother is a nurse." Mr. Tanaka said, "That\'s wonderful! She must be a kind mother, right?" I answered, "Yes, she is very kind."',
+    },
+    {
+      chapter_id: 'ch-11-2c',
+      story_id: story11.story_id,
+      chapter_number: 2,
+      parent_chapter_id: chapter11_1.chapter_id,
+      content: '大きな家族写真を見せました。「これが私の家族です。父、母、兄、妹、そして私です。5人家族です。」みんなが「わあ！素敵な家族ですね！」と言ってくれました。',
+      content_en: 'I showed them a large family photo. "This is my family. Father, mother, older brother, younger sister, and me. We are a family of five." Everyone said, "Wow! What a wonderful family!"',
+    },
+    {
+      chapter_id: 'ch-11-3a',
+      story_id: story11.story_id,
+      chapter_number: 3,
+      parent_chapter_id: 'ch-11-2a',
+      content: '「父はエンジニアです。コンピューターの仕事をしています。とても忙しいですが、週末は家族と過ごします。父は優しくて、面白いです。」と話しました。みんなが笑顔で聞いてくれました。',
+      content_en: '"My father is an engineer. He works with computers. He is very busy, but spends weekends with the family. My father is kind and funny," I said. Everyone listened with smiles.',
+    },
+    {
+      chapter_id: 'ch-11-3b',
+      story_id: story11.story_id,
+      chapter_number: 3,
+      parent_chapter_id: 'ch-11-2a',
+      content: '「次は私の母です。名前はメアリーです。母は看護師です。とても優しくて、料理が上手です。」田中さんの娘さんが「素敵なお母さんですね！」と言いました。',
+      content_en: '"Next is my mother. Her name is Mary. My mother is a nurse. She is very kind and good at cooking." Tanaka\'s daughter said, "What a lovely mother!"',
+    },
+    {
+      chapter_id: 'ch-11-3c',
+      story_id: story11.story_id,
+      chapter_number: 3,
+      parent_chapter_id: 'ch-11-2b',
+      content: '「母の趣味はガーデニングです。花が大好きです。家の庭にはたくさんの花があります。母は毎日、花の世話をします。」田中さんのお母さんが「私もガーデニングが好きです！今度一緒に庭を見ましょう。」と言いました。',
+      content_en: '"My mother\'s hobby is gardening. She loves flowers. There are many flowers in our garden at home. My mother takes care of the flowers every day." Mrs. Tanaka said, "I also like gardening! Let\'s look at the garden together next time."',
+    },
+    {
+      chapter_id: 'ch-11-3d',
+      story_id: story11.story_id,
+      chapter_number: 3,
+      parent_chapter_id: 'ch-11-2b',
+      content: '「これは私の兄です。名前はトムです。22歳です。大学生です。兄は背が高くて、スポーツが好きです。」田中さんの息子さんが「かっこいいですね！何のスポーツをしますか？」と聞きました。',
+      content_en: '"This is my older brother. His name is Tom. He is 22 years old. He is a university student. My brother is tall and likes sports." Tanaka\'s son asked, "He looks cool! What sport does he play?"',
+    },
+    {
+      chapter_id: 'ch-11-3e',
+      story_id: story11.story_id,
+      chapter_number: 3,
+      parent_chapter_id: 'ch-11-2c',
+      content: '「では、一人ずつ紹介します。父はジョン、会社員です。母はメアリー、看護師です。兄はトム、大学生です。妹はエミリー、高校生です。」みんながうなずきながら聞いてくれました。',
+      content_en: '"Now, let me introduce them one by one. My father is John, a company employee. My mother is Mary, a nurse. My brother is Tom, a university student. My sister is Emily, a high school student." Everyone nodded and listened.',
+    },
+    {
+      chapter_id: 'ch-11-4',
+      story_id: story11.story_id,
+      chapter_number: 4,
+      parent_chapter_id: 'ch-11-3a',
+      content: '「私には兄が一人と妹が一人います。兄はトム、22歳です。大学でコンピューターを勉強しています。妹はエミリー、16歳です。高校生で、音楽が大好きです。」田中さん一家がとても興味深そうに聞いてくれました。',
+      content_en: '"I have one older brother and one younger sister. My brother Tom is 22 years old. He studies computers at university. My sister Emily is 16 years old. She is a high school student and loves music." The Tanaka family listened with great interest.',
+    },
+    {
+      chapter_id: 'ch-11-5',
+      story_id: story11.story_id,
+      chapter_number: 5,
+      parent_chapter_id: 'ch-11-4',
+      content: '「週末、私の家族はよく一緒に過ごします。父と兄はサッカーをします。母と妹は買い物に行きます。私は時々みんなと一緒に、時々一人で本を読みます。」田中さんのお父さんが「素敵な家族ですね！」と言いました。',
+      content_en: '"On weekends, my family often spends time together. My father and brother play soccer. My mother and sister go shopping. I sometimes join everyone, and sometimes read books alone." Mr. Tanaka said, "What a wonderful family!"',
+    },
+    {
+      chapter_id: 'ch-11-6',
+      story_id: story11.story_id,
+      chapter_number: 6,
+      parent_chapter_id: 'ch-11-5',
+      content: '「では、私たちの家族も紹介しましょう！」と田中さんが言いました。「私は田中健、妻は由美、息子は太郎で15歳、娘は花子で12歳です。4人家族です。」みんなで自己紹介をしました。',
+      content_en: '"Now, let us introduce our family too!" said Mr. Tanaka. "I am Tanaka Ken, my wife is Yumi, our son is Taro, 15 years old, and our daughter is Hanako, 12 years old. We are a family of four." Everyone introduced themselves.',
+    },
+    {
+      chapter_id: 'ch-11-7',
+      story_id: story11.story_id,
+      chapter_number: 7,
+      parent_chapter_id: 'ch-11-6',
+      content: '話をしているうちに、たくさんの共通点を見つけました。太郎くんも兄のトムと同じようにスポーツが好きです。花子ちゃんも妹のエミリーと同じように音楽が好きです。「これから、家族みたいに過ごしましょう！」と田中さんが言いました。',
+      content_en: 'As we talked, we found many things in common. Taro also likes sports like my brother Tom. Hanako also likes music like my sister Emily. "From now on, let\'s spend time together like family!" said Mr. Tanaka.',
+    },
+    {
+      chapter_id: 'ch-11-8',
+      story_id: story11.story_id,
+      chapter_number: 8,
+      parent_chapter_id: 'ch-11-7',
+      content: '田中さん一家も家族写真を見せてくれました。海に行った時の写真、お祭りの写真、たくさんの思い出がありました。「私も日本で新しい思い出を作りたいです。」と言うと、みんなが「一緒に作りましょう！」と笑顔で言いました。',
+      content_en: 'The Tanaka family also showed me their family photos. Photos from the beach, festival photos, so many memories. When I said, "I want to make new memories in Japan too," everyone smiled and said, "Let\'s make them together!"',
+    },
+    {
+      chapter_id: 'ch-11-9',
+      story_id: story11.story_id,
+      chapter_number: 9,
+      parent_chapter_id: 'ch-11-8',
+      content: '今日は家族について話しました。アメリカの家族も、日本のホストファミリーも、みんな大切な家族です。これから、田中さん一家と一緒に過ごします。新しい家族ができて、とても嬉しいです。日本での生活が楽しみです！',
+      content_en: 'Today I talked about family. Both my family in America and my host family in Japan are precious families. From now on, I will spend time with the Tanaka family. I\'m very happy to have a new family. I\'m looking forward to life in Japan!',
+    },
+  ],
+});
+
+// Choices
+await prisma.choice.createMany({
+  data: [
+    { choice_id: 'choice-11-2a-1', chapter_id: 'ch-11-2a', choice_text: '父の仕事について詳しく話す', choice_description: 'エンジニアの仕事について説明します。', next_chapter_id: 'ch-11-3a', display_order: 1 },
+    { choice_id: 'choice-11-2a-2', chapter_id: 'ch-11-2a', choice_text: '母の紹介に移る', choice_description: '母について話します。', next_chapter_id: 'ch-11-3b', display_order: 2 },
+    { choice_id: 'choice-11-2b-1', chapter_id: 'ch-11-2b', choice_text: '母の趣味を話す', choice_description: 'ガーデニングについて話します。', next_chapter_id: 'ch-11-3c', display_order: 1 },
+    { choice_id: 'choice-11-2b-2', chapter_id: 'ch-11-2b', choice_text: '兄弟の紹介に移る', choice_description: '兄について話します。', next_chapter_id: 'ch-11-3d', display_order: 2 },
+    { choice_id: 'choice-11-2c-1', chapter_id: 'ch-11-2c', choice_text: '一人ずつ詳しく紹介する', choice_description: '家族全員を順番に紹介します。', next_chapter_id: 'ch-11-3e', display_order: 1 },
+    { choice_id: 'choice-11-3a-1', chapter_id: 'ch-11-3a', choice_text: '兄弟姉妹の紹介へ', choice_description: '兄と妹について話します。', next_chapter_id: 'ch-11-4', display_order: 1 },
+    { choice_id: 'choice-11-3b-1', chapter_id: 'ch-11-3b', choice_text: '兄弟姉妹の紹介へ', choice_description: '兄と妹について話します。', next_chapter_id: 'ch-11-4', display_order: 1 },
+    { choice_id: 'choice-11-3c-1', chapter_id: 'ch-11-3c', choice_text: '兄弟姉妹の紹介へ', choice_description: '兄と妹について話します。', next_chapter_id: 'ch-11-4', display_order: 1 },
+    { choice_id: 'choice-11-3d-1', chapter_id: 'ch-11-3d', choice_text: '兄のスポーツについて話す', choice_description: 'サッカーについて詳しく話します。', next_chapter_id: 'ch-11-4', display_order: 1 },
+    { choice_id: 'choice-11-3e-1', chapter_id: 'ch-11-3e', choice_text: 'それぞれの特徴を話す', choice_description: '家族の性格や趣味を話します。', next_chapter_id: 'ch-11-4', display_order: 1 },
+    { choice_id: 'choice-11-4-1', chapter_id: 'ch-11-4', choice_text: '家族の週末の過ごし方を話す', choice_description: '週末の家族時間について話します。', next_chapter_id: 'ch-11-5', display_order: 1 },
+    { choice_id: 'choice-11-5-1', chapter_id: 'ch-11-5', choice_text: 'ホストファミリーの紹介を聞く', choice_description: '田中さん一家の紹介を聞きます。', next_chapter_id: 'ch-11-6', display_order: 1 },
+    { choice_id: 'choice-11-6-1', chapter_id: 'ch-11-6', choice_text: '共通点を見つける', choice_description: '家族同士の共通点を話し合います。', next_chapter_id: 'ch-11-7', display_order: 1 },
+    { choice_id: 'choice-11-7-1', chapter_id: 'ch-11-7', choice_text: '家族写真を交換する', choice_description: 'お互いの家族写真を見せ合います。', next_chapter_id: 'ch-11-8', display_order: 1 },
+    { choice_id: 'choice-11-8-1', chapter_id: 'ch-11-8', choice_text: '新しい家族との生活を楽しみにする', choice_description: 'これからの生活に期待します。', next_chapter_id: 'ch-11-9', display_order: 1 },
+  ],
+});
+
+console.log('Created Story 11: 家族の紹介 (N5/A1) with 9 chapters');
+
+  // Story 12: 好きな食べ物 (Favorite Foods) - N5/A1
+// Category: food_preferences
+
+const story12 = await prisma.story.create({
+  data: {
+    story_id: '12',
+    title: '好きな食べ物',
+    title_en: 'Favorite Foods',
+    description: '学校のカフェテリアで、クラスメートと昼ごはんを食べながら、好きな食べ物について話します。日本の食べ物や世界の食べ物について、「好き」「嫌い」の表現を練習します。あなたの選択で物語が変わります。',
+    description_en: 'At the school cafeteria, you talk about your favorite foods while having lunch with classmates. Practice expressing likes and dislikes about Japanese and world foods. Your choices will change the story.',
+    category: 'food_preferences',
+    difficulty_level: 'beginner',
+    level_jlpt: 'N5',
+    level_cefr: 'A1',
+    estimated_time: 8,
+    estimated_duration_minutes: 8,
+    is_active: true,
+    root_chapter_id: 'ch-12-1',
+  },
+});
+
+// Create chapters
+await prisma.chapter.createMany({
+  data: [
+    // Chapter 1: Root - カフェテリアで
+    {
+      chapter_id: 'ch-12-1',
+      story_id: story12.story_id,
+      chapter_number: 1,
+      content: '今日は学校のカフェテリアで昼ごはんの時間です。クラスメートのユキさんとケンさんが話しています。「こんにちは！一緒に食べませんか？」とユキさんが言います。\n\n今日のメニューは：カレー、ラーメン、寿司、サラダがあります。\n\nあなたは何を選びますか？',
+      content_en: 'It\'s lunchtime at the school cafeteria. Your classmates Yuki-san and Ken-san are talking. "Hello! Would you like to eat together?" says Yuki-san.\n\nToday\'s menu includes: curry, ramen, sushi, and salad.\n\nWhat will you choose?',
+      parent_chapter_id: null,
+    },
+
+    // Chapter 2A: カレーが好き
+    {
+      chapter_id: 'ch-12-2a',
+      story_id: story12.story_id,
+      chapter_number: 2,
+      content: '「カレーが好きなんですね！」とユキさんが言います。「日本のカレーはどうですか？」\n\n「日本のカレーは甘くておいしいです。私の国のカレーは辛いです」とあなたは答えます。\n\nケンさんが聞きます：「他にどんな食べ物が好きですか？」',
+      content_en: '"You like curry!" says Yuki-san. "How do you like Japanese curry?"\n\n"Japanese curry is sweet and delicious. Curry in my country is spicy," you answer.\n\nKen-san asks: "What other foods do you like?"',
+      parent_chapter_id: 'ch-12-1',
+    },
+
+    // Chapter 2B: ラーメン大好き
+    {
+      chapter_id: 'ch-12-2b',
+      story_id: story12.story_id,
+      chapter_number: 2,
+      content: '「わあ、ラーメンですね！」とケンさんが言います。「私もラーメンが大好きです。どんなラーメンが好きですか？」\n\n「味噌ラーメンが好きです。とても温かいです」とあなたは言います。\n\nユキさんが聞きます：「辛い食べ物は好きですか？」',
+      content_en: '"Wow, ramen!" says Ken-san. "I love ramen too. What kind of ramen do you like?"\n\n"I like miso ramen. It\'s very warm," you say.\n\nYuki-san asks: "Do you like spicy food?"',
+      parent_chapter_id: 'ch-12-1',
+    },
+
+    // Chapter 2C: 寿司を食べる
+    {
+      chapter_id: 'ch-12-2c',
+      story_id: story12.story_id,
+      chapter_number: 2,
+      content: '「寿司ですか！いいですね」とユキさんが言います。「初めて寿司を食べますか？」\n\n「いいえ、私の国でも寿司を食べます。でも日本の寿司は特別においしいです」とあなたは言います。\n\nケンさんが聞きます：「生の魚は大丈夫ですか？」',
+      content_en: '"Sushi! That\'s great," says Yuki-san. "Is this your first time eating sushi?"\n\n"No, I eat sushi in my country too. But Japanese sushi is especially delicious," you say.\n\nKen-san asks: "Are you okay with raw fish?"',
+      parent_chapter_id: 'ch-12-1',
+    },
+
+    // Chapter 3A: お肉料理の話
+    {
+      chapter_id: 'ch-12-3a',
+      story_id: story12.story_id,
+      chapter_number: 3,
+      content: '「お肉が好きなんですね」とユキさんが言います。「日本の焼肉を食べたことがありますか？」\n\n「まだです。でも食べてみたいです！」とあなたは言います。\n\n「今度一緒に焼肉に行きましょう！」とケンさんが提案します。',
+      content_en: '"You like meat," says Yuki-san. "Have you ever eaten Japanese yakiniku (grilled meat)?"\n\n"Not yet. But I want to try it!" you say.\n\n"Let\'s go to yakiniku together sometime!" suggests Ken-san.',
+      parent_chapter_id: 'ch-12-2a',
+    },
+
+    // Chapter 3B: 野菜の話
+    {
+      chapter_id: 'ch-12-3b',
+      story_id: story12.story_id,
+      chapter_number: 3,
+      content: '「野菜が好きなんですね。健康的ですね！」とケンさんが言います。\n\n「はい、サラダが大好きです。果物も好きです」とあなたは言います。\n\n「日本の野菜はどうですか？」とユキさんが聞きます。\n\n「新鮮でおいしいです！」と答えます。',
+      content_en: '"You like vegetables. That\'s healthy!" says Ken-san.\n\n"Yes, I love salad. I also like fruit," you say.\n\n"How do you like Japanese vegetables?" asks Yuki-san.\n\n"They\'re fresh and delicious!" you answer.',
+      parent_chapter_id: 'ch-12-2a',
+    },
+
+    // Chapter 3C: 辛い食べ物が好き
+    {
+      chapter_id: 'ch-12-3c',
+      story_id: story12.story_id,
+      chapter_number: 3,
+      content: '「そうですか！辛いラーメンもありますよ」とケンさんが言います。\n\n「本当ですか？食べてみたいです！」とあなたは答えます。\n\n「韓国料理も好きですか？」とユキさんが聞きます。\n\n「はい、キムチが大好きです」と言います。',
+      content_en: '"I see! There\'s also spicy ramen," says Ken-san.\n\n"Really? I want to try it!" you answer.\n\n"Do you also like Korean food?" asks Yuki-san.\n\n"Yes, I love kimchi," you say.',
+      parent_chapter_id: 'ch-12-2b',
+    },
+
+    // Chapter 3D: 辛くない方が好き
+    {
+      chapter_id: 'ch-12-3d',
+      story_id: story12.story_id,
+      chapter_number: 3,
+      content: '「そうですか。私も辛い食べ物はあまり好きじゃないです」とユキさんが言います。\n\n「甘い食べ物は好きですか？」とケンさんが聞きます。\n\n「はい、デザートが大好きです！」とあなたは答えます。',
+      content_en: '"I see. I also don\'t really like spicy food," says Yuki-san.\n\n"Do you like sweet foods?" asks Ken-san.\n\n"Yes, I love desserts!" you answer.',
+      parent_chapter_id: 'ch-12-2b',
+    },
+
+    // Chapter 3E: 生魚が大好き
+    {
+      chapter_id: 'ch-12-3e',
+      story_id: story12.story_id,
+      chapter_number: 3,
+      content: '「それは良かったです！日本の寿司は新鮮ですから」とユキさんが言います。\n\n「サーモンとマグロが特に好きです」とあなたは言います。\n\n「今度、回転寿司に行きませんか？」とケンさんが提案します。\n\n「ぜひ行きたいです！」と答えます。',
+      content_en: '"That\'s great! Japanese sushi is fresh," says Yuki-san.\n\n"I especially like salmon and tuna," you say.\n\n"Would you like to go to a conveyor belt sushi restaurant sometime?" suggests Ken-san.\n\n"I\'d love to!" you answer.',
+      parent_chapter_id: 'ch-12-2c',
+    },
+
+    // Chapter 4: デザートの話 (Convergence point)
+    {
+      chapter_id: 'ch-12-4',
+      story_id: story12.story_id,
+      chapter_number: 4,
+      content: '食事が終わって、みんなデザートを選びます。\n\n「デザートは何が好きですか？」とユキさんが聞きます。\n\nカフェテリアには、アイスクリーム、ケーキ、果物があります。',
+      content_en: 'After the meal, everyone chooses dessert.\n\n"What dessert do you like?" asks Yuki-san.\n\nThe cafeteria has ice cream, cake, and fruit.',
+      parent_chapter_id: 'ch-12-3a',
+    },
+
+    // Chapter 5: 好きな果物
+    {
+      chapter_id: 'ch-12-5',
+      story_id: story12.story_id,
+      chapter_number: 5,
+      content: '「私はアイスクリームが大好きです！」とあなたは言います。\n\n「日本の果物は食べたことがありますか？」とケンさんが聞きます。\n\n「イチゴを食べました。とても甘くておいしかったです」と答えます。\n\n「良かったです！」とみんなが笑います。',
+      content_en: '"I love ice cream!" you say.\n\n"Have you tried Japanese fruits?" asks Ken-san.\n\n"I ate strawberries. They were very sweet and delicious," you answer.\n\n"That\'s great!" everyone laughs.',
+      parent_chapter_id: 'ch-12-4',
+    },
+
+    // Chapter 6: 食べ物の好みを共有
+    {
+      chapter_id: 'ch-12-6',
+      story_id: story12.story_id,
+      chapter_number: 6,
+      content: '「今日は楽しかったです。好きな食べ物について話せて嬉しいです」とあなたは言います。\n\n「また一緒に食べましょう！」とユキさんが言います。\n\n「次は何を食べたいですか？」とケンさんが聞きます。',
+      content_en: '"Today was fun. I\'m glad we could talk about our favorite foods," you say.\n\n"Let\'s eat together again!" says Yuki-san.\n\n"What do you want to eat next time?" asks Ken-san.',
+      parent_chapter_id: 'ch-12-5',
+    },
+
+    // Chapter 7: 週末の計画
+    {
+      chapter_id: 'ch-12-7',
+      story_id: story12.story_id,
+      chapter_number: 7,
+      content: '「週末、一緒にレストランに行きませんか？」とユキさんが提案します。\n\n「いいですね！どんなレストランがいいですか？」とあなたは聞きます。\n\n「日本料理のレストランはどうですか？」とケンさんが言います。',
+      content_en: '"Would you like to go to a restaurant together this weekend?" suggests Yuki-san.\n\n"That sounds great! What kind of restaurant would be good?" you ask.\n\n"How about a Japanese restaurant?" says Ken-san.',
+      parent_chapter_id: 'ch-12-6',
+    },
+
+    // Chapter 8: 新しい食べ物に挑戦
+    {
+      chapter_id: 'ch-12-8',
+      story_id: story12.story_id,
+      chapter_number: 8,
+      content: '「日本には色々な食べ物があります。まだ食べていないものはありますか？」とユキさんが聞きます。\n\n「天ぷらを食べてみたいです」とあなたは言います。\n\n「天ぷらはおいしいですよ！」とケンさんが言います。',
+      content_en: '"There are many different foods in Japan. Is there anything you haven\'t tried yet?" asks Yuki-san.\n\n"I want to try tempura," you say.\n\n"Tempura is delicious!" says Ken-san.',
+      parent_chapter_id: 'ch-12-7',
+    },
+
+    // Chapter 9: まとめ (Ending)
+    {
+      chapter_id: 'ch-12-9',
+      story_id: story12.story_id,
+      chapter_number: 9,
+      content: '今日のカフェテリアでの会話はとても楽しかったです。\n\nあなたは：\n- 好きな食べ物について話しました\n- 「好き」「嫌い」の表現を練習しました\n- 日本の食べ物について学びました\n- 新しい友達と食事の計画を立てました\n\n次回はレストランで、もっと日本の食べ物を楽しみましょう！',
+      content_en: 'Today\'s conversation at the cafeteria was very enjoyable.\n\nYou:\n- Talked about your favorite foods\n- Practiced expressing likes and dislikes\n- Learned about Japanese foods\n- Made plans to eat with new friends\n\nNext time, let\'s enjoy more Japanese foods at a restaurant!',
+      parent_chapter_id: 'ch-12-8',
+    },
+  ],
+});
+
+// Create choices for branching narrative
+await prisma.choice.createMany({
+  data: [
+    // Chapter 1 choices (3 main branches)
+    {
+      choice_id: 'choice-12-1-a',
+      chapter_id: 'ch-12-1',
+      choice_text: 'カレーを選ぶ',
+      choice_description: 'Choose curry',
+      next_chapter_id: 'ch-12-2a',
+      display_order: 1,
+    },
+    {
+      choice_id: 'choice-12-1-b',
+      chapter_id: 'ch-12-1',
+      choice_text: 'ラーメンを選ぶ',
+      choice_description: 'Choose ramen',
+      next_chapter_id: 'ch-12-2b',
+      display_order: 2,
+    },
+    {
+      choice_id: 'choice-12-1-c',
+      chapter_id: 'ch-12-1',
+      choice_text: '寿司を選ぶ',
+      choice_description: 'Choose sushi',
+      next_chapter_id: 'ch-12-2c',
+      display_order: 3,
+    },
+
+    // Chapter 2A choices (2 sub-branches)
+    {
+      choice_id: 'choice-12-2a-a',
+      chapter_id: 'ch-12-2a',
+      choice_text: 'お肉が好きです',
+      choice_description: 'I like meat',
+      next_chapter_id: 'ch-12-3a',
+      display_order: 1,
+    },
+    {
+      choice_id: 'choice-12-2a-b',
+      chapter_id: 'ch-12-2a',
+      choice_text: '野菜が好きです',
+      choice_description: 'I like vegetables',
+      next_chapter_id: 'ch-12-3b',
+      display_order: 2,
+    },
+
+    // Chapter 2B choices (2 sub-branches)
+    {
+      choice_id: 'choice-12-2b-a',
+      chapter_id: 'ch-12-2b',
+      choice_text: 'はい、辛い食べ物が好きです',
+      choice_description: 'Yes, I like spicy food',
+      next_chapter_id: 'ch-12-3c',
+      display_order: 1,
+    },
+    {
+      choice_id: 'choice-12-2b-b',
+      chapter_id: 'ch-12-2b',
+      choice_text: 'いいえ、あまり好きじゃないです',
+      choice_description: 'No, I don\'t really like it',
+      next_chapter_id: 'ch-12-3d',
+      display_order: 2,
+    },
+
+    // Chapter 2C choice (1 sub-branch)
+    {
+      choice_id: 'choice-12-2c-a',
+      chapter_id: 'ch-12-2c',
+      choice_text: 'はい、大好きです',
+      choice_description: 'Yes, I love it',
+      next_chapter_id: 'ch-12-3e',
+      display_order: 1,
+    },
+
+    // Chapter 3 choices (all converge to Chapter 4)
+    {
+      choice_id: 'choice-12-3a-next',
+      chapter_id: 'ch-12-3a',
+      choice_text: '次へ',
+      choice_description: 'Next',
+      next_chapter_id: 'ch-12-4',
+      display_order: 1,
+    },
+    {
+      choice_id: 'choice-12-3b-next',
+      chapter_id: 'ch-12-3b',
+      choice_text: '次へ',
+      choice_description: 'Next',
+      next_chapter_id: 'ch-12-4',
+      display_order: 1,
+    },
+    {
+      choice_id: 'choice-12-3c-next',
+      chapter_id: 'ch-12-3c',
+      choice_text: '次へ',
+      choice_description: 'Next',
+      next_chapter_id: 'ch-12-4',
+      display_order: 1,
+    },
+    {
+      choice_id: 'choice-12-3d-next',
+      chapter_id: 'ch-12-3d',
+      choice_text: '次へ',
+      choice_description: 'Next',
+      next_chapter_id: 'ch-12-4',
+      display_order: 1,
+    },
+    {
+      choice_id: 'choice-12-3e-next',
+      chapter_id: 'ch-12-3e',
+      choice_text: '次へ',
+      choice_description: 'Next',
+      next_chapter_id: 'ch-12-4',
+      display_order: 1,
+    },
+
+    // Chapter 4 choice
+    {
+      choice_id: 'choice-12-4-next',
+      chapter_id: 'ch-12-4',
+      choice_text: 'アイスクリーム',
+      choice_description: 'Ice cream',
+      next_chapter_id: 'ch-12-5',
+      display_order: 1,
+    },
+
+    // Chapter 5-8 linear choices
+    {
+      choice_id: 'choice-12-5-next',
+      chapter_id: 'ch-12-5',
+      choice_text: '次へ',
+      choice_description: 'Next',
+      next_chapter_id: 'ch-12-6',
+      display_order: 1,
+    },
+    {
+      choice_id: 'choice-12-6-next',
+      chapter_id: 'ch-12-6',
+      choice_text: '次へ',
+      choice_description: 'Next',
+      next_chapter_id: 'ch-12-7',
+      display_order: 1,
+    },
+    {
+      choice_id: 'choice-12-7-next',
+      chapter_id: 'ch-12-7',
+      choice_text: '次へ',
+      choice_description: 'Next',
+      next_chapter_id: 'ch-12-8',
+      display_order: 1,
+    },
+    {
+      choice_id: 'choice-12-8-next',
+      chapter_id: 'ch-12-8',
+      choice_text: '次へ',
+      choice_description: 'Next',
+      next_chapter_id: 'ch-12-9',
+      display_order: 1,
+    },
+  ],
+});
+
+console.log('Created Story 12: 好きな食べ物 (N5/A1) with 9 chapters');
+
+  // Story 13: レストランでの注文 (Ordering at a Restaurant) - N4/A2
+// Category: restaurant
+
+const story13 = await prisma.story.create({
+  data: {
+    story_id: '13',
+    title: 'レストランでの注文',
+    title_en: 'Ordering at a Restaurant',
+    description: '友達と初めて日本のレストランに行きます。メニューを見て、店員さんに注文して、食事を楽しみます。レストランでの基本的な会話表現を学びます。あなたの選択で物語が変わります。',
+    description_en: 'You go to a Japanese restaurant for the first time with a friend. Look at the menu, order from the staff, and enjoy your meal. Learn basic conversation expressions at restaurants. Your choices will change the story.',
+    category: 'restaurant',
+    difficulty_level: 'intermediate',
+    level_jlpt: 'N4',
+    level_cefr: 'A2',
+    estimated_time: 10,
+    estimated_duration_minutes: 10,
+    is_active: true,
+    root_chapter_id: 'ch-13-1',
+  },
+});
+
+// Create chapters
+await prisma.chapter.createMany({
+  data: [
+    // Chapter 1: Root - レストランに到着
+    {
+      chapter_id: 'ch-13-1',
+      story_id: story13.story_id,
+      chapter_number: 1,
+      content: '今日は友達のサキさんと日本料理のレストランに来ました。「いらっしゃいませ！何名様ですか？」と店員さんが聞きます。\n\n「2名です」とサキさんが答えます。\n\n店員さんが「こちらのテーブルへどうぞ」と案内してくれました。メニューを見ると、色々な料理があります。\n\n何を注文しますか？',
+      content_en: 'Today you came to a Japanese restaurant with your friend Saki-san. "Welcome! How many people?" asks the staff.\n\n"Two people," answers Saki-san.\n\nThe staff shows you to a table: "Please come this way." Looking at the menu, there are many different dishes.\n\nWhat will you order?',
+      parent_chapter_id: null,
+    },
+
+    // Chapter 2A: 定食メニュー
+    {
+      chapter_id: 'ch-13-2a',
+      story_id: story13.story_id,
+      chapter_number: 2,
+      content: '定食のページを開きます。「天ぷら定食」「焼き魚定食」「とんかつ定食」があります。\n\nサキさんが「定食はご飯と味噌汁とおかずがセットになっているんですよ」と教えてくれます。\n\n「どれがおすすめですか？」と店員さんに聞きます。\n\n「天ぷら定食が人気ですよ」と店員さんが答えます。',
+      content_en: 'You open the set meal page. There are "Tempura Set," "Grilled Fish Set," and "Tonkatsu Set."\n\nSaki-san explains: "Set meals come with rice, miso soup, and a main dish."\n\n"Which one do you recommend?" you ask the staff.\n\n"The tempura set is popular," the staff answers.',
+      parent_chapter_id: 'ch-13-1',
+    },
+
+    // Chapter 2B: 丼もの
+    {
+      chapter_id: 'ch-13-2b',
+      story_id: story13.story_id,
+      chapter_number: 2,
+      content: '丼もののページを見ます。「親子丼」「牛丼」「天丼」があります。\n\n「丼ものは大きなご飯の上に具が乗っているんです。ボリュームがありますよ」とサキさんが説明します。\n\n写真を見ると、とてもおいしそうです。',
+      content_en: 'You look at the rice bowl dishes page. There are "Oyakodon," "Gyudon," and "Tendon."\n\n"Rice bowl dishes have ingredients on top of a large bowl of rice. They\'re quite filling," Saki-san explains.\n\nLooking at the photos, they look very delicious.',
+      parent_chapter_id: 'ch-13-1',
+    },
+
+    // Chapter 2C: 単品メニュー
+    {
+      chapter_id: 'ch-13-2c',
+      story_id: story13.story_id,
+      chapter_number: 2,
+      content: '単品のページを見ます。色々な料理が並んでいます。\n\n「単品だと、好きなものを組み合わせられますよ。でも、定食より高くなるかもしれません」とサキさんが言います。',
+      content_en: 'You look at the individual dishes page. Various dishes are listed.\n\n"With individual dishes, you can combine what you like. But it might be more expensive than a set meal," says Saki-san.',
+      parent_chapter_id: 'ch-13-1',
+    },
+
+    // Chapter 3A: 天ぷら定食注文
+    {
+      chapter_id: 'ch-13-3a',
+      story_id: story13.story_id,
+      chapter_number: 3,
+      content: '店員さんを呼びます。「すみません、注文お願いします」\n\n「はい、ご注文をどうぞ」と店員さんが来ます。\n\n「天ぷら定食を2つください」とあなたが言います。\n\n「かしこまりました。お飲み物はいかがですか？」',
+      content_en: 'You call the staff. "Excuse me, we\'d like to order please."\n\n"Yes, what would you like?" the staff comes over.\n\n"Two tempura sets please," you say.\n\n"Certainly. Would you like any drinks?"',
+      parent_chapter_id: 'ch-13-2a',
+    },
+
+    // Chapter 3B: とんかつ定食注文
+    {
+      chapter_id: 'ch-13-3b',
+      story_id: story13.story_id,
+      chapter_number: 3,
+      content: '「すみません！」と手を上げて店員さんを呼びます。\n\n「とんかつ定食を1つと、天ぷら定食を1つお願いします」とサキさんが注文します。\n\n「かしこまりました。少々お待ちください」と店員さんが言います。',
+      content_en: '"Excuse me!" you raise your hand to call the staff.\n\n"One tonkatsu set and one tempura set please," Saki-san orders.\n\n"Certainly. Please wait a moment," says the staff.',
+      parent_chapter_id: 'ch-13-2a',
+    },
+
+    // Chapter 3C: 親子丼注文
+    {
+      chapter_id: 'ch-13-3c',
+      story_id: story13.story_id,
+      chapter_number: 3,
+      content: '「親子丼を2つお願いします」とあなたが注文します。\n\n「親子丼2つですね。かしこまりました」と店員さんが確認します。\n\n「あ、お水もください」とサキさんが言います。\n\n「はい、すぐにお持ちします」',
+      content_en: '"Two oyakodon please," you order.\n\n"Two oyakodon, understood," the staff confirms.\n\n"Oh, and water please," says Saki-san.\n\n"Yes, I\'ll bring it right away."',
+      parent_chapter_id: 'ch-13-2b',
+    },
+
+    // Chapter 3D: 天丼注文
+    {
+      chapter_id: 'ch-13-3d',
+      story_id: story13.story_id,
+      chapter_number: 3,
+      content: '「天丼を2人前お願いします」と注文します。\n\n「天丼2つですね。お飲み物はいかがですか？」と店員さんが聞きます。\n\n「お茶を2つください」とサキさんが答えます。\n\n「かしこまりました」',
+      content_en: '"Two tendon please," you order.\n\n"Two tendon, understood. Would you like any drinks?" asks the staff.\n\n"Two green teas please," answers Saki-san.\n\n"Certainly."',
+      parent_chapter_id: 'ch-13-2b',
+    },
+
+    // Chapter 3E: 単品で注文
+    {
+      chapter_id: 'ch-13-3e',
+      story_id: story13.story_id,
+      chapter_number: 3,
+      content: '「刺身盛り合わせと、焼き鳥と、サラダをください」とあなたが注文します。\n\n「私は天ぷらをお願いします」とサキさんが注文します。\n\n「かしこまりました。以上でよろしいですか？」と店員さんが確認します。\n\n「はい、大丈夫です」',
+      content_en: '"Sashimi platter, yakitori, and salad please," you order.\n\n"I\'ll have tempura," Saki-san orders.\n\n"Understood. Is that all?" the staff confirms.\n\n"Yes, that\'s fine."',
+      parent_chapter_id: 'ch-13-2c',
+    },
+
+    // Chapter 4: 料理を待つ (Convergence point)
+    {
+      chapter_id: 'ch-13-4',
+      story_id: story13.story_id,
+      chapter_number: 4,
+      content: '注文が終わって、料理を待ちます。\n\n店員さんがお水とおしぼりを持ってきてくれました。「お待たせしました」\n\n「ありがとうございます」とサキさんが言います。\n\nレストランの雰囲気はとても良いです。他のお客さんも食事を楽しんでいます。',
+      content_en: 'After ordering, you wait for the food.\n\nThe staff brings water and wet towels. "Thank you for waiting."\n\n"Thank you," says Saki-san.\n\nThe restaurant atmosphere is very nice. Other customers are also enjoying their meals.',
+      parent_chapter_id: 'ch-13-3a',
+    },
+
+    // Chapter 5: 料理が来る
+    {
+      chapter_id: 'ch-13-5',
+      story_id: story13.story_id,
+      chapter_number: 5,
+      content: 'しばらくすると、店員さんが料理を持ってきます。\n\n「お待たせしました。こちら、〇〇でございます」\n\n料理はとても美味しそうです！湯気が立っていて、いい匂いがします。\n\n「いただきます！」と二人で言います。',
+      content_en: 'After a while, the staff brings the food.\n\n"Thank you for waiting. Here is your 〇〇."\n\nThe food looks very delicious! It\'s steaming and smells good.\n\n"Itadakimasu!" you both say.',
+      parent_chapter_id: 'ch-13-4',
+    },
+
+    // Chapter 6: 食事を楽しむ
+    {
+      chapter_id: 'ch-13-6',
+      story_id: story13.story_id,
+      chapter_number: 6,
+      content: '料理を食べ始めます。とても美味しいです！\n\n「どうですか？」とサキさんが聞きます。\n\n「本当に美味しいです！日本の料理は素晴らしいですね」とあなたは答えます。\n\n「良かった！この店は地元の人にも人気なんですよ」とサキさんが嬉しそうに言います。',
+      content_en: 'You start eating. It\'s very delicious!\n\n"How is it?" asks Saki-san.\n\n"It\'s really delicious! Japanese food is wonderful," you answer.\n\n"I\'m glad! This restaurant is popular with locals too," Saki-san says happily.',
+      parent_chapter_id: 'ch-13-5',
+    },
+
+    // Chapter 7: 追加注文
+    {
+      chapter_id: 'ch-13-7',
+      story_id: story13.story_id,
+      chapter_number: 7,
+      content: '食事の途中で、サキさんが「デザートも食べませんか？」と提案します。\n\n「いいですね！何がありますか？」とあなたは答えます。\n\nメニューを見ると、抹茶アイスクリームと、みたらし団子があります。',
+      content_en: 'During the meal, Saki-san suggests: "Shall we have dessert too?"\n\n"Sounds good! What do they have?" you answer.\n\nLooking at the menu, there are matcha ice cream and mitarashi dango.',
+      parent_chapter_id: 'ch-13-6',
+    },
+
+    // Chapter 8: お会計
+    {
+      chapter_id: 'ch-13-8',
+      story_id: story13.story_id,
+      chapter_number: 8,
+      content: '食事が終わりました。「ごちそうさまでした！」\n\n「お会計お願いします」とサキさんが店員さんに言います。\n\n「かしこまりました。お会計は2,800円でございます」\n\n「では、半分ずつ払いましょう」とサキさんが提案します。',
+      content_en: 'The meal is finished. "Gochisousama deshita!"\n\n"Check please," Saki-san says to the staff.\n\n"Certainly. The total is 2,800 yen."\n\n"Let\'s split it half and half," Saki-san suggests.',
+      parent_chapter_id: 'ch-13-7',
+    },
+
+    // Chapter 9: まとめ (Ending)
+    {
+      chapter_id: 'ch-13-9',
+      story_id: story13.story_id,
+      chapter_number: 9,
+      content: 'レストランを出ます。「ありがとうございました！」と店員さんが見送ってくれます。\n\n今日のレストラン体験はとても楽しかったです。\n\nあなたは：\n- レストランでの注文の仕方を学びました\n- 店員さんとの会話を練習しました\n- 日本の食事マナーを体験しました\n- 「いただきます」「ごちそうさま」を使いました\n\n次回はもっと色々な日本料理に挑戦してみましょう！',
+      content_en: 'You leave the restaurant. "Thank you very much!" the staff sees you off.\n\nToday\'s restaurant experience was very enjoyable.\n\nYou:\n- Learned how to order at a restaurant\n- Practiced conversations with staff\n- Experienced Japanese dining manners\n- Used "itadakimasu" and "gochisousama"\n\nNext time, let\'s try more varieties of Japanese cuisine!',
+      parent_chapter_id: 'ch-13-8',
+    },
+  ],
+});
+
+// Create choices for branching narrative
+await prisma.choice.createMany({
+  data: [
+    // Chapter 1 choices (3 main branches)
+    {
+      choice_id: 'choice-13-1-a',
+      chapter_id: 'ch-13-1',
+      choice_text: '定食を見る',
+      choice_description: 'Look at set meals',
+      next_chapter_id: 'ch-13-2a',
+      display_order: 1,
+    },
+    {
+      choice_id: 'choice-13-1-b',
+      chapter_id: 'ch-13-1',
+      choice_text: '丼ものを見る',
+      choice_description: 'Look at rice bowl dishes',
+      next_chapter_id: 'ch-13-2b',
+      display_order: 2,
+    },
+    {
+      choice_id: 'choice-13-1-c',
+      chapter_id: 'ch-13-1',
+      choice_text: '単品を見る',
+      choice_description: 'Look at individual dishes',
+      next_chapter_id: 'ch-13-2c',
+      display_order: 3,
+    },
+
+    // Chapter 2A choices (2 sub-branches)
+    {
+      choice_id: 'choice-13-2a-a',
+      chapter_id: 'ch-13-2a',
+      choice_text: '天ぷら定食を注文する',
+      choice_description: 'Order tempura set',
+      next_chapter_id: 'ch-13-3a',
+      display_order: 1,
+    },
+    {
+      choice_id: 'choice-13-2a-b',
+      chapter_id: 'ch-13-2a',
+      choice_text: 'とんかつ定食を注文する',
+      choice_description: 'Order tonkatsu set',
+      next_chapter_id: 'ch-13-3b',
+      display_order: 2,
+    },
+
+    // Chapter 2B choices (2 sub-branches)
+    {
+      choice_id: 'choice-13-2b-a',
+      chapter_id: 'ch-13-2b',
+      choice_text: '親子丼を注文する',
+      choice_description: 'Order oyakodon',
+      next_chapter_id: 'ch-13-3c',
+      display_order: 1,
+    },
+    {
+      choice_id: 'choice-13-2b-b',
+      chapter_id: 'ch-13-2b',
+      choice_text: '天丼を注文する',
+      choice_description: 'Order tendon',
+      next_chapter_id: 'ch-13-3d',
+      display_order: 2,
+    },
+
+    // Chapter 2C choice (1 branch)
+    {
+      choice_id: 'choice-13-2c-a',
+      chapter_id: 'ch-13-2c',
+      choice_text: '単品で注文する',
+      choice_description: 'Order individual dishes',
+      next_chapter_id: 'ch-13-3e',
+      display_order: 1,
+    },
+
+    // Chapter 3 choices (all converge to Chapter 4)
+    {
+      choice_id: 'choice-13-3a-next',
+      chapter_id: 'ch-13-3a',
+      choice_text: '次へ',
+      choice_description: 'Next',
+      next_chapter_id: 'ch-13-4',
+      display_order: 1,
+    },
+    {
+      choice_id: 'choice-13-3b-next',
+      chapter_id: 'ch-13-3b',
+      choice_text: '次へ',
+      choice_description: 'Next',
+      next_chapter_id: 'ch-13-4',
+      display_order: 1,
+    },
+    {
+      choice_id: 'choice-13-3c-next',
+      chapter_id: 'ch-13-3c',
+      choice_text: '次へ',
+      choice_description: 'Next',
+      next_chapter_id: 'ch-13-4',
+      display_order: 1,
+    },
+    {
+      choice_id: 'choice-13-3d-next',
+      chapter_id: 'ch-13-3d',
+      choice_text: '次へ',
+      choice_description: 'Next',
+      next_chapter_id: 'ch-13-4',
+      display_order: 1,
+    },
+    {
+      choice_id: 'choice-13-3e-next',
+      chapter_id: 'ch-13-3e',
+      choice_text: '次へ',
+      choice_description: 'Next',
+      next_chapter_id: 'ch-13-4',
+      display_order: 1,
+    },
+
+    // Chapter 4-8 linear choices
+    {
+      choice_id: 'choice-13-4-next',
+      chapter_id: 'ch-13-4',
+      choice_text: '次へ',
+      choice_description: 'Next',
+      next_chapter_id: 'ch-13-5',
+      display_order: 1,
+    },
+    {
+      choice_id: 'choice-13-5-next',
+      chapter_id: 'ch-13-5',
+      choice_text: '次へ',
+      choice_description: 'Next',
+      next_chapter_id: 'ch-13-6',
+      display_order: 1,
+    },
+    {
+      choice_id: 'choice-13-6-next',
+      chapter_id: 'ch-13-6',
+      choice_text: '次へ',
+      choice_description: 'Next',
+      next_chapter_id: 'ch-13-7',
+      display_order: 1,
+    },
+    {
+      choice_id: 'choice-13-7-next',
+      chapter_id: 'ch-13-7',
+      choice_text: '次へ',
+      choice_description: 'Next',
+      next_chapter_id: 'ch-13-8',
+      display_order: 1,
+    },
+    {
+      choice_id: 'choice-13-8-next',
+      chapter_id: 'ch-13-8',
+      choice_text: '次へ',
+      choice_description: 'Next',
+      next_chapter_id: 'ch-13-9',
+      display_order: 1,
+    },
+  ],
+});
+
+console.log('Created Story 13: レストランでの注文 (N4/A2) with 9 chapters');
+
+  // Story 14: 友達との約束 (Making Plans with a Friend) - N4/A2
+// Category: friendship
+
+const story14 = await prisma.story.create({
+  data: {
+    story_id: '14',
+    title: '友達との約束',
+    title_en: 'Making Plans with a Friend',
+    description: '週末に友達と遊ぶ約束をします。何をするか、どこで会うか、何時に会うかを決めます。約束をする時の表現や、提案・誘いの表現を学びます。あなたの選択で物語が変わります。',
+    description_en: 'You make plans to hang out with a friend on the weekend. Decide what to do, where to meet, and what time to meet. Learn expressions for making promises and invitations/suggestions. Your choices will change the story.',
+    category: 'friendship',
+    difficulty_level: 'intermediate',
+    level_jlpt: 'N4',
+    level_cefr: 'A2',
+    estimated_time: 10,
+    estimated_duration_minutes: 10,
+    is_active: true,
+    root_chapter_id: 'ch-14-1',
+  },
+});
+
+// Create chapters
+await prisma.chapter.createMany({
+  data: [
+    // Chapter 1: Root
+    {
+      chapter_id: 'ch-14-1',
+      story_id: story14.story_id,
+      chapter_number: 1,
+      content: '金曜日の夜、友達のユウタさんからメッセージが来ました。\n\n「週末、暇？一緒に遊びませんか？」\n\nあなたは明日も明後日も予定がありません。「いいですね！何をしますか？」と返信します。\n\nユウタさんから返事が来ます。「何がいいかな？」\n\n何を提案しますか？',
+      content_en: 'On Friday night, you receive a message from your friend Yuta-san.\n\n"Are you free this weekend? Would you like to hang out?"\n\nYou don\'t have plans tomorrow or the day after. "Sounds good! What shall we do?" you reply.\n\nYuta-san replies: "What would be good?"\n\nWhat will you suggest?',
+      parent_chapter_id: null,
+    },
+
+    // Chapter 2A-C
+    {
+      chapter_id: 'ch-14-2a',
+      story_id: story14.story_id,
+      chapter_number: 2,
+      content: '「映画を見ませんか？」と提案します。\n\n「いいですね！どんな映画が見たいですか？」とユウタさんが聞きます。\n\n「アクション映画はどうですか？今、面白いのがやっているそうですよ」とあなたは答えます。\n\n「いいね！じゃあ、映画館で会いましょう」',
+      content_en: '"How about watching a movie?" you suggest.\n\n"Sounds good! What kind of movie do you want to see?" asks Yuta-san.\n\n"How about an action movie? I heard there\'s an interesting one showing now," you answer.\n\n"Nice! Then let\'s meet at the movie theater."',
+      parent_chapter_id: 'ch-14-1',
+    },
+    {
+      chapter_id: 'ch-14-2b',
+      story_id: story14.story_id,
+      chapter_number: 2,
+      content: '「買い物に行きましょう！」と提案します。\n\n「何を買いたいですか？」とユウタさんが聞きます。\n\n「服を見たいです。あなたは？」と聞き返します。\n\n「僕も新しいシャツが欲しいです。駅前のショッピングモールはどうですか？」\n\n「いいですね！」',
+      content_en: '"Let\'s go shopping!" you suggest.\n\n"What do you want to buy?" asks Yuta-san.\n\n"I want to look at clothes. How about you?" you ask back.\n\n"I also want a new shirt. How about the shopping mall by the station?"\n\n"Sounds good!"',
+      parent_chapter_id: 'ch-14-1',
+    },
+    {
+      chapter_id: 'ch-14-2c',
+      story_id: story14.story_id,
+      chapter_number: 2,
+      content: '「カラオケはどうですか？」と提案します。\n\n「カラオケ！いいですね！久しぶりに歌いたいです」とユウタさんが嬉しそうに言います。\n\n「僕も！最近、練習している歌があるんです」\n\n「楽しみですね。どこのカラオケがいいですか？」\n\n「駅の近くに新しいカラオケ店ができたそうですよ」',
+      content_en: '"How about karaoke?" you suggest.\n\n"Karaoke! Sounds good! I want to sing after a long time," says Yuta-san happily.\n\n"Me too! I have a song I\'ve been practicing recently."\n\n"I\'m looking forward to it. Which karaoke place is good?"\n\n"I heard there\'s a new karaoke place near the station."',
+      parent_chapter_id: 'ch-14-1',
+    },
+
+    // Chapter 3A-F
+    {
+      chapter_id: 'ch-14-3a',
+      story_id: story14.story_id,
+      chapter_number: 3,
+      content: '「午前中はどうですか？10時に映画館の前で会いましょう」と提案します。\n\n「10時ですね。わかりました！」とユウタさんが答えます。\n\n「映画の後、ランチも食べませんか？」\n\n「いいですね！楽しみにしています」',
+      content_en: '"How about in the morning? Let\'s meet at 10 o\'clock in front of the movie theater," you suggest.\n\n"10 o\'clock, got it!" answers Yuta-san.\n\n"After the movie, shall we have lunch too?"\n\n"Sounds good! I\'m looking forward to it."',
+      parent_chapter_id: 'ch-14-2a',
+    },
+    {
+      chapter_id: 'ch-14-3b',
+      story_id: story14.story_id,
+      chapter_number: 3,
+      content: '「午後2時はどうですか？」と提案します。\n\n「2時ですね。ちょうどいいです！」とユウタさんが言います。\n\n「映画を見た後、カフェでお茶をしましょう」\n\n「いいですね。明日が楽しみです！」',
+      content_en: '"How about 2 PM?" you suggest.\n\n"2 PM, that\'s perfect!" says Yuta-san.\n\n"After the movie, let\'s have tea at a cafe."\n\n"Sounds good. I\'m looking forward to tomorrow!"',
+      parent_chapter_id: 'ch-14-2a',
+    },
+    {
+      chapter_id: 'ch-14-3c',
+      story_id: story14.story_id,
+      chapter_number: 3,
+      content: '「10時にショッピングモールの入口で会いましょう」と言います。\n\n「わかりました！朝から行けば、人が少ないですね」とユウタさんが言います。\n\n「そうですね。ゆっくり見られます」\n\n「お昼はモールのレストランで食べましょう」\n\n「いいですね！」',
+      content_en: '"Let\'s meet at 10 at the shopping mall entrance," you say.\n\n"Got it! If we go in the morning, there will be fewer people," says Yuta-san.\n\n"That\'s right. We can look around leisurely."\n\n"Let\'s have lunch at the mall restaurant."\n\n"Sounds good!"',
+      parent_chapter_id: 'ch-14-2b',
+    },
+    {
+      chapter_id: 'ch-14-3d',
+      story_id: story14.story_id,
+      chapter_number: 3,
+      content: '「1時に駅で会いましょう」と提案します。\n\n「わかりました。お昼を食べてから買い物しますか？」とユウタさんが聞きます。\n\n「いいですね。駅前においしいレストランがありますよ」\n\n「じゃあ、そこで会いましょう！」',
+      content_en: '"Let\'s meet at the station at 1 PM," you suggest.\n\n"Got it. Shall we eat lunch before shopping?" asks Yuta-san.\n\n"Sounds good. There\'s a good restaurant by the station."\n\n"Then let\'s meet there!"',
+      parent_chapter_id: 'ch-14-2b',
+    },
+    {
+      chapter_id: 'ch-14-3e',
+      story_id: story14.story_id,
+      chapter_number: 3,
+      content: '「12時に駅で会いましょう」と言います。\n\n「はい！お昼を食べてから歌いますか？」とユウタさんが提案します。\n\n「そうしましょう。たくさん歌えますね」\n\n「楽しみです！明日、12時に駅で！」',
+      content_en: '"Let\'s meet at the station at 12," you say.\n\n"Yes! Shall we eat lunch before singing?" suggests Yuta-san.\n\n"Let\'s do that. We can sing a lot."\n\n"I\'m looking forward to it! Tomorrow at 12 at the station!"',
+      parent_chapter_id: 'ch-14-2c',
+    },
+    {
+      chapter_id: 'ch-14-3f',
+      story_id: story14.story_id,
+      chapter_number: 3,
+      content: '「5時はどうですか？」と提案します。\n\n「5時ですね。夕方からゆっくり歌えますね」とユウタさんが言います。\n\n「はい。夜まで歌って、その後、夕飯を食べましょう」\n\n「いいですね！では、明日5時に駅で！」',
+      content_en: '"How about 5 PM?" you suggest.\n\n"5 PM, we can sing leisurely from the evening," says Yuta-san.\n\n"Yes. Let\'s sing until night, then have dinner."\n\n"Sounds good! Then tomorrow at 5 at the station!"',
+      parent_chapter_id: 'ch-14-2c',
+    },
+
+    // Chapter 4: Convergence
+    {
+      chapter_id: 'ch-14-4',
+      story_id: story14.story_id,
+      chapter_number: 4,
+      content: '約束が決まりました。確認のメッセージを送ります。\n\n「明日、楽しみにしています！遅れないでくださいね」\n\n「はい！絶対に遅れません。あなたも気をつけて来てください」とユウタさんが返信します。\n\n「わかりました。じゃあ、また明日！」\n\n「また明日！おやすみなさい」',
+      content_en: 'The plan is set. You send a confirmation message.\n\n"I\'m looking forward to tomorrow! Please don\'t be late."\n\n"Yes! I definitely won\'t be late. You be careful coming too," Yuta-san replies.\n\n"Understood. See you tomorrow!"\n\n"See you tomorrow! Good night."',
+      parent_chapter_id: 'ch-14-3a',
+    },
+
+    // Chapter 5-9: Linear
+    {
+      chapter_id: 'ch-14-5',
+      story_id: story14.story_id,
+      chapter_number: 5,
+      content: '次の日の朝です。\n\n準備をして、家を出ます。天気も良くて、気持ちがいいです。\n\n約束の時間に間に合うように、早めに出発します。\n\n駅に向かう途中、ユウタさんからメッセージが来ました。\n\n「今、家を出ました。楽しみです！」',
+      content_en: 'It\'s the morning of the next day.\n\nYou get ready and leave the house. The weather is nice and you feel good.\n\nYou leave early to arrive on time for your appointment.\n\nOn the way to the station, you receive a message from Yuta-san.\n\n"I just left home. I\'m excited!"',
+      parent_chapter_id: 'ch-14-4',
+    },
+    {
+      chapter_id: 'ch-14-6',
+      story_id: story14.story_id,
+      chapter_number: 6,
+      content: '約束の場所に着きました。\n\nすぐにユウタさんが見えました。手を振って呼びます。\n\n「おはよう！」「おはよう！」\n\n「待った？」とユウタさんが聞きます。\n\n「ううん、今来たところだよ」と答えます。\n\n「じゃあ、行こう！」',
+      content_en: 'You arrive at the meeting place.\n\nYou immediately see Yuta-san. You wave and call out.\n\n"Good morning!" "Good morning!"\n\n"Did you wait?" asks Yuta-san.\n\n"No, I just got here," you answer.\n\n"Then let\'s go!"',
+      parent_chapter_id: 'ch-14-5',
+    },
+    {
+      chapter_id: 'ch-14-7',
+      story_id: story14.story_id,
+      chapter_number: 7,
+      content: '一緒に過ごす時間はとても楽しいです。\n\nたくさん話して、たくさん笑いました。\n\n「今日は本当に楽しいね！」とユウタさんが言います。\n\n「うん！また遊びたいね」とあなたは答えます。\n\n「もちろん！また約束しよう」',
+      content_en: 'The time spent together is very enjoyable.\n\nYou talk a lot and laugh a lot.\n\n"Today is really fun!" says Yuta-san.\n\n"Yes! I want to hang out again," you answer.\n\n"Of course! Let\'s make plans again."',
+      parent_chapter_id: 'ch-14-6',
+    },
+    {
+      chapter_id: 'ch-14-8',
+      story_id: story14.story_id,
+      chapter_number: 8,
+      content: '楽しい時間はあっという間に過ぎました。\n\n「そろそろ帰らないと」とユウタさんが言います。\n\n「そうだね。今日はありがとう！」\n\n「こちらこそ。また連絡するね！」\n\n「うん！気をつけて帰ってね」\n\n「あなたも！じゃあね！」',
+      content_en: 'The fun time passed in no time.\n\n"I should head home soon," says Yuta-san.\n\n"Yeah. Thanks for today!"\n\n"Thank you too. I\'ll contact you again!"\n\n"Yes! Be careful going home."\n\n"You too! See you!"',
+      parent_chapter_id: 'ch-14-7',
+    },
+    {
+      chapter_id: 'ch-14-9',
+      story_id: story14.story_id,
+      chapter_number: 9,
+      content: '今日は友達と楽しい時間を過ごしました。\n\nあなたは：\n- 約束をする表現を学びました\n- 提案・誘いの言い方を練習しました\n- 時間と場所を決める会話をしました\n- 友達との良い関係を築きました\n\n日本語で友達と約束ができるようになりました！\n\n次回はもっと色々な場面で約束をしてみましょう。',
+      content_en: 'Today you spent enjoyable time with a friend.\n\nYou:\n- Learned expressions for making appointments\n- Practiced ways to suggest and invite\n- Had conversations about deciding time and place\n- Built a good relationship with a friend\n\nYou can now make plans with friends in Japanese!\n\nNext time, let\'s try making appointments in more various situations.',
+      parent_chapter_id: 'ch-14-8',
+    },
+  ],
+});
+
+// Create choices
+await prisma.choice.createMany({
+  data: [
+    // Chapter 1 choices
+    {
+      choice_id: 'choice-14-1-a',
+      chapter_id: 'ch-14-1',
+      choice_text: '映画を見ませんか',
+      choice_description: 'How about watching a movie?',
+      next_chapter_id: 'ch-14-2a',
+      display_order: 1,
+    },
+    {
+      choice_id: 'choice-14-1-b',
+      chapter_id: 'ch-14-1',
+      choice_text: '買い物に行きましょう',
+      choice_description: 'Let\'s go shopping',
+      next_chapter_id: 'ch-14-2b',
+      display_order: 2,
+    },
+    {
+      choice_id: 'choice-14-1-c',
+      chapter_id: 'ch-14-1',
+      choice_text: 'カラオケはどうですか',
+      choice_description: 'How about karaoke?',
+      next_chapter_id: 'ch-14-2c',
+      display_order: 3,
+    },
+
+    // Chapter 2 choices
+    {
+      choice_id: 'choice-14-2a-a',
+      chapter_id: 'ch-14-2a',
+      choice_text: '午前中に会う',
+      choice_description: 'Meet in the morning',
+      next_chapter_id: 'ch-14-3a',
+      display_order: 1,
+    },
+    {
+      choice_id: 'choice-14-2a-b',
+      chapter_id: 'ch-14-2a',
+      choice_text: '午後に会う',
+      choice_description: 'Meet in the afternoon',
+      next_chapter_id: 'ch-14-3b',
+      display_order: 2,
+    },
+    {
+      choice_id: 'choice-14-2b-a',
+      chapter_id: 'ch-14-2b',
+      choice_text: '朝から行く',
+      choice_description: 'Go from the morning',
+      next_chapter_id: 'ch-14-3c',
+      display_order: 1,
+    },
+    {
+      choice_id: 'choice-14-2b-b',
+      chapter_id: 'ch-14-2b',
+      choice_text: '昼から行く',
+      choice_description: 'Go from noon',
+      next_chapter_id: 'ch-14-3d',
+      display_order: 2,
+    },
+    {
+      choice_id: 'choice-14-2c-a',
+      chapter_id: 'ch-14-2c',
+      choice_text: '昼から歌う',
+      choice_description: 'Sing from noon',
+      next_chapter_id: 'ch-14-3e',
+      display_order: 1,
+    },
+    {
+      choice_id: 'choice-14-2c-b',
+      chapter_id: 'ch-14-2c',
+      choice_text: '夕方から歌う',
+      choice_description: 'Sing from evening',
+      next_chapter_id: 'ch-14-3f',
+      display_order: 2,
+    },
+
+    // Chapter 3 choices (converge to 4)
+    {
+      choice_id: 'choice-14-3a-next',
+      chapter_id: 'ch-14-3a',
+      choice_text: '次へ',
+      choice_description: 'Next',
+      next_chapter_id: 'ch-14-4',
+      display_order: 1,
+    },
+    {
+      choice_id: 'choice-14-3b-next',
+      chapter_id: 'ch-14-3b',
+      choice_text: '次へ',
+      choice_description: 'Next',
+      next_chapter_id: 'ch-14-4',
+      display_order: 1,
+    },
+    {
+      choice_id: 'choice-14-3c-next',
+      chapter_id: 'ch-14-3c',
+      choice_text: '次へ',
+      choice_description: 'Next',
+      next_chapter_id: 'ch-14-4',
+      display_order: 1,
+    },
+    {
+      choice_id: 'choice-14-3d-next',
+      chapter_id: 'ch-14-3d',
+      choice_text: '次へ',
+      choice_description: 'Next',
+      next_chapter_id: 'ch-14-4',
+      display_order: 1,
+    },
+    {
+      choice_id: 'choice-14-3e-next',
+      chapter_id: 'ch-14-3e',
+      choice_text: '次へ',
+      choice_description: 'Next',
+      next_chapter_id: 'ch-14-4',
+      display_order: 1,
+    },
+    {
+      choice_id: 'choice-14-3f-next',
+      chapter_id: 'ch-14-3f',
+      choice_text: '次へ',
+      choice_description: 'Next',
+      next_chapter_id: 'ch-14-4',
+      display_order: 1,
+    },
+
+    // Chapter 4-8 linear choices
+    {
+      choice_id: 'choice-14-4-next',
+      chapter_id: 'ch-14-4',
+      choice_text: '次へ',
+      choice_description: 'Next',
+      next_chapter_id: 'ch-14-5',
+      display_order: 1,
+    },
+    {
+      choice_id: 'choice-14-5-next',
+      chapter_id: 'ch-14-5',
+      choice_text: '次へ',
+      choice_description: 'Next',
+      next_chapter_id: 'ch-14-6',
+      display_order: 1,
+    },
+    {
+      choice_id: 'choice-14-6-next',
+      chapter_id: 'ch-14-6',
+      choice_text: '次へ',
+      choice_description: 'Next',
+      next_chapter_id: 'ch-14-7',
+      display_order: 1,
+    },
+    {
+      choice_id: 'choice-14-7-next',
+      chapter_id: 'ch-14-7',
+      choice_text: '次へ',
+      choice_description: 'Next',
+      next_chapter_id: 'ch-14-8',
+      display_order: 1,
+    },
+    {
+      choice_id: 'choice-14-8-next',
+      chapter_id: 'ch-14-8',
+      choice_text: '次へ',
+      choice_description: 'Next',
+      next_chapter_id: 'ch-14-9',
+      display_order: 1,
+    },
+  ],
+});
+
+console.log('Created Story 14: 友達との約束 (N4/A2) with 9 chapters');
+
+  // Story 15: 週末の計画 (Weekend Plans) - N4/A2
+// Category: daily_life
+
+const story15 = await prisma.story.create({
+  data: {
+    story_id: '15',
+    title: '週末の計画',
+    title_en: 'Weekend Plans',
+    description: '週末になりました。土曜日と日曜日、何をするか計画を立てます。部屋の掃除、買い物、勉強、休憩など、色々なことができます。予定を立てる表現や、時間の使い方を学びます。あなたの選択で週末の過ごし方が変わります。',
+    description_en: 'It\'s the weekend. You plan what to do on Saturday and Sunday. You can do various things like cleaning your room, shopping, studying, resting, etc. Learn expressions for making plans and how to use your time. Your choices will change how you spend your weekend.',
+    category: 'daily_life',
+    difficulty_level: 'intermediate',
+    level_jlpt: 'N4',
+    level_cefr: 'A2',
+    estimated_time: 10,
+    estimated_duration_minutes: 10,
+    is_active: true,
+    root_chapter_id: 'ch-15-1',
+  },
+});
+
+// Create chapters
+await prisma.chapter.createMany({
+  data: [
+    // Chapter 1: Root
+    {
+      chapter_id: 'ch-15-1',
+      story_id: story15.story_id,
+      chapter_number: 1,
+      content: '土曜日の朝です。今日と明日は休みです。\n\n窓の外を見ると、いい天気です。「今日は何をしようかな」と考えます。\n\nやりたいことがたくさんあります。部屋が少し汚いので、掃除をしたいです。冷蔵庫も空っぽなので、買い物にも行きたいです。でも、平日は忙しかったので、ゆっくり休みたい気持ちもあります。\n\nまず、何をしますか？',
+      content_en: 'It\'s Saturday morning. Today and tomorrow are your days off.\n\nLooking out the window, you see it\'s nice weather. "What should I do today?" you think.\n\nThere are many things you want to do. Your room is a bit messy, so you want to clean. The refrigerator is empty too, so you also want to go shopping. But you were busy on weekdays, so you also feel like resting well.\n\nWhat will you do first?',
+      parent_chapter_id: null,
+    },
+
+    // Chapter 2A-C
+    {
+      chapter_id: 'ch-15-2a',
+      story_id: story15.story_id,
+      chapter_number: 2,
+      content: '「よし、まず掃除をしよう」と決めます。\n\n部屋をきれいにすると、気持ちがいいです。掃除機をかけて、窓を開けて、新しい空気を入れます。\n\n1時間ほど掃除をして、部屋がとてもきれいになりました。\n\n「きれいになった！気持ちいいな」\n\n時計を見ると、もう11時です。お腹も空いてきました。\n\n午後は何をしますか？',
+      content_en: '"Alright, let\'s clean first," you decide.\n\nWhen you make your room clean, it feels good. You vacuum, open the windows, and let in fresh air.\n\nAfter cleaning for about an hour, your room became very clean.\n\n"It\'s clean! Feels good."\n\nLooking at the clock, it\'s already 11 o\'clock. You\'re getting hungry too.\n\nWhat will you do in the afternoon?',
+      parent_chapter_id: 'ch-15-1',
+    },
+    {
+      chapter_id: 'ch-15-2b',
+      story_id: story15.story_id,
+      chapter_number: 2,
+      content: '「買い物に行こう」と決めて、準備をします。\n\nスーパーマーケットまで歩いて15分です。天気がいいので、散歩もできます。\n\nスーパーに着いて、買い物カゴを持ちます。野菜、肉、魚、牛乳...色々な物を買います。\n\n「今日の夕飯は何を作ろうかな」と考えながら、楽しく買い物をします。\n\n買い物が終わって、家に帰ります。',
+      content_en: '"Let\'s go shopping," you decide and get ready.\n\nIt\'s a 15-minute walk to the supermarket. Since the weather is nice, you can also take a walk.\n\nArriving at the supermarket, you grab a shopping basket. Vegetables, meat, fish, milk... you buy various things.\n\n"What should I make for dinner tonight?" you think while enjoying shopping.\n\nAfter finishing shopping, you head home.',
+      parent_chapter_id: 'ch-15-1',
+    },
+    {
+      chapter_id: 'ch-15-2c',
+      story_id: story15.story_id,
+      chapter_number: 2,
+      content: '「今日はゆっくり休もう」と決めます。\n\nソファに座って、好きな音楽を聴きます。コーヒーを入れて、リラックスします。\n\n平日は忙しくて、こんなにゆっくりする時間がありませんでした。\n\n「あー、幸せだな」\n\n読みたかった本を読んだり、映画を見たり、好きなことをして過ごします。\n\n気が付くと、もう午後2時です。',
+      content_en: '"Let\'s rest well today," you decide.\n\nYou sit on the sofa and listen to your favorite music. You make coffee and relax.\n\nYou were busy on weekdays and didn\'t have time to relax like this.\n\n"Ah, I\'m happy."\n\nYou spend time doing things you like, reading a book you wanted to read or watching a movie.\n\nWhen you realize it, it\'s already 2 PM.',
+      parent_chapter_id: 'ch-15-1',
+    },
+
+    // Chapter 3A-F
+    {
+      chapter_id: 'ch-15-3a',
+      story_id: story15.story_id,
+      chapter_number: 3,
+      content: 'きれいになった部屋で、料理を作ります。\n\n冷蔵庫にある材料で、簡単なパスタを作ることにします。トマト、にんにく、オリーブオイル...\n\n料理をしている時は、とても楽しいです。いい匂いがします。\n\n「できた！」\n\nおいしいランチを食べて、満足です。\n\n午後は買い物に行こうと思います。',
+      content_en: 'In your now-clean room, you cook.\n\nYou decide to make simple pasta with ingredients from the refrigerator. Tomatoes, garlic, olive oil...\n\nWhen you\'re cooking, it\'s very enjoyable. It smells good.\n\n"Done!"\n\nYou eat a delicious lunch and feel satisfied.\n\nYou think you\'ll go shopping in the afternoon.',
+      parent_chapter_id: 'ch-15-2a',
+    },
+    {
+      chapter_id: 'ch-15-3b',
+      story_id: story15.story_id,
+      chapter_number: 3,
+      content: '外に出て、近くのレストランでランチを食べます。\n\n日替わりランチを注文します。おいしいです。\n\n食事の後、スーパーマーケットに行きます。野菜、果物、パン...週末に必要な物を買います。\n\n買い物袋を持って、家に帰ります。\n\n「今日は充実した一日だな」\n\n家に帰って、買った物を冷蔵庫に入れます。',
+      content_en: 'You go out and eat lunch at a nearby restaurant.\n\nYou order the daily lunch special. It\'s delicious.\n\nAfter the meal, you go to the supermarket. Vegetables, fruits, bread... you buy things you need for the weekend.\n\nCarrying shopping bags, you head home.\n\n"Today is a fulfilling day."\n\nYou get home and put the things you bought in the refrigerator.',
+      parent_chapter_id: 'ch-15-2a',
+    },
+    {
+      chapter_id: 'ch-15-3c',
+      story_id: story15.story_id,
+      chapter_number: 3,
+      content: '買ってきた材料で、夕飯の準備をします。\n\n新鮮な野菜と肉で、カレーを作ることにします。\n\n野菜を切って、肉を炒めて...丁寧に料理します。\n\n部屋中にカレーのいい匂いが広がります。\n\n「明日も食べられるように、たくさん作ろう」\n\n料理は楽しいです。',
+      content_en: 'You prepare dinner with the ingredients you bought.\n\nYou decide to make curry with fresh vegetables and meat.\n\nYou cut vegetables, fry meat... you cook carefully.\n\nThe good smell of curry spreads throughout the room.\n\n"Let\'s make a lot so I can eat it tomorrow too."\n\nCooking is fun.',
+      parent_chapter_id: 'ch-15-2b',
+    },
+    {
+      chapter_id: 'ch-15-3d',
+      story_id: story15.story_id,
+      chapter_number: 3,
+      content: '買い物から帰って、少し疲れたので休憩します。\n\n30分ほどソファで休んで、元気になりました。\n\n「さあ、料理をしよう」\n\n買ってきた新鮮な魚で、焼き魚定食を作ります。ご飯、味噌汁、焼き魚、サラダ...\n\n健康的な夕飯ができました。\n\n「おいしそう！」\n\n自分で作った料理は特においしいです。',
+      content_en: 'After returning from shopping, you\'re a bit tired so you rest.\n\nAfter resting on the sofa for about 30 minutes, you feel refreshed.\n\n"Now, let\'s cook."\n\nWith the fresh fish you bought, you make a grilled fish set meal. Rice, miso soup, grilled fish, salad...\n\nA healthy dinner is ready.\n\n"Looks delicious!"\n\nFood you make yourself is especially delicious.',
+      parent_chapter_id: 'ch-15-2b',
+    },
+    {
+      chapter_id: 'ch-15-3e',
+      story_id: story15.story_id,
+      chapter_number: 3,
+      content: 'ずっと家にいたので、外に出ることにします。\n\n近くの公園まで散歩します。天気がいいので、気持ちがいいです。\n\n公園では、犬の散歩をしている人や、ジョギングをしている人がいます。\n\nベンチに座って、少し休憩します。\n\n「いい気分転換になったな」\n\n家に帰って、夕飯の準備をしようと思います。',
+      content_en: 'Since you\'ve been home all along, you decide to go out.\n\nYou walk to the nearby park. The weather is nice, so it feels good.\n\nIn the park, there are people walking their dogs and jogging.\n\nYou sit on a bench and rest a bit.\n\n"That was a good change of pace."\n\nYou think you\'ll go home and prepare dinner.',
+      parent_chapter_id: 'ch-15-2c',
+    },
+    {
+      chapter_id: 'ch-15-3f',
+      story_id: story15.story_id,
+      chapter_number: 3,
+      content: '久しぶりに友達に電話をすることにします。\n\n「もしもし、元気？」\n\n「元気だよ！今、何してるの？」\n\n「のんびり休んでるよ。そっちは？」\n\n30分ほど、色々な話をします。楽しい時間です。\n\n「じゃあ、また今度会おうね！」\n\n「うん！また連絡するね」\n\n電話を切って、いい気分です。',
+      content_en: 'You decide to call a friend after a long time.\n\n"Hello, how are you?"\n\n"I\'m good! What are you doing now?"\n\n"Relaxing. How about you?"\n\nYou talk about various things for about 30 minutes. It\'s enjoyable time.\n\n"Well, let\'s meet again sometime!"\n\n"Yeah! I\'ll contact you again."\n\nYou hang up feeling good.',
+      parent_chapter_id: 'ch-15-2c',
+    },
+
+    // Chapter 4: Convergence
+    {
+      chapter_id: 'ch-15-4',
+      story_id: story15.story_id,
+      chapter_number: 4,
+      content: '土曜日の夜です。\n\n今日は充実した一日でした。明日は日曜日です。明日の予定を考えます。\n\n「明日は何をしようかな」\n\n日記を開いて、明日の計画を書きます。\n\n朝はゆっくり起きて、朝ご飯を食べます。午前中は少し勉強しようと思います。午後は自由時間にします。\n\n「いい計画だ。明日も楽しみだな」\n\nそう思いながら、ベッドに入ります。',
+      content_en: 'It\'s Saturday night.\n\nToday was a fulfilling day. Tomorrow is Sunday. You think about tomorrow\'s schedule.\n\n"What should I do tomorrow?"\n\nYou open your diary and write tomorrow\'s plan.\n\nYou\'ll wake up leisurely in the morning and eat breakfast. You think you\'ll study a bit in the morning. You\'ll make the afternoon free time.\n\n"Good plan. I\'m looking forward to tomorrow too."\n\nThinking this, you get into bed.',
+      parent_chapter_id: 'ch-15-3a',
+    },
+
+    // Chapter 5-9: Linear
+    {
+      chapter_id: 'ch-15-5',
+      story_id: story15.story_id,
+      chapter_number: 5,
+      content: '日曜日の朝です。\n\nアラームなしで、自然に目が覚めました。ゆっくり起きて、窓を開けます。\n\n今日もいい天気です。\n\n朝ご飯を作ります。トースト、卵、サラダ、コーヒー...\n\n「おいしい朝ご飯だな」\n\nゆっくり食べて、新聞を読みます。\n\nこんな朝は最高です。',
+      content_en: 'It\'s Sunday morning.\n\nYou wake up naturally without an alarm. You get up leisurely and open the window.\n\nToday is also nice weather.\n\nYou make breakfast. Toast, eggs, salad, coffee...\n\n"A delicious breakfast."\n\nYou eat slowly and read the newspaper.\n\nMornings like this are the best.',
+      parent_chapter_id: 'ch-15-4',
+    },
+    {
+      chapter_id: 'ch-15-6',
+      story_id: story15.story_id,
+      chapter_number: 6,
+      content: '朝ご飯の後、少し勉強することにします。\n\n机に座って、日本語の本を開きます。新しい言葉を覚えたり、文法を復習したりします。\n\n1時間ほど勉強して、休憩します。\n\n「よく頑張った」\n\nコーヒーを飲みながら、達成感を感じます。\n\n週末でも、少し勉強すると気持ちがいいです。',
+      content_en: 'After breakfast, you decide to study a bit.\n\nYou sit at your desk and open a Japanese book. You learn new words and review grammar.\n\nAfter studying for about an hour, you take a break.\n\n"Good job."\n\nWhile drinking coffee, you feel a sense of accomplishment.\n\nEven on weekends, studying a bit feels good.',
+      parent_chapter_id: 'ch-15-5',
+    },
+    {
+      chapter_id: 'ch-15-7',
+      story_id: story15.story_id,
+      chapter_number: 7,
+      content: '午後は自由時間です。\n\n何をしてもいいです。好きな音楽を聴いたり、映画を見たり、ゲームをしたり...\n\n「週末って最高だな」と思います。\n\n平日は仕事や学校で忙しいですが、週末は自分の時間です。\n\n好きなことをして、リラックスして過ごします。\n\n時間がゆっくり流れていきます。',
+      content_en: 'The afternoon is free time.\n\nYou can do anything. Listen to your favorite music, watch a movie, play games...\n\n"Weekends are the best," you think.\n\nWeekdays are busy with work or school, but weekends are your own time.\n\nYou do what you like and spend time relaxing.\n\nTime flows slowly.',
+      parent_chapter_id: 'ch-15-6',
+    },
+    {
+      chapter_id: 'ch-15-8',
+      story_id: story15.story_id,
+      chapter_number: 8,
+      content: '夕方になりました。\n\nもうすぐ週末が終わります。少し寂しい気持ちもありますが、とても充実した週末でした。\n\n明日からまた平日が始まります。でも、週末にしっかり休んだので、元気いっぱいです。\n\n「明日からまた頑張ろう」\n\n夕飯を食べて、明日の準備をします。',
+      content_en: 'Evening has come.\n\nThe weekend will end soon. You feel a bit sad, but it was a very fulfilling weekend.\n\nWeekdays will start again from tomorrow. But since you rested well on the weekend, you\'re full of energy.\n\n"Let\'s do my best again from tomorrow."\n\nYou eat dinner and prepare for tomorrow.',
+      parent_chapter_id: 'ch-15-7',
+    },
+    {
+      chapter_id: 'ch-15-9',
+      story_id: story15.story_id,
+      chapter_number: 9,
+      content: '週末が終わりました。\n\nあなたは：\n- 週末の計画を立てました\n- 予定を立てる表現を学びました\n- 時間の使い方を考えました\n- 充実した休日を過ごしました\n\n日本語で予定や計画について話せるようになりました！\n\n仕事と休みのバランスは大切です。次の週末も楽しい計画を立てましょう。\n\nおやすみなさい。また明日！',
+      content_en: 'The weekend has ended.\n\nYou:\n- Made weekend plans\n- Learned expressions for making schedules\n- Thought about how to use time\n- Spent a fulfilling holiday\n\nYou can now talk about schedules and plans in Japanese!\n\nBalance between work and rest is important. Let\'s make fun plans for the next weekend too.\n\nGood night. See you tomorrow!',
+      parent_chapter_id: 'ch-15-8',
+    },
+  ],
+});
+
+// Create choices
+await prisma.choice.createMany({
+  data: [
+    // Chapter 1 choices
+    {
+      choice_id: 'choice-15-1-a',
+      chapter_id: 'ch-15-1',
+      choice_text: '部屋を掃除する',
+      choice_description: 'Clean the room',
+      next_chapter_id: 'ch-15-2a',
+      display_order: 1,
+    },
+    {
+      choice_id: 'choice-15-1-b',
+      chapter_id: 'ch-15-1',
+      choice_text: '買い物に行く',
+      choice_description: 'Go shopping',
+      next_chapter_id: 'ch-15-2b',
+      display_order: 2,
+    },
+    {
+      choice_id: 'choice-15-1-c',
+      chapter_id: 'ch-15-1',
+      choice_text: 'ゆっくり休む',
+      choice_description: 'Rest leisurely',
+      next_chapter_id: 'ch-15-2c',
+      display_order: 3,
+    },
+
+    // Chapter 2 choices
+    {
+      choice_id: 'choice-15-2a-a',
+      chapter_id: 'ch-15-2a',
+      choice_text: '昼ご飯を作って食べる',
+      choice_description: 'Cook and eat lunch',
+      next_chapter_id: 'ch-15-3a',
+      display_order: 1,
+    },
+    {
+      choice_id: 'choice-15-2a-b',
+      chapter_id: 'ch-15-2a',
+      choice_text: '外食してから買い物に行く',
+      choice_description: 'Eat out then go shopping',
+      next_chapter_id: 'ch-15-3b',
+      display_order: 2,
+    },
+    {
+      choice_id: 'choice-15-2b-a',
+      chapter_id: 'ch-15-2b',
+      choice_text: '家で料理をする',
+      choice_description: 'Cook at home',
+      next_chapter_id: 'ch-15-3c',
+      display_order: 1,
+    },
+    {
+      choice_id: 'choice-15-2b-b',
+      chapter_id: 'ch-15-2b',
+      choice_text: '少し休んでから料理する',
+      choice_description: 'Rest a bit then cook',
+      next_chapter_id: 'ch-15-3d',
+      display_order: 2,
+    },
+    {
+      choice_id: 'choice-15-2c-a',
+      chapter_id: 'ch-15-2c',
+      choice_text: '軽い運動をする',
+      choice_description: 'Do light exercise',
+      next_chapter_id: 'ch-15-3e',
+      display_order: 1,
+    },
+    {
+      choice_id: 'choice-15-2c-b',
+      chapter_id: 'ch-15-2c',
+      choice_text: '友達に連絡する',
+      choice_description: 'Contact a friend',
+      next_chapter_id: 'ch-15-3f',
+      display_order: 2,
+    },
+
+    // Chapter 3 choices (converge to 4)
+    {
+      choice_id: 'choice-15-3a-next',
+      chapter_id: 'ch-15-3a',
+      choice_text: '次へ',
+      choice_description: 'Next',
+      next_chapter_id: 'ch-15-4',
+      display_order: 1,
+    },
+    {
+      choice_id: 'choice-15-3b-next',
+      chapter_id: 'ch-15-3b',
+      choice_text: '次へ',
+      choice_description: 'Next',
+      next_chapter_id: 'ch-15-4',
+      display_order: 1,
+    },
+    {
+      choice_id: 'choice-15-3c-next',
+      chapter_id: 'ch-15-3c',
+      choice_text: '次へ',
+      choice_description: 'Next',
+      next_chapter_id: 'ch-15-4',
+      display_order: 1,
+    },
+    {
+      choice_id: 'choice-15-3d-next',
+      chapter_id: 'ch-15-3d',
+      choice_text: '次へ',
+      choice_description: 'Next',
+      next_chapter_id: 'ch-15-4',
+      display_order: 1,
+    },
+    {
+      choice_id: 'choice-15-3e-next',
+      chapter_id: 'ch-15-3e',
+      choice_text: '次へ',
+      choice_description: 'Next',
+      next_chapter_id: 'ch-15-4',
+      display_order: 1,
+    },
+    {
+      choice_id: 'choice-15-3f-next',
+      chapter_id: 'ch-15-3f',
+      choice_text: '次へ',
+      choice_description: 'Next',
+      next_chapter_id: 'ch-15-4',
+      display_order: 1,
+    },
+
+    // Chapter 4-8 linear choices
+    {
+      choice_id: 'choice-15-4-next',
+      chapter_id: 'ch-15-4',
+      choice_text: '次へ',
+      choice_description: 'Next',
+      next_chapter_id: 'ch-15-5',
+      display_order: 1,
+    },
+    {
+      choice_id: 'choice-15-5-next',
+      chapter_id: 'ch-15-5',
+      choice_text: '次へ',
+      choice_description: 'Next',
+      next_chapter_id: 'ch-15-6',
+      display_order: 1,
+    },
+    {
+      choice_id: 'choice-15-6-next',
+      chapter_id: 'ch-15-6',
+      choice_text: '次へ',
+      choice_description: 'Next',
+      next_chapter_id: 'ch-15-7',
+      display_order: 1,
+    },
+    {
+      choice_id: 'choice-15-7-next',
+      chapter_id: 'ch-15-7',
+      choice_text: '次へ',
+      choice_description: 'Next',
+      next_chapter_id: 'ch-15-8',
+      display_order: 1,
+    },
+    {
+      choice_id: 'choice-15-8-next',
+      chapter_id: 'ch-15-8',
+      choice_text: '次へ',
+      choice_description: 'Next',
+      next_chapter_id: 'ch-15-9',
+      display_order: 1,
+    },
+  ],
+});
+
+console.log('Created Story 15: 週末の計画 (N4/A2) with 9 chapters');
+
+  // Story 16: アパートの契約 (Apartment Contract) - N3/B1
+// Category: housing
+
+const story16 = await prisma.story.create({
+  data: {
+    story_id: '16',
+    title: 'アパートの契約',
+    title_en: 'Apartment Contract',
+    description: '日本でアパートを借りることになりました。不動産屋さんに行って、部屋を探します。予算、場所、間取りを決めて、物件を内見します。気に入った部屋が見つかったら、契約の手続きをします。日本の賃貸契約は少し複雑ですが、丁寧に説明を聞いて、無事に契約を完了させましょう。',
+    description_en: 'You\'ve decided to rent an apartment in Japan. You visit a real estate agency to look for a place. You decide on your budget, location, and floor plan, then view properties. Once you find a room you like, you proceed with the contract procedures. Japanese rental contracts are somewhat complex, but listen carefully to the explanations and successfully complete the contract.',
+    category: 'housing',
+    difficulty_level: 'intermediate',
+    level_jlpt: 'N3',
+    level_cefr: 'B1',
+    estimated_time: 10,
+    estimated_duration_minutes: 10,
+    is_active: true,
+    root_chapter_id: 'ch-16-1',
+  },
+});
+
+// Create chapters
+await prisma.chapter.createMany({
+  data: [
+    // Chapter 1: Root
+    {
+      chapter_id: 'ch-16-1',
+      story_id: story16.story_id,
+      chapter_number: 1,
+      content: '日本での生活が始まって1週間。ホテル暮らしはお金がかかるので、そろそろアパートを借りなければなりません。\n\n駅前の不動産屋に入ります。「いらっしゃいませ。今日はどのような物件をお探しですか？」と店員さんが聞きます。\n\n「はじめまして。日本に来たばかりで、アパートを探しています」と答えます。\n\n「そうですか。では、まずご希望の条件を教えていただけますか？」\n\n何を一番重視しますか？',
+      content_en: 'One week has passed since you started living in Japan. Hotel living is expensive, so you must rent an apartment soon.\n\nYou enter a real estate agency in front of the station. "Welcome. What kind of property are you looking for today?" the staff asks.\n\n"Nice to meet you. I just came to Japan and I\'m looking for an apartment," you reply.\n\n"I see. Then, could you tell me your desired conditions first?"\n\nWhat do you prioritize most?',
+      parent_chapter_id: null,
+    },
+
+    // Chapter 2A-C
+    {
+      chapter_id: 'ch-16-2a',
+      story_id: story16.story_id,
+      chapter_number: 2,
+      content: '「予算をできるだけ抑えたいです。家賃は月6万円以内で探しています」と伝えます。\n\n店員さんは少し考えて、「6万円以内ですね。わかりました。この予算だと、駅から少し離れた場所や、ワンルームになりますが、よろしいですか？」と説明します。\n\n「はい、大丈夫です。駅から何分くらいですか？」\n\n「この物件は駅から徒歩15分です。静かな住宅街にあって、スーパーも近いですよ」\n\n予算内でいい条件の物件が見つかりそうです。',
+      content_en: '"I want to keep the budget as low as possible. I\'m looking for rent within 60,000 yen per month," you tell them.\n\nThe staff thinks for a moment, "Within 60,000 yen. I understand. With this budget, it would be a bit far from the station or a studio apartment, is that okay?"\n\n"Yes, that\'s fine. About how many minutes from the station?"\n\n"This property is a 15-minute walk from the station. It\'s in a quiet residential area, and there\'s also a supermarket nearby."\n\nIt looks like you\'ll find a property with good conditions within your budget.',
+      parent_chapter_id: 'ch-16-1',
+    },
+    {
+      chapter_id: 'ch-16-2b',
+      story_id: story16.story_id,
+      chapter_number: 2,
+      content: '「駅から近い場所がいいです。徒歩5分以内で探しています」と伝えます。\n\n「駅近ですね。承知しました。ただ、駅から5分以内の物件は人気が高いので、家賃が少し高めになります。予算はどのくらいですか？」と店員さんが聞きます。\n\n「月8万円くらいまでなら大丈夫です」\n\n「わかりました。それでしたら、いくつか良い物件があります。こちらの1Kはいかがですか？駅から徒歩3分、築5年で新しいですよ」\n\n駅近で便利そうな物件が見つかりました。',
+      content_en: '"I want a location close to the station. I\'m looking within a 5-minute walk," you tell them.\n\n"Close to the station. Understood. However, properties within 5 minutes of the station are popular, so the rent will be a bit higher. What\'s your budget?" the staff asks.\n\n"Up to about 80,000 yen per month is fine."\n\n"I understand. In that case, there are several good properties. How about this 1K? It\'s a 3-minute walk from the station, and it\'s new, built 5 years ago."\n\nYou found a convenient property close to the station.',
+      parent_chapter_id: 'ch-16-1',
+    },
+    {
+      chapter_id: 'ch-16-2c',
+      story_id: story16.story_id,
+      chapter_number: 2,
+      content: '「広めの部屋がいいです。1DKか1LDKを探しています」と伝えます。\n\n店員さんが説明します。「1DKか1LDKですね。料理をしたり、ゆっくり過ごせる広さですね。この条件だと、家賃は7万円から9万円くらいになります」\n\n「それくらいなら大丈夫です。キッチンが広い物件はありますか？」\n\n「ありますよ。こちらの1DKは、キッチンにガスコンロが2口あって、料理がしやすいです。バス・トイレも別ですよ」\n\n広くて快適そうな物件が見つかりました。',
+      content_en: '"I want a spacious room. I\'m looking for a 1DK or 1LDK," you tell them.\n\nThe staff explains, "1DK or 1LDK. A size where you can cook and relax comfortably. With these conditions, the rent will be from about 70,000 to 90,000 yen."\n\n"That\'s fine. Are there any properties with a large kitchen?"\n\n"Yes, there are. This 1DK has a two-burner gas stove in the kitchen, making it easy to cook. The bath and toilet are also separate."\n\nYou found a spacious and comfortable-looking property.',
+      parent_chapter_id: 'ch-16-1',
+    },
+
+    // Chapter 3A-F
+    {
+      chapter_id: 'ch-16-3a',
+      story_id: story16.story_id,
+      chapter_number: 3,
+      content: '「では、この物件を見に行きましょう」と店員さんが言います。\n\n車で10分ほど移動して、物件に到着しました。3階建てのアパートです。\n\n部屋に入ると、コンパクトですが、きれいに整理されています。「築10年ですが、前の入居者がきれいに使っていたので、状態は良いですよ」\n\n窓から外を見ると、公園が見えます。日当たりも悪くありません。\n\n「初期費用はどのくらいかかりますか？」と聞きます。\n\n「敷金1ヶ月分、礼金1ヶ月分、仲介手数料1ヶ月分、それに最初の家賃を合わせて、約24万円です」',
+      content_en: '"Then, let\'s go see this property," the staff says.\n\nAfter about a 10-minute drive, you arrive at the property. It\'s a 3-story apartment building.\n\nEntering the room, it\'s compact but neatly organized. "It\'s 10 years old, but the previous tenant used it carefully, so it\'s in good condition."\n\nLooking out the window, you can see a park. The sunlight isn\'t bad either.\n\n"About how much are the initial costs?" you ask.\n\n"One month\'s security deposit, one month\'s key money, one month\'s agency fee, plus the first month\'s rent, totaling about 240,000 yen."',
+      parent_chapter_id: 'ch-16-2a',
+    },
+    {
+      chapter_id: 'ch-16-3b',
+      story_id: story16.story_id,
+      chapter_number: 3,
+      content: '「もう一つ、駅から10分の物件もご案内しますね」と店員さんが提案します。\n\n2つ目の物件は、駅から少し近く、スーパーマーケットの隣にあります。\n\n部屋は少し狭いですが、買い物に便利な立地です。「こちらは家賃が5万5千円です。初期費用も少し安くなりますよ」\n\n両方の物件を見比べて、考えることにします。',
+      content_en: '"Let me also show you another property, 10 minutes from the station," the staff suggests.\n\nThe second property is a bit closer to the station and next to a supermarket.\n\nThe room is a bit smaller, but it\'s in a convenient location for shopping. "This one is 55,000 yen rent. The initial costs are also a bit cheaper."\n\nYou decide to compare both properties and think about it.',
+      parent_chapter_id: 'ch-16-2a',
+    },
+    {
+      chapter_id: 'ch-16-3c',
+      story_id: story16.story_id,
+      chapter_number: 3,
+      content: '物件まで歩いて3分で到着しました。新しいマンションです。\n\nエレベーターで5階に上がります。部屋に入ると、とても明るくて、設備も新しいです。\n\n「エアコン、洗濯機置き場、インターネット回線、すべて完備されています。入居日はいつがご希望ですか？」と店員さんが聞きます。\n\n「来週から入居できますか？」\n\n「大丈夫です。審査に2-3日かかりますが、来週の月曜日から入居可能です」\n\n条件がとても良い物件です。',
+      content_en: 'You arrive at the property in a 3-minute walk. It\'s a new apartment building.\n\nYou take the elevator to the 5th floor. Entering the room, it\'s very bright and the facilities are new.\n\n"Air conditioner, washing machine space, internet connection, everything is equipped. When would you like to move in?" the staff asks.\n\n"Can I move in from next week?"\n\n"That\'s fine. The screening takes 2-3 days, but you can move in from next Monday."\n\nThis property has very good conditions.',
+      parent_chapter_id: 'ch-16-2b',
+    },
+    {
+      chapter_id: 'ch-16-3d',
+      story_id: story16.story_id,
+      chapter_number: 3,
+      content: '「もう一つ、家賃7万円の1Kもあります。広さは少し小さいですが、設備が良いですよ」\n\nその物件を見に行くと、ワンルームタイプですが、収納が多くて使いやすそうです。\n\n「家賃は少し安いけど、快適に住めそうだな」と思います。\n\n店員さんが「どちらの物件がよろしいですか？」と聞きます。',
+      content_en: '"There\'s also another one, a 1K for 70,000 yen rent. It\'s a bit smaller, but the facilities are good."\n\nWhen you go to see that property, it\'s a studio type but has lots of storage and seems easy to use.\n\n"The rent is a bit cheaper, but I could live comfortably," you think.\n\nThe staff asks, "Which property would you prefer?"',
+      parent_chapter_id: 'ch-16-2b',
+    },
+    {
+      chapter_id: 'ch-16-3e',
+      story_id: story16.story_id,
+      chapter_number: 3,
+      content: '1DKの物件を内見します。ダイニングキッチンが広くて、料理がしやすそうです。\n\n寝室も十分な広さがあり、ベッドと机を置いても余裕があります。\n\n「この広さなら、友達を呼ぶこともできますね」と店員さんが言います。\n\nバス・トイレが別なのも、とても便利です。\n\n「初期費用と、契約に必要な書類を教えてください」とお願いします。',
+      content_en: 'You view the 1DK property. The dining kitchen is spacious and seems easy to cook in.\n\nThe bedroom also has sufficient space, with room to spare even with a bed and desk.\n\n"With this size, you could even invite friends over," the staff says.\n\nHaving the bath and toilet separate is also very convenient.\n\n"Please tell me the initial costs and the documents needed for the contract," you request.',
+      parent_chapter_id: 'ch-16-2c',
+    },
+    {
+      chapter_id: 'ch-16-3f',
+      story_id: story16.story_id,
+      chapter_number: 3,
+      content: '2つの物件を見て、不動産屋に戻ります。\n\n「どちらの物件も良かったです。初期費用はどのくらい違いますか？」と聞きます。\n\n店員さんが計算して見せてくれます。「1DKの方が、初期費用が約5万円高くなります。でも、長く住むなら、広い方が快適ですよ」\n\n慎重に考えて、決めることにします。',
+      content_en: 'After seeing two properties, you return to the real estate agency.\n\n"Both properties were good. How much do the initial costs differ?" you ask.\n\nThe staff calculates and shows you. "The 1DK will have initial costs about 50,000 yen higher. But if you\'re living long-term, the spacious one will be more comfortable."\n\nYou decide to think carefully before deciding.',
+      parent_chapter_id: 'ch-16-2c',
+    },
+
+    // Chapter 4: Convergence
+    {
+      chapter_id: 'ch-16-4',
+      story_id: story16.story_id,
+      chapter_number: 4,
+      content: '気に入った物件が決まりました。契約の手続きを進めます。\n\n店員さんが契約書を出して、詳しく説明してくれます。\n\n「家賃は毎月25日までに振り込んでください。契約期間は2年間で、更新する場合は更新料が1ヶ月分かかります」\n\n「保証人が必要ですか？」と聞くと、「はい、日本人の保証人が必要です。もし保証人がいない場合は、保証会社を利用することもできます」\n\n契約の条件をよく理解することが大切です。\n\n「わかりました。では、必要な書類を準備します」',
+      content_en: 'You\'ve decided on the property you like. You proceed with the contract procedures.\n\nThe staff brings out the contract and explains it in detail.\n\n"Please transfer the rent by the 25th of each month. The contract period is 2 years, and if you renew, the renewal fee is one month\'s rent."\n\nWhen you ask "Do I need a guarantor?", they reply, "Yes, you need a Japanese guarantor. If you don\'t have a guarantor, you can also use a guarantee company."\n\nIt\'s important to understand the contract conditions well.\n\n"I understand. Then, I\'ll prepare the necessary documents."',
+      parent_chapter_id: 'ch-16-3a',
+    },
+
+    // Chapter 5-9: Linear
+    {
+      chapter_id: 'ch-16-5',
+      story_id: story16.story_id,
+      chapter_number: 5,
+      content: '契約に必要な書類を準備します。\n\n店員さんが説明します。「パスポートのコピー、在留カードのコピー、収入証明書、それに印鑑が必要です。保証会社を利用する場合は、保証会社の申込書も記入してください」\n\n「印鑑は持っていないのですが...」\n\n「そうですか。それでは、サインでも大丈夫です。ただ、将来のために印鑑を作っておくと便利ですよ」\n\n翌日、すべての書類を揃えて、不動産屋に持って行きます。\n\n審査には2-3日かかるそうです。',
+      content_en: 'You prepare the necessary documents for the contract.\n\nThe staff explains, "You need a copy of your passport, a copy of your residence card, proof of income, and a seal. If you use a guarantee company, please also fill out the guarantee company\'s application form."\n\n"I don\'t have a seal though..."\n\n"I see. In that case, a signature is also fine. However, it\'s convenient to make a seal for the future."\n\nThe next day, you gather all the documents and bring them to the real estate agency.\n\nThe screening apparently takes 2-3 days.',
+      parent_chapter_id: 'ch-16-4',
+    },
+    {
+      chapter_id: 'ch-16-6',
+      story_id: story16.story_id,
+      chapter_number: 6,
+      content: '3日後、不動産屋から連絡が来ました。「審査が通りました。おめでとうございます！」\n\n不動産屋に行って、正式に契約書に署名します。\n\n契約書は何枚もあって、すべてに署名が必要です。店員さんが一つ一つ説明しながら、丁寧に案内してくれます。\n\n「これで契約は完了です。初期費用をお支払いいただければ、鍵をお渡しします」\n\n銀行で振り込みを済ませて、不動産屋に戻ります。',
+      content_en: 'Three days later, you receive a call from the real estate agency. "You\'ve passed the screening. Congratulations!"\n\nYou go to the real estate agency and formally sign the contract.\n\nThere are many pages to the contract, and all require signatures. The staff guides you carefully while explaining each one.\n\n"With this, the contract is complete. Once you pay the initial costs, we\'ll hand over the keys."\n\nYou complete the bank transfer and return to the real estate agency.',
+      parent_chapter_id: 'ch-16-5',
+    },
+    {
+      chapter_id: 'ch-16-7',
+      story_id: story16.story_id,
+      chapter_number: 7,
+      content: '「振り込みを確認しました。では、鍵をお渡しします」と店員さんが言います。\n\n鍵を2本受け取ります。「一本は予備として、大切に保管してください。もし鍵を失くした場合は、すぐにご連絡ください」\n\n「はい、わかりました」\n\n部屋の使い方、ゴミ出しのルール、困ったときの連絡先など、最後の説明を受けます。\n\n「何か質問はありますか？」\n\n「大丈夫です。ありがとうございました」\n\nついに、自分の部屋の鍵を手に入れました。',
+      content_en: '"We\'ve confirmed the transfer. Now, we\'ll hand over the keys," the staff says.\n\nYou receive two keys. "Please keep one as a spare. If you lose a key, please contact us immediately."\n\n"Yes, I understand."\n\nYou receive final explanations about how to use the room, garbage disposal rules, and emergency contacts.\n\n"Do you have any questions?"\n\n"I\'m fine. Thank you very much."\n\nYou\'ve finally obtained the keys to your own room.',
+      parent_chapter_id: 'ch-16-6',
+    },
+    {
+      chapter_id: 'ch-16-8',
+      story_id: story16.story_id,
+      chapter_number: 8,
+      content: '新しいアパートに入ります。まだ家具は何もありませんが、自分の部屋です。\n\n窓を開けて、新鮮な空気を入れます。部屋の隅々を確認して、写真を撮ります。\n\n「まず、何を買わないといけないかな」と考えます。\n\nリストを作ります：\n- 布団かベッド\n- 冷蔵庫\n- 洗濯機\n- テーブル\n- カーテン\n\n近くの家具屋さんやホームセンターに行く予定です。\n\n少しずつ、自分の部屋を作っていきます。',
+      content_en: 'You enter your new apartment. There\'s no furniture yet, but it\'s your own room.\n\nYou open the windows and let in fresh air. You check every corner of the room and take photos.\n\n"First, what do I need to buy?" you think.\n\nYou make a list:\n- Futon or bed\n- Refrigerator\n- Washing machine\n- Table\n- Curtains\n\nYou plan to go to nearby furniture stores and home centers.\n\nLittle by little, you\'ll create your own room.',
+      parent_chapter_id: 'ch-16-7',
+    },
+    {
+      chapter_id: 'ch-16-9',
+      story_id: story16.story_id,
+      chapter_number: 9,
+      content: '入居して1週間が経ちました。\n\n基本的な家具と家電を揃えて、生活ができるようになりました。隣の部屋の人にも挨拶をして、良い関係を築いています。\n\nアパートの契約は大変でしたが、無事に完了しました。\n\nあなたは：\n- 日本の賃貸契約の仕組みを学びました\n- 不動産屋での会話を経験しました\n- 初期費用や契約条件について理解しました\n- 自分の希望に合った部屋を見つけました\n\nこれから、この部屋で新しい生活が始まります。\n\n日本での一人暮らし、頑張りましょう！',
+      content_en: 'One week has passed since you moved in.\n\nYou\'ve acquired basic furniture and appliances and can now live properly. You\'ve also greeted your next-door neighbor and built a good relationship.\n\nThe apartment contract was difficult, but you completed it successfully.\n\nYou:\n- Learned about Japan\'s rental contract system\n- Experienced conversations at a real estate agency\n- Understood initial costs and contract conditions\n- Found a room that matches your preferences\n\nFrom now on, your new life begins in this room.\n\nLet\'s do your best living alone in Japan!',
+      parent_chapter_id: 'ch-16-8',
+    },
+  ],
+});
+
+// Create choices
+await prisma.choice.createMany({
+  data: [
+    // Chapter 1 choices
+    {
+      choice_id: 'choice-16-1-a',
+      chapter_id: 'ch-16-1',
+      choice_text: '予算を重視する',
+      choice_description: 'Prioritize budget',
+      next_chapter_id: 'ch-16-2a',
+      display_order: 1,
+    },
+    {
+      choice_id: 'choice-16-1-b',
+      chapter_id: 'ch-16-1',
+      choice_text: '場所を重視する',
+      choice_description: 'Prioritize location',
+      next_chapter_id: 'ch-16-2b',
+      display_order: 2,
+    },
+    {
+      choice_id: 'choice-16-1-c',
+      chapter_id: 'ch-16-1',
+      choice_text: '間取りを重視する',
+      choice_description: 'Prioritize floor plan',
+      next_chapter_id: 'ch-16-2c',
+      display_order: 3,
+    },
+
+    // Chapter 2 choices
+    {
+      choice_id: 'choice-16-2a-a',
+      chapter_id: 'ch-16-2a',
+      choice_text: 'その物件を内見したい',
+      choice_description: 'Want to view that property',
+      next_chapter_id: 'ch-16-3a',
+      display_order: 1,
+    },
+    {
+      choice_id: 'choice-16-2a-b',
+      chapter_id: 'ch-16-2a',
+      choice_text: 'もう少し駅に近い物件も見たい',
+      choice_description: 'Want to see a property closer to the station',
+      next_chapter_id: 'ch-16-3b',
+      display_order: 2,
+    },
+    {
+      choice_id: 'choice-16-2b-a',
+      chapter_id: 'ch-16-2b',
+      choice_text: 'その物件を内見したい',
+      choice_description: 'Want to view that property',
+      next_chapter_id: 'ch-16-3c',
+      display_order: 1,
+    },
+    {
+      choice_id: 'choice-16-2b-b',
+      chapter_id: 'ch-16-2b',
+      choice_text: 'もう少し安い物件も見たい',
+      choice_description: 'Want to see a cheaper property too',
+      next_chapter_id: 'ch-16-3d',
+      display_order: 2,
+    },
+    {
+      choice_id: 'choice-16-2c-a',
+      chapter_id: 'ch-16-2c',
+      choice_text: 'その物件を内見したい',
+      choice_description: 'Want to view that property',
+      next_chapter_id: 'ch-16-3e',
+      display_order: 1,
+    },
+    {
+      choice_id: 'choice-16-2c-b',
+      chapter_id: 'ch-16-2c',
+      choice_text: 'もう少しコンパクトな物件も見たい',
+      choice_description: 'Want to see a more compact property too',
+      next_chapter_id: 'ch-16-3f',
+      display_order: 2,
+    },
+
+    // Chapter 3 choices (converge to 4)
+    {
+      choice_id: 'choice-16-3a-next',
+      chapter_id: 'ch-16-3a',
+      choice_text: '次へ',
+      choice_description: 'Next',
+      next_chapter_id: 'ch-16-4',
+      display_order: 1,
+    },
+    {
+      choice_id: 'choice-16-3b-next',
+      chapter_id: 'ch-16-3b',
+      choice_text: '次へ',
+      choice_description: 'Next',
+      next_chapter_id: 'ch-16-4',
+      display_order: 1,
+    },
+    {
+      choice_id: 'choice-16-3c-next',
+      chapter_id: 'ch-16-3c',
+      choice_text: '次へ',
+      choice_description: 'Next',
+      next_chapter_id: 'ch-16-4',
+      display_order: 1,
+    },
+    {
+      choice_id: 'choice-16-3d-next',
+      chapter_id: 'ch-16-3d',
+      choice_text: '次へ',
+      choice_description: 'Next',
+      next_chapter_id: 'ch-16-4',
+      display_order: 1,
+    },
+    {
+      choice_id: 'choice-16-3e-next',
+      chapter_id: 'ch-16-3e',
+      choice_text: '次へ',
+      choice_description: 'Next',
+      next_chapter_id: 'ch-16-4',
+      display_order: 1,
+    },
+    {
+      choice_id: 'choice-16-3f-next',
+      chapter_id: 'ch-16-3f',
+      choice_text: '次へ',
+      choice_description: 'Next',
+      next_chapter_id: 'ch-16-4',
+      display_order: 1,
+    },
+
+    // Chapter 4-8 linear choices
+    {
+      choice_id: 'choice-16-4-next',
+      chapter_id: 'ch-16-4',
+      choice_text: '次へ',
+      choice_description: 'Next',
+      next_chapter_id: 'ch-16-5',
+      display_order: 1,
+    },
+    {
+      choice_id: 'choice-16-5-next',
+      chapter_id: 'ch-16-5',
+      choice_text: '次へ',
+      choice_description: 'Next',
+      next_chapter_id: 'ch-16-6',
+      display_order: 1,
+    },
+    {
+      choice_id: 'choice-16-6-next',
+      chapter_id: 'ch-16-6',
+      choice_text: '次へ',
+      choice_description: 'Next',
+      next_chapter_id: 'ch-16-7',
+      display_order: 1,
+    },
+    {
+      choice_id: 'choice-16-7-next',
+      chapter_id: 'ch-16-7',
+      choice_text: '次へ',
+      choice_description: 'Next',
+      next_chapter_id: 'ch-16-8',
+      display_order: 1,
+    },
+    {
+      choice_id: 'choice-16-8-next',
+      chapter_id: 'ch-16-8',
+      choice_text: '次へ',
+      choice_description: 'Next',
+      next_chapter_id: 'ch-16-9',
+      display_order: 1,
+    },
+  ],
+});
+
+console.log('Created Story 16: アパートの契約 (N3/B1) with 9 chapters');
+
+  // Story 17: 電車の乗り換え (Train Transfer) - N3/B1
+// Category: transportation
+
+const story17 = await prisma.story.create({
+  data: {
+    story_id: '17',
+    title: '電車の乗り換え',
+    title_en: 'Train Transfer',
+    description: '東京の複雑な電車網を使って、目的地まで移動します。乗り換え案内アプリを使ったり、駅員さんに聞いたりして、正しい電車に乗ります。切符の買い方、改札の通り方、ホームの見つけ方など、日本の電車システムを学びます。乗り換えは最初は難しいですが、慣れればとても便利な交通手段です。',
+    description_en: 'You use Tokyo\'s complex train network to travel to your destination. By using a transfer guidance app or asking station staff, you board the correct train. You learn about Japan\'s train system, including how to buy tickets, go through ticket gates, and find platforms. Transfers are difficult at first, but once you get used to them, trains are a very convenient means of transportation.',
+    category: 'transportation',
+    difficulty_level: 'intermediate',
+    level_jlpt: 'N3',
+    level_cefr: 'B1',
+    estimated_time: 10,
+    estimated_duration_minutes: 10,
+    is_active: true,
+    root_chapter_id: 'ch-17-1',
+  },
+});
+
+// Create chapters
+await prisma.chapter.createMany({
+  data: [
+    // Chapter 1: Root
+    {
+      chapter_id: 'ch-17-1',
+      story_id: story17.story_id,
+      chapter_number: 1,
+      content: '今日は渋谷から新宿の友達のアパートに行く予定です。\n\n駅に到着しました。東京の電車は路線が多くて、最初は難しく感じます。\n\n目的地までの行き方を調べる必要があります。スマートフォンを取り出して、画面を見ます。\n\n「どうやって調べようかな」と考えます。\n\n周りを見ると、駅員さんもいるし、大きな路線図も壁に貼ってあります。\n\nどの方法で調べますか？',
+      content_en: 'Today you plan to go from Shibuya to your friend\'s apartment in Shinjuku.\n\nYou arrive at the station. Tokyo\'s trains have many lines, and it feels difficult at first.\n\nYou need to check how to get to your destination. You take out your smartphone and look at the screen.\n\n"How should I look it up?" you think.\n\nLooking around, there are station staff and a large route map posted on the wall.\n\nWhich method will you use to check?',
+      parent_chapter_id: null,
+    },
+
+    // Chapter 2A-C
+    {
+      chapter_id: 'ch-17-2a',
+      story_id: story17.story_id,
+      chapter_number: 2,
+      content: '乗り換え案内アプリを開きます。「出発」に「渋谷」、「到着」に「新宿」と入力します。\n\n検索ボタンを押すと、いくつかのルートが表示されます。\n\n一番上のルートを見ると：\n- JR山手線で5分\n- 乗り換えなし\n- 運賃140円\n\n「なるほど、山手線に乗ればいいんだ。簡単そうだな」と思います。\n\nアプリには「4番線から発車」と書いてあります。\n\nホームに向かいます。',
+      content_en: 'You open a transfer guidance app. You enter "Shibuya" for departure and "Shinjuku" for arrival.\n\nWhen you press the search button, several routes are displayed.\n\nLooking at the top route:\n- JR Yamanote Line, 5 minutes\n- No transfers\n- Fare 140 yen\n\n"I see, I just need to take the Yamanote Line. Seems easy," you think.\n\nThe app says "Departing from Platform 4."\n\nYou head to the platform.',
+      parent_chapter_id: 'ch-17-1',
+    },
+    {
+      chapter_id: 'ch-17-2b',
+      story_id: story17.story_id,
+      chapter_number: 2,
+      content: '駅員さんのところに行きます。「すみません、新宿に行きたいのですが」と声をかけます。\n\n駅員さんは親切に説明してくれます。「新宿ですね。ここから山手線に乗ってください。4番線のホームです。5分くらいで着きますよ」\n\n「ありがとうございます。切符はどこで買えますか？」\n\n「券売機はあちらです。140円です」と指差して教えてくれます。\n\n駅員さんに聞いてよかったです。安心して進めます。',
+      content_en: 'You go to the station staff. "Excuse me, I want to go to Shinjuku," you call out.\n\nThe station staff kindly explains. "Shinjuku. Please take the Yamanote Line from here. It\'s Platform 4. You\'ll arrive in about 5 minutes."\n\n"Thank you. Where can I buy a ticket?"\n\n"The ticket machines are over there. It\'s 140 yen," they say, pointing.\n\nYou\'re glad you asked the station staff. You can proceed with confidence.',
+      parent_chapter_id: 'ch-17-1',
+    },
+    {
+      chapter_id: 'ch-17-2c',
+      story_id: story17.story_id,
+      chapter_number: 2,
+      content: '壁に貼ってある路線図を見ます。カラフルな線がたくさんあって、少し混乱します。\n\n「えっと、今いるのは渋谷で...新宿は...あった！」\n\n路線図を見ると、渋谷と新宿は緑色の線（山手線）でつながっています。\n\n「山手線に乗ればいいんだ。でも、どっちの方向だろう？」\n\n路線図をよく見ると、「内回り」と「外回り」があります。新宿方面は「外回り」のようです。\n\n少し時間がかかりましたが、自力で調べることができました。',
+      content_en: 'You look at the route map posted on the wall. There are many colorful lines, and you feel a bit confused.\n\n"Let\'s see, I\'m at Shibuya now... and Shinjuku is... found it!"\n\nLooking at the route map, Shibuya and Shinjuku are connected by a green line (Yamanote Line).\n\n"I should take the Yamanote Line. But which direction?"\n\nLooking carefully at the route map, there\'s "Inbound" and "Outbound." The Shinjuku direction seems to be "Outbound."\n\nIt took a bit of time, but you were able to figure it out on your own.',
+      parent_chapter_id: 'ch-17-1',
+    },
+
+    // Chapter 3A-F
+    {
+      chapter_id: 'ch-17-3a',
+      story_id: story17.story_id,
+      chapter_number: 3,
+      content: '券売機の前に来ました。タッチパネル式の券売機です。\n\n画面に「きっぷ」「IC カード」のボタンがあります。\n\nICカードは持っていないので、「きっぷ」を選びます。\n\n路線図が表示されて、「140円」のボタンを押します。お金を入れて、切符が出てきました。\n\n「これで準備OK」と思います。\n\n改札に向かいます。',
+      content_en: 'You arrive at the ticket machine. It\'s a touch-panel ticket machine.\n\nThe screen has buttons for "Ticket" and "IC Card."\n\nSince you don\'t have an IC card, you select "Ticket."\n\nA route map is displayed, and you press the "140 yen" button. You insert money, and a ticket comes out.\n\n"All set," you think.\n\nYou head to the ticket gate.',
+      parent_chapter_id: 'ch-17-2a',
+    },
+    {
+      chapter_id: 'ch-17-3b',
+      story_id: story17.story_id,
+      chapter_number: 3,
+      content: '「ICカードを使った方が便利かな」と考えます。\n\n駅の売店でSuicaを買うことにします。「Suicaを1枚ください」\n\n店員さんが説明します。「デポジット500円と、チャージ金額が必要です。2000円チャージしますか？」\n\n「はい、お願いします」\n\n合計2500円を払って、Suicaを受け取ります。\n\n「これからは毎回切符を買わなくていいんだ。便利だな」\n\n改札に向かいます。',
+      content_en: '"Maybe it\'s more convenient to use an IC card," you think.\n\nYou decide to buy a Suica at the station shop. "One Suica, please."\n\nThe clerk explains. "You need a 500 yen deposit and a charge amount. Shall we charge 2000 yen?"\n\n"Yes, please."\n\nYou pay a total of 2500 yen and receive the Suica.\n\n"From now on, I don\'t have to buy a ticket every time. How convenient."\n\nYou head to the ticket gate.',
+      parent_chapter_id: 'ch-17-2a',
+    },
+    {
+      chapter_id: 'ch-17-3c',
+      story_id: story17.story_id,
+      chapter_number: 3,
+      content: '券売機で切符を買います。駅員さんが教えてくれた通り、140円のボタンを押します。\n\nお金を入れると、切符とお釣りが出てきます。\n\n切符を見ると、「渋谷→140円区間」と書いてあります。\n\n「これを改札に入れればいいんだな」と確認します。\n\n改札に向かいます。たくさんの人が改札を通っています。',
+      content_en: 'You buy a ticket at the ticket machine. Just as the station staff told you, you press the 140 yen button.\n\nWhen you insert money, a ticket and change come out.\n\nLooking at the ticket, it says "Shibuya → 140 yen section."\n\n"I just need to insert this at the ticket gate," you confirm.\n\nYou head to the ticket gate. Many people are passing through the gates.',
+      parent_chapter_id: 'ch-17-2b',
+    },
+    {
+      chapter_id: 'ch-17-3d',
+      story_id: story17.story_id,
+      chapter_number: 3,
+      content: '「モバイルSuicaも便利そうだな」と思います。\n\nスマートフォンにSuicaアプリをダウンロードします。\n\n新規登録をして、クレジットカードで1000円チャージします。\n\n「これでスマホをタッチするだけで改札を通れるんだ」\n\n便利な時代だと感心します。\n\n改札に向かいます。',
+      content_en: '"Mobile Suica seems convenient too," you think.\n\nYou download the Suica app on your smartphone.\n\nYou register and charge 1000 yen with your credit card.\n\n"Now I can just touch my phone to pass through the ticket gate."\n\nYou\'re impressed by the convenient era.\n\nYou head to the ticket gate.',
+      parent_chapter_id: 'ch-17-2b',
+    },
+    {
+      chapter_id: 'ch-17-3e',
+      story_id: story17.story_id,
+      chapter_number: 3,
+      content: '券売機に行って、140円の切符を買います。\n\n路線図を見ながら、金額を確認します。「渋谷から新宿は140円だな」\n\nお金を入れて、切符を受け取ります。\n\n改札に向かいます。改札機の使い方を観察します。\n\n他の人は切符を入れて、出てきた切符を取って、通っていきます。',
+      content_en: 'You go to the ticket machine and buy a 140 yen ticket.\n\nWhile looking at the route map, you check the amount. "From Shibuya to Shinjuku is 140 yen."\n\nYou insert money and receive the ticket.\n\nYou head to the ticket gate. You observe how to use the ticket gate.\n\nOther people insert their tickets, take the ticket that comes out, and pass through.',
+      parent_chapter_id: 'ch-17-2c',
+    },
+    {
+      chapter_id: 'ch-17-3f',
+      story_id: story17.story_id,
+      chapter_number: 3,
+      content: '「ICカードがあれば便利だな」と思い、券売機でSuicaを買います。\n\n券売機の画面で「Suica購入」を選び、500円のデポジットと1000円のチャージを選択します。\n\n合計1500円を払って、新しいSuicaカードが出てきました。\n\n「これで毎回切符を買わなくていいんだ」\n\n改札に向かいます。',
+      content_en: '"An IC card would be convenient," you think, and buy a Suica at the ticket machine.\n\nOn the ticket machine screen, you select "Purchase Suica" and choose a 500 yen deposit and 1000 yen charge.\n\nYou pay a total of 1500 yen, and a new Suica card comes out.\n\n"Now I don\'t have to buy a ticket every time."\n\nYou head to the ticket gate.',
+      parent_chapter_id: 'ch-17-2c',
+    },
+
+    // Chapter 4: Convergence
+    {
+      chapter_id: 'ch-17-4',
+      story_id: story17.story_id,
+      chapter_number: 4,
+      content: '改札を無事に通過しました。\n\n案内表示を見ます。「JR山手線　4番線　新宿・池袋方面」と書いてあります。\n\n矢印に従って、階段を降りてホームに到着します。\n\nホームには電光掲示板があり、「次の電車　新宿方面　2分後」と表示されています。\n\nホームには黄色い線があり、「危ないので黄色い線の内側でお待ちください」とアナウンスが流れます。\n\n線の内側で待ちます。たくさんの人が並んでいます。\n\nまもなく電車が来ます。',
+      content_en: 'You successfully pass through the ticket gate.\n\nYou look at the guidance signs. It says "JR Yamanote Line, Platform 4, Shinjuku/Ikebukuro direction."\n\nFollowing the arrows, you go down the stairs and arrive at the platform.\n\nThere\'s an electronic display board on the platform showing "Next train, Shinjuku direction, in 2 minutes."\n\nThere\'s a yellow line on the platform, and an announcement says "For safety, please wait inside the yellow line."\n\nYou wait inside the line. Many people are queuing.\n\nThe train will arrive soon.',
+      parent_chapter_id: 'ch-17-3a',
+    },
+
+    // Chapter 5-9: Linear
+    {
+      chapter_id: 'ch-17-5',
+      story_id: story17.story_id,
+      chapter_number: 5,
+      content: '電車が到着しました。ドアが開きます。\n\n降りる人を待ってから、電車に乗ります。これが日本のマナーです。\n\n車内は混んでいますが、席が一つ空いています。\n\nどうしますか？座りますか、それとも立っていますか？\n\n「5分だけだから、立っていてもいいかな」と思いますが、座った方が楽です。\n\n空いている席に座ることにします。\n\n電車が動き出します。車内アナウンスが流れます。「次は、原宿、原宿です」',
+      content_en: 'The train arrives. The doors open.\n\nAfter waiting for people to get off, you board the train. This is Japanese etiquette.\n\nThe inside of the car is crowded, but there\'s one empty seat.\n\nWhat will you do? Will you sit, or stand?\n\n"It\'s only 5 minutes, so I could stand," you think, but sitting would be more comfortable.\n\nYou decide to sit in the empty seat.\n\nThe train starts moving. A car announcement plays. "Next is Harajuku, Harajuku."',
+      parent_chapter_id: 'ch-17-4',
+    },
+    {
+      chapter_id: 'ch-17-6',
+      story_id: story17.story_id,
+      chapter_number: 6,
+      content: '原宿駅を通過します。次は代々木です。\n\n窓の外を見ると、東京の街並みが見えます。高いビルがたくさんあります。\n\nスマートフォンで現在地を確認します。「あと2駅だな」\n\n車内は静かです。みんな携帯を見たり、本を読んだり、寝たりしています。\n\n日本の電車は時間に正確で、静かです。とても便利な交通手段だと思います。\n\n「次は、新宿、新宿です」というアナウンスが聞こえます。',
+      content_en: 'The train passes Harajuku Station. Next is Yoyogi.\n\nLooking out the window, you can see Tokyo\'s cityscape. There are many tall buildings.\n\nYou check your current location on your smartphone. "Two more stations."\n\nThe inside of the car is quiet. Everyone is looking at their phones, reading books, or sleeping.\n\nJapanese trains are punctual and quiet. You think they\'re a very convenient means of transportation.\n\nYou hear an announcement: "Next is Shinjuku, Shinjuku."',
+      parent_chapter_id: 'ch-17-5',
+    },
+    {
+      chapter_id: 'ch-17-7',
+      story_id: story17.story_id,
+      chapter_number: 7,
+      content: '新宿駅に到着しました。ドアが開きます。\n\nたくさんの人が降ります。電車から降りて、ホームに立ちます。\n\n「さて、出口はどこかな」と周りを見ます。\n\n新宿駅は大きくて、出口がたくさんあります。案内板を見ると、「東口」「西口」「南口」など、いろいろな出口があります。\n\n友達のアパートは東口の近くです。「東口」の矢印に従って歩きます。\n\n改札に向かいます。',
+      content_en: 'You arrive at Shinjuku Station. The doors open.\n\nMany people get off. You get off the train and stand on the platform.\n\n"Now, where\'s the exit?" you look around.\n\nShinjuku Station is large and has many exits. Looking at the information board, there are various exits like "East Exit," "West Exit," "South Exit."\n\nYour friend\'s apartment is near the East Exit. You follow the "East Exit" arrows and walk.\n\nYou head to the ticket gate.',
+      parent_chapter_id: 'ch-17-6',
+    },
+    {
+      chapter_id: 'ch-17-8',
+      story_id: story17.story_id,
+      chapter_number: 8,
+      content: '改札を出ます。切符を入れると、切符は回収されて出られます。ICカードの場合は、タッチするだけです。\n\n改札を出ると、たくさんの店があります。カフェ、レストラン、コンビニ、本屋など。\n\n「新宿駅は本当に大きいな」と感心します。\n\n東口の階段を上って、地上に出ます。\n\n外に出ると、高いビルが並んでいます。人もたくさん歩いています。\n\nスマートフォンで地図を確認して、友達のアパートに向かいます。',
+      content_en: 'You exit the ticket gate. When you insert your ticket, it\'s collected and you can exit. With an IC card, you just touch.\n\nOutside the ticket gate, there are many shops. Cafes, restaurants, convenience stores, bookstores, etc.\n\n"Shinjuku Station is really big," you\'re impressed.\n\nYou go up the East Exit stairs and come out to ground level.\n\nOutside, tall buildings line up. Many people are walking too.\n\nYou check the map on your smartphone and head to your friend\'s apartment.',
+      parent_chapter_id: 'ch-17-7',
+    },
+    {
+      chapter_id: 'ch-17-9',
+      story_id: story17.story_id,
+      chapter_number: 9,
+      content: '10分歩いて、友達のアパートに到着しました。\n\nインターホンを押します。「はーい、今開けるね！」と友達の声が聞こえます。\n\n友達が笑顔で迎えてくれます。「よく来れたね！電車は大丈夫だった？」\n\n「うん、最初はちょっと不安だったけど、無事に着けたよ」\n\n「東京の電車は最初は難しいけど、慣れればすごく便利だよ」\n\nあなたは：\n- 東京の電車の乗り方を学びました\n- 切符の買い方、ICカードの使い方を知りました\n- 改札の通り方、ホームの見つけ方を経験しました\n- 乗り換えなしで目的地に到着しました\n\n次は、もっと複雑な乗り換えにも挑戦してみましょう！',
+      content_en: 'After a 10-minute walk, you arrive at your friend\'s apartment.\n\nYou press the intercom. "Coming! I\'ll open it now!" you hear your friend\'s voice.\n\nYour friend greets you with a smile. "You made it! Was the train okay?"\n\n"Yeah, I was a bit nervous at first, but I arrived safely."\n\n"Tokyo trains are difficult at first, but once you get used to them, they\'re really convenient."\n\nYou:\n- Learned how to ride Tokyo trains\n- Know how to buy tickets and use IC cards\n- Experienced passing through ticket gates and finding platforms\n- Arrived at your destination without transfers\n\nNext time, let\'s try a more complex transfer!',
+      parent_chapter_id: 'ch-17-8',
+    },
+  ],
+});
+
+// Create choices
+await prisma.choice.createMany({
+  data: [
+    // Chapter 1 choices
+    {
+      choice_id: 'choice-17-1-a',
+      chapter_id: 'ch-17-1',
+      choice_text: 'スマホアプリで調べる',
+      choice_description: 'Check with smartphone app',
+      next_chapter_id: 'ch-17-2a',
+      display_order: 1,
+    },
+    {
+      choice_id: 'choice-17-1-b',
+      chapter_id: 'ch-17-1',
+      choice_text: '駅員さんに聞く',
+      choice_description: 'Ask station staff',
+      next_chapter_id: 'ch-17-2b',
+      display_order: 2,
+    },
+    {
+      choice_id: 'choice-17-1-c',
+      chapter_id: 'ch-17-1',
+      choice_text: '路線図を見る',
+      choice_description: 'Look at route map',
+      next_chapter_id: 'ch-17-2c',
+      display_order: 3,
+    },
+
+    // Chapter 2 choices
+    {
+      choice_id: 'choice-17-2a-a',
+      chapter_id: 'ch-17-2a',
+      choice_text: '切符を買う',
+      choice_description: 'Buy a ticket',
+      next_chapter_id: 'ch-17-3a',
+      display_order: 1,
+    },
+    {
+      choice_id: 'choice-17-2a-b',
+      chapter_id: 'ch-17-2a',
+      choice_text: 'ICカードを買う',
+      choice_description: 'Buy an IC card',
+      next_chapter_id: 'ch-17-3b',
+      display_order: 2,
+    },
+    {
+      choice_id: 'choice-17-2b-a',
+      chapter_id: 'ch-17-2b',
+      choice_text: '切符を買う',
+      choice_description: 'Buy a ticket',
+      next_chapter_id: 'ch-17-3c',
+      display_order: 1,
+    },
+    {
+      choice_id: 'choice-17-2b-b',
+      chapter_id: 'ch-17-2b',
+      choice_text: 'モバイルSuicaを使う',
+      choice_description: 'Use Mobile Suica',
+      next_chapter_id: 'ch-17-3d',
+      display_order: 2,
+    },
+    {
+      choice_id: 'choice-17-2c-a',
+      chapter_id: 'ch-17-2c',
+      choice_text: '切符を買う',
+      choice_description: 'Buy a ticket',
+      next_chapter_id: 'ch-17-3e',
+      display_order: 1,
+    },
+    {
+      choice_id: 'choice-17-2c-b',
+      chapter_id: 'ch-17-2c',
+      choice_text: 'ICカードを買う',
+      choice_description: 'Buy an IC card',
+      next_chapter_id: 'ch-17-3f',
+      display_order: 2,
+    },
+
+    // Chapter 3 choices (converge to 4)
+    {
+      choice_id: 'choice-17-3a-next',
+      chapter_id: 'ch-17-3a',
+      choice_text: '次へ',
+      choice_description: 'Next',
+      next_chapter_id: 'ch-17-4',
+      display_order: 1,
+    },
+    {
+      choice_id: 'choice-17-3b-next',
+      chapter_id: 'ch-17-3b',
+      choice_text: '次へ',
+      choice_description: 'Next',
+      next_chapter_id: 'ch-17-4',
+      display_order: 1,
+    },
+    {
+      choice_id: 'choice-17-3c-next',
+      chapter_id: 'ch-17-3c',
+      choice_text: '次へ',
+      choice_description: 'Next',
+      next_chapter_id: 'ch-17-4',
+      display_order: 1,
+    },
+    {
+      choice_id: 'choice-17-3d-next',
+      chapter_id: 'ch-17-3d',
+      choice_text: '次へ',
+      choice_description: 'Next',
+      next_chapter_id: 'ch-17-4',
+      display_order: 1,
+    },
+    {
+      choice_id: 'choice-17-3e-next',
+      chapter_id: 'ch-17-3e',
+      choice_text: '次へ',
+      choice_description: 'Next',
+      next_chapter_id: 'ch-17-4',
+      display_order: 1,
+    },
+    {
+      choice_id: 'choice-17-3f-next',
+      chapter_id: 'ch-17-3f',
+      choice_text: '次へ',
+      choice_description: 'Next',
+      next_chapter_id: 'ch-17-4',
+      display_order: 1,
+    },
+
+    // Chapter 4-8 linear choices
+    {
+      choice_id: 'choice-17-4-next',
+      chapter_id: 'ch-17-4',
+      choice_text: '次へ',
+      choice_description: 'Next',
+      next_chapter_id: 'ch-17-5',
+      display_order: 1,
+    },
+    {
+      choice_id: 'choice-17-5-next',
+      chapter_id: 'ch-17-5',
+      choice_text: '次へ',
+      choice_description: 'Next',
+      next_chapter_id: 'ch-17-6',
+      display_order: 1,
+    },
+    {
+      choice_id: 'choice-17-6-next',
+      chapter_id: 'ch-17-6',
+      choice_text: '次へ',
+      choice_description: 'Next',
+      next_chapter_id: 'ch-17-7',
+      display_order: 1,
+    },
+    {
+      choice_id: 'choice-17-7-next',
+      chapter_id: 'ch-17-7',
+      choice_text: '次へ',
+      choice_description: 'Next',
+      next_chapter_id: 'ch-17-8',
+      display_order: 1,
+    },
+    {
+      choice_id: 'choice-17-8-next',
+      chapter_id: 'ch-17-8',
+      choice_text: '次へ',
+      choice_description: 'Next',
+      next_chapter_id: 'ch-17-9',
+      display_order: 1,
+    },
+  ],
+});
+
+console.log('Created Story 17: 電車の乗り換え (N3/B1) with 9 chapters');
+
+  // Story 18: 郵便局で (At the Post Office) - N3/B1
+// Category: service
+
+const story18 = await prisma.story.create({
+  data: {
+    story_id: '18',
+    title: '郵便局で',
+    title_en: 'At the Post Office',
+    description: '日本の郵便局で荷物を送ります。国際郵便の手続きは少し複雑ですが、窓口の人が丁寧に教えてくれます。宛先の書き方、サービスの選び方、料金の支払い方を学びます。追跡番号をもらって、荷物が無事に届くまで確認できます。日本の郵便サービスは信頼性が高く、とても便利です。',
+    description_en: 'You send a package at a Japanese post office. International mail procedures are a bit complex, but the counter staff kindly teaches you. You learn how to write the address, choose services, and pay fees. You receive a tracking number and can confirm until the package arrives safely. Japanese postal services are highly reliable and very convenient.',
+    category: 'service',
+    difficulty_level: 'intermediate',
+    level_jlpt: 'N3',
+    level_cefr: 'B1',
+    estimated_time: 10,
+    estimated_duration_minutes: 10,
+    is_active: true,
+    root_chapter_id: 'ch-18-1',
+  },
+});
+
+// Create chapters
+await prisma.chapter.createMany({
+  data: [
+    // Chapter 1: Root
+    {
+      chapter_id: 'ch-18-1',
+      story_id: story18.story_id,
+      chapter_number: 1,
+      content: '母国の家族にお土産を送ることにしました。\n\n荷物を持って、近くの郵便局に向かいます。郵便局に入ると、窓口と自動販売機があります。\n\n「何を送るんだっけ？」と確認します。\n\n荷物の中身は：\n- お菓子（和菓子とチョコレート）\n- お茶（緑茶のパック）\n- 小さな置物（招き猫）\n\n重さは約2キロです。\n\n何を送りますか？',
+      content_en: 'You\'ve decided to send souvenirs to your family back home.\n\nCarrying the package, you head to the nearby post office. Entering the post office, there\'s a counter and vending machines.\n\n"What am I sending again?" you confirm.\n\nThe package contents are:\n- Sweets (wagashi and chocolate)\n- Tea (green tea packs)\n- Small ornament (lucky cat)\n\nIt weighs about 2 kilograms.\n\nWhat will you send?',
+      parent_chapter_id: null,
+    },
+
+    // Chapter 2A-C
+    {
+      chapter_id: 'ch-18-2a',
+      story_id: story18.story_id,
+      chapter_number: 2,
+      content: '「小包を送りたいです」と窓口の人に伝えます。\n\n窓口の人が笑顔で対応してくれます。「国際郵便ですか、それとも国内ですか？」\n\n「国際郵便です。アメリカに送りたいです」\n\n「わかりました。では、こちらの伝票に記入してください」と緑色の伝票を渡してくれます。\n\n伝票を見ると、送り主の住所、受取人の住所、内容物を書く欄があります。\n\n机に行って、丁寧に記入します。',
+      content_en: '"I want to send a package," you tell the counter staff.\n\nThe counter staff responds with a smile. "Is it international mail or domestic?"\n\n"International mail. I want to send it to America."\n\n"I understand. Then, please fill out this form," they hand you a green form.\n\nLooking at the form, there are sections to write the sender\'s address, recipient\'s address, and contents.\n\nYou go to the desk and fill it out carefully.',
+      parent_chapter_id: 'ch-18-1',
+    },
+    {
+      chapter_id: 'ch-18-2b',
+      story_id: story18.story_id,
+      chapter_number: 2,
+      content: '「もっと簡単な方法はないかな」と考えて、「国際郵便の箱を買えますか？」と聞きます。\n\n窓口の人が説明します。「はい、国際小包用の箱があります。サイズは小・中・大とあって、箱代は180円からです」\n\n「中サイズをください」\n\n箱を受け取って、荷物を詰め替えます。専用の箱なので、住所を書く欄が印刷されていて便利です。\n\n荷物を箱に詰めて、テープで閉じます。',
+      content_en: 'Thinking "Is there an easier way?", you ask, "Can I buy a box for international mail?"\n\nThe counter staff explains. "Yes, there are boxes for international parcels. The sizes are small, medium, and large, and box prices start from 180 yen."\n\n"I\'ll take a medium size."\n\nYou receive the box and repack your items. Since it\'s a dedicated box, it\'s convenient with address sections already printed.\n\nYou pack the items in the box and seal it with tape.',
+      parent_chapter_id: 'ch-18-1',
+    },
+    {
+      chapter_id: 'ch-18-2c',
+      story_id: story18.story_id,
+      chapter_number: 2,
+      content: '「手紙と小包、どっちがいいかな」と考えます。\n\n荷物をよく見ると、意外と薄くて軽いです。「これなら国際eパケットで送れるかも」\n\n窓口の人に聞きます。「2キロの荷物ですが、一番安い方法は何ですか？」\n\n「2キロですと、国際eパケットが一番安いです。追跡番号も付いて、2週間くらいで届きますよ」\n\n「それでお願いします」\n\n専用の封筒を受け取って、荷物を入れます。',
+      content_en: '"Should I send it as a letter or package?" you think.\n\nLooking carefully at the items, they\'re surprisingly thin and light. "Maybe I can send this by international ePacket."\n\nYou ask the counter staff. "It\'s a 2 kilogram package, but what\'s the cheapest method?"\n\n"For 2 kilograms, international ePacket is cheapest. It comes with a tracking number and arrives in about 2 weeks."\n\n"I\'ll go with that, please."\n\nYou receive a special envelope and put the items in.',
+      parent_chapter_id: 'ch-18-1',
+    },
+
+    // Chapter 3A-F
+    {
+      chapter_id: 'ch-18-3a',
+      story_id: story18.story_id,
+      chapter_number: 3,
+      content: '伝票の記入が終わりました。窓口に持って行きます。\n\n窓口の人が確認します。「内容物は食品と雑貨ですね。税関告知書も必要です。こちらにも記入してください」\n\nもう一枚、英語の書類を渡されます。「CN22」という書類です。\n\n内容物の種類、価値、重量を英語で書きます。\n\n「食品は...food、置物は...ornament」と辞書で調べながら記入します。\n\n両方の書類を記入して、窓口に出します。',
+      content_en: 'You finish filling out the form. You bring it to the counter.\n\nThe counter staff checks it. "The contents are food and miscellaneous goods. You also need a customs declaration. Please fill this out too."\n\nYou\'re handed another document in English. It\'s a "CN22" form.\n\nYou write the type of contents, value, and weight in English.\n\n"Food is... food, ornament is... ornament," you write while checking a dictionary.\n\nYou fill out both documents and submit them at the counter.',
+      parent_chapter_id: 'ch-18-2a',
+    },
+    {
+      chapter_id: 'ch-18-3b',
+      story_id: story18.story_id,
+      chapter_number: 3,
+      content: '窓口の人が荷物を計量します。「2.3キロですね」\n\n「サービスはどれにしますか？船便、SAL便、航空便がありますよ」\n\n料金表を見せてくれます：\n- 船便：2ヶ月、2500円\n- SAL便：2週間、4000円\n- 航空便：1週間、6000円\n\n「どれがいいかな」と考えます。',
+      content_en: 'The counter staff weighs the package. "It\'s 2.3 kilograms."\n\n"Which service would you like? There\'s sea mail, SAL, and airmail."\n\nThey show you a rate table:\n- Sea mail: 2 months, 2500 yen\n- SAL: 2 weeks, 4000 yen\n- Airmail: 1 week, 6000 yen\n\n"Which is best?" you think.',
+      parent_chapter_id: 'ch-18-2a',
+    },
+    {
+      chapter_id: 'ch-18-3c',
+      story_id: story18.story_id,
+      chapter_number: 3,
+      content: '箱に住所を書きます。\n\n「送り主」の欄に自分の日本の住所を書きます。「受取人」の欄に家族の住所を英語で書きます。\n\n「内容物」の欄には、「Sweets, Tea, Ornament」と書きます。\n\n価値は、「Total value: $50」と書きます。\n\n箱を窓口に持って行きます。「これを送りたいです」',
+      content_en: 'You write the address on the box.\n\nIn the "Sender" section, you write your Japanese address. In the "Recipient" section, you write your family\'s address in English.\n\nIn the "Contents" section, you write "Sweets, Tea, Ornament."\n\nFor value, you write "Total value: $50."\n\nYou bring the box to the counter. "I want to send this."',
+      parent_chapter_id: 'ch-18-2b',
+    },
+    {
+      chapter_id: 'ch-18-3d',
+      story_id: story18.story_id,
+      chapter_number: 3,
+      content: '窓口の人が箱を見て、「きれいに梱包されていますね。では、サービスを選んでください」と言います。\n\n「早く届けたいですが、料金も気になります。おすすめはどれですか？」\n\n「SAL便が人気ですよ。航空便より安くて、船便より早いです。2週間で届きます」\n\n「それでお願いします」\n\n窓口の人が計算します。「2.3キロで、アメリカまでSAL便は4200円です」',
+      content_en: 'The counter staff looks at the box and says, "It\'s neatly packed. Now, please choose a service."\n\n"I want it to arrive quickly, but I\'m also concerned about the cost. Which do you recommend?"\n\n"SAL is popular. It\'s cheaper than airmail and faster than sea mail. It arrives in 2 weeks."\n\n"I\'ll go with that, please."\n\nThe counter staff calculates. "For 2.3 kilograms to America by SAL, it\'s 4200 yen."',
+      parent_chapter_id: 'ch-18-2b',
+    },
+    {
+      chapter_id: 'ch-18-3e',
+      story_id: story18.story_id,
+      chapter_number: 3,
+      content: 'eパケットの封筒に住所を書きます。\n\n送り主と受取人の情報を英語で記入します。内容物の詳細も書きます。\n\n窓口に持って行くと、「はい、確認しますね」と言って、重さを測ります。\n\n「2キロですね。料金は3800円です。追跡番号が付いています」\n\n「ありがとうございます。支払いはカードでできますか？」\n\n「はい、クレジットカードも使えますよ」',
+      content_en: 'You write the address on the ePacket envelope.\n\nYou fill in sender and recipient information in English. You also write the contents details.\n\nWhen you bring it to the counter, they say "Yes, let me check" and weigh it.\n\n"It\'s 2 kilograms. The fee is 3800 yen. It comes with a tracking number."\n\n"Thank you. Can I pay by card?"\n\n"Yes, credit cards are accepted."',
+      parent_chapter_id: 'ch-18-2c',
+    },
+    {
+      chapter_id: 'ch-18-3f',
+      story_id: story18.story_id,
+      chapter_number: 3,
+      content: '窓口の人が説明します。「eパケットは追跡可能で、保険も少し付いています。破損や紛失の心配が少ないですよ」\n\n「それは安心ですね。でも、追加で保険を付けることはできますか？」\n\n「はい、できます。500円で5000円分の保険が付けられます」\n\n「では、保険も付けてください」\n\n「わかりました。合計で4300円になります」',
+      content_en: 'The counter staff explains. "ePacket is trackable and comes with some insurance. There\'s less worry about damage or loss."\n\n"That\'s reassuring. But can I add additional insurance?"\n\n"Yes, you can. For 500 yen, you can add 5000 yen worth of insurance."\n\n"Then, please add insurance."\n\n"Understood. The total will be 4300 yen."',
+      parent_chapter_id: 'ch-18-2c',
+    },
+
+    // Chapter 4: Convergence
+    {
+      chapter_id: 'ch-18-4',
+      story_id: story18.story_id,
+      chapter_number: 4,
+      content: '料金を支払います。クレジットカードで支払いました。\n\n窓口の人がレシートと一緒に、小さな紙を渡してくれます。\n\n「こちらが追跡番号です。この番号で、荷物がどこにあるか確認できますよ」\n\n追跡番号を見ると、「EJ123456789JP」と書いてあります。\n\n「インターネットで追跡できますか？」\n\n「はい、日本郵便のウェブサイトで確認できます。アメリカに着いたら、USPSのサイトでも追跡できますよ」\n\n追跡番号をスマートフォンで写真に撮ります。',
+      content_en: 'You pay the fee. You paid by credit card.\n\nThe counter staff hands you a small paper along with the receipt.\n\n"This is your tracking number. With this number, you can check where your package is."\n\nLooking at the tracking number, it says "EJ123456789JP."\n\n"Can I track it on the Internet?"\n\n"Yes, you can check on the Japan Post website. Once it arrives in America, you can also track it on the USPS site."\n\nYou take a photo of the tracking number with your smartphone.',
+      parent_chapter_id: 'ch-18-3a',
+    },
+
+    // Chapter 5-9: Linear
+    {
+      chapter_id: 'ch-18-5',
+      story_id: story18.story_id,
+      chapter_number: 5,
+      content: '「いつごろ届きますか？」と聞きます。\n\n窓口の人が答えます。「SAL便だと、だいたい2週間から3週間です。ただ、税関の混雑状況によって、少し遅れることもあります」\n\n「税関？」\n\n「はい、国際郵便は、送る国と受け取る国の両方で税関検査があります。食品を送る場合は、特に検査が厳しいこともありますよ」\n\n「わかりました。ありがとうございます」\n\n郵便局を出て、家に帰ります。',
+      content_en: '"About when will it arrive?" you ask.\n\nThe counter staff answers. "With SAL, it\'s usually 2 to 3 weeks. However, depending on customs congestion, it may be slightly delayed."\n\n"Customs?"\n\n"Yes, international mail goes through customs inspection in both the sending and receiving countries. When sending food, inspections can be especially strict."\n\n"I understand. Thank you."\n\nYou leave the post office and go home.',
+      parent_chapter_id: 'ch-18-4',
+    },
+    {
+      chapter_id: 'ch-18-6',
+      story_id: story18.story_id,
+      chapter_number: 6,
+      content: '家に帰って、すぐに家族にメールを送ります。\n\n「今日、お土産を送ったよ。追跡番号は EJ123456789JP です。2-3週間で届くと思います」\n\n家族から返事が来ました。「ありがとう！楽しみに待っているね」\n\n日本郵便のウェブサイトで追跡番号を入力します。\n\n「引受」と表示されています。荷物が郵便局で受け付けられたことがわかります。\n\nこれから毎日、追跡番号をチェックしようと思います。',
+      content_en: 'You get home and immediately send an email to your family.\n\n"I sent souvenirs today. The tracking number is EJ123456789JP. I think it\'ll arrive in 2-3 weeks."\n\nYou receive a reply from your family. "Thank you! We\'re looking forward to it."\n\nYou enter the tracking number on the Japan Post website.\n\nIt shows "Accepted." You can see the package was received at the post office.\n\nYou plan to check the tracking number every day from now on.',
+      parent_chapter_id: 'ch-18-5',
+    },
+    {
+      chapter_id: 'ch-18-7',
+      story_id: story18.story_id,
+      chapter_number: 7,
+      content: '3日後、追跡番号をチェックします。\n\nステータスが更新されています。「国際交換局から発送」\n\n「もう日本を出たんだ！」と嬉しくなります。\n\nUSPSのウェブサイトでも追跡番号を入力してみます。まだ情報は更新されていません。\n\n「アメリカに着いたら更新されるのかな」と思います。\n\n1週間後、もう一度チェックします。',
+      content_en: 'Three days later, you check the tracking number.\n\nThe status has been updated. "Dispatched from outward office of exchange."\n\n"It\'s already left Japan!" you feel happy.\n\nYou also try entering the tracking number on the USPS website. The information hasn\'t been updated yet.\n\n"Maybe it\'ll update when it reaches America," you think.\n\nOne week later, you check again.',
+      parent_chapter_id: 'ch-18-6',
+    },
+    {
+      chapter_id: 'ch-18-8',
+      story_id: story18.story_id,
+      chapter_number: 8,
+      content: 'USPSのサイトで確認すると、「到着しました」と表示されています！\n\n「やった！アメリカに着いたんだ」\n\nステータスを見ると、「税関検査中」となっています。\n\n「もう少しかかるかな」と思います。\n\n2日後、家族から連絡が来ました。「荷物が届いたよ！お菓子も置物もとてもきれい。ありがとう！」\n\n写真が送られてきました。家族が笑顔で荷物を開けている写真です。',
+      content_en: 'When you check the USPS site, it shows "Arrived!"\n\n"Yes! It reached America."\n\nLooking at the status, it says "In customs."\n\n"It might take a bit longer," you think.\n\nTwo days later, you receive contact from your family. "The package arrived! The sweets and ornament are very nice. Thank you!"\n\nA photo is sent. It\'s a photo of your family smiling while opening the package.',
+      parent_chapter_id: 'ch-18-7',
+    },
+    {
+      chapter_id: 'ch-18-9',
+      story_id: story18.story_id,
+      chapter_number: 9,
+      content: '荷物が無事に届いてよかったです。\n\n日本の郵便サービスはとても信頼できることがわかりました。\n\n追跡番号のおかげで、安心して待つことができました。\n\nあなたは：\n- 日本の郵便局の使い方を学びました\n- 国際郵便の送り方を経験しました\n- 伝票の書き方、サービスの選び方を知りました\n- 追跡番号で荷物を追跡する方法を学びました\n\n次回からは、もっとスムーズに荷物を送れそうです。\n\n日本の郵便サービス、とても便利でした！',
+      content_en: 'You\'re glad the package arrived safely.\n\nYou learned that Japanese postal services are very reliable.\n\nThanks to the tracking number, you could wait with peace of mind.\n\nYou:\n- Learned how to use Japanese post offices\n- Experienced sending international mail\n- Know how to fill out forms and choose services\n- Learned how to track packages with tracking numbers\n\nFrom next time, you\'ll be able to send packages more smoothly.\n\nJapanese postal services were very convenient!',
+      parent_chapter_id: 'ch-18-8',
+    },
+  ],
+});
+
+// Create choices
+await prisma.choice.createMany({
+  data: [
+    // Chapter 1 choices
+    {
+      choice_id: 'choice-18-1-a',
+      chapter_id: 'ch-18-1',
+      choice_text: '窓口で小包を送る',
+      choice_description: 'Send package at counter',
+      next_chapter_id: 'ch-18-2a',
+      display_order: 1,
+    },
+    {
+      choice_id: 'choice-18-1-b',
+      chapter_id: 'ch-18-1',
+      choice_text: '専用の箱を買う',
+      choice_description: 'Buy a dedicated box',
+      next_chapter_id: 'ch-18-2b',
+      display_order: 2,
+    },
+    {
+      choice_id: 'choice-18-1-c',
+      chapter_id: 'ch-18-1',
+      choice_text: '安い方法を聞く',
+      choice_description: 'Ask about cheap options',
+      next_chapter_id: 'ch-18-2c',
+      display_order: 3,
+    },
+
+    // Chapter 2 choices
+    {
+      choice_id: 'choice-18-2a-a',
+      chapter_id: 'ch-18-2a',
+      choice_text: '伝票を記入する',
+      choice_description: 'Fill out the form',
+      next_chapter_id: 'ch-18-3a',
+      display_order: 1,
+    },
+    {
+      choice_id: 'choice-18-2a-b',
+      chapter_id: 'ch-18-2a',
+      choice_text: 'サービスを選ぶ',
+      choice_description: 'Choose a service',
+      next_chapter_id: 'ch-18-3b',
+      display_order: 2,
+    },
+    {
+      choice_id: 'choice-18-2b-a',
+      chapter_id: 'ch-18-2b',
+      choice_text: '箱に住所を書く',
+      choice_description: 'Write address on box',
+      next_chapter_id: 'ch-18-3c',
+      display_order: 1,
+    },
+    {
+      choice_id: 'choice-18-2b-b',
+      chapter_id: 'ch-18-2b',
+      choice_text: 'おすすめのサービスを聞く',
+      choice_description: 'Ask for recommended service',
+      next_chapter_id: 'ch-18-3d',
+      display_order: 2,
+    },
+    {
+      choice_id: 'choice-18-2c-a',
+      chapter_id: 'ch-18-2c',
+      choice_text: '住所を記入する',
+      choice_description: 'Fill in the address',
+      next_chapter_id: 'ch-18-3e',
+      display_order: 1,
+    },
+    {
+      choice_id: 'choice-18-2c-b',
+      chapter_id: 'ch-18-2c',
+      choice_text: '保険を追加する',
+      choice_description: 'Add insurance',
+      next_chapter_id: 'ch-18-3f',
+      display_order: 2,
+    },
+
+    // Chapter 3 choices (converge to 4)
+    {
+      choice_id: 'choice-18-3a-next',
+      chapter_id: 'ch-18-3a',
+      choice_text: '次へ',
+      choice_description: 'Next',
+      next_chapter_id: 'ch-18-4',
+      display_order: 1,
+    },
+    {
+      choice_id: 'choice-18-3b-next',
+      chapter_id: 'ch-18-3b',
+      choice_text: '次へ',
+      choice_description: 'Next',
+      next_chapter_id: 'ch-18-4',
+      display_order: 1,
+    },
+    {
+      choice_id: 'choice-18-3c-next',
+      chapter_id: 'ch-18-3c',
+      choice_text: '次へ',
+      choice_description: 'Next',
+      next_chapter_id: 'ch-18-4',
+      display_order: 1,
+    },
+    {
+      choice_id: 'choice-18-3d-next',
+      chapter_id: 'ch-18-3d',
+      choice_text: '次へ',
+      choice_description: 'Next',
+      next_chapter_id: 'ch-18-4',
+      display_order: 1,
+    },
+    {
+      choice_id: 'choice-18-3e-next',
+      chapter_id: 'ch-18-3e',
+      choice_text: '次へ',
+      choice_description: 'Next',
+      next_chapter_id: 'ch-18-4',
+      display_order: 1,
+    },
+    {
+      choice_id: 'choice-18-3f-next',
+      chapter_id: 'ch-18-3f',
+      choice_text: '次へ',
+      choice_description: 'Next',
+      next_chapter_id: 'ch-18-4',
+      display_order: 1,
+    },
+
+    // Chapter 4-8 linear choices
+    {
+      choice_id: 'choice-18-4-next',
+      chapter_id: 'ch-18-4',
+      choice_text: '次へ',
+      choice_description: 'Next',
+      next_chapter_id: 'ch-18-5',
+      display_order: 1,
+    },
+    {
+      choice_id: 'choice-18-5-next',
+      chapter_id: 'ch-18-5',
+      choice_text: '次へ',
+      choice_description: 'Next',
+      next_chapter_id: 'ch-18-6',
+      display_order: 1,
+    },
+    {
+      choice_id: 'choice-18-6-next',
+      chapter_id: 'ch-18-6',
+      choice_text: '次へ',
+      choice_description: 'Next',
+      next_chapter_id: 'ch-18-7',
+      display_order: 1,
+    },
+    {
+      choice_id: 'choice-18-7-next',
+      chapter_id: 'ch-18-7',
+      choice_text: '次へ',
+      choice_description: 'Next',
+      next_chapter_id: 'ch-18-8',
+      display_order: 1,
+    },
+    {
+      choice_id: 'choice-18-8-next',
+      chapter_id: 'ch-18-8',
+      choice_text: '次へ',
+      choice_description: 'Next',
+      next_chapter_id: 'ch-18-9',
+      display_order: 1,
+    },
+  ],
+});
+
+console.log('Created Story 18: 郵便局で (N3/B1) with 9 chapters');
+
+
+
+
+
+
+
+
+
 
   // ============================================================
   // Quizzes - 3 per story (27 total)
@@ -1711,12 +4523,12 @@ async function main(): Promise<void> {
       question_type: '読解',
       difficulty_level: 'N4',
       is_ai_generated: false,
-      source_text: '一緒に電車に乗って出かけました',
+      source_text: '「カフェでゆっくり話そう」と決めました',
       choices: [
-        { choice_text: 'バスで行った', is_correct: false, explanation: '不正解です。電車で出かけました。' },
-        { choice_text: 'タクシーで行った', is_correct: false, explanation: '不正解です。電車で出かけました。' },
-        { choice_text: '駅で別れた', is_correct: false, explanation: '不正解です。一緒に出かけました。' },
-        { choice_text: '電車で出かけた', is_correct: true, explanation: '正解です。「一緒に電車に乗って」出かけました。' },
+        { choice_text: 'バスで行った', is_correct: false, explanation: '不正解です。二人はカフェに行くことに決めました。' },
+        { choice_text: 'カフェに行った', is_correct: true, explanation: '正解です。二人は「カフェでゆっくり話そう」と決めました。' },
+        { choice_text: '駅で別れた', is_correct: false, explanation: '不正解です。二人は一緒に出かけました。' },
+        { choice_text: '映画館に行った', is_correct: false, explanation: '不正解です。映画の提案もありましたが、カフェに行くことに決めました。' },
       ],
     },
     // Story 5 quizzes (居酒屋での夜 - N3)
@@ -1949,6 +4761,429 @@ async function main(): Promise<void> {
         { choice_text: '中止になった', is_correct: false, explanation: '不正解です。成功しました。' },
       ],
     },
+    // Story 10 quizzes
+{
+  quiz_id: 'quiz-10-1',
+  story_id: '10',
+  question_text: 'アレックスは日本語学校で何を勉強しましたか？',
+  question_type: '読解',
+  difficulty_level: 'N5',
+  is_ai_generated: false,
+  source_text: '今日は挨拶と自己紹介を勉強しました',
+  choices: [
+    { choice_text: '挨拶と自己紹介', is_correct: true, explanation: '正解です！本文で「今日は挨拶と自己紹介を勉強しました」と書いてあります。' },
+    { choice_text: '数字と時間', is_correct: false, explanation: '不正解です。数字と時間は明日勉強する予定です。' },
+    { choice_text: '漢字と文法', is_correct: false, explanation: '不正解です。漢字と文法については触れていません。' },
+    { choice_text: '料理と文化', is_correct: false, explanation: '不正解です。料理と文化については触れていません。' },
+  ],
+},
+{
+  quiz_id: 'quiz-10-2',
+  story_id: '10',
+  question_text: '「はじめまして」はいつ使いますか？',
+  question_type: '語彙',
+  difficulty_level: 'N5',
+  is_ai_generated: false,
+  source_text: 'はじめまして。私はアレックスです。',
+  choices: [
+    { choice_text: '朝の挨拶', is_correct: false, explanation: '不正解です。朝の挨拶は「おはようございます」です。' },
+    { choice_text: '初めて会う人への挨拶', is_correct: true, explanation: '正解です！「はじめまして」は初めて会う人に使う挨拶です。英語の"Nice to meet you"と同じ意味です。' },
+    { choice_text: '別れの挨拶', is_correct: false, explanation: '不正解です。別れの挨拶は「さようなら」です。' },
+    { choice_text: 'お礼を言う時', is_correct: false, explanation: '不正解です。お礼を言う時は「ありがとうございます」です。' },
+  ],
+},
+{
+  quiz_id: 'quiz-10-3',
+  story_id: '10',
+  question_text: '自己紹介の最後に何と言いますか？',
+  question_type: '文化',
+  difficulty_level: 'N5',
+  is_ai_generated: false,
+  source_text: 'よろしくお願いします',
+  choices: [
+    { choice_text: 'ありがとうございます', is_correct: false, explanation: '不正解です。「ありがとうございます」はお礼を言う時に使います。' },
+    { choice_text: 'すみません', is_correct: false, explanation: '不正解です。「すみません」は謝る時や呼びかける時に使います。' },
+    { choice_text: 'よろしくお願いします', is_correct: true, explanation: '正解です！自己紹介の最後には「よろしくお願いします」と言います。これは「これからお世話になります」という意味です。' },
+    { choice_text: 'さようなら', is_correct: false, explanation: '不正解です。「さようなら」は別れの挨拶です。' },
+  ],
+},
+    // Story 11 quizzes
+{
+  quiz_id: 'quiz-11-1',
+  story_id: '11',
+  question_text: '主人公の家族は何人ですか？',
+  question_type: '読解',
+  difficulty_level: 'N5',
+  is_ai_generated: false,
+  source_text: '父、母、兄、妹、そして私です。5人家族です。',
+  choices: [
+    { choice_text: '3人', is_correct: false, explanation: '不正解です。家族はもっと多いです。' },
+    { choice_text: '4人', is_correct: false, explanation: '不正解です。田中さん一家は4人ですが、主人公の家族は違います。' },
+    { choice_text: '5人', is_correct: true, explanation: '正解です！本文で「父、母、兄、妹、そして私です。5人家族です。」と書いてあります。' },
+    { choice_text: '6人', is_correct: false, explanation: '不正解です。家族は6人よりも少ないです。' },
+  ],
+},
+{
+  quiz_id: 'quiz-11-2',
+  story_id: '11',
+  question_text: '「父」と「母」を合わせて何と言いますか？',
+  question_type: '語彙',
+  difficulty_level: 'N5',
+  is_ai_generated: false,
+  source_text: '家族',
+  choices: [
+    { choice_text: '先生', is_correct: false, explanation: '不正解です。「先生」は teacher の意味です。' },
+    { choice_text: '友達', is_correct: false, explanation: '不正解です。「友達」は friend の意味です。' },
+    { choice_text: '家族', is_correct: true, explanation: '正解です！「父」と「母」などを合わせて「家族」と言います。英語の"family"の意味です。' },
+    { choice_text: '学生', is_correct: false, explanation: '不正解です。「学生」は student の意味です。' },
+  ],
+},
+{
+  quiz_id: 'quiz-11-3',
+  story_id: '11',
+  question_text: '主人公の母の仕事は何ですか？',
+  question_type: '読解',
+  difficulty_level: 'N5',
+  is_ai_generated: false,
+  source_text: '母は看護師です',
+  choices: [
+    { choice_text: '先生', is_correct: false, explanation: '不正解です。先生ではありません。' },
+    { choice_text: '看護師', is_correct: true, explanation: '正解です！本文で「母は看護師です」と書いてあります。' },
+    { choice_text: '会社員', is_correct: false, explanation: '不正解です。会社員は父の仕事です。' },
+    { choice_text: '学生', is_correct: false, explanation: '不正解です。母は学生ではありません。' },
+  ],
+},
+    // Story 12 quizzes
+{
+  quiz_id: 'quiz-12-1',
+  story_id: '12',
+  question_text: 'カフェテリアのメニューに何がありましたか？',
+  question_type: '読解',
+  difficulty_level: 'N5',
+  is_ai_generated: false,
+  source_text: '今日のメニューは：カレー、ラーメン、寿司、サラダがあります。',
+  choices: [
+    { choice_text: 'カレー、ラーメン、寿司、サラダ', is_correct: true, explanation: '正解です！本文で「今日のメニューは：カレー、ラーメン、寿司、サラダがあります」と書いてあります。' },
+    { choice_text: 'ハンバーガー、ピザ、パスタ', is_correct: false, explanation: '不正解です。これらは今日のメニューにありません。' },
+    { choice_text: '焼肉、天ぷら、うどん', is_correct: false, explanation: '不正解です。これらは後で話題に出ますが、カフェテリアのメニューではありません。' },
+    { choice_text: 'ケーキ、アイスクリーム、クッキー', is_correct: false, explanation: '不正解です。これらはデザートです。' },
+  ],
+},
+{
+  quiz_id: 'quiz-12-2',
+  story_id: '12',
+  question_text: '「好きです」の反対の意味は何ですか？',
+  question_type: '語彙',
+  difficulty_level: 'N5',
+  is_ai_generated: false,
+  source_text: '好きです / 嫌いです',
+  choices: [
+    { choice_text: '嫌いです', is_correct: true, explanation: '正解です！「好きです」の反対は「嫌いです」です。英語の"like"と"dislike"の関係です。' },
+    { choice_text: 'おいしいです', is_correct: false, explanation: '不正解です。「おいしいです」は食べ物の味を表す言葉で、好みとは違います。' },
+    { choice_text: '甘いです', is_correct: false, explanation: '不正解です。「甘いです」は味の種類を表す言葉です。' },
+    { choice_text: '辛いです', is_correct: false, explanation: '不正解です。「辛いです」は味の種類を表す言葉です。' },
+  ],
+},
+{
+  quiz_id: 'quiz-12-3',
+  story_id: '12',
+  question_text: '「〜が大好きです」はどんな意味ですか？',
+  question_type: '文法',
+  difficulty_level: 'N5',
+  is_ai_generated: false,
+  source_text: '大好きです = really love / love very much',
+  choices: [
+    { choice_text: 'I really love 〜', is_correct: true, explanation: '正解です！「大好き」は「とても好き」という意味で、英語の"really love"や"love very much"に相当します。「好き」よりも強い表現です。' },
+    { choice_text: 'I hate 〜', is_correct: false, explanation: '不正解です。これは「大嫌い」の意味です。' },
+    { choice_text: 'I don\'t like 〜 very much', is_correct: false, explanation: '不正解です。これは「あまり好きじゃない」の意味です。' },
+    { choice_text: 'I\'m okay with 〜', is_correct: false, explanation: '不正解です。これは「まあまあ」「普通」という意味です。' },
+  ],
+},
+    // Story 13 quizzes
+{
+  quiz_id: 'quiz-13-1',
+  story_id: '13',
+  question_text: '店員さんは最初に何と聞きましたか？',
+  question_type: '読解',
+  difficulty_level: 'N4',
+  is_ai_generated: false,
+  source_text: '「いらっしゃいませ！何名様ですか？」と店員さんが聞きます。',
+  choices: [
+    { choice_text: '何名様ですか？', is_correct: true, explanation: '正解です！レストランに入ると、店員さんはまず「何名様ですか？」（How many people?）と人数を確認します。これは日本のレストランでの標準的な接客です。' },
+    { choice_text: 'ご予約はありますか？', is_correct: false, explanation: '不正解です。予約の確認は人数確認の後に聞かれることが多いです。' },
+    { choice_text: 'お飲み物は何にしますか？', is_correct: false, explanation: '不正解です。飲み物は席に着いてから聞かれます。' },
+    { choice_text: 'メニューは決まりましたか？', is_correct: false, explanation: '不正解です。これは注文を取る時の質問です。' },
+  ],
+},
+{
+  quiz_id: 'quiz-13-2',
+  story_id: '13',
+  question_text: '「〜をください」の意味は何ですか？',
+  question_type: '語彙',
+  difficulty_level: 'N4',
+  is_ai_generated: false,
+  source_text: '〜をください = Please give me 〜',
+  choices: [
+    { choice_text: 'Please give me 〜', is_correct: true, explanation: '正解です！「〜をください」は「Please give me 〜」という意味で、何かを注文したり頼んだりする時に使う基本的な表現です。レストランでの注文に最適です。' },
+    { choice_text: 'I don\'t want 〜', is_correct: false, explanation: '不正解です。これは「〜はいりません」の意味です。' },
+    { choice_text: 'Do you have 〜?', is_correct: false, explanation: '不正解です。これは「〜はありますか？」の意味です。' },
+    { choice_text: 'I\'m looking for 〜', is_correct: false, explanation: '不正解です。これは「〜を探しています」の意味です。' },
+  ],
+},
+{
+  quiz_id: 'quiz-13-3',
+  story_id: '13',
+  question_text: '日本で食事を始める前に何と言いますか？',
+  question_type: '文化',
+  difficulty_level: 'N4',
+  is_ai_generated: false,
+  source_text: 'いただきます',
+  choices: [
+    { choice_text: 'いただきます', is_correct: true, explanation: '正解です！「いただきます」は食事を始める前に言う言葉です。食べ物への感謝を表します。食事が終わった後は「ごちそうさまでした」と言います。' },
+    { choice_text: 'おはようございます', is_correct: false, explanation: '不正解です。これは朝の挨拶です。' },
+    { choice_text: 'ごちそうさまでした', is_correct: false, explanation: '不正解です。これは食事が終わった後に言う言葉です。' },
+    { choice_text: 'よろしくお願いします', is_correct: false, explanation: '不正解です。これは自己紹介や依頼の時に使います。' },
+  ],
+},
+    // Story 14 quizzes
+{
+  quiz_id: 'quiz-14-1',
+  story_id: '14',
+  question_text: 'ユウタさんは最初に何と聞きましたか？',
+  question_type: '読解',
+  difficulty_level: 'N4',
+  is_ai_generated: false,
+  source_text: '「週末、暇？一緒に遊びませんか？」',
+  choices: [
+    { choice_text: '週末、暇？一緒に遊びませんか？', is_correct: true, explanation: '正解です！ユウタさんは「週末、暇？一緒に遊びませんか？」と誘っています。これは友達を誘う時の自然な表現です。' },
+    { choice_text: '明日は何時に会いますか？', is_correct: false, explanation: '不正解です。時間の確認はこの後に行います。' },
+    { choice_text: 'どこで会いましょうか？', is_correct: false, explanation: '不正解です。場所の決定は活動を決めた後です。' },
+    { choice_text: '何を食べたいですか？', is_correct: false, explanation: '不正解です。これは食事の話であり、最初の誘いではありません。' },
+  ],
+},
+{
+  quiz_id: 'quiz-14-2',
+  story_id: '14',
+  question_text: '「〜ませんか」の意味は何ですか？',
+  question_type: '語彙',
+  difficulty_level: 'N4',
+  is_ai_generated: false,
+  source_text: '〜ませんか = Won\'t you...? / Shall we...?',
+  choices: [
+    { choice_text: 'Won\'t you...? / Shall we...?', is_correct: true, explanation: '正解です！「〜ませんか」は誘いや提案を表す表現で、英語の "Won\'t you...?" や "Shall we...?" に相当します。丁寧に人を誘う時に使います。' },
+    { choice_text: 'I want to...', is_correct: false, explanation: '不正解です。これは「〜たい」の意味です。' },
+    { choice_text: 'I don\'t want to...', is_correct: false, explanation: '不正解です。これは「〜たくない」の意味です。' },
+    { choice_text: 'You must...', is_correct: false, explanation: '不正解です。これは「〜なければならない」の意味です。' },
+  ],
+},
+{
+  quiz_id: 'quiz-14-3',
+  story_id: '14',
+  question_text: '「映画を見ましょう」はどんな意味ですか？',
+  question_type: '文法',
+  difficulty_level: 'N4',
+  is_ai_generated: false,
+  source_text: '〜ましょう = Let\'s...',
+  choices: [
+    { choice_text: 'Let\'s watch a movie', is_correct: true, explanation: '正解です！「〜ましょう」は提案や勧誘を表す表現で、英語の "Let\'s..." に相当します。一緒に何かをすることを提案する時に使います。' },
+    { choice_text: 'I\'m watching a movie', is_correct: false, explanation: '不正解です。これは「映画を見ています」の意味です。' },
+    { choice_text: 'I want to watch a movie', is_correct: false, explanation: '不正解です。これは「映画を見たい」の意味です。' },
+    { choice_text: 'Did you watch a movie?', is_correct: false, explanation: '不正解です。これは「映画を見ましたか？」の意味です。' },
+  ],
+},
+    // Story 15 quizzes
+{
+  quiz_id: 'quiz-15-1',
+  story_id: '15',
+  question_text: '土曜日の朝、主人公が考えたことは何ですか？',
+  question_type: '読解',
+  difficulty_level: 'N4',
+  is_ai_generated: false,
+  source_text: '「今日は何をしようかな」と考えます。',
+  choices: [
+    { choice_text: '今日は何をしようかな', is_correct: true, explanation: '正解です！土曜日の朝、主人公は「今日は何をしようかな」と考えました。週末の計画を立てる時の自然な表現です。' },
+    { choice_text: '明日は何時に起きようかな', is_correct: false, explanation: '不正解です。これは日曜日の計画を考える時の話です。' },
+    { choice_text: '友達に電話しようかな', is_correct: false, explanation: '不正解です。電話は選択肢の一つですが、最初に考えたことではありません。' },
+    { choice_text: '仕事に行かなければならない', is_correct: false, explanation: '不正解です。土曜日と日曜日は休みです。' },
+  ],
+},
+{
+  quiz_id: 'quiz-15-2',
+  story_id: '15',
+  question_text: '「〜つもりです」はどんな意味ですか？',
+  question_type: '語彙',
+  difficulty_level: 'N4',
+  is_ai_generated: false,
+  source_text: '〜つもりです = I intend to... / I plan to...',
+  choices: [
+    { choice_text: 'I intend to... / I plan to...', is_correct: true, explanation: '正解です！「〜つもりです」は意図や計画を表す表現で、英語の "I intend to..." や "I plan to..." に相当します。未来の予定を話す時に使います。' },
+    { choice_text: 'I want to...', is_correct: false, explanation: '不正解です。これは「〜たい」の意味です。' },
+    { choice_text: 'I must...', is_correct: false, explanation: '不正解です。これは「〜なければならない」の意味です。' },
+    { choice_text: 'I finished...', is_correct: false, explanation: '不正解です。これは「〜ました」の意味です。' },
+  ],
+},
+{
+  quiz_id: 'quiz-15-3',
+  story_id: '15',
+  question_text: '「勉強してから、買い物に行きます」の「〜てから」はどんな意味ですか？',
+  question_type: '文法',
+  difficulty_level: 'N4',
+  is_ai_generated: false,
+  source_text: '〜てから = after doing...',
+  choices: [
+    { choice_text: 'After doing...', is_correct: true, explanation: '正解です！「〜てから」は「〜した後で」という意味で、英語の "after doing..." に相当します。ある行動の後に別の行動をする順序を表す時に使います。' },
+    { choice_text: 'Before doing...', is_correct: false, explanation: '不正解です。これは「〜前に」の意味です。' },
+    { choice_text: 'While doing...', is_correct: false, explanation: '不正解です。これは「〜ながら」の意味です。' },
+    { choice_text: 'Without doing...', is_correct: false, explanation: '不正解です。これは「〜ないで」の意味です。' },
+  ],
+},
+    // Story 16 quizzes
+{
+  quiz_id: 'quiz-16-1',
+  story_id: '16',
+  question_text: '日本の賃貸契約で、契約時に支払う必要があるものは何ですか？',
+  question_type: '読解',
+  difficulty_level: 'N3',
+  is_ai_generated: false,
+  source_text: '敷金1ヶ月分、礼金1ヶ月分、仲介手数料1ヶ月分、それに最初の家賃',
+  choices: [
+    { choice_text: '敷金、礼金、仲介手数料、最初の家賃', is_correct: true, explanation: '正解です！日本の賃貸契約では、敷金（セキュリティデポジット）、礼金（お礼金）、仲介手数料（不動産屋への手数料）、そして最初の月の家賃を支払う必要があります。これを「初期費用」と呼び、家賃の4-5ヶ月分程度になることが多いです。' },
+    { choice_text: '家賃だけ', is_correct: false, explanation: '不正解です。日本では家賃以外にも様々な初期費用が必要です。' },
+    { choice_text: '更新料と家賃', is_correct: false, explanation: '不正解です。更新料は契約更新時（通常2年後）に支払うもので、初期費用ではありません。' },
+    { choice_text: '保証人への支払い', is_correct: false, explanation: '不正解です。保証人への支払いは通常ありません。保証会社を利用する場合は、保証会社に料金を払います。' },
+  ],
+},
+{
+  quiz_id: 'quiz-16-2',
+  story_id: '16',
+  question_text: '「〜なければならない」はどんな意味ですか？',
+  question_type: '語彙',
+  difficulty_level: 'N3',
+  is_ai_generated: false,
+  source_text: '〜なければならない = must / have to',
+  choices: [
+    { choice_text: 'must / have to', is_correct: true, explanation: '正解です！「〜なければならない」は義務を表す表現で、英語の "must" や "have to" に相当します。例：「書類を準備しなければならない」(I must prepare documents)。N3レベルの重要文法です。' },
+    { choice_text: 'want to', is_correct: false, explanation: '不正解です。これは「〜たい」の意味です。' },
+    { choice_text: 'can / be able to', is_correct: false, explanation: '不正解です。これは「〜できる」の意味です。' },
+    { choice_text: 'may / might', is_correct: false, explanation: '不正解です。これは「〜かもしれない」の意味です。' },
+  ],
+},
+{
+  quiz_id: 'quiz-16-3',
+  story_id: '16',
+  question_text: '日本の賃貸契約で「礼金」とは何ですか？',
+  question_type: '文化',
+  difficulty_level: 'N3',
+  is_ai_generated: false,
+  source_text: '礼金は大家さんへのお礼として支払うお金',
+  choices: [
+    { choice_text: '大家さんへのお礼として支払うお金（返金されない）', is_correct: true, explanation: '正解です！「礼金」は日本独特の習慣で、部屋を貸してくれる大家さんへのお礼として支払うお金です。退去時に返金されません。一方、「敷金」は担保として預けるお金で、退去時に部屋に問題がなければ返金されます。この違いを理解することが重要です。' },
+    { choice_text: '退去時に返金されるお金', is_correct: false, explanation: '不正解です。それは「敷金」の説明です。礼金は返金されません。' },
+    { choice_text: '毎月の家賃のこと', is_correct: false, explanation: '不正解です。礼金は初期費用の一部で、毎月支払うものではありません。' },
+    { choice_text: '不動産屋への手数料', is_correct: false, explanation: '不正解です。不動産屋への手数料は「仲介手数料」と呼ばれます。' },
+  ],
+},
+
+    // Story 17 quizzes
+{
+  quiz_id: 'quiz-17-1',
+  story_id: '17',
+  question_text: '日本の電車で「快速」とは何ですか？',
+  question_type: '読解',
+  difficulty_level: 'N3',
+  is_ai_generated: false,
+  source_text: '快速電車は主要駅にだけ停まる',
+  choices: [
+    { choice_text: '主要駅にだけ停まる、速い電車', is_correct: true, explanation: '正解です！「快速」は主要な駅にだけ停車して、速く目的地に到着できる電車です。各駅停車よりも速いですが、特急よりは遅いです。通勤や移動時間を短縮したい時に便利です。' },
+    { choice_text: 'すべての駅に停まる電車', is_correct: false, explanation: '不正解です。すべての駅に停まるのは「各駅停車」です。' },
+    { choice_text: '特別料金が必要な電車', is_correct: false, explanation: '不正解です。特別料金が必要なのは「特急」や「新幹線」です。快速は通常の運賃で乗れます。' },
+    { choice_text: '夜だけ走る電車', is_correct: false, explanation: '不正解です。快速は昼間も夜も走っています。' },
+  ],
+},
+{
+  quiz_id: 'quiz-17-2',
+  story_id: '17',
+  question_text: '「〜てから」はどんな意味ですか？',
+  question_type: '語彙',
+  difficulty_level: 'N3',
+  is_ai_generated: false,
+  source_text: '〜てから = after doing',
+  choices: [
+    { choice_text: 'after doing', is_correct: true, explanation: '正解です！「〜てから」は「〜した後で」という意味で、英語の "after doing" に相当します。例：「切符を買ってから、改札を通ります」(After buying a ticket, I go through the ticket gate)。N3レベルの重要文法です。' },
+    { choice_text: 'before doing', is_correct: false, explanation: '不正解です。これは「〜前に」の意味です。' },
+    { choice_text: 'while doing', is_correct: false, explanation: '不正解です。これは「〜ながら」の意味です。' },
+    { choice_text: 'without doing', is_correct: false, explanation: '不正解です。これは「〜ないで」の意味です。' },
+  ],
+},
+{
+  quiz_id: 'quiz-17-3',
+  story_id: '17',
+  question_text: '日本の電車システムの特徴は何ですか？',
+  question_type: '文化',
+  difficulty_level: 'N3',
+  is_ai_generated: false,
+  source_text: '日本の電車は時刻が正確で、ほとんど遅れない',
+  choices: [
+    { choice_text: '時刻が正確で、ほとんど遅れない', is_correct: true, explanation: '正解です！日本の電車は世界的に有名な正確さで知られています。平均遅延時間は1分以下で、時刻表通りに運行されます。この正確さは日本人の時間に対する意識の高さと、優れた運行管理システムによるものです。' },
+    { choice_text: 'よく遅れるので、余裕を持って出発する必要がある', is_correct: false, explanation: '不正解です。日本の電車は世界で最も時間に正確な交通機関の一つです。' },
+    { choice_text: '料金が安く、誰でも乗れる', is_correct: false, explanation: '不正解です。日本の電車料金は比較的高いですが、サービスの質が高いです。' },
+    { choice_text: '夜遅くまで運行していない', is_correct: false, explanation: '不正解です。東京などの大都市では深夜まで運行しています。ただし、終電（最終電車）の時間は決まっています。' },
+  ],
+},
+
+    // Story 18 quizzes
+{
+  quiz_id: 'quiz-18-1',
+  story_id: '18',
+  question_text: '郵便局で「書留」とは何ですか？',
+  question_type: '読解',
+  difficulty_level: 'N3',
+  is_ai_generated: false,
+  source_text: '書留は配達を記録して、安全に送るサービス',
+  choices: [
+    { choice_text: '配達を記録して、安全に送るサービス', is_correct: true, explanation: '正解です！「書留」は、郵便物の引き受けから配達までを記録し、万が一紛失した場合は実損額を賠償するサービスです。大切な書類や貴重品を送る時に使います。追跡番号で配達状況を確認できるので安心です。' },
+    { choice_text: '速く届くサービス', is_correct: false, explanation: '不正解です。速く届くのは「速達」です。書留は安全性を重視したサービスです。' },
+    { choice_text: '安く送れるサービス', is_correct: false, explanation: '不正解です。書留は通常の郵便よりも料金が高くなります。' },
+    { choice_text: '大きな荷物を送るサービス', is_correct: false, explanation: '不正解です。大きな荷物は「ゆうパック」などの宅配サービスを使います。' },
+  ],
+},
+{
+  quiz_id: 'quiz-18-2',
+  story_id: '18',
+  question_text: '「〜てもらう」の意味は何ですか？',
+  question_type: '語彙',
+  difficulty_level: 'N3',
+  is_ai_generated: false,
+  source_text: '〜てもらう = receive a favor / have someone do',
+  choices: [
+    { choice_text: 'receive a favor / have someone do', is_correct: true, explanation: '正解です！「〜てもらう」は他の人にしてもらって恩恵を受けるという意味です。例：「窓口の人に説明してもらいました」(I had the counter staff explain it to me)。相手の行動から利益を受ける時に使う、N3レベルの授受表現です。' },
+    { choice_text: 'do a favor for someone', is_correct: false, explanation: '不正解です。これは「〜てあげる」の意味です。' },
+    { choice_text: 'want to do', is_correct: false, explanation: '不正解です。これは「〜たい」の意味です。' },
+    { choice_text: 'must do', is_correct: false, explanation: '不正解です。これは「〜なければならない」の意味です。' },
+  ],
+},
+{
+  quiz_id: 'quiz-18-3',
+  story_id: '18',
+  question_text: '日本の郵便サービスの特徴は何ですか？',
+  question_type: '文化',
+  difficulty_level: 'N3',
+  is_ai_generated: false,
+  source_text: '日本の郵便は信頼性が高く、時間通りに届く',
+  choices: [
+    { choice_text: '信頼性が高く、時間通りに届く', is_correct: true, explanation: '正解です！日本郵便は世界的に信頼性の高いサービスで知られています。国内郵便はほとんどの場合、翌日または翌々日に届きます。また、配達員の丁寧な対応や、追跡システムの充実も特徴です。紛失や破損も非常に少ないです。' },
+    { choice_text: '料金が安いが、遅い', is_correct: false, explanation: '不正解です。日本の郵便料金は適正価格で、配達は速いです。' },
+    { choice_text: '荷物がよく無くなる', is_correct: false, explanation: '不正解です。日本の郵便サービスは紛失率が非常に低いです。' },
+    { choice_text: '窓口でしか送れない', is_correct: false, explanation: '不正解です。ポストからも送れますし、集荷サービスもあります。' },
+  ],
+},
+
+
+
+
+
+
+
   ];
 
   // Create quizzes and quiz choices
@@ -1976,7 +5211,7 @@ async function main(): Promise<void> {
     });
   }
 
-  console.log('Created 27 quizzes (3 per story) with choices');
+  console.log('Created 54 quizzes (3 per story x 18 stories) with choices');
   console.log('Database seeding completed successfully!');
 }
 

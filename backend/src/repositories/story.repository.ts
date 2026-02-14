@@ -15,7 +15,9 @@ export class StoryRepository {
     return {
       story_id: prismaStory.story_id,
       title: prismaStory.title,
+      title_en: prismaStory.title_en || undefined,
       description: prismaStory.description,
+      description_en: prismaStory.description_en || undefined,
       level_jlpt: (prismaStory.level_jlpt as JLPTLevel) || 'N5',
       level_cefr: (prismaStory.level_cefr as CEFRLevel) || 'A1',
       estimated_time: prismaStory.estimated_time || 10,

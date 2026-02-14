@@ -711,6 +711,39 @@ export const StoryExperiencePage: React.FC = () => {
               >
                 {currentChapter.content}
               </Typography>
+
+              {/* English Translation */}
+              {viewerState.showTranslation && currentChapter.content_en && (
+                <Box
+                  mt={3}
+                  pt={3}
+                  sx={{
+                    borderTop: '2px solid',
+                    borderColor: 'primary.light',
+                  }}
+                >
+                  <Typography
+                    variant="body2"
+                    color="primary"
+                    fontWeight="medium"
+                    mb={2}
+                  >
+                    🌐 English Translation
+                  </Typography>
+                  <Typography
+                    variant="body1"
+                    component="div"
+                    sx={{
+                      fontSize: '1rem',
+                      lineHeight: 2,
+                      whiteSpace: 'pre-wrap',
+                      color: 'text.secondary',
+                    }}
+                  >
+                    {currentChapter.content_en}
+                  </Typography>
+                </Box>
+              )}
             </Box>
 
             {/* Audio Control */}
@@ -769,7 +802,7 @@ export const StoryExperiencePage: React.FC = () => {
             </Box>
 
             {/* 語彙ヘルプ */}
-            {currentChapter.vocabulary && currentChapter.vocabulary.length > 0 && (
+            {currentChapter.vocabulary && typeof currentChapter.vocabulary === 'object' && Object.keys(currentChapter.vocabulary).length > 0 && (
               <Box
                 my={3}
                 p={3}
@@ -787,30 +820,19 @@ export const StoryExperiencePage: React.FC = () => {
                   このチャプターで使われている重要な単語と表現の説明です。
                 </Typography>
                 <Box display="flex" flexDirection="column" gap={2}>
-                  {(currentChapter.vocabulary?.words || []).map((item: any, index: number) => {
-                    // Vocabulary structure: { word, reading, meaning }
-                    const meaning = item.meaning || '';
-
+                  {Object.entries(currentChapter.vocabulary as Record<string, string>).map(([word, meaning], index) => {
                     return (
                       <Card key={index} sx={{ bgcolor: 'background.paper' }}>
                         <CardContent>
                           <Box display="flex" flexDirection="column" gap={1}>
                             <Box display="flex" alignItems="baseline" gap={1}>
                               <Typography variant="h6" component="span" color="primary">
-                                {item.word}
-                              </Typography>
-                              <Typography variant="body2" color="text.secondary">
-                                ({item.reading})
+                                {word}
                               </Typography>
                             </Box>
                             <Typography variant="body1" fontWeight="medium">
                               {meaning}
                             </Typography>
-                            {item.example && (
-                              <Typography variant="body2" color="text.secondary" sx={{ fontStyle: 'italic' }}>
-                                例：{item.example}
-                              </Typography>
-                            )}
                           </Box>
                         </CardContent>
                       </Card>

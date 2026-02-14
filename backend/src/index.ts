@@ -47,10 +47,20 @@ app.use(helmet({
 // CORS configuration - allow Vercel frontend
 const allowedOrigins = [
   'http://localhost:3847',
-  'https://frontend-seven-beta-72.vercel.app', // Production alias
-  /^https:\/\/frontend-[a-z0-9-]+-mio-furumakis-projects\.vercel\.app$/, // Preview deployments
-  /^https:\/\/frontend-[a-z0-9-]+\.vercel\.app$/, // All Vercel deployments
+  'http://127.0.0.1:3847',
+  'https://lingo-keeper-jp.vercel.app', // Production (new URL)
+  'https://frontend-seven-beta-72.vercel.app', // Production (old URL - for backward compatibility)
+  /^https:\/\/lingo-keeper-[a-z0-9-]+-mio-furumakis-projects\.vercel\.app$/, // New project preview deployments
+  /^https:\/\/frontend-[a-z0-9-]+-mio-furumakis-projects\.vercel\.app$/, // Old project preview deployments
+  /^https:\/\/lingo-keeper-[a-z0-9-]+\.vercel\.app$/, // New project all deployments
+  /^https:\/\/frontend-[a-z0-9-]+\.vercel\.app$/, // Old project all deployments
 ];
+
+// Add CORS_ORIGIN from environment variable if set
+if (process.env.CORS_ORIGIN && process.env.CORS_ORIGIN !== '*') {
+  allowedOrigins.push(process.env.CORS_ORIGIN);
+  logger.info('Added CORS_ORIGIN from environment variable', { origin: process.env.CORS_ORIGIN });
+}
 
 app.use(cors({
   origin: (origin, callback) => {
@@ -64,8 +74,10 @@ app.use(cors({
     });
 
     if (isAllowed || process.env.CORS_ORIGIN === '*') {
+      logger.debug('CORS request allowed', { origin });
       callback(null, true);
     } else {
+      logger.warn('CORS request blocked', { origin, allowedOrigins: allowedOrigins.map(o => o.toString()) });
       callback(new Error('Not allowed by CORS'));
     }
   },

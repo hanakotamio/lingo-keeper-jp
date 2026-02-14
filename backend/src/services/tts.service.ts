@@ -12,9 +12,25 @@ export class TTSService {
 
   constructor() {
     // Initialize Google Cloud TTS client
-    // Credentials are loaded from GOOGLE_APPLICATION_CREDENTIALS env var
-    this.client = new TextToSpeechClient();
-    logger.info('Google Cloud TTS client initialized');
+    // In Cloud Run, credentials come from Secret Manager as JSON string
+    const credentials = process.env.GOOGLE_APPLICATION_CREDENTIALS;
+
+    if (credentials) {
+      try {
+        // If credentials is a JSON string (from Secret Manager), parse it
+        const credentialsObj = JSON.parse(credentials);
+        this.client = new TextToSpeechClient({ credentials: credentialsObj });
+        logger.info('Google Cloud TTS client initialized with JSON credentials');
+      } catch (parseError) {
+        // If parsing fails, assume it's a file path (local development)
+        this.client = new TextToSpeechClient();
+        logger.info('Google Cloud TTS client initialized with file path credentials');
+      }
+    } else {
+      // No credentials specified, use Application Default Credentials
+      this.client = new TextToSpeechClient();
+      logger.info('Google Cloud TTS client initialized with default credentials');
+    }
   }
 
   /**

@@ -1,0 +1,104 @@
+{
+  "total": 9,
+  "mismatches": [
+    {
+      "storyNumber": 3,
+      "storyTitle": "ビジネスメールの作成",
+      "storyId": "17",
+      "jlptLevel": "N2",
+      "chapterId": "ch-17-1",
+      "chapterNumber": 1,
+      "reason": "Japanese has topic keywords (メール, ビジネス, 作成) but English missing (email, business, write)",
+      "japaneseStart": "入社して半年が経った。最近、上司から「取引先にメールを送るように」と指示されることが増えた。学生時代とは違い、ビジネスメールには厳格なマナーがある。\n\n今日は、新規取引先のA社に商品カタログを送付するメールを作成しなければならない。まず、先輩のメールを参考に、基本的な構成を確認した。\n\n件名は簡潔に",
+      "englishStart": "I started a new hobby recently. I joined a photography club.\n\nI've always been interested in photography. I bought a camera and am learning how to tak"
+    },
+    {
+      "storyNumber": 3,
+      "storyTitle": "ビジネスメールの作成",
+      "storyId": "17",
+      "jlptLevel": "N2",
+      "chapterId": "ch-17-3",
+      "chapterNumber": 3,
+      "reason": "Japanese has topic keywords (メール, ビジネス, 作成) but English missing (email, business, write)",
+      "japaneseStart": "結びの挨拶も重要だ。「今後とも、何卒よろしくお願い申し上げます。」と書いた。\n\n最後に「敬具」を右寄せで配置し、署名を追加した。\n\n「株式会社○○　営業部　山田太郎　電話：03-1234-5678　メール：yamada@example.com」\n\n一通り書き終えて、内容を見直した。誤字脱字がないか、",
+      "englishStart": "I practiced taking photos every day. I took photos of scenery and people around me.\n\nGradually I got better. I could take photos as I imagined.\n\nClub "
+    },
+    {
+      "storyNumber": 3,
+      "storyTitle": "ビジネスメールの作成",
+      "storyId": "17",
+      "jlptLevel": "N2",
+      "chapterId": "ch-17-4",
+      "chapterNumber": 4,
+      "reason": "Japanese has topic keywords (メール, ビジネス, 作成) but English missing (email, business, write)",
+      "japaneseStart": "送信する前に、もう一度確認した。宛先のメールアドレスは正しいか。CCに上司を入れるべきか。\n\n上司に確認すると、「CCに私を入れておいて」と言われた。上司のアドレスをCC欄に追加した。\n\n件名、本文、添付ファイル、宛先、CC、全てを最終確認した。問題ないようだ。\n\n「送信」ボタンをクリックしようとし",
+      "englishStart": "Next month there will be a photo exhibition by club members. I'll exhibit my photos too.\n\nI'm selecting which photos to display. I'll choose the best "
+    },
+    {
+      "storyNumber": 3,
+      "storyTitle": "ビジネスメールの作成",
+      "storyId": "17",
+      "jlptLevel": "N2",
+      "chapterId": "ch-17-5",
+      "chapterNumber": 5,
+      "reason": "Japanese has topic keywords (メール, ビジネス, 作成) but English missing (email, business, write)",
+      "japaneseStart": "先輩は画面を見て、すぐに指摘してくれた。「時候の挨拶の後、一行空けた方がいいよ。それと、この『送付させていただきます』は『お送りいたします』の方が自然だね」\n\nなるほど。細かいところまで気を配る必要があるのだ。\n\n先輩の指摘に従って修正した。「これで完璧だよ。送信していいよ」と先輩が言った。\n\n「あ",
+      "englishStart": "Through photography, I discovered new things. The beauty of ordinary scenery and the importance of observation.\n\nPhotography became an important hobby"
+    },
+    {
+      "storyNumber": 10,
+      "storyTitle": "友達との約束",
+      "storyId": "8",
+      "jlptLevel": "N4",
+      "chapterId": "ch-8-1",
+      "chapterNumber": 1,
+      "reason": "Japanese has topic keywords (友達, 約束, 会う) but English missing (friend, promise, meet, appointment)",
+      "japaneseStart": "昨日、友達の田中さんからメッセージが来ました。「明日、一緒に映画を見ませんか」というメッセージでした。\n\n私は映画が好きです。「いいですね。何時に会いましょうか」と返事をしました。\n\n田中さんは「午後2時はどうですか。駅前の映画館で会いましょう」と言いました。「分かりました。2時に駅前で待っています",
+      "englishStart": "Today, I'm going shopping at the supermarket. I need various things.\n\nThe supermarket is near my house. It takes 5 minutes on foot.\n\nI took my shoppin"
+    },
+    {
+      "storyNumber": 25,
+      "storyTitle": "電車での通学",
+      "storyId": "9",
+      "jlptLevel": "N4",
+      "chapterId": "ch-9-2",
+      "chapterNumber": 2,
+      "reason": "Japanese has topic keywords (電車, 学校, 通学, 駅) but English missing (train, school, commute, station)",
+      "japaneseStart": "電車の中で、いつもスマートフォンを見ます。ニュースを読んだり、音楽を聞いたりします。\n\n時々、本を読むこともあります。でも、混んでいるときは本を読むのが難しいです。\n\n電車は3つの駅に止まります。大きな駅では、たくさんの人が降ります。そして、たくさんの人が乗ります。\n\n窓の外を見ると、いろいろな景色",
+      "englishStart": "The library is quiet. Many people are studying.\n\nI sat at a desk. I opened my textbook and started studying.\n\nMathematics is difficult. But I'll try m"
+    },
+    {
+      "storyNumber": 25,
+      "storyTitle": "電車での通学",
+      "storyId": "9",
+      "jlptLevel": "N4",
+      "chapterId": "ch-9-3",
+      "chapterNumber": 3,
+      "reason": "Japanese has topic keywords (電車, 学校, 通学, 駅) but English missing (train, school, commute, station)",
+      "japaneseStart": "駅から学校まで歩いて10分かかります。朝は学生がたくさん歩いています。\n\n途中にコンビニがあります。時々、そこで飲み物を買います。今日はお茶を買いました。\n\n歩きながら、友達に会うことがあります。「おはよう」と挨拶をして、一緒に学校まで歩きます。\n\n今日は友達の鈴木さんに会いました。「おはよう。今日",
+      "englishStart": "I studied for two hours. I'm getting a little tired.\n\nI took a break. I drank water and rested.\n\nAfter the break, I'll study again. I need to work har"
+    },
+    {
+      "storyNumber": 25,
+      "storyTitle": "電車での通学",
+      "storyId": "9",
+      "jlptLevel": "N4",
+      "chapterId": "ch-9-4",
+      "chapterNumber": 4,
+      "reason": "Japanese has topic keywords (電車, 学校, 通学, 駅) but English missing (train, school, commute, station)",
+      "japaneseStart": "学校に着きました。9時までに着けば大丈夫です。今は8時50分です。\n\n「最初の授業は何ですか」と鈴木さんが聞きました。「英語です。鈴木さんは？」と私が答えました。\n\n「私も英語です。一緒ですね」と鈴木さんが言いました。同じクラスなので嬉しいです。\n\n教室に入りました。まだ先生は来ていません。席に座っ",
+      "englishStart": "I studied various subjects. Mathematics, English, Japanese.\n\nI don't understand some parts. I'll ask the teacher tomorrow.\n\nBut I understand a lot. I'"
+    },
+    {
+      "storyNumber": 25,
+      "storyTitle": "電車での通学",
+      "storyId": "9",
+      "jlptLevel": "N4",
+      "chapterId": "ch-9-5",
+      "chapterNumber": 5,
+      "reason": "Japanese has topic keywords (電車, 学校, 通学, 駅) but English missing (train, school, commute, station)",
+      "japaneseStart": "授業は90分です。11時まで英語の授業がありました。次は数学の授業です。\n\nお昼は12時からです。学食でご飯を食べます。今日は何を食べようかな。\n\n授業が全部終わるのは4時です。それから、図書館で勉強します。\n\n6時ごろ学校を出ます。帰りの電車も混んでいます。でも、朝より少し空いています。\n\n7時に",
+      "englishStart": "Studying at the library ended. I'm going home.\n\nThe library is quiet and easy to study in. I'll come again tomorrow.\n\nI want to do well on the test. I"
+    }
+  ]
+}

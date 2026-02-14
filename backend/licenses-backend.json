@@ -1,0 +1,1680 @@
+{
+  "@colors/colors@1.6.0": {
+    "licenses": "MIT",
+    "repository": "https://github.com/DABH/colors.js",
+    "publisher": "DABH",
+    "path": "/home/hanakotamio0705/Lingo Keeper JP/backend/node_modules/@colors/colors",
+    "licenseFile": "/home/hanakotamio0705/Lingo Keeper JP/backend/node_modules/@colors/colors/LICENSE"
+  },
+  "@dabh/diagnostics@2.0.8": {
+    "licenses": "MIT",
+    "repository": "https://github.com/DABH/diagnostics",
+    "publisher": "Arnout Kazemier",
+    "path": "/home/hanakotamio0705/Lingo Keeper JP/backend/node_modules/@dabh/diagnostics",
+    "licenseFile": "/home/hanakotamio0705/Lingo Keeper JP/backend/node_modules/@dabh/diagnostics/LICENSE"
+  },
+  "@google-cloud/text-to-speech@6.4.0": {
+    "licenses": "Apache-2.0",
+    "repository": "https://github.com/googleapis/google-cloud-node",
+    "publisher": "Google LLC",
+    "path": "/home/hanakotamio0705/Lingo Keeper JP/backend/node_modules/@google-cloud/text-to-speech",
+    "licenseFile": "/home/hanakotamio0705/Lingo Keeper JP/backend/node_modules/@google-cloud/text-to-speech/LICENSE"
+  },
+  "@grpc/grpc-js@1.14.3": {
+    "licenses": "Apache-2.0",
+    "repository": "https://github.com/grpc/grpc-node/tree/master/packages/grpc-js",
+    "publisher": "Google Inc.",
+    "path": "/home/hanakotamio0705/Lingo Keeper JP/backend/node_modules/@grpc/grpc-js",
+    "licenseFile": "/home/hanakotamio0705/Lingo Keeper JP/backend/node_modules/@grpc/grpc-js/LICENSE"
+  },
+  "@grpc/proto-loader@0.8.0": {
+    "licenses": "Apache-2.0",
+    "repository": "https://github.com/grpc/grpc-node",
+    "publisher": "Google Inc.",
+    "path": "/home/hanakotamio0705/Lingo Keeper JP/backend/node_modules/@grpc/proto-loader",
+    "licenseFile": "/home/hanakotamio0705/Lingo Keeper JP/backend/node_modules/@grpc/proto-loader/LICENSE"
+  },
+  "@isaacs/cliui@8.0.2": {
+    "licenses": "ISC",
+    "repository": "https://github.com/yargs/cliui",
+    "publisher": "Ben Coe",
+    "email": "ben@npmjs.com",
+    "path": "/home/hanakotamio0705/Lingo Keeper JP/backend/node_modules/@isaacs/cliui",
+    "licenseFile": "/home/hanakotamio0705/Lingo Keeper JP/backend/node_modules/@isaacs/cliui/LICENSE.txt"
+  },
+  "@js-sdsl/ordered-map@4.4.2": {
+    "licenses": "MIT",
+    "repository": "https://github.com/js-sdsl/js-sdsl",
+    "publisher": "ZLY201",
+    "email": "951711127@qq.com",
+    "url": "https://github.com/js-sdsl/js-sdsl",
+    "path": "/home/hanakotamio0705/Lingo Keeper JP/backend/node_modules/@js-sdsl/ordered-map",
+    "licenseFile": "/home/hanakotamio0705/Lingo Keeper JP/backend/node_modules/@js-sdsl/ordered-map/LICENSE"
+  },
+  "@opentelemetry/api@1.9.0": {
+    "licenses": "Apache-2.0",
+    "repository": "https://github.com/open-telemetry/opentelemetry-js",
+    "publisher": "OpenTelemetry Authors",
+    "path": "/home/hanakotamio0705/Lingo Keeper JP/backend/node_modules/@opentelemetry/api",
+    "licenseFile": "/home/hanakotamio0705/Lingo Keeper JP/backend/node_modules/@opentelemetry/api/LICENSE"
+  },
+  "@pkgjs/parseargs@0.11.0": {
+    "licenses": "MIT",
+    "repository": "https://github.com/pkgjs/parseargs",
+    "path": "/home/hanakotamio0705/Lingo Keeper JP/backend/node_modules/@pkgjs/parseargs",
+    "licenseFile": "/home/hanakotamio0705/Lingo Keeper JP/backend/node_modules/@pkgjs/parseargs/LICENSE"
+  },
+  "@prisma/client@5.22.0": {
+    "licenses": "Apache-2.0",
+    "repository": "https://github.com/prisma/prisma",
+    "publisher": "Tim Suchanek",
+    "email": "suchanek@prisma.io",
+    "path": "/home/hanakotamio0705/Lingo Keeper JP/backend/node_modules/@prisma/client",
+    "licenseFile": "/home/hanakotamio0705/Lingo Keeper JP/backend/node_modules/@prisma/client/LICENSE"
+  },
+  "@prisma/debug@5.22.0": {
+    "licenses": "Apache-2.0",
+    "repository": "https://github.com/prisma/prisma",
+    "publisher": "Tim Suchanek",
+    "email": "suchanek@prisma.io",
+    "path": "/home/hanakotamio0705/Lingo Keeper JP/backend/node_modules/@prisma/debug",
+    "licenseFile": "/home/hanakotamio0705/Lingo Keeper JP/backend/node_modules/@prisma/debug/LICENSE"
+  },
+  "@prisma/engines-version@5.22.0-44.605197351a3c8bdd595af2d2a9bc3025bca48ea2": {
+    "licenses": "Apache-2.0",
+    "repository": "https://github.com/prisma/engines-wrapper",
+    "publisher": "Tim Suchanek",
+    "email": "suchanek@prisma.io",
+    "path": "/home/hanakotamio0705/Lingo Keeper JP/backend/node_modules/@prisma/engines-version",
+    "licenseFile": "/home/hanakotamio0705/Lingo Keeper JP/backend/node_modules/@prisma/engines-version/LICENSE"
+  },
+  "@prisma/engines@5.22.0": {
+    "licenses": "Apache-2.0",
+    "repository": "https://github.com/prisma/prisma",
+    "publisher": "Tim Suchanek",
+    "email": "suchanek@prisma.io",
+    "path": "/home/hanakotamio0705/Lingo Keeper JP/backend/node_modules/@prisma/engines",
+    "licenseFile": "/home/hanakotamio0705/Lingo Keeper JP/backend/node_modules/@prisma/engines/LICENSE"
+  },
+  "@prisma/fetch-engine@5.22.0": {
+    "licenses": "Apache-2.0",
+    "repository": "https://github.com/prisma/prisma",
+    "publisher": "Tim Suchanek",
+    "email": "suchanek@prisma.io",
+    "path": "/home/hanakotamio0705/Lingo Keeper JP/backend/node_modules/@prisma/fetch-engine",
+    "licenseFile": "/home/hanakotamio0705/Lingo Keeper JP/backend/node_modules/@prisma/fetch-engine/LICENSE"
+  },
+  "@prisma/get-platform@5.22.0": {
+    "licenses": "Apache-2.0",
+    "repository": "https://github.com/prisma/prisma",
+    "publisher": "Tim Suchanek",
+    "email": "suchanek@prisma.io",
+    "path": "/home/hanakotamio0705/Lingo Keeper JP/backend/node_modules/@prisma/get-platform",
+    "licenseFile": "/home/hanakotamio0705/Lingo Keeper JP/backend/node_modules/@prisma/get-platform/LICENSE"
+  },
+  "@protobufjs/aspromise@1.1.2": {
+    "licenses": "BSD-3-Clause",
+    "repository": "https://github.com/dcodeIO/protobuf.js",
+    "publisher": "Daniel Wirtz",
+    "email": "dcode+protobufjs@dcode.io",
+    "path": "/home/hanakotamio0705/Lingo Keeper JP/backend/node_modules/@protobufjs/aspromise",
+    "licenseFile": "/home/hanakotamio0705/Lingo Keeper JP/backend/node_modules/@protobufjs/aspromise/LICENSE"
+  },
+  "@protobufjs/base64@1.1.2": {
+    "licenses": "BSD-3-Clause",
+    "repository": "https://github.com/dcodeIO/protobuf.js",
+    "publisher": "Daniel Wirtz",
+    "email": "dcode+protobufjs@dcode.io",
+    "path": "/home/hanakotamio0705/Lingo Keeper JP/backend/node_modules/@protobufjs/base64",
+    "licenseFile": "/home/hanakotamio0705/Lingo Keeper JP/backend/node_modules/@protobufjs/base64/LICENSE"
+  },
+  "@protobufjs/codegen@2.0.4": {
+    "licenses": "BSD-3-Clause",
+    "repository": "https://github.com/dcodeIO/protobuf.js",
+    "publisher": "Daniel Wirtz",
+    "email": "dcode+protobufjs@dcode.io",
+    "path": "/home/hanakotamio0705/Lingo Keeper JP/backend/node_modules/@protobufjs/codegen",
+    "licenseFile": "/home/hanakotamio0705/Lingo Keeper JP/backend/node_modules/@protobufjs/codegen/LICENSE"
+  },
+  "@protobufjs/eventemitter@1.1.0": {
+    "licenses": "BSD-3-Clause",
+    "repository": "https://github.com/dcodeIO/protobuf.js",
+    "publisher": "Daniel Wirtz",
+    "email": "dcode+protobufjs@dcode.io",
+    "path": "/home/hanakotamio0705/Lingo Keeper JP/backend/node_modules/@protobufjs/eventemitter",
+    "licenseFile": "/home/hanakotamio0705/Lingo Keeper JP/backend/node_modules/@protobufjs/eventemitter/LICENSE"
+  },
+  "@protobufjs/fetch@1.1.0": {
+    "licenses": "BSD-3-Clause",
+    "repository": "https://github.com/dcodeIO/protobuf.js",
+    "publisher": "Daniel Wirtz",
+    "email": "dcode+protobufjs@dcode.io",
+    "path": "/home/hanakotamio0705/Lingo Keeper JP/backend/node_modules/@protobufjs/fetch",
+    "licenseFile": "/home/hanakotamio0705/Lingo Keeper JP/backend/node_modules/@protobufjs/fetch/LICENSE"
+  },
+  "@protobufjs/float@1.0.2": {
+    "licenses": "BSD-3-Clause",
+    "repository": "https://github.com/dcodeIO/protobuf.js",
+    "publisher": "Daniel Wirtz",
+    "email": "dcode+protobufjs@dcode.io",
+    "path": "/home/hanakotamio0705/Lingo Keeper JP/backend/node_modules/@protobufjs/float",
+    "licenseFile": "/home/hanakotamio0705/Lingo Keeper JP/backend/node_modules/@protobufjs/float/LICENSE"
+  },
+  "@protobufjs/inquire@1.1.0": {
+    "licenses": "BSD-3-Clause",
+    "repository": "https://github.com/dcodeIO/protobuf.js",
+    "publisher": "Daniel Wirtz",
+    "email": "dcode+protobufjs@dcode.io",
+    "path": "/home/hanakotamio0705/Lingo Keeper JP/backend/node_modules/@protobufjs/inquire",
+    "licenseFile": "/home/hanakotamio0705/Lingo Keeper JP/backend/node_modules/@protobufjs/inquire/LICENSE"
+  },
+  "@protobufjs/path@1.1.2": {
+    "licenses": "BSD-3-Clause",
+    "repository": "https://github.com/dcodeIO/protobuf.js",
+    "publisher": "Daniel Wirtz",
+    "email": "dcode+protobufjs@dcode.io",
+    "path": "/home/hanakotamio0705/Lingo Keeper JP/backend/node_modules/@protobufjs/path",
+    "licenseFile": "/home/hanakotamio0705/Lingo Keeper JP/backend/node_modules/@protobufjs/path/LICENSE"
+  },
+  "@protobufjs/pool@1.1.0": {
+    "licenses": "BSD-3-Clause",
+    "repository": "https://github.com/dcodeIO/protobuf.js",
+    "publisher": "Daniel Wirtz",
+    "email": "dcode+protobufjs@dcode.io",
+    "path": "/home/hanakotamio0705/Lingo Keeper JP/backend/node_modules/@protobufjs/pool",
+    "licenseFile": "/home/hanakotamio0705/Lingo Keeper JP/backend/node_modules/@protobufjs/pool/LICENSE"
+  },
+  "@protobufjs/utf8@1.1.0": {
+    "licenses": "BSD-3-Clause",
+    "repository": "https://github.com/dcodeIO/protobuf.js",
+    "publisher": "Daniel Wirtz",
+    "email": "dcode+protobufjs@dcode.io",
+    "path": "/home/hanakotamio0705/Lingo Keeper JP/backend/node_modules/@protobufjs/utf8",
+    "licenseFile": "/home/hanakotamio0705/Lingo Keeper JP/backend/node_modules/@protobufjs/utf8/LICENSE"
+  },
+  "@so-ric/colorspace@1.1.6": {
+    "licenses": "MIT",
+    "repository": "https://github.com/so-ric/colorspace",
+    "publisher": "Arnout Kazemier",
+    "path": "/home/hanakotamio0705/Lingo Keeper JP/backend/node_modules/@so-ric/colorspace",
+    "licenseFile": "/home/hanakotamio0705/Lingo Keeper JP/backend/node_modules/@so-ric/colorspace/LICENSE.md"
+  },
+  "@tootallnate/once@2.0.0": {
+    "licenses": "MIT",
+    "repository": "https://github.com/TooTallNate/once",
+    "publisher": "Nathan Rajlich",
+    "email": "nathan@tootallnate.net",
+    "url": "http://n8.io/",
+    "path": "/home/hanakotamio0705/Lingo Keeper JP/backend/node_modules/@tootallnate/once",
+    "licenseFile": "/home/hanakotamio0705/Lingo Keeper JP/backend/node_modules/@tootallnate/once/LICENSE"
+  },
+  "@types/node@22.19.5": {
+    "licenses": "MIT",
+    "repository": "https://github.com/DefinitelyTyped/DefinitelyTyped",
+    "path": "/home/hanakotamio0705/Lingo Keeper JP/backend/node_modules/@types/node",
+    "licenseFile": "/home/hanakotamio0705/Lingo Keeper JP/backend/node_modules/@types/node/LICENSE"
+  },
+  "@types/triple-beam@1.3.5": {
+    "licenses": "MIT",
+    "repository": "https://github.com/DefinitelyTyped/DefinitelyTyped",
+    "path": "/home/hanakotamio0705/Lingo Keeper JP/backend/node_modules/@types/triple-beam",
+    "licenseFile": "/home/hanakotamio0705/Lingo Keeper JP/backend/node_modules/@types/triple-beam/LICENSE"
+  },
+  "accepts@1.3.8": {
+    "licenses": "MIT",
+    "repository": "https://github.com/jshttp/accepts",
+    "path": "/home/hanakotamio0705/Lingo Keeper JP/backend/node_modules/accepts",
+    "licenseFile": "/home/hanakotamio0705/Lingo Keeper JP/backend/node_modules/accepts/LICENSE"
+  },
+  "agent-base@6.0.2": {
+    "licenses": "MIT",
+    "repository": "https://github.com/TooTallNate/node-agent-base",
+    "publisher": "Nathan Rajlich",
+    "email": "nathan@tootallnate.net",
+    "url": "http://n8.io/",
+    "path": "/home/hanakotamio0705/Lingo Keeper JP/backend/node_modules/http-proxy-agent/node_modules/agent-base",
+    "licenseFile": "/home/hanakotamio0705/Lingo Keeper JP/backend/node_modules/http-proxy-agent/node_modules/agent-base/README.md"
+  },
+  "agent-base@7.1.4": {
+    "licenses": "MIT",
+    "repository": "https://github.com/TooTallNate/proxy-agents",
+    "publisher": "Nathan Rajlich",
+    "email": "nathan@tootallnate.net",
+    "url": "http://n8.io/",
+    "path": "/home/hanakotamio0705/Lingo Keeper JP/backend/node_modules/agent-base",
+    "licenseFile": "/home/hanakotamio0705/Lingo Keeper JP/backend/node_modules/agent-base/LICENSE"
+  },
+  "ansi-regex@5.0.1": {
+    "licenses": "MIT",
+    "repository": "https://github.com/chalk/ansi-regex",
+    "publisher": "Sindre Sorhus",
+    "email": "sindresorhus@gmail.com",
+    "url": "sindresorhus.com",
+    "path": "/home/hanakotamio0705/Lingo Keeper JP/backend/node_modules/ansi-regex",
+    "licenseFile": "/home/hanakotamio0705/Lingo Keeper JP/backend/node_modules/ansi-regex/license"
+  },
+  "ansi-regex@6.2.2": {
+    "licenses": "MIT",
+    "repository": "https://github.com/chalk/ansi-regex",
+    "publisher": "Sindre Sorhus",
+    "email": "sindresorhus@gmail.com",
+    "url": "https://sindresorhus.com",
+    "path": "/home/hanakotamio0705/Lingo Keeper JP/backend/node_modules/@isaacs/cliui/node_modules/ansi-regex",
+    "licenseFile": "/home/hanakotamio0705/Lingo Keeper JP/backend/node_modules/@isaacs/cliui/node_modules/ansi-regex/license"
+  },
+  "ansi-styles@4.3.0": {
+    "licenses": "MIT",
+    "repository": "https://github.com/chalk/ansi-styles",
+    "publisher": "Sindre Sorhus",
+    "email": "sindresorhus@gmail.com",
+    "url": "sindresorhus.com",
+    "path": "/home/hanakotamio0705/Lingo Keeper JP/backend/node_modules/ansi-styles",
+    "licenseFile": "/home/hanakotamio0705/Lingo Keeper JP/backend/node_modules/ansi-styles/license"
+  },
+  "ansi-styles@6.2.3": {
+    "licenses": "MIT",
+    "repository": "https://github.com/chalk/ansi-styles",
+    "publisher": "Sindre Sorhus",
+    "email": "sindresorhus@gmail.com",
+    "url": "https://sindresorhus.com",
+    "path": "/home/hanakotamio0705/Lingo Keeper JP/backend/node_modules/@isaacs/cliui/node_modules/ansi-styles",
+    "licenseFile": "/home/hanakotamio0705/Lingo Keeper JP/backend/node_modules/@isaacs/cliui/node_modules/ansi-styles/license"
+  },
+  "array-flatten@1.1.1": {
+    "licenses": "MIT",
+    "repository": "https://github.com/blakeembrey/array-flatten",
+    "publisher": "Blake Embrey",
+    "email": "hello@blakeembrey.com",
+    "url": "http://blakeembrey.me",
+    "path": "/home/hanakotamio0705/Lingo Keeper JP/backend/node_modules/array-flatten",
+    "licenseFile": "/home/hanakotamio0705/Lingo Keeper JP/backend/node_modules/array-flatten/LICENSE"
+  },
+  "async@3.2.6": {
+    "licenses": "MIT",
+    "repository": "https://github.com/caolan/async",
+    "publisher": "Caolan McMahon",
+    "path": "/home/hanakotamio0705/Lingo Keeper JP/backend/node_modules/async",
+    "licenseFile": "/home/hanakotamio0705/Lingo Keeper JP/backend/node_modules/async/LICENSE"
+  },
+  "balanced-match@1.0.2": {
+    "licenses": "MIT",
+    "repository": "https://github.com/juliangruber/balanced-match",
+    "publisher": "Julian Gruber",
+    "email": "mail@juliangruber.com",
+    "url": "http://juliangruber.com",
+    "path": "/home/hanakotamio0705/Lingo Keeper JP/backend/node_modules/balanced-match",
+    "licenseFile": "/home/hanakotamio0705/Lingo Keeper JP/backend/node_modules/balanced-match/LICENSE.md"
+  },
+  "base64-js@1.5.1": {
+    "licenses": "MIT",
+    "repository": "https://github.com/beatgammit/base64-js",
+    "publisher": "T. Jameson Little",
+    "email": "t.jameson.little@gmail.com",
+    "path": "/home/hanakotamio0705/Lingo Keeper JP/backend/node_modules/base64-js",
+    "licenseFile": "/home/hanakotamio0705/Lingo Keeper JP/backend/node_modules/base64-js/LICENSE"
+  },
+  "bignumber.js@9.3.1": {
+    "licenses": "MIT",
+    "repository": "https://github.com/MikeMcl/bignumber.js",
+    "publisher": "Michael Mclaughlin",
+    "email": "M8ch88l@gmail.com",
+    "path": "/home/hanakotamio0705/Lingo Keeper JP/backend/node_modules/bignumber.js",
+    "licenseFile": "/home/hanakotamio0705/Lingo Keeper JP/backend/node_modules/bignumber.js/LICENCE.md"
+  },
+  "bintrees@1.0.2": {
+    "licenses": "MIT",
+    "repository": "https://github.com/vadimg/js_bintrees",
+    "publisher": "Vadim Graboys",
+    "email": "dimva13@gmail.com",
+    "path": "/home/hanakotamio0705/Lingo Keeper JP/backend/node_modules/bintrees",
+    "licenseFile": "/home/hanakotamio0705/Lingo Keeper JP/backend/node_modules/bintrees/LICENSE"
+  },
+  "body-parser@1.20.4": {
+    "licenses": "MIT",
+    "repository": "https://github.com/expressjs/body-parser",
+    "path": "/home/hanakotamio0705/Lingo Keeper JP/backend/node_modules/body-parser",
+    "licenseFile": "/home/hanakotamio0705/Lingo Keeper JP/backend/node_modules/body-parser/LICENSE"
+  },
+  "brace-expansion@2.0.2": {
+    "licenses": "MIT",
+    "repository": "https://github.com/juliangruber/brace-expansion",
+    "publisher": "Julian Gruber",
+    "email": "mail@juliangruber.com",
+    "url": "http://juliangruber.com",
+    "path": "/home/hanakotamio0705/Lingo Keeper JP/backend/node_modules/brace-expansion",
+    "licenseFile": "/home/hanakotamio0705/Lingo Keeper JP/backend/node_modules/brace-expansion/LICENSE"
+  },
+  "buffer-equal-constant-time@1.0.1": {
+    "licenses": "BSD-3-Clause",
+    "repository": "https://github.com/goinstant/buffer-equal-constant-time",
+    "publisher": "GoInstant Inc., a salesforce.com company",
+    "path": "/home/hanakotamio0705/Lingo Keeper JP/backend/node_modules/buffer-equal-constant-time",
+    "licenseFile": "/home/hanakotamio0705/Lingo Keeper JP/backend/node_modules/buffer-equal-constant-time/LICENSE.txt"
+  },
+  "bytes@3.1.2": {
+    "licenses": "MIT",
+    "repository": "https://github.com/visionmedia/bytes.js",
+    "publisher": "TJ Holowaychuk",
+    "email": "tj@vision-media.ca",
+    "url": "http://tjholowaychuk.com",
+    "path": "/home/hanakotamio0705/Lingo Keeper JP/backend/node_modules/bytes",
+    "licenseFile": "/home/hanakotamio0705/Lingo Keeper JP/backend/node_modules/bytes/LICENSE"
+  },
+  "call-bind-apply-helpers@1.0.2": {
+    "licenses": "MIT",
+    "repository": "https://github.com/ljharb/call-bind-apply-helpers",
+    "publisher": "Jordan Harband",
+    "email": "ljharb@gmail.com",
+    "path": "/home/hanakotamio0705/Lingo Keeper JP/backend/node_modules/call-bind-apply-helpers",
+    "licenseFile": "/home/hanakotamio0705/Lingo Keeper JP/backend/node_modules/call-bind-apply-helpers/LICENSE"
+  },
+  "call-bound@1.0.4": {
+    "licenses": "MIT",
+    "repository": "https://github.com/ljharb/call-bound",
+    "publisher": "Jordan Harband",
+    "email": "ljharb@gmail.com",
+    "path": "/home/hanakotamio0705/Lingo Keeper JP/backend/node_modules/call-bound",
+    "licenseFile": "/home/hanakotamio0705/Lingo Keeper JP/backend/node_modules/call-bound/LICENSE"
+  },
+  "cliui@8.0.1": {
+    "licenses": "ISC",
+    "repository": "https://github.com/yargs/cliui",
+    "publisher": "Ben Coe",
+    "email": "ben@npmjs.com",
+    "path": "/home/hanakotamio0705/Lingo Keeper JP/backend/node_modules/cliui",
+    "licenseFile": "/home/hanakotamio0705/Lingo Keeper JP/backend/node_modules/cliui/LICENSE.txt"
+  },
+  "color-convert@2.0.1": {
+    "licenses": "MIT",
+    "repository": "https://github.com/Qix-/color-convert",
+    "publisher": "Heather Arthur",
+    "email": "fayearthur@gmail.com",
+    "path": "/home/hanakotamio0705/Lingo Keeper JP/backend/node_modules/color-convert",
+    "licenseFile": "/home/hanakotamio0705/Lingo Keeper JP/backend/node_modules/color-convert/LICENSE"
+  },
+  "color-convert@3.1.3": {
+    "licenses": "MIT",
+    "repository": "https://github.com/Qix-/color-convert",
+    "publisher": "Josh Junon",
+    "email": "josh@junon.me",
+    "path": "/home/hanakotamio0705/Lingo Keeper JP/backend/node_modules/color/node_modules/color-convert",
+    "licenseFile": "/home/hanakotamio0705/Lingo Keeper JP/backend/node_modules/color/node_modules/color-convert/LICENSE"
+  },
+  "color-name@1.1.4": {
+    "licenses": "MIT",
+    "repository": "https://github.com/colorjs/color-name",
+    "publisher": "DY",
+    "email": "dfcreative@gmail.com",
+    "path": "/home/hanakotamio0705/Lingo Keeper JP/backend/node_modules/color-name",
+    "licenseFile": "/home/hanakotamio0705/Lingo Keeper JP/backend/node_modules/color-name/LICENSE"
+  },
+  "color-name@2.1.0": {
+    "licenses": "MIT",
+    "repository": "https://github.com/colorjs/color-name",
+    "publisher": "Dmitry Iv",
+    "email": "dfcreative@gmail.com",
+    "path": "/home/hanakotamio0705/Lingo Keeper JP/backend/node_modules/color/node_modules/color-name",
+    "licenseFile": "/home/hanakotamio0705/Lingo Keeper JP/backend/node_modules/color/node_modules/color-name/LICENSE"
+  },
+  "color-string@2.1.4": {
+    "licenses": "MIT",
+    "repository": "https://github.com/Qix-/color-string",
+    "publisher": "Josh Junon",
+    "url": "https://github.com/qix-",
+    "path": "/home/hanakotamio0705/Lingo Keeper JP/backend/node_modules/color-string",
+    "licenseFile": "/home/hanakotamio0705/Lingo Keeper JP/backend/node_modules/color-string/LICENSE"
+  },
+  "color@5.0.3": {
+    "licenses": "MIT",
+    "repository": "https://github.com/Qix-/color",
+    "path": "/home/hanakotamio0705/Lingo Keeper JP/backend/node_modules/color",
+    "licenseFile": "/home/hanakotamio0705/Lingo Keeper JP/backend/node_modules/color/LICENSE"
+  },
+  "content-disposition@0.5.4": {
+    "licenses": "MIT",
+    "repository": "https://github.com/jshttp/content-disposition",
+    "publisher": "Douglas Christopher Wilson",
+    "email": "doug@somethingdoug.com",
+    "path": "/home/hanakotamio0705/Lingo Keeper JP/backend/node_modules/content-disposition",
+    "licenseFile": "/home/hanakotamio0705/Lingo Keeper JP/backend/node_modules/content-disposition/LICENSE"
+  },
+  "content-type@1.0.5": {
+    "licenses": "MIT",
+    "repository": "https://github.com/jshttp/content-type",
+    "publisher": "Douglas Christopher Wilson",
+    "email": "doug@somethingdoug.com",
+    "path": "/home/hanakotamio0705/Lingo Keeper JP/backend/node_modules/content-type",
+    "licenseFile": "/home/hanakotamio0705/Lingo Keeper JP/backend/node_modules/content-type/LICENSE"
+  },
+  "cookie-signature@1.0.7": {
+    "licenses": "MIT",
+    "repository": "https://github.com/visionmedia/node-cookie-signature",
+    "publisher": "TJ Holowaychuk",
+    "email": "tj@learnboost.com",
+    "path": "/home/hanakotamio0705/Lingo Keeper JP/backend/node_modules/cookie-signature",
+    "licenseFile": "/home/hanakotamio0705/Lingo Keeper JP/backend/node_modules/cookie-signature/Readme.md"
+  },
+  "cookie@0.7.2": {
+    "licenses": "MIT",
+    "repository": "https://github.com/jshttp/cookie",
+    "publisher": "Roman Shtylman",
+    "email": "shtylman@gmail.com",
+    "path": "/home/hanakotamio0705/Lingo Keeper JP/backend/node_modules/cookie",
+    "licenseFile": "/home/hanakotamio0705/Lingo Keeper JP/backend/node_modules/cookie/LICENSE"
+  },
+  "cors@2.8.5": {
+    "licenses": "MIT",
+    "repository": "https://github.com/expressjs/cors",
+    "publisher": "Troy Goode",
+    "email": "troygoode@gmail.com",
+    "url": "https://github.com/troygoode/",
+    "path": "/home/hanakotamio0705/Lingo Keeper JP/backend/node_modules/cors",
+    "licenseFile": "/home/hanakotamio0705/Lingo Keeper JP/backend/node_modules/cors/LICENSE"
+  },
+  "cross-spawn@7.0.6": {
+    "licenses": "MIT",
+    "repository": "https://github.com/moxystudio/node-cross-spawn",
+    "publisher": "André Cruz",
+    "email": "andre@moxy.studio",
+    "path": "/home/hanakotamio0705/Lingo Keeper JP/backend/node_modules/cross-spawn",
+    "licenseFile": "/home/hanakotamio0705/Lingo Keeper JP/backend/node_modules/cross-spawn/LICENSE"
+  },
+  "data-uri-to-buffer@4.0.1": {
+    "licenses": "MIT",
+    "repository": "https://github.com/TooTallNate/node-data-uri-to-buffer",
+    "publisher": "Nathan Rajlich",
+    "email": "nathan@tootallnate.net",
+    "url": "http://n8.io/",
+    "path": "/home/hanakotamio0705/Lingo Keeper JP/backend/node_modules/data-uri-to-buffer",
+    "licenseFile": "/home/hanakotamio0705/Lingo Keeper JP/backend/node_modules/data-uri-to-buffer/README.md"
+  },
+  "debug@2.6.9": {
+    "licenses": "MIT",
+    "repository": "https://github.com/visionmedia/debug",
+    "publisher": "TJ Holowaychuk",
+    "email": "tj@vision-media.ca",
+    "path": "/home/hanakotamio0705/Lingo Keeper JP/backend/node_modules/body-parser/node_modules/debug",
+    "licenseFile": "/home/hanakotamio0705/Lingo Keeper JP/backend/node_modules/body-parser/node_modules/debug/LICENSE"
+  },
+  "debug@4.4.3": {
+    "licenses": "MIT",
+    "repository": "https://github.com/debug-js/debug",
+    "publisher": "Josh Junon",
+    "url": "https://github.com/qix-",
+    "path": "/home/hanakotamio0705/Lingo Keeper JP/backend/node_modules/debug",
+    "licenseFile": "/home/hanakotamio0705/Lingo Keeper JP/backend/node_modules/debug/LICENSE"
+  },
+  "depd@2.0.0": {
+    "licenses": "MIT",
+    "repository": "https://github.com/dougwilson/nodejs-depd",
+    "publisher": "Douglas Christopher Wilson",
+    "email": "doug@somethingdoug.com",
+    "path": "/home/hanakotamio0705/Lingo Keeper JP/backend/node_modules/depd",
+    "licenseFile": "/home/hanakotamio0705/Lingo Keeper JP/backend/node_modules/depd/LICENSE"
+  },
+  "destroy@1.2.0": {
+    "licenses": "MIT",
+    "repository": "https://github.com/stream-utils/destroy",
+    "publisher": "Jonathan Ong",
+    "email": "me@jongleberry.com",
+    "url": "http://jongleberry.com",
+    "path": "/home/hanakotamio0705/Lingo Keeper JP/backend/node_modules/destroy",
+    "licenseFile": "/home/hanakotamio0705/Lingo Keeper JP/backend/node_modules/destroy/LICENSE"
+  },
+  "dotenv@16.6.1": {
+    "licenses": "BSD-2-Clause",
+    "repository": "https://github.com/motdotla/dotenv",
+    "path": "/home/hanakotamio0705/Lingo Keeper JP/backend/node_modules/dotenv",
+    "licenseFile": "/home/hanakotamio0705/Lingo Keeper JP/backend/node_modules/dotenv/LICENSE"
+  },
+  "dunder-proto@1.0.1": {
+    "licenses": "MIT",
+    "repository": "https://github.com/es-shims/dunder-proto",
+    "publisher": "Jordan Harband",
+    "email": "ljharb@gmail.com",
+    "path": "/home/hanakotamio0705/Lingo Keeper JP/backend/node_modules/dunder-proto",
+    "licenseFile": "/home/hanakotamio0705/Lingo Keeper JP/backend/node_modules/dunder-proto/LICENSE"
+  },
+  "duplexify@4.1.3": {
+    "licenses": "MIT",
+    "repository": "https://github.com/mafintosh/duplexify",
+    "publisher": "Mathias Buus",
+    "path": "/home/hanakotamio0705/Lingo Keeper JP/backend/node_modules/duplexify",
+    "licenseFile": "/home/hanakotamio0705/Lingo Keeper JP/backend/node_modules/duplexify/LICENSE"
+  },
+  "eastasianwidth@0.2.0": {
+    "licenses": "MIT",
+    "repository": "https://github.com/komagata/eastasianwidth",
+    "publisher": "Masaki Komagata",
+    "path": "/home/hanakotamio0705/Lingo Keeper JP/backend/node_modules/eastasianwidth",
+    "licenseFile": "/home/hanakotamio0705/Lingo Keeper JP/backend/node_modules/eastasianwidth/README.md"
+  },
+  "ecdsa-sig-formatter@1.0.11": {
+    "licenses": "Apache-2.0",
+    "repository": "https://github.com/Brightspace/node-ecdsa-sig-formatter",
+    "publisher": "D2L Corporation",
+    "path": "/home/hanakotamio0705/Lingo Keeper JP/backend/node_modules/ecdsa-sig-formatter",
+    "licenseFile": "/home/hanakotamio0705/Lingo Keeper JP/backend/node_modules/ecdsa-sig-formatter/LICENSE"
+  },
+  "ee-first@1.1.1": {
+    "licenses": "MIT",
+    "repository": "https://github.com/jonathanong/ee-first",
+    "publisher": "Jonathan Ong",
+    "email": "me@jongleberry.com",
+    "url": "http://jongleberry.com",
+    "path": "/home/hanakotamio0705/Lingo Keeper JP/backend/node_modules/ee-first",
+    "licenseFile": "/home/hanakotamio0705/Lingo Keeper JP/backend/node_modules/ee-first/LICENSE"
+  },
+  "emoji-regex@8.0.0": {
+    "licenses": "MIT",
+    "repository": "https://github.com/mathiasbynens/emoji-regex",
+    "publisher": "Mathias Bynens",
+    "url": "https://mathiasbynens.be/",
+    "path": "/home/hanakotamio0705/Lingo Keeper JP/backend/node_modules/emoji-regex",
+    "licenseFile": "/home/hanakotamio0705/Lingo Keeper JP/backend/node_modules/emoji-regex/LICENSE-MIT.txt"
+  },
+  "emoji-regex@9.2.2": {
+    "licenses": "MIT",
+    "repository": "https://github.com/mathiasbynens/emoji-regex",
+    "publisher": "Mathias Bynens",
+    "url": "https://mathiasbynens.be/",
+    "path": "/home/hanakotamio0705/Lingo Keeper JP/backend/node_modules/@isaacs/cliui/node_modules/emoji-regex",
+    "licenseFile": "/home/hanakotamio0705/Lingo Keeper JP/backend/node_modules/@isaacs/cliui/node_modules/emoji-regex/LICENSE-MIT.txt"
+  },
+  "enabled@2.0.0": {
+    "licenses": "MIT",
+    "repository": "https://github.com/3rd-Eden/enabled",
+    "publisher": "Arnout Kazemier",
+    "path": "/home/hanakotamio0705/Lingo Keeper JP/backend/node_modules/enabled",
+    "licenseFile": "/home/hanakotamio0705/Lingo Keeper JP/backend/node_modules/enabled/LICENSE"
+  },
+  "encodeurl@2.0.0": {
+    "licenses": "MIT",
+    "repository": "https://github.com/pillarjs/encodeurl",
+    "path": "/home/hanakotamio0705/Lingo Keeper JP/backend/node_modules/encodeurl",
+    "licenseFile": "/home/hanakotamio0705/Lingo Keeper JP/backend/node_modules/encodeurl/LICENSE"
+  },
+  "end-of-stream@1.4.5": {
+    "licenses": "MIT",
+    "repository": "https://github.com/mafintosh/end-of-stream",
+    "publisher": "Mathias Buus",
+    "email": "mathiasbuus@gmail.com",
+    "path": "/home/hanakotamio0705/Lingo Keeper JP/backend/node_modules/end-of-stream",
+    "licenseFile": "/home/hanakotamio0705/Lingo Keeper JP/backend/node_modules/end-of-stream/LICENSE"
+  },
+  "es-define-property@1.0.1": {
+    "licenses": "MIT",
+    "repository": "https://github.com/ljharb/es-define-property",
+    "publisher": "Jordan Harband",
+    "email": "ljharb@gmail.com",
+    "path": "/home/hanakotamio0705/Lingo Keeper JP/backend/node_modules/es-define-property",
+    "licenseFile": "/home/hanakotamio0705/Lingo Keeper JP/backend/node_modules/es-define-property/LICENSE"
+  },
+  "es-errors@1.3.0": {
+    "licenses": "MIT",
+    "repository": "https://github.com/ljharb/es-errors",
+    "publisher": "Jordan Harband",
+    "email": "ljharb@gmail.com",
+    "path": "/home/hanakotamio0705/Lingo Keeper JP/backend/node_modules/es-errors",
+    "licenseFile": "/home/hanakotamio0705/Lingo Keeper JP/backend/node_modules/es-errors/LICENSE"
+  },
+  "es-object-atoms@1.1.1": {
+    "licenses": "MIT",
+    "repository": "https://github.com/ljharb/es-object-atoms",
+    "publisher": "Jordan Harband",
+    "email": "ljharb@gmail.com",
+    "path": "/home/hanakotamio0705/Lingo Keeper JP/backend/node_modules/es-object-atoms",
+    "licenseFile": "/home/hanakotamio0705/Lingo Keeper JP/backend/node_modules/es-object-atoms/LICENSE"
+  },
+  "escalade@3.2.0": {
+    "licenses": "MIT",
+    "repository": "https://github.com/lukeed/escalade",
+    "publisher": "Luke Edwards",
+    "email": "luke.edwards05@gmail.com",
+    "url": "https://lukeed.com",
+    "path": "/home/hanakotamio0705/Lingo Keeper JP/backend/node_modules/escalade",
+    "licenseFile": "/home/hanakotamio0705/Lingo Keeper JP/backend/node_modules/escalade/license"
+  },
+  "escape-html@1.0.3": {
+    "licenses": "MIT",
+    "repository": "https://github.com/component/escape-html",
+    "path": "/home/hanakotamio0705/Lingo Keeper JP/backend/node_modules/escape-html",
+    "licenseFile": "/home/hanakotamio0705/Lingo Keeper JP/backend/node_modules/escape-html/LICENSE"
+  },
+  "etag@1.8.1": {
+    "licenses": "MIT",
+    "repository": "https://github.com/jshttp/etag",
+    "path": "/home/hanakotamio0705/Lingo Keeper JP/backend/node_modules/etag",
+    "licenseFile": "/home/hanakotamio0705/Lingo Keeper JP/backend/node_modules/etag/LICENSE"
+  },
+  "express-validator@7.3.1": {
+    "licenses": "MIT",
+    "repository": "https://github.com/express-validator/express-validator",
+    "publisher": "Christoph Tavan",
+    "email": "dev@tavan.de",
+    "path": "/home/hanakotamio0705/Lingo Keeper JP/backend/node_modules/express-validator",
+    "licenseFile": "/home/hanakotamio0705/Lingo Keeper JP/backend/node_modules/express-validator/LICENSE"
+  },
+  "express@4.22.1": {
+    "licenses": "MIT",
+    "repository": "https://github.com/expressjs/express",
+    "publisher": "TJ Holowaychuk",
+    "email": "tj@vision-media.ca",
+    "path": "/home/hanakotamio0705/Lingo Keeper JP/backend/node_modules/express",
+    "licenseFile": "/home/hanakotamio0705/Lingo Keeper JP/backend/node_modules/express/LICENSE"
+  },
+  "extend@3.0.2": {
+    "licenses": "MIT",
+    "repository": "https://github.com/justmoon/node-extend",
+    "publisher": "Stefan Thomas",
+    "email": "justmoon@members.fsf.org",
+    "url": "http://www.justmoon.net",
+    "path": "/home/hanakotamio0705/Lingo Keeper JP/backend/node_modules/extend",
+    "licenseFile": "/home/hanakotamio0705/Lingo Keeper JP/backend/node_modules/extend/LICENSE"
+  },
+  "fecha@4.2.3": {
+    "licenses": "MIT",
+    "repository": "git+https://taylorhakes@github.com/taylorhakes/fecha",
+    "publisher": "Taylor Hakes",
+    "path": "/home/hanakotamio0705/Lingo Keeper JP/backend/node_modules/fecha",
+    "licenseFile": "/home/hanakotamio0705/Lingo Keeper JP/backend/node_modules/fecha/LICENSE"
+  },
+  "fetch-blob@3.2.0": {
+    "licenses": "MIT",
+    "repository": "https://github.com/node-fetch/fetch-blob",
+    "publisher": "Jimmy Wärting",
+    "email": "jimmy@warting.se",
+    "url": "https://jimmy.warting.se",
+    "path": "/home/hanakotamio0705/Lingo Keeper JP/backend/node_modules/fetch-blob",
+    "licenseFile": "/home/hanakotamio0705/Lingo Keeper JP/backend/node_modules/fetch-blob/LICENSE"
+  },
+  "finalhandler@1.3.2": {
+    "licenses": "MIT",
+    "repository": "https://github.com/pillarjs/finalhandler",
+    "publisher": "Douglas Christopher Wilson",
+    "email": "doug@somethingdoug.com",
+    "path": "/home/hanakotamio0705/Lingo Keeper JP/backend/node_modules/finalhandler",
+    "licenseFile": "/home/hanakotamio0705/Lingo Keeper JP/backend/node_modules/finalhandler/LICENSE"
+  },
+  "fn.name@1.1.0": {
+    "licenses": "MIT",
+    "repository": "https://github.com/3rd-Eden/fn.name",
+    "publisher": "Arnout Kazemier",
+    "path": "/home/hanakotamio0705/Lingo Keeper JP/backend/node_modules/fn.name",
+    "licenseFile": "/home/hanakotamio0705/Lingo Keeper JP/backend/node_modules/fn.name/LICENSE"
+  },
+  "foreground-child@3.3.1": {
+    "licenses": "ISC",
+    "repository": "https://github.com/tapjs/foreground-child",
+    "publisher": "Isaac Z. Schlueter",
+    "email": "i@izs.me",
+    "url": "http://blog.izs.me/",
+    "path": "/home/hanakotamio0705/Lingo Keeper JP/backend/node_modules/foreground-child",
+    "licenseFile": "/home/hanakotamio0705/Lingo Keeper JP/backend/node_modules/foreground-child/LICENSE"
+  },
+  "formdata-polyfill@4.0.10": {
+    "licenses": "MIT",
+    "repository": "git+https://jimmywarting@github.com/jimmywarting/FormData",
+    "publisher": "Jimmy Wärting",
+    "path": "/home/hanakotamio0705/Lingo Keeper JP/backend/node_modules/formdata-polyfill",
+    "licenseFile": "/home/hanakotamio0705/Lingo Keeper JP/backend/node_modules/formdata-polyfill/LICENSE"
+  },
+  "forwarded@0.2.0": {
+    "licenses": "MIT",
+    "repository": "https://github.com/jshttp/forwarded",
+    "path": "/home/hanakotamio0705/Lingo Keeper JP/backend/node_modules/forwarded",
+    "licenseFile": "/home/hanakotamio0705/Lingo Keeper JP/backend/node_modules/forwarded/LICENSE"
+  },
+  "fresh@0.5.2": {
+    "licenses": "MIT",
+    "repository": "https://github.com/jshttp/fresh",
+    "publisher": "TJ Holowaychuk",
+    "email": "tj@vision-media.ca",
+    "url": "http://tjholowaychuk.com",
+    "path": "/home/hanakotamio0705/Lingo Keeper JP/backend/node_modules/fresh",
+    "licenseFile": "/home/hanakotamio0705/Lingo Keeper JP/backend/node_modules/fresh/LICENSE"
+  },
+  "function-bind@1.1.2": {
+    "licenses": "MIT",
+    "repository": "https://github.com/Raynos/function-bind",
+    "publisher": "Raynos",
+    "email": "raynos2@gmail.com",
+    "path": "/home/hanakotamio0705/Lingo Keeper JP/backend/node_modules/function-bind",
+    "licenseFile": "/home/hanakotamio0705/Lingo Keeper JP/backend/node_modules/function-bind/LICENSE"
+  },
+  "gaxios@7.1.3": {
+    "licenses": "Apache-2.0",
+    "repository": "https://github.com/googleapis/google-cloud-node-core",
+    "publisher": "Google, LLC",
+    "path": "/home/hanakotamio0705/Lingo Keeper JP/backend/node_modules/gaxios",
+    "licenseFile": "/home/hanakotamio0705/Lingo Keeper JP/backend/node_modules/gaxios/LICENSE"
+  },
+  "gcp-metadata@8.1.2": {
+    "licenses": "Apache-2.0",
+    "repository": "https://github.com/googleapis/google-cloud-node-core",
+    "publisher": "Google LLC",
+    "path": "/home/hanakotamio0705/Lingo Keeper JP/backend/node_modules/gcp-metadata",
+    "licenseFile": "/home/hanakotamio0705/Lingo Keeper JP/backend/node_modules/gcp-metadata/LICENSE"
+  },
+  "get-caller-file@2.0.5": {
+    "licenses": "ISC",
+    "repository": "https://github.com/stefanpenner/get-caller-file",
+    "publisher": "Stefan Penner",
+    "path": "/home/hanakotamio0705/Lingo Keeper JP/backend/node_modules/get-caller-file",
+    "licenseFile": "/home/hanakotamio0705/Lingo Keeper JP/backend/node_modules/get-caller-file/LICENSE.md"
+  },
+  "get-intrinsic@1.3.0": {
+    "licenses": "MIT",
+    "repository": "https://github.com/ljharb/get-intrinsic",
+    "publisher": "Jordan Harband",
+    "email": "ljharb@gmail.com",
+    "path": "/home/hanakotamio0705/Lingo Keeper JP/backend/node_modules/get-intrinsic",
+    "licenseFile": "/home/hanakotamio0705/Lingo Keeper JP/backend/node_modules/get-intrinsic/LICENSE"
+  },
+  "get-proto@1.0.1": {
+    "licenses": "MIT",
+    "repository": "https://github.com/ljharb/get-proto",
+    "publisher": "Jordan Harband",
+    "email": "ljharb@gmail.com",
+    "path": "/home/hanakotamio0705/Lingo Keeper JP/backend/node_modules/get-proto",
+    "licenseFile": "/home/hanakotamio0705/Lingo Keeper JP/backend/node_modules/get-proto/LICENSE"
+  },
+  "glob@10.5.0": {
+    "licenses": "ISC",
+    "repository": "https://github.com/isaacs/node-glob",
+    "publisher": "Isaac Z. Schlueter",
+    "email": "i@izs.me",
+    "url": "https://blog.izs.me/",
+    "path": "/home/hanakotamio0705/Lingo Keeper JP/backend/node_modules/rimraf/node_modules/glob",
+    "licenseFile": "/home/hanakotamio0705/Lingo Keeper JP/backend/node_modules/rimraf/node_modules/glob/LICENSE"
+  },
+  "google-auth-library@10.5.0": {
+    "licenses": "Apache-2.0",
+    "repository": "https://github.com/googleapis/google-auth-library-nodejs",
+    "publisher": "Google Inc.",
+    "path": "/home/hanakotamio0705/Lingo Keeper JP/backend/node_modules/google-auth-library",
+    "licenseFile": "/home/hanakotamio0705/Lingo Keeper JP/backend/node_modules/google-auth-library/LICENSE"
+  },
+  "google-gax@5.0.6": {
+    "licenses": "Apache-2.0",
+    "repository": "https://github.com/googleapis/google-cloud-node-core",
+    "publisher": "Google API Authors",
+    "path": "/home/hanakotamio0705/Lingo Keeper JP/backend/node_modules/google-gax"
+  },
+  "google-logging-utils@1.1.3": {
+    "licenses": "Apache-2.0",
+    "repository": "https://github.com/googleapis/google-cloud-node-core",
+    "publisher": "Google API Authors",
+    "path": "/home/hanakotamio0705/Lingo Keeper JP/backend/node_modules/google-logging-utils",
+    "licenseFile": "/home/hanakotamio0705/Lingo Keeper JP/backend/node_modules/google-logging-utils/LICENSE"
+  },
+  "gopd@1.2.0": {
+    "licenses": "MIT",
+    "repository": "https://github.com/ljharb/gopd",
+    "publisher": "Jordan Harband",
+    "email": "ljharb@gmail.com",
+    "path": "/home/hanakotamio0705/Lingo Keeper JP/backend/node_modules/gopd",
+    "licenseFile": "/home/hanakotamio0705/Lingo Keeper JP/backend/node_modules/gopd/LICENSE"
+  },
+  "gtoken@8.0.0": {
+    "licenses": "MIT",
+    "repository": "https://github.com/google/node-gtoken",
+    "publisher": "Google, LLC",
+    "path": "/home/hanakotamio0705/Lingo Keeper JP/backend/node_modules/gtoken",
+    "licenseFile": "/home/hanakotamio0705/Lingo Keeper JP/backend/node_modules/gtoken/LICENSE"
+  },
+  "has-symbols@1.1.0": {
+    "licenses": "MIT",
+    "repository": "https://github.com/inspect-js/has-symbols",
+    "publisher": "Jordan Harband",
+    "email": "ljharb@gmail.com",
+    "url": "http://ljharb.codes",
+    "path": "/home/hanakotamio0705/Lingo Keeper JP/backend/node_modules/has-symbols",
+    "licenseFile": "/home/hanakotamio0705/Lingo Keeper JP/backend/node_modules/has-symbols/LICENSE"
+  },
+  "hasown@2.0.2": {
+    "licenses": "MIT",
+    "repository": "https://github.com/inspect-js/hasOwn",
+    "publisher": "Jordan Harband",
+    "email": "ljharb@gmail.com",
+    "path": "/home/hanakotamio0705/Lingo Keeper JP/backend/node_modules/hasown",
+    "licenseFile": "/home/hanakotamio0705/Lingo Keeper JP/backend/node_modules/hasown/LICENSE"
+  },
+  "helmet@8.1.0": {
+    "licenses": "MIT",
+    "repository": "https://github.com/helmetjs/helmet",
+    "publisher": "Adam Baldwin",
+    "email": "adam@npmjs.com",
+    "url": "https://evilpacket.net",
+    "path": "/home/hanakotamio0705/Lingo Keeper JP/backend/node_modules/helmet",
+    "licenseFile": "/home/hanakotamio0705/Lingo Keeper JP/backend/node_modules/helmet/LICENSE"
+  },
+  "http-errors@2.0.1": {
+    "licenses": "MIT",
+    "repository": "https://github.com/jshttp/http-errors",
+    "publisher": "Jonathan Ong",
+    "email": "me@jongleberry.com",
+    "url": "http://jongleberry.com",
+    "path": "/home/hanakotamio0705/Lingo Keeper JP/backend/node_modules/http-errors",
+    "licenseFile": "/home/hanakotamio0705/Lingo Keeper JP/backend/node_modules/http-errors/LICENSE"
+  },
+  "http-proxy-agent@5.0.0": {
+    "licenses": "MIT",
+    "repository": "https://github.com/TooTallNate/node-http-proxy-agent",
+    "publisher": "Nathan Rajlich",
+    "email": "nathan@tootallnate.net",
+    "url": "http://n8.io/",
+    "path": "/home/hanakotamio0705/Lingo Keeper JP/backend/node_modules/http-proxy-agent",
+    "licenseFile": "/home/hanakotamio0705/Lingo Keeper JP/backend/node_modules/http-proxy-agent/README.md"
+  },
+  "https-proxy-agent@5.0.1": {
+    "licenses": "MIT",
+    "repository": "https://github.com/TooTallNate/node-https-proxy-agent",
+    "publisher": "Nathan Rajlich",
+    "email": "nathan@tootallnate.net",
+    "url": "http://n8.io/",
+    "path": "/home/hanakotamio0705/Lingo Keeper JP/backend/node_modules/teeny-request/node_modules/https-proxy-agent",
+    "licenseFile": "/home/hanakotamio0705/Lingo Keeper JP/backend/node_modules/teeny-request/node_modules/https-proxy-agent/README.md"
+  },
+  "https-proxy-agent@7.0.6": {
+    "licenses": "MIT",
+    "repository": "https://github.com/TooTallNate/proxy-agents",
+    "publisher": "Nathan Rajlich",
+    "email": "nathan@tootallnate.net",
+    "url": "http://n8.io/",
+    "path": "/home/hanakotamio0705/Lingo Keeper JP/backend/node_modules/https-proxy-agent",
+    "licenseFile": "/home/hanakotamio0705/Lingo Keeper JP/backend/node_modules/https-proxy-agent/LICENSE"
+  },
+  "iconv-lite@0.4.24": {
+    "licenses": "MIT",
+    "repository": "https://github.com/ashtuchkin/iconv-lite",
+    "publisher": "Alexander Shtuchkin",
+    "email": "ashtuchkin@gmail.com",
+    "path": "/home/hanakotamio0705/Lingo Keeper JP/backend/node_modules/iconv-lite",
+    "licenseFile": "/home/hanakotamio0705/Lingo Keeper JP/backend/node_modules/iconv-lite/LICENSE"
+  },
+  "inherits@2.0.4": {
+    "licenses": "ISC",
+    "repository": "https://github.com/isaacs/inherits",
+    "path": "/home/hanakotamio0705/Lingo Keeper JP/backend/node_modules/inherits",
+    "licenseFile": "/home/hanakotamio0705/Lingo Keeper JP/backend/node_modules/inherits/LICENSE"
+  },
+  "ipaddr.js@1.9.1": {
+    "licenses": "MIT",
+    "repository": "https://github.com/whitequark/ipaddr.js",
+    "publisher": "whitequark",
+    "email": "whitequark@whitequark.org",
+    "path": "/home/hanakotamio0705/Lingo Keeper JP/backend/node_modules/ipaddr.js",
+    "licenseFile": "/home/hanakotamio0705/Lingo Keeper JP/backend/node_modules/ipaddr.js/LICENSE"
+  },
+  "is-fullwidth-code-point@3.0.0": {
+    "licenses": "MIT",
+    "repository": "https://github.com/sindresorhus/is-fullwidth-code-point",
+    "publisher": "Sindre Sorhus",
+    "email": "sindresorhus@gmail.com",
+    "url": "sindresorhus.com",
+    "path": "/home/hanakotamio0705/Lingo Keeper JP/backend/node_modules/is-fullwidth-code-point",
+    "licenseFile": "/home/hanakotamio0705/Lingo Keeper JP/backend/node_modules/is-fullwidth-code-point/license"
+  },
+  "is-stream@2.0.1": {
+    "licenses": "MIT",
+    "repository": "https://github.com/sindresorhus/is-stream",
+    "publisher": "Sindre Sorhus",
+    "email": "sindresorhus@gmail.com",
+    "url": "https://sindresorhus.com",
+    "path": "/home/hanakotamio0705/Lingo Keeper JP/backend/node_modules/is-stream",
+    "licenseFile": "/home/hanakotamio0705/Lingo Keeper JP/backend/node_modules/is-stream/license"
+  },
+  "isexe@2.0.0": {
+    "licenses": "ISC",
+    "repository": "https://github.com/isaacs/isexe",
+    "publisher": "Isaac Z. Schlueter",
+    "email": "i@izs.me",
+    "url": "http://blog.izs.me/",
+    "path": "/home/hanakotamio0705/Lingo Keeper JP/backend/node_modules/isexe",
+    "licenseFile": "/home/hanakotamio0705/Lingo Keeper JP/backend/node_modules/isexe/LICENSE"
+  },
+  "jackspeak@3.4.3": {
+    "licenses": "BlueOak-1.0.0",
+    "repository": "https://github.com/isaacs/jackspeak",
+    "publisher": "Isaac Z. Schlueter",
+    "email": "i@izs.me",
+    "path": "/home/hanakotamio0705/Lingo Keeper JP/backend/node_modules/jackspeak",
+    "licenseFile": "/home/hanakotamio0705/Lingo Keeper JP/backend/node_modules/jackspeak/LICENSE.md"
+  },
+  "json-bigint@1.0.0": {
+    "licenses": "MIT",
+    "repository": "https://github.com/sidorares/json-bigint",
+    "publisher": "Andrey Sidorov",
+    "email": "sidorares@yandex.ru",
+    "path": "/home/hanakotamio0705/Lingo Keeper JP/backend/node_modules/json-bigint",
+    "licenseFile": "/home/hanakotamio0705/Lingo Keeper JP/backend/node_modules/json-bigint/LICENSE"
+  },
+  "jwa@2.0.1": {
+    "licenses": "MIT",
+    "repository": "https://github.com/brianloveswords/node-jwa",
+    "publisher": "Brian J. Brennan",
+    "email": "brianloveswords@gmail.com",
+    "path": "/home/hanakotamio0705/Lingo Keeper JP/backend/node_modules/jwa",
+    "licenseFile": "/home/hanakotamio0705/Lingo Keeper JP/backend/node_modules/jwa/LICENSE"
+  },
+  "jws@4.0.1": {
+    "licenses": "MIT",
+    "repository": "https://github.com/brianloveswords/node-jws",
+    "publisher": "Brian J Brennan",
+    "path": "/home/hanakotamio0705/Lingo Keeper JP/backend/node_modules/jws",
+    "licenseFile": "/home/hanakotamio0705/Lingo Keeper JP/backend/node_modules/jws/LICENSE"
+  },
+  "kuler@2.0.0": {
+    "licenses": "MIT",
+    "repository": "https://github.com/3rd-Eden/kuler",
+    "publisher": "Arnout Kazemier",
+    "path": "/home/hanakotamio0705/Lingo Keeper JP/backend/node_modules/kuler",
+    "licenseFile": "/home/hanakotamio0705/Lingo Keeper JP/backend/node_modules/kuler/LICENSE"
+  },
+  "lingo-keeper-jp-backend@1.0.0": {
+    "licenses": "MIT",
+    "publisher": "Lingo Keeper Team",
+    "path": "/home/hanakotamio0705/Lingo Keeper JP/backend"
+  },
+  "lodash.camelcase@4.3.0": {
+    "licenses": "MIT",
+    "repository": "https://github.com/lodash/lodash",
+    "publisher": "John-David Dalton",
+    "email": "john.david.dalton@gmail.com",
+    "url": "http://allyoucanleet.com/",
+    "path": "/home/hanakotamio0705/Lingo Keeper JP/backend/node_modules/lodash.camelcase",
+    "licenseFile": "/home/hanakotamio0705/Lingo Keeper JP/backend/node_modules/lodash.camelcase/LICENSE"
+  },
+  "lodash@4.17.21": {
+    "licenses": "MIT",
+    "repository": "https://github.com/lodash/lodash",
+    "publisher": "John-David Dalton",
+    "email": "john.david.dalton@gmail.com",
+    "path": "/home/hanakotamio0705/Lingo Keeper JP/backend/node_modules/lodash",
+    "licenseFile": "/home/hanakotamio0705/Lingo Keeper JP/backend/node_modules/lodash/LICENSE"
+  },
+  "logform@2.7.0": {
+    "licenses": "MIT",
+    "repository": "https://github.com/winstonjs/logform",
+    "publisher": "Charlie Robbins",
+    "email": "charlie.robbins@gmail.com",
+    "path": "/home/hanakotamio0705/Lingo Keeper JP/backend/node_modules/logform",
+    "licenseFile": "/home/hanakotamio0705/Lingo Keeper JP/backend/node_modules/logform/LICENSE"
+  },
+  "long@5.3.2": {
+    "licenses": "Apache-2.0",
+    "repository": "https://github.com/dcodeIO/long.js",
+    "publisher": "Daniel Wirtz",
+    "email": "dcode@dcode.io",
+    "path": "/home/hanakotamio0705/Lingo Keeper JP/backend/node_modules/long",
+    "licenseFile": "/home/hanakotamio0705/Lingo Keeper JP/backend/node_modules/long/LICENSE"
+  },
+  "lru-cache@10.4.3": {
+    "licenses": "ISC",
+    "repository": "https://github.com/isaacs/node-lru-cache",
+    "publisher": "Isaac Z. Schlueter",
+    "email": "i@izs.me",
+    "path": "/home/hanakotamio0705/Lingo Keeper JP/backend/node_modules/path-scurry/node_modules/lru-cache",
+    "licenseFile": "/home/hanakotamio0705/Lingo Keeper JP/backend/node_modules/path-scurry/node_modules/lru-cache/LICENSE"
+  },
+  "math-intrinsics@1.1.0": {
+    "licenses": "MIT",
+    "repository": "https://github.com/es-shims/math-intrinsics",
+    "publisher": "Jordan Harband",
+    "email": "ljharb@gmail.com",
+    "path": "/home/hanakotamio0705/Lingo Keeper JP/backend/node_modules/math-intrinsics",
+    "licenseFile": "/home/hanakotamio0705/Lingo Keeper JP/backend/node_modules/math-intrinsics/LICENSE"
+  },
+  "media-typer@0.3.0": {
+    "licenses": "MIT",
+    "repository": "https://github.com/jshttp/media-typer",
+    "publisher": "Douglas Christopher Wilson",
+    "email": "doug@somethingdoug.com",
+    "path": "/home/hanakotamio0705/Lingo Keeper JP/backend/node_modules/media-typer",
+    "licenseFile": "/home/hanakotamio0705/Lingo Keeper JP/backend/node_modules/media-typer/LICENSE"
+  },
+  "merge-descriptors@1.0.3": {
+    "licenses": "MIT",
+    "repository": "https://github.com/sindresorhus/merge-descriptors",
+    "publisher": "Jonathan Ong",
+    "email": "me@jongleberry.com",
+    "url": "http://jongleberry.com",
+    "path": "/home/hanakotamio0705/Lingo Keeper JP/backend/node_modules/merge-descriptors",
+    "licenseFile": "/home/hanakotamio0705/Lingo Keeper JP/backend/node_modules/merge-descriptors/LICENSE"
+  },
+  "methods@1.1.2": {
+    "licenses": "MIT",
+    "repository": "https://github.com/jshttp/methods",
+    "path": "/home/hanakotamio0705/Lingo Keeper JP/backend/node_modules/methods",
+    "licenseFile": "/home/hanakotamio0705/Lingo Keeper JP/backend/node_modules/methods/LICENSE"
+  },
+  "mime-db@1.52.0": {
+    "licenses": "MIT",
+    "repository": "https://github.com/jshttp/mime-db",
+    "path": "/home/hanakotamio0705/Lingo Keeper JP/backend/node_modules/mime-db",
+    "licenseFile": "/home/hanakotamio0705/Lingo Keeper JP/backend/node_modules/mime-db/LICENSE"
+  },
+  "mime-types@2.1.35": {
+    "licenses": "MIT",
+    "repository": "https://github.com/jshttp/mime-types",
+    "path": "/home/hanakotamio0705/Lingo Keeper JP/backend/node_modules/mime-types",
+    "licenseFile": "/home/hanakotamio0705/Lingo Keeper JP/backend/node_modules/mime-types/LICENSE"
+  },
+  "mime@1.6.0": {
+    "licenses": "MIT",
+    "repository": "https://github.com/broofa/node-mime",
+    "publisher": "Robert Kieffer",
+    "email": "robert@broofa.com",
+    "url": "http://github.com/broofa",
+    "path": "/home/hanakotamio0705/Lingo Keeper JP/backend/node_modules/mime",
+    "licenseFile": "/home/hanakotamio0705/Lingo Keeper JP/backend/node_modules/mime/LICENSE"
+  },
+  "minimatch@9.0.5": {
+    "licenses": "ISC",
+    "repository": "https://github.com/isaacs/minimatch",
+    "publisher": "Isaac Z. Schlueter",
+    "email": "i@izs.me",
+    "url": "http://blog.izs.me",
+    "path": "/home/hanakotamio0705/Lingo Keeper JP/backend/node_modules/minimatch",
+    "licenseFile": "/home/hanakotamio0705/Lingo Keeper JP/backend/node_modules/minimatch/LICENSE"
+  },
+  "minipass@7.1.2": {
+    "licenses": "ISC",
+    "repository": "https://github.com/isaacs/minipass",
+    "publisher": "Isaac Z. Schlueter",
+    "email": "i@izs.me",
+    "url": "http://blog.izs.me/",
+    "path": "/home/hanakotamio0705/Lingo Keeper JP/backend/node_modules/minipass",
+    "licenseFile": "/home/hanakotamio0705/Lingo Keeper JP/backend/node_modules/minipass/LICENSE"
+  },
+  "ms@2.0.0": {
+    "licenses": "MIT",
+    "repository": "https://github.com/zeit/ms",
+    "path": "/home/hanakotamio0705/Lingo Keeper JP/backend/node_modules/body-parser/node_modules/ms",
+    "licenseFile": "/home/hanakotamio0705/Lingo Keeper JP/backend/node_modules/body-parser/node_modules/ms/license.md"
+  },
+  "ms@2.1.3": {
+    "licenses": "MIT",
+    "repository": "https://github.com/vercel/ms",
+    "path": "/home/hanakotamio0705/Lingo Keeper JP/backend/node_modules/ms",
+    "licenseFile": "/home/hanakotamio0705/Lingo Keeper JP/backend/node_modules/ms/license.md"
+  },
+  "negotiator@0.6.3": {
+    "licenses": "MIT",
+    "repository": "https://github.com/jshttp/negotiator",
+    "path": "/home/hanakotamio0705/Lingo Keeper JP/backend/node_modules/negotiator",
+    "licenseFile": "/home/hanakotamio0705/Lingo Keeper JP/backend/node_modules/negotiator/LICENSE"
+  },
+  "node-domexception@1.0.0": {
+    "licenses": "MIT",
+    "repository": "https://github.com/jimmywarting/node-domexception",
+    "publisher": "Jimmy Wärting",
+    "path": "/home/hanakotamio0705/Lingo Keeper JP/backend/node_modules/node-domexception",
+    "licenseFile": "/home/hanakotamio0705/Lingo Keeper JP/backend/node_modules/node-domexception/LICENSE"
+  },
+  "node-fetch@3.3.2": {
+    "licenses": "MIT",
+    "repository": "https://github.com/node-fetch/node-fetch",
+    "publisher": "David Frank",
+    "path": "/home/hanakotamio0705/Lingo Keeper JP/backend/node_modules/node-fetch",
+    "licenseFile": "/home/hanakotamio0705/Lingo Keeper JP/backend/node_modules/node-fetch/LICENSE.md"
+  },
+  "object-assign@4.1.1": {
+    "licenses": "MIT",
+    "repository": "https://github.com/sindresorhus/object-assign",
+    "publisher": "Sindre Sorhus",
+    "email": "sindresorhus@gmail.com",
+    "url": "sindresorhus.com",
+    "path": "/home/hanakotamio0705/Lingo Keeper JP/backend/node_modules/object-assign",
+    "licenseFile": "/home/hanakotamio0705/Lingo Keeper JP/backend/node_modules/object-assign/license"
+  },
+  "object-hash@3.0.0": {
+    "licenses": "MIT",
+    "repository": "https://github.com/puleos/object-hash",
+    "publisher": "Scott Puleo",
+    "email": "puleos@gmail.com",
+    "path": "/home/hanakotamio0705/Lingo Keeper JP/backend/node_modules/object-hash",
+    "licenseFile": "/home/hanakotamio0705/Lingo Keeper JP/backend/node_modules/object-hash/LICENSE"
+  },
+  "object-inspect@1.13.4": {
+    "licenses": "MIT",
+    "repository": "https://github.com/inspect-js/object-inspect",
+    "publisher": "James Halliday",
+    "email": "mail@substack.net",
+    "url": "http://substack.net",
+    "path": "/home/hanakotamio0705/Lingo Keeper JP/backend/node_modules/object-inspect",
+    "licenseFile": "/home/hanakotamio0705/Lingo Keeper JP/backend/node_modules/object-inspect/LICENSE"
+  },
+  "on-finished@2.4.1": {
+    "licenses": "MIT",
+    "repository": "https://github.com/jshttp/on-finished",
+    "path": "/home/hanakotamio0705/Lingo Keeper JP/backend/node_modules/on-finished",
+    "licenseFile": "/home/hanakotamio0705/Lingo Keeper JP/backend/node_modules/on-finished/LICENSE"
+  },
+  "once@1.4.0": {
+    "licenses": "ISC",
+    "repository": "https://github.com/isaacs/once",
+    "publisher": "Isaac Z. Schlueter",
+    "email": "i@izs.me",
+    "url": "http://blog.izs.me/",
+    "path": "/home/hanakotamio0705/Lingo Keeper JP/backend/node_modules/once",
+    "licenseFile": "/home/hanakotamio0705/Lingo Keeper JP/backend/node_modules/once/LICENSE"
+  },
+  "one-time@1.0.0": {
+    "licenses": "MIT",
+    "repository": "https://github.com/3rd-Eden/one-time",
+    "publisher": "Arnout Kazemier",
+    "path": "/home/hanakotamio0705/Lingo Keeper JP/backend/node_modules/one-time",
+    "licenseFile": "/home/hanakotamio0705/Lingo Keeper JP/backend/node_modules/one-time/LICENSE"
+  },
+  "openai@6.16.0": {
+    "licenses": "Apache-2.0",
+    "repository": "https://github.com/openai/openai-node",
+    "publisher": "OpenAI",
+    "email": "support@openai.com",
+    "path": "/home/hanakotamio0705/Lingo Keeper JP/backend/node_modules/openai",
+    "licenseFile": "/home/hanakotamio0705/Lingo Keeper JP/backend/node_modules/openai/LICENSE"
+  },
+  "package-json-from-dist@1.0.1": {
+    "licenses": "BlueOak-1.0.0",
+    "repository": "https://github.com/isaacs/package-json-from-dist",
+    "publisher": "Isaac Z. Schlueter",
+    "email": "i@izs.me",
+    "url": "https://izs.me",
+    "path": "/home/hanakotamio0705/Lingo Keeper JP/backend/node_modules/package-json-from-dist",
+    "licenseFile": "/home/hanakotamio0705/Lingo Keeper JP/backend/node_modules/package-json-from-dist/LICENSE.md"
+  },
+  "parseurl@1.3.3": {
+    "licenses": "MIT",
+    "repository": "https://github.com/pillarjs/parseurl",
+    "path": "/home/hanakotamio0705/Lingo Keeper JP/backend/node_modules/parseurl",
+    "licenseFile": "/home/hanakotamio0705/Lingo Keeper JP/backend/node_modules/parseurl/LICENSE"
+  },
+  "path-key@3.1.1": {
+    "licenses": "MIT",
+    "repository": "https://github.com/sindresorhus/path-key",
+    "publisher": "Sindre Sorhus",
+    "email": "sindresorhus@gmail.com",
+    "url": "sindresorhus.com",
+    "path": "/home/hanakotamio0705/Lingo Keeper JP/backend/node_modules/path-key",
+    "licenseFile": "/home/hanakotamio0705/Lingo Keeper JP/backend/node_modules/path-key/license"
+  },
+  "path-scurry@1.11.1": {
+    "licenses": "BlueOak-1.0.0",
+    "repository": "https://github.com/isaacs/path-scurry",
+    "publisher": "Isaac Z. Schlueter",
+    "email": "i@izs.me",
+    "url": "https://blog.izs.me",
+    "path": "/home/hanakotamio0705/Lingo Keeper JP/backend/node_modules/path-scurry",
+    "licenseFile": "/home/hanakotamio0705/Lingo Keeper JP/backend/node_modules/path-scurry/LICENSE.md"
+  },
+  "path-to-regexp@0.1.12": {
+    "licenses": "MIT",
+    "repository": "https://github.com/pillarjs/path-to-regexp",
+    "path": "/home/hanakotamio0705/Lingo Keeper JP/backend/node_modules/path-to-regexp",
+    "licenseFile": "/home/hanakotamio0705/Lingo Keeper JP/backend/node_modules/path-to-regexp/LICENSE"
+  },
+  "prisma@5.22.0": {
+    "licenses": "Apache-2.0",
+    "repository": "https://github.com/prisma/prisma",
+    "publisher": "Tim Suchanek",
+    "email": "suchanek@prisma.io",
+    "path": "/home/hanakotamio0705/Lingo Keeper JP/backend/node_modules/prisma",
+    "licenseFile": "/home/hanakotamio0705/Lingo Keeper JP/backend/node_modules/prisma/LICENSE"
+  },
+  "prom-client@15.1.3": {
+    "licenses": "Apache-2.0",
+    "repository": "https://github.com/siimon/prom-client",
+    "publisher": "Simon Nyberg",
+    "path": "/home/hanakotamio0705/Lingo Keeper JP/backend/node_modules/prom-client",
+    "licenseFile": "/home/hanakotamio0705/Lingo Keeper JP/backend/node_modules/prom-client/LICENSE"
+  },
+  "proto3-json-serializer@3.0.4": {
+    "licenses": "Apache-2.0",
+    "repository": "https://github.com/googleapis/google-cloud-node-core",
+    "path": "/home/hanakotamio0705/Lingo Keeper JP/backend/node_modules/proto3-json-serializer",
+    "licenseFile": "/home/hanakotamio0705/Lingo Keeper JP/backend/node_modules/proto3-json-serializer/LICENSE"
+  },
+  "protobufjs@7.5.4": {
+    "licenses": "BSD-3-Clause",
+    "repository": "https://github.com/protobufjs/protobuf.js",
+    "publisher": "Daniel Wirtz",
+    "email": "dcode+protobufjs@dcode.io",
+    "path": "/home/hanakotamio0705/Lingo Keeper JP/backend/node_modules/protobufjs",
+    "licenseFile": "/home/hanakotamio0705/Lingo Keeper JP/backend/node_modules/protobufjs/LICENSE"
+  },
+  "proxy-addr@2.0.7": {
+    "licenses": "MIT",
+    "repository": "https://github.com/jshttp/proxy-addr",
+    "publisher": "Douglas Christopher Wilson",
+    "email": "doug@somethingdoug.com",
+    "path": "/home/hanakotamio0705/Lingo Keeper JP/backend/node_modules/proxy-addr",
+    "licenseFile": "/home/hanakotamio0705/Lingo Keeper JP/backend/node_modules/proxy-addr/LICENSE"
+  },
+  "qs@6.14.1": {
+    "licenses": "BSD-3-Clause",
+    "repository": "https://github.com/ljharb/qs",
+    "path": "/home/hanakotamio0705/Lingo Keeper JP/backend/node_modules/qs",
+    "licenseFile": "/home/hanakotamio0705/Lingo Keeper JP/backend/node_modules/qs/LICENSE.md"
+  },
+  "range-parser@1.2.1": {
+    "licenses": "MIT",
+    "repository": "https://github.com/jshttp/range-parser",
+    "publisher": "TJ Holowaychuk",
+    "email": "tj@vision-media.ca",
+    "url": "http://tjholowaychuk.com",
+    "path": "/home/hanakotamio0705/Lingo Keeper JP/backend/node_modules/range-parser",
+    "licenseFile": "/home/hanakotamio0705/Lingo Keeper JP/backend/node_modules/range-parser/LICENSE"
+  },
+  "raw-body@2.5.3": {
+    "licenses": "MIT",
+    "repository": "https://github.com/stream-utils/raw-body",
+    "publisher": "Jonathan Ong",
+    "email": "me@jongleberry.com",
+    "url": "http://jongleberry.com",
+    "path": "/home/hanakotamio0705/Lingo Keeper JP/backend/node_modules/raw-body",
+    "licenseFile": "/home/hanakotamio0705/Lingo Keeper JP/backend/node_modules/raw-body/LICENSE"
+  },
+  "readable-stream@3.6.2": {
+    "licenses": "MIT",
+    "repository": "https://github.com/nodejs/readable-stream",
+    "path": "/home/hanakotamio0705/Lingo Keeper JP/backend/node_modules/readable-stream",
+    "licenseFile": "/home/hanakotamio0705/Lingo Keeper JP/backend/node_modules/readable-stream/LICENSE"
+  },
+  "require-directory@2.1.1": {
+    "licenses": "MIT",
+    "repository": "https://github.com/troygoode/node-require-directory",
+    "publisher": "Troy Goode",
+    "email": "troygoode@gmail.com",
+    "url": "http://github.com/troygoode/",
+    "path": "/home/hanakotamio0705/Lingo Keeper JP/backend/node_modules/require-directory",
+    "licenseFile": "/home/hanakotamio0705/Lingo Keeper JP/backend/node_modules/require-directory/LICENSE"
+  },
+  "retry-request@8.0.2": {
+    "licenses": "MIT",
+    "repository": "https://github.com/stephenplusplus/retry-request",
+    "publisher": "Stephen Sawchuk",
+    "email": "sawchuk@gmail.com",
+    "path": "/home/hanakotamio0705/Lingo Keeper JP/backend/node_modules/retry-request",
+    "licenseFile": "/home/hanakotamio0705/Lingo Keeper JP/backend/node_modules/retry-request/license"
+  },
+  "rimraf@5.0.10": {
+    "licenses": "ISC",
+    "repository": "https://github.com/isaacs/rimraf",
+    "publisher": "Isaac Z. Schlueter",
+    "email": "i@izs.me",
+    "url": "http://blog.izs.me/",
+    "path": "/home/hanakotamio0705/Lingo Keeper JP/backend/node_modules/rimraf",
+    "licenseFile": "/home/hanakotamio0705/Lingo Keeper JP/backend/node_modules/rimraf/LICENSE"
+  },
+  "safe-buffer@5.2.1": {
+    "licenses": "MIT",
+    "repository": "https://github.com/feross/safe-buffer",
+    "publisher": "Feross Aboukhadijeh",
+    "email": "feross@feross.org",
+    "url": "https://feross.org",
+    "path": "/home/hanakotamio0705/Lingo Keeper JP/backend/node_modules/safe-buffer",
+    "licenseFile": "/home/hanakotamio0705/Lingo Keeper JP/backend/node_modules/safe-buffer/LICENSE"
+  },
+  "safe-stable-stringify@2.5.0": {
+    "licenses": "MIT",
+    "repository": "https://github.com/BridgeAR/safe-stable-stringify",
+    "publisher": "Ruben Bridgewater",
+    "path": "/home/hanakotamio0705/Lingo Keeper JP/backend/node_modules/safe-stable-stringify",
+    "licenseFile": "/home/hanakotamio0705/Lingo Keeper JP/backend/node_modules/safe-stable-stringify/LICENSE"
+  },
+  "safer-buffer@2.1.2": {
+    "licenses": "MIT",
+    "repository": "https://github.com/ChALkeR/safer-buffer",
+    "publisher": "Nikita Skovoroda",
+    "email": "chalkerx@gmail.com",
+    "url": "https://github.com/ChALkeR",
+    "path": "/home/hanakotamio0705/Lingo Keeper JP/backend/node_modules/safer-buffer",
+    "licenseFile": "/home/hanakotamio0705/Lingo Keeper JP/backend/node_modules/safer-buffer/LICENSE"
+  },
+  "send@0.19.2": {
+    "licenses": "MIT",
+    "repository": "https://github.com/pillarjs/send",
+    "publisher": "TJ Holowaychuk",
+    "email": "tj@vision-media.ca",
+    "path": "/home/hanakotamio0705/Lingo Keeper JP/backend/node_modules/send",
+    "licenseFile": "/home/hanakotamio0705/Lingo Keeper JP/backend/node_modules/send/LICENSE"
+  },
+  "serve-static@1.16.3": {
+    "licenses": "MIT",
+    "repository": "https://github.com/expressjs/serve-static",
+    "publisher": "Douglas Christopher Wilson",
+    "email": "doug@somethingdoug.com",
+    "path": "/home/hanakotamio0705/Lingo Keeper JP/backend/node_modules/serve-static",
+    "licenseFile": "/home/hanakotamio0705/Lingo Keeper JP/backend/node_modules/serve-static/LICENSE"
+  },
+  "setprototypeof@1.2.0": {
+    "licenses": "ISC",
+    "repository": "https://github.com/wesleytodd/setprototypeof",
+    "publisher": "Wes Todd",
+    "path": "/home/hanakotamio0705/Lingo Keeper JP/backend/node_modules/setprototypeof",
+    "licenseFile": "/home/hanakotamio0705/Lingo Keeper JP/backend/node_modules/setprototypeof/LICENSE"
+  },
+  "shebang-command@2.0.0": {
+    "licenses": "MIT",
+    "repository": "https://github.com/kevva/shebang-command",
+    "publisher": "Kevin Mårtensson",
+    "email": "kevinmartensson@gmail.com",
+    "url": "github.com/kevva",
+    "path": "/home/hanakotamio0705/Lingo Keeper JP/backend/node_modules/shebang-command",
+    "licenseFile": "/home/hanakotamio0705/Lingo Keeper JP/backend/node_modules/shebang-command/license"
+  },
+  "shebang-regex@3.0.0": {
+    "licenses": "MIT",
+    "repository": "https://github.com/sindresorhus/shebang-regex",
+    "publisher": "Sindre Sorhus",
+    "email": "sindresorhus@gmail.com",
+    "url": "sindresorhus.com",
+    "path": "/home/hanakotamio0705/Lingo Keeper JP/backend/node_modules/shebang-regex",
+    "licenseFile": "/home/hanakotamio0705/Lingo Keeper JP/backend/node_modules/shebang-regex/license"
+  },
+  "side-channel-list@1.0.0": {
+    "licenses": "MIT",
+    "repository": "https://github.com/ljharb/side-channel-list",
+    "publisher": "Jordan Harband",
+    "email": "ljharb@gmail.com",
+    "path": "/home/hanakotamio0705/Lingo Keeper JP/backend/node_modules/side-channel-list",
+    "licenseFile": "/home/hanakotamio0705/Lingo Keeper JP/backend/node_modules/side-channel-list/LICENSE"
+  },
+  "side-channel-map@1.0.1": {
+    "licenses": "MIT",
+    "repository": "https://github.com/ljharb/side-channel-map",
+    "publisher": "Jordan Harband",
+    "email": "ljharb@gmail.com",
+    "path": "/home/hanakotamio0705/Lingo Keeper JP/backend/node_modules/side-channel-map",
+    "licenseFile": "/home/hanakotamio0705/Lingo Keeper JP/backend/node_modules/side-channel-map/LICENSE"
+  },
+  "side-channel-weakmap@1.0.2": {
+    "licenses": "MIT",
+    "repository": "https://github.com/ljharb/side-channel-weakmap",
+    "publisher": "Jordan Harband",
+    "email": "ljharb@gmail.com",
+    "path": "/home/hanakotamio0705/Lingo Keeper JP/backend/node_modules/side-channel-weakmap",
+    "licenseFile": "/home/hanakotamio0705/Lingo Keeper JP/backend/node_modules/side-channel-weakmap/LICENSE"
+  },
+  "side-channel@1.1.0": {
+    "licenses": "MIT",
+    "repository": "https://github.com/ljharb/side-channel",
+    "publisher": "Jordan Harband",
+    "email": "ljharb@gmail.com",
+    "path": "/home/hanakotamio0705/Lingo Keeper JP/backend/node_modules/side-channel",
+    "licenseFile": "/home/hanakotamio0705/Lingo Keeper JP/backend/node_modules/side-channel/LICENSE"
+  },
+  "signal-exit@4.1.0": {
+    "licenses": "ISC",
+    "repository": "https://github.com/tapjs/signal-exit",
+    "publisher": "Ben Coe",
+    "email": "ben@npmjs.com",
+    "path": "/home/hanakotamio0705/Lingo Keeper JP/backend/node_modules/foreground-child/node_modules/signal-exit",
+    "licenseFile": "/home/hanakotamio0705/Lingo Keeper JP/backend/node_modules/foreground-child/node_modules/signal-exit/LICENSE.txt"
+  },
+  "stack-trace@0.0.10": {
+    "licenses": "MIT",
+    "repository": "https://github.com/felixge/node-stack-trace",
+    "publisher": "Felix Geisendörfer",
+    "email": "felix@debuggable.com",
+    "url": "http://debuggable.com/",
+    "path": "/home/hanakotamio0705/Lingo Keeper JP/backend/node_modules/stack-trace",
+    "licenseFile": "/home/hanakotamio0705/Lingo Keeper JP/backend/node_modules/stack-trace/License"
+  },
+  "statuses@2.0.2": {
+    "licenses": "MIT",
+    "repository": "https://github.com/jshttp/statuses",
+    "path": "/home/hanakotamio0705/Lingo Keeper JP/backend/node_modules/statuses",
+    "licenseFile": "/home/hanakotamio0705/Lingo Keeper JP/backend/node_modules/statuses/LICENSE"
+  },
+  "stream-events@1.0.5": {
+    "licenses": "MIT",
+    "repository": "https://github.com/stephenplusplus/stream-events",
+    "publisher": "Stephen Sawchuk",
+    "path": "/home/hanakotamio0705/Lingo Keeper JP/backend/node_modules/stream-events",
+    "licenseFile": "/home/hanakotamio0705/Lingo Keeper JP/backend/node_modules/stream-events/readme.md"
+  },
+  "stream-shift@1.0.3": {
+    "licenses": "MIT",
+    "repository": "https://github.com/mafintosh/stream-shift",
+    "publisher": "Mathias Buus",
+    "url": "@mafintosh",
+    "path": "/home/hanakotamio0705/Lingo Keeper JP/backend/node_modules/stream-shift",
+    "licenseFile": "/home/hanakotamio0705/Lingo Keeper JP/backend/node_modules/stream-shift/LICENSE"
+  },
+  "string-width@4.2.3": {
+    "licenses": "MIT",
+    "repository": "https://github.com/sindresorhus/string-width",
+    "publisher": "Sindre Sorhus",
+    "email": "sindresorhus@gmail.com",
+    "url": "sindresorhus.com",
+    "path": "/home/hanakotamio0705/Lingo Keeper JP/backend/node_modules/string-width",
+    "licenseFile": "/home/hanakotamio0705/Lingo Keeper JP/backend/node_modules/string-width/license"
+  },
+  "string-width@5.1.2": {
+    "licenses": "MIT",
+    "repository": "https://github.com/sindresorhus/string-width",
+    "publisher": "Sindre Sorhus",
+    "email": "sindresorhus@gmail.com",
+    "url": "https://sindresorhus.com",
+    "path": "/home/hanakotamio0705/Lingo Keeper JP/backend/node_modules/@isaacs/cliui/node_modules/string-width",
+    "licenseFile": "/home/hanakotamio0705/Lingo Keeper JP/backend/node_modules/@isaacs/cliui/node_modules/string-width/license"
+  },
+  "string_decoder@1.3.0": {
+    "licenses": "MIT",
+    "repository": "https://github.com/nodejs/string_decoder",
+    "path": "/home/hanakotamio0705/Lingo Keeper JP/backend/node_modules/string_decoder",
+    "licenseFile": "/home/hanakotamio0705/Lingo Keeper JP/backend/node_modules/string_decoder/LICENSE"
+  },
+  "strip-ansi@6.0.1": {
+    "licenses": "MIT",
+    "repository": "https://github.com/chalk/strip-ansi",
+    "publisher": "Sindre Sorhus",
+    "email": "sindresorhus@gmail.com",
+    "url": "sindresorhus.com",
+    "path": "/home/hanakotamio0705/Lingo Keeper JP/backend/node_modules/strip-ansi",
+    "licenseFile": "/home/hanakotamio0705/Lingo Keeper JP/backend/node_modules/strip-ansi/license"
+  },
+  "strip-ansi@7.1.2": {
+    "licenses": "MIT",
+    "repository": "https://github.com/chalk/strip-ansi",
+    "publisher": "Sindre Sorhus",
+    "email": "sindresorhus@gmail.com",
+    "url": "https://sindresorhus.com",
+    "path": "/home/hanakotamio0705/Lingo Keeper JP/backend/node_modules/@isaacs/cliui/node_modules/strip-ansi",
+    "licenseFile": "/home/hanakotamio0705/Lingo Keeper JP/backend/node_modules/@isaacs/cliui/node_modules/strip-ansi/license"
+  },
+  "stubs@3.0.0": {
+    "licenses": "MIT",
+    "repository": "https://github.com/stephenplusplus/stubs",
+    "publisher": "Stephen Sawchuk",
+    "path": "/home/hanakotamio0705/Lingo Keeper JP/backend/node_modules/stubs",
+    "licenseFile": "/home/hanakotamio0705/Lingo Keeper JP/backend/node_modules/stubs/readme.md"
+  },
+  "tdigest@0.1.2": {
+    "licenses": "MIT",
+    "repository": "https://github.com/welch/tdigest",
+    "publisher": "Will Welch",
+    "email": "welch@quietplease.com",
+    "url": "http://quietplease.com/",
+    "path": "/home/hanakotamio0705/Lingo Keeper JP/backend/node_modules/tdigest",
+    "licenseFile": "/home/hanakotamio0705/Lingo Keeper JP/backend/node_modules/tdigest/LICENSE"
+  },
+  "teeny-request@10.1.0": {
+    "licenses": "Apache-2.0",
+    "repository": "https://github.com/googleapis/teeny-request",
+    "publisher": "fhinkel",
+    "path": "/home/hanakotamio0705/Lingo Keeper JP/backend/node_modules/teeny-request",
+    "licenseFile": "/home/hanakotamio0705/Lingo Keeper JP/backend/node_modules/teeny-request/LICENSE"
+  },
+  "text-hex@1.0.0": {
+    "licenses": "MIT",
+    "repository": "https://github.com/3rd-Eden/text-hex",
+    "publisher": "Arnout Kazemier",
+    "path": "/home/hanakotamio0705/Lingo Keeper JP/backend/node_modules/text-hex",
+    "licenseFile": "/home/hanakotamio0705/Lingo Keeper JP/backend/node_modules/text-hex/LICENSE"
+  },
+  "toidentifier@1.0.1": {
+    "licenses": "MIT",
+    "repository": "https://github.com/component/toidentifier",
+    "publisher": "Douglas Christopher Wilson",
+    "email": "doug@somethingdoug.com",
+    "path": "/home/hanakotamio0705/Lingo Keeper JP/backend/node_modules/toidentifier",
+    "licenseFile": "/home/hanakotamio0705/Lingo Keeper JP/backend/node_modules/toidentifier/LICENSE"
+  },
+  "triple-beam@1.4.1": {
+    "licenses": "MIT",
+    "repository": "https://github.com/winstonjs/triple-beam",
+    "publisher": "Charlie Robbins",
+    "email": "charlie.robbins@gmail.com",
+    "path": "/home/hanakotamio0705/Lingo Keeper JP/backend/node_modules/triple-beam",
+    "licenseFile": "/home/hanakotamio0705/Lingo Keeper JP/backend/node_modules/triple-beam/LICENSE"
+  },
+  "type-is@1.6.18": {
+    "licenses": "MIT",
+    "repository": "https://github.com/jshttp/type-is",
+    "path": "/home/hanakotamio0705/Lingo Keeper JP/backend/node_modules/type-is",
+    "licenseFile": "/home/hanakotamio0705/Lingo Keeper JP/backend/node_modules/type-is/LICENSE"
+  },
+  "undici-types@6.21.0": {
+    "licenses": "MIT",
+    "repository": "https://github.com/nodejs/undici",
+    "path": "/home/hanakotamio0705/Lingo Keeper JP/backend/node_modules/undici-types",
+    "licenseFile": "/home/hanakotamio0705/Lingo Keeper JP/backend/node_modules/undici-types/LICENSE"
+  },
+  "unpipe@1.0.0": {
+    "licenses": "MIT",
+    "repository": "https://github.com/stream-utils/unpipe",
+    "publisher": "Douglas Christopher Wilson",
+    "email": "doug@somethingdoug.com",
+    "path": "/home/hanakotamio0705/Lingo Keeper JP/backend/node_modules/unpipe",
+    "licenseFile": "/home/hanakotamio0705/Lingo Keeper JP/backend/node_modules/unpipe/LICENSE"
+  },
+  "util-deprecate@1.0.2": {
+    "licenses": "MIT",
+    "repository": "https://github.com/TooTallNate/util-deprecate",
+    "publisher": "Nathan Rajlich",
+    "email": "nathan@tootallnate.net",
+    "url": "http://n8.io/",
+    "path": "/home/hanakotamio0705/Lingo Keeper JP/backend/node_modules/util-deprecate",
+    "licenseFile": "/home/hanakotamio0705/Lingo Keeper JP/backend/node_modules/util-deprecate/LICENSE"
+  },
+  "utils-merge@1.0.1": {
+    "licenses": "MIT",
+    "repository": "https://github.com/jaredhanson/utils-merge",
+    "publisher": "Jared Hanson",
+    "email": "jaredhanson@gmail.com",
+    "url": "http://www.jaredhanson.net/",
+    "path": "/home/hanakotamio0705/Lingo Keeper JP/backend/node_modules/utils-merge",
+    "licenseFile": "/home/hanakotamio0705/Lingo Keeper JP/backend/node_modules/utils-merge/LICENSE"
+  },
+  "validator@13.15.26": {
+    "licenses": "MIT",
+    "repository": "https://github.com/validatorjs/validator.js",
+    "publisher": "Chris O'Hara",
+    "email": "cohara87@gmail.com",
+    "path": "/home/hanakotamio0705/Lingo Keeper JP/backend/node_modules/validator",
+    "licenseFile": "/home/hanakotamio0705/Lingo Keeper JP/backend/node_modules/validator/LICENSE"
+  },
+  "vary@1.1.2": {
+    "licenses": "MIT",
+    "repository": "https://github.com/jshttp/vary",
+    "publisher": "Douglas Christopher Wilson",
+    "email": "doug@somethingdoug.com",
+    "path": "/home/hanakotamio0705/Lingo Keeper JP/backend/node_modules/vary",
+    "licenseFile": "/home/hanakotamio0705/Lingo Keeper JP/backend/node_modules/vary/LICENSE"
+  },
+  "web-streams-polyfill@3.3.3": {
+    "licenses": "MIT",
+    "repository": "https://github.com/MattiasBuelens/web-streams-polyfill",
+    "publisher": "Mattias Buelens",
+    "email": "mattias@buelens.com",
+    "path": "/home/hanakotamio0705/Lingo Keeper JP/backend/node_modules/web-streams-polyfill",
+    "licenseFile": "/home/hanakotamio0705/Lingo Keeper JP/backend/node_modules/web-streams-polyfill/LICENSE"
+  },
+  "which@2.0.2": {
+    "licenses": "ISC",
+    "repository": "https://github.com/isaacs/node-which",
+    "publisher": "Isaac Z. Schlueter",
+    "email": "i@izs.me",
+    "url": "http://blog.izs.me",
+    "path": "/home/hanakotamio0705/Lingo Keeper JP/backend/node_modules/which",
+    "licenseFile": "/home/hanakotamio0705/Lingo Keeper JP/backend/node_modules/which/LICENSE"
+  },
+  "winston-transport@4.9.0": {
+    "licenses": "MIT",
+    "repository": "https://github.com/winstonjs/winston-transport",
+    "publisher": "Charlie Robbins",
+    "email": "charlie.robbins@gmail.com",
+    "path": "/home/hanakotamio0705/Lingo Keeper JP/backend/node_modules/winston-transport",
+    "licenseFile": "/home/hanakotamio0705/Lingo Keeper JP/backend/node_modules/winston-transport/LICENSE"
+  },
+  "winston@3.19.0": {
+    "licenses": "MIT",
+    "repository": "https://github.com/winstonjs/winston",
+    "publisher": "Charlie Robbins",
+    "email": "charlie.robbins@gmail.com",
+    "path": "/home/hanakotamio0705/Lingo Keeper JP/backend/node_modules/winston",
+    "licenseFile": "/home/hanakotamio0705/Lingo Keeper JP/backend/node_modules/winston/LICENSE"
+  },
+  "wrap-ansi@7.0.0": {
+    "licenses": "MIT",
+    "repository": "https://github.com/chalk/wrap-ansi",
+    "publisher": "Sindre Sorhus",
+    "email": "sindresorhus@gmail.com",
+    "url": "https://sindresorhus.com",
+    "path": "/home/hanakotamio0705/Lingo Keeper JP/backend/node_modules/wrap-ansi",
+    "licenseFile": "/home/hanakotamio0705/Lingo Keeper JP/backend/node_modules/wrap-ansi/license"
+  },
+  "wrap-ansi@8.1.0": {
+    "licenses": "MIT",
+    "repository": "https://github.com/chalk/wrap-ansi",
+    "publisher": "Sindre Sorhus",
+    "email": "sindresorhus@gmail.com",
+    "url": "https://sindresorhus.com",
+    "path": "/home/hanakotamio0705/Lingo Keeper JP/backend/node_modules/@isaacs/cliui/node_modules/wrap-ansi",
+    "licenseFile": "/home/hanakotamio0705/Lingo Keeper JP/backend/node_modules/@isaacs/cliui/node_modules/wrap-ansi/license"
+  },
+  "wrappy@1.0.2": {
+    "licenses": "ISC",
+    "repository": "https://github.com/npm/wrappy",
+    "publisher": "Isaac Z. Schlueter",
+    "email": "i@izs.me",
+    "url": "http://blog.izs.me/",
+    "path": "/home/hanakotamio0705/Lingo Keeper JP/backend/node_modules/wrappy",
+    "licenseFile": "/home/hanakotamio0705/Lingo Keeper JP/backend/node_modules/wrappy/LICENSE"
+  },
+  "y18n@5.0.8": {
+    "licenses": "ISC",
+    "repository": "https://github.com/yargs/y18n",
+    "publisher": "Ben Coe",
+    "email": "bencoe@gmail.com",
+    "path": "/home/hanakotamio0705/Lingo Keeper JP/backend/node_modules/y18n",
+    "licenseFile": "/home/hanakotamio0705/Lingo Keeper JP/backend/node_modules/y18n/LICENSE"
+  },
+  "yargs-parser@21.1.1": {
+    "licenses": "ISC",
+    "repository": "https://github.com/yargs/yargs-parser",
+    "publisher": "Ben Coe",
+    "email": "ben@npmjs.com",
+    "path": "/home/hanakotamio0705/Lingo Keeper JP/backend/node_modules/yargs-parser",
+    "licenseFile": "/home/hanakotamio0705/Lingo Keeper JP/backend/node_modules/yargs-parser/LICENSE.txt"
+  },
+  "yargs@17.7.2": {
+    "licenses": "MIT",
+    "repository": "https://github.com/yargs/yargs",
+    "path": "/home/hanakotamio0705/Lingo Keeper JP/backend/node_modules/yargs",
+    "licenseFile": "/home/hanakotamio0705/Lingo Keeper JP/backend/node_modules/yargs/LICENSE"
+  },
+  "zod@3.25.76": {
+    "licenses": "MIT",
+    "repository": "https://github.com/colinhacks/zod",
+    "publisher": "Colin McDonnell",
+    "email": "zod@colinhacks.com",
+    "path": "/home/hanakotamio0705/Lingo Keeper JP/backend/node_modules/zod",
+    "licenseFile": "/home/hanakotamio0705/Lingo Keeper JP/backend/node_modules/zod/LICENSE"
+  }
+}
+

@@ -1,0 +1,243 @@
+{
+  "generatedAt": "2026-02-04T00:23:26.871Z",
+  "totalStories": 25,
+  "totalChapters": 125,
+  "allVerified": true,
+  "fixedIssues": [
+    {
+      "story": "ビジネスメールの作成",
+      "storyId": "17",
+      "jlptLevel": "N2",
+      "chaptersFixed": 4,
+      "chapterIds": [
+        "ch-17-1",
+        "ch-17-3",
+        "ch-17-4",
+        "ch-17-5"
+      ]
+    },
+    {
+      "story": "友達との約束",
+      "storyId": "8",
+      "jlptLevel": "N4",
+      "chaptersFixed": 1,
+      "chapterIds": [
+        "ch-8-1"
+      ]
+    },
+    {
+      "story": "電車での通学",
+      "storyId": "9",
+      "jlptLevel": "N4",
+      "chaptersFixed": 4,
+      "chapterIds": [
+        "ch-9-2",
+        "ch-9-3",
+        "ch-9-4",
+        "ch-9-5"
+      ]
+    }
+  ],
+  "stories": [
+    {
+      "number": 1,
+      "title": "アルバイトの面接",
+      "id": "12",
+      "jlptLevel": "N3",
+      "totalChapters": 5,
+      "allChaptersVerified": true
+    },
+    {
+      "number": 2,
+      "title": "コンビニで買い物",
+      "id": "4",
+      "jlptLevel": "N5",
+      "totalChapters": 5,
+      "allChaptersVerified": true
+    },
+    {
+      "number": 3,
+      "title": "ビジネスメールの作成",
+      "id": "17",
+      "jlptLevel": "N2",
+      "totalChapters": 5,
+      "allChaptersVerified": true
+    },
+    {
+      "number": 4,
+      "title": "プロジェクトの進捗報告",
+      "id": "19",
+      "jlptLevel": "N2",
+      "totalChapters": 5,
+      "allChaptersVerified": true
+    },
+    {
+      "number": 5,
+      "title": "レストランでの注文",
+      "id": "7",
+      "jlptLevel": "N4",
+      "totalChapters": 5,
+      "allChaptersVerified": true
+    },
+    {
+      "number": 6,
+      "title": "会社での会議",
+      "id": "15",
+      "jlptLevel": "N3",
+      "totalChapters": 5,
+      "allChaptersVerified": true
+    },
+    {
+      "number": 7,
+      "title": "伝統文化の継承",
+      "id": "25",
+      "jlptLevel": "N1",
+      "totalChapters": 5,
+      "allChaptersVerified": true
+    },
+    {
+      "number": 8,
+      "title": "公園での散歩",
+      "id": "6",
+      "jlptLevel": "N5",
+      "totalChapters": 5,
+      "allChaptersVerified": true
+    },
+    {
+      "number": 9,
+      "title": "初めての挨拶",
+      "id": "2",
+      "jlptLevel": "N5",
+      "totalChapters": 5,
+      "allChaptersVerified": true
+    },
+    {
+      "number": 10,
+      "title": "友達との約束",
+      "id": "8",
+      "jlptLevel": "N4",
+      "totalChapters": 5,
+      "allChaptersVerified": true
+    },
+    {
+      "number": 11,
+      "title": "図書館での勉強",
+      "id": "11",
+      "jlptLevel": "N4",
+      "totalChapters": 5,
+      "allChaptersVerified": true
+    },
+    {
+      "number": 12,
+      "title": "国際関係の考察",
+      "id": "24",
+      "jlptLevel": "N1",
+      "totalChapters": 5,
+      "allChaptersVerified": true
+    },
+    {
+      "number": 13,
+      "title": "好きな食べ物",
+      "id": "5",
+      "jlptLevel": "N5",
+      "totalChapters": 5,
+      "allChaptersVerified": true
+    },
+    {
+      "number": 14,
+      "title": "家族の紹介",
+      "id": "3",
+      "jlptLevel": "N5",
+      "totalChapters": 5,
+      "allChaptersVerified": true
+    },
+    {
+      "number": 15,
+      "title": "就職活動の準備",
+      "id": "21",
+      "jlptLevel": "N2",
+      "totalChapters": 5,
+      "allChaptersVerified": true
+    },
+    {
+      "number": 16,
+      "title": "引っ越しの手続き",
+      "id": "16",
+      "jlptLevel": "N3",
+      "totalChapters": 5,
+      "allChaptersVerified": true
+    },
+    {
+      "number": 17,
+      "title": "文化交流イベント",
+      "id": "18",
+      "jlptLevel": "N2",
+      "totalChapters": 5,
+      "allChaptersVerified": true
+    },
+    {
+      "number": 18,
+      "title": "文学作品の解釈",
+      "id": "23",
+      "jlptLevel": "N1",
+      "totalChapters": 5,
+      "allChaptersVerified": true
+    },
+    {
+      "number": 19,
+      "title": "旅行の準備",
+      "id": "14",
+      "jlptLevel": "N3",
+      "totalChapters": 5,
+      "allChaptersVerified": true
+    },
+    {
+      "number": 20,
+      "title": "東京での新しい生活",
+      "id": "1",
+      "jlptLevel": "N3",
+      "totalChapters": 5,
+      "allChaptersVerified": true
+    },
+    {
+      "number": 21,
+      "title": "環境問題について",
+      "id": "20",
+      "jlptLevel": "N2",
+      "totalChapters": 5,
+      "allChaptersVerified": true
+    },
+    {
+      "number": 22,
+      "title": "病院での診察",
+      "id": "13",
+      "jlptLevel": "N3",
+      "totalChapters": 5,
+      "allChaptersVerified": true
+    },
+    {
+      "number": 23,
+      "title": "経済政策の分析",
+      "id": "22",
+      "jlptLevel": "N1",
+      "totalChapters": 5,
+      "allChaptersVerified": true
+    },
+    {
+      "number": 24,
+      "title": "週末の計画",
+      "id": "10",
+      "jlptLevel": "N4",
+      "totalChapters": 5,
+      "allChaptersVerified": true
+    },
+    {
+      "number": 25,
+      "title": "電車での通学",
+      "id": "9",
+      "jlptLevel": "N4",
+      "totalChapters": 5,
+      "allChaptersVerified": true
+    }
+  ]
+}

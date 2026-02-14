@@ -10,7 +10,9 @@ datasource db {
 model Story {
   story_id                   String    @id @default(uuid()) @db.VarChar
   title                      String    @unique(map: "unique_story_title") @db.VarChar(200)
+  title_en                   String?   @db.VarChar(200)
   description                String?
+  description_en             String?
   category                   String    @db.VarChar(50)
   difficulty_level           String    @db.VarChar(20)
   level_jlpt                 String?   @db.VarChar(10)
@@ -32,18 +34,19 @@ model Story {
 }
 
 model Chapter {
-  chapter_id      String   @id @default(uuid()) @db.VarChar
-  story_id        String   @db.VarChar
-  chapter_number  Int
-  title           String   @db.VarChar(200)
-  content         String
-  content_en      String?
-  audio_url       String?  @db.VarChar(500)
-  learning_points Json     @db.Json
-  vocabulary      Json     @db.Json
-  created_at      DateTime @default(now()) @db.Timestamptz(6)
-  story           Story    @relation("StoryChapters", fields: [story_id], references: [story_id], onDelete: NoAction, onUpdate: NoAction)
-  choices         Choice[] @relation("ChapterChoices")
+  chapter_id         String   @id @default(uuid()) @db.VarChar
+  story_id           String   @db.VarChar
+  parent_chapter_id  String?  @db.VarChar
+  chapter_number     Int
+  title              String?  @db.VarChar(200)
+  content            String
+  content_en         String?
+  audio_url          String?  @db.VarChar(500)
+  learning_points    Json?    @db.Json
+  vocabulary         Json?    @db.Json
+  created_at         DateTime @default(now()) @db.Timestamptz(6)
+  story              Story    @relation("StoryChapters", fields: [story_id], references: [story_id], onDelete: NoAction, onUpdate: NoAction)
+  choices            Choice[] @relation("ChapterChoices")
 
   @@index([story_id], map: "ix_chapters_story_id")
   @@map("chapters")
@@ -53,8 +56,10 @@ model Choice {
   choice_id             String   @id @default(uuid()) @db.VarChar
   chapter_id            String   @db.VarChar
   choice_text           String   @db.VarChar(500)
+  choice_description    String?  @db.VarChar(1000)
   next_chapter_id       String?  @db.VarChar
-  difficulty_adjustment Int
+  display_order         Int?
+  difficulty_adjustment Int      @default(0)
   ending_type           String?  @db.VarChar(20)
   created_at            DateTime @default(now()) @db.Timestamptz(6)
   chapter               Chapter  @relation("ChapterChoices", fields: [chapter_id], references: [chapter_id])

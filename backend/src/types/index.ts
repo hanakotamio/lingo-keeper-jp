@@ -6,7 +6,9 @@ export type CEFRLevel = 'A1' | 'A2' | 'B1' | 'B2' | 'C1' | 'C2';
 export interface Story {
   story_id: string;
   title: string;
+  title_en?: string;
   description: string;
+  description_en?: string;
   level_jlpt: JLPTLevel;
   level_cefr: CEFRLevel;
   estimated_time: number; // 分
@@ -33,6 +35,7 @@ export interface Chapter {
   chapter_number: number;
   title: string;
   content: string;
+  content_en?: string; // English translation
   audio_url?: string;
   learning_points?: any; // JSON field
   vocabulary?: any; // JSON field with vocabulary data
