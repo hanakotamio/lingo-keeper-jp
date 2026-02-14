@@ -41,6 +41,7 @@ model Chapter {
   title              String?  @db.VarChar(200)
   content            String
   content_en         String?
+  content_ruby       String?
   audio_url          String?  @db.VarChar(500)
   learning_points    Json?    @db.Json
   vocabulary         Json?    @db.Json

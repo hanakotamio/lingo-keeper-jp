@@ -36,6 +36,7 @@ export interface Chapter {
   title: string;
   content: string;
   content_en?: string; // English translation
+  content_ruby?: string; // Japanese text with ruby (furigana) tags
   audio_url?: string;
   learning_points?: any; // JSON field
   vocabulary?: any; // JSON field with vocabulary data

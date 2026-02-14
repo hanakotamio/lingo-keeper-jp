@@ -23,3 +23,15 @@ body {
   /* ⚠️ display: flex, place-items: center 等は記載しない */
   /* レイアウトは layouts/ のコンポーネント内で実装 */
 }
+
+/* 4. Ruby (furigana) styling */
+ruby {
+  ruby-position: over;
+}
+
+rt {
+  font-size: 0.5em;
+  line-height: 1;
+  user-select: none;
+  color: #666;
+}

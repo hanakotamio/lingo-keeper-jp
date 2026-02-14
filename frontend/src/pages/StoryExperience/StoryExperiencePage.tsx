@@ -699,18 +699,30 @@ export const StoryExperiencePage: React.FC = () => {
                 lineHeight: 2,
               }}
             >
-              <Typography
-                data-testid="chapter-content"
-                variant="body1"
-                component="div"
-                sx={{
-                  fontSize: '1.1rem',
-                  lineHeight: 2.2,
-                  whiteSpace: 'pre-wrap',
-                }}
-              >
-                {currentChapter.content}
-              </Typography>
+              {viewerState.showRuby && currentChapter.content_ruby ? (
+                <Box
+                  data-testid="chapter-content"
+                  sx={{
+                    fontSize: '1.1rem',
+                    lineHeight: 2.2,
+                    whiteSpace: 'pre-wrap',
+                  }}
+                  dangerouslySetInnerHTML={{ __html: currentChapter.content_ruby }}
+                />
+              ) : (
+                <Typography
+                  data-testid="chapter-content"
+                  variant="body1"
+                  component="div"
+                  sx={{
+                    fontSize: '1.1rem',
+                    lineHeight: 2.2,
+                    whiteSpace: 'pre-wrap',
+                  }}
+                >
+                  {currentChapter.content}
+                </Typography>
+              )}
 
               {/* English Translation */}
               {viewerState.showTranslation && currentChapter.content_en && (

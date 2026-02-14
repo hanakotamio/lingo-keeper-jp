@@ -164,6 +164,7 @@ async function main(): Promise<void> {
       chapter_number: 1,
       content: '今日は私の東京での新しい生活の初めての日です。渋谷の駅に着いて、人の多さに驚きました。これから、どこへ行きましょうか?',
       content_en: 'Today is my first day of a new life in Tokyo. I arrived at Shibuya Station and was surprised by the number of people. Where should I go from here?',
+      content_ruby: '<ruby>今日<rt>きょう</rt></ruby>は<ruby>私<rt>わたし</rt></ruby>の<ruby>東京<rt>とうきょう</rt></ruby>での<ruby>新<rt>あたら</rt></ruby>しい<ruby>生活<rt>せいかつ</rt></ruby>の<ruby>初<rt>はじ</rt></ruby>めての<ruby>日<rt>ひ</rt></ruby>です。<ruby>渋谷<rt>しぶや</rt></ruby>の<ruby>駅<rt>えき</rt></ruby>に<ruby>着<rt>つ</rt></ruby>いて、<ruby>人<rt>ひと</rt></ruby>の<ruby>多<rt>おお</rt></ruby>さに<ruby>驚<rt>おどろ</rt></ruby>きました。これから、どこへ<ruby>行<rt>い</rt></ruby>きましょうか?',
     },
   });
 
@@ -179,6 +180,7 @@ async function main(): Promise<void> {
         parent_chapter_id: chapter1_1.chapter_id,
         content: '静かなカフェに入りました。窓際の席に座って、カフェラテを注文しました。外を見ると、渋谷のスクランブル交差点が見えます。多くの人が行き交っています。',
         content_en: 'I entered a quiet cafe. I sat at a window seat and ordered a cafe latte. Looking outside, I can see the Shibuya Scramble Crossing. Many people are passing by.',
+        content_ruby: '<ruby>静<rt>しず</rt></ruby>かなカフェに<ruby>入<rt>はい</rt></ruby>りました。<ruby>窓際<rt>まどぎわ</rt></ruby>の<ruby>席<rt>せき</rt></ruby>に<ruby>座<rt>すわ</rt></ruby>って、カフェラテを<ruby>注文<rt>ちゅうもん</rt></ruby>しました。<ruby>外<rt>そと</rt></ruby>を<ruby>見<rt>み</rt></ruby>ると、<ruby>渋谷<rt>しぶや</rt></ruby>のスクランブル<ruby>交差点<rt>こうさてん</rt></ruby>が<ruby>見<rt>み</rt></ruby>えます。<ruby>多<rt>おお</rt></ruby>くの<ruby>人<rt>ひと</rt></ruby>が<ruby>行<rt>い</rt></ruby>き<ruby>交<rt>か</rt></ruby>っています。',
       },
       {
         chapter_id: 'ch-1-2b',

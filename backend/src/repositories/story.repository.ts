@@ -42,6 +42,7 @@ export class StoryRepository {
       title: prismaChapter.title,
       content: prismaChapter.content,
       content_en: prismaChapter.content_en || undefined,
+      content_ruby: prismaChapter.content_ruby || undefined,
       audio_url: prismaChapter.audio_url || undefined,
       learning_points: prismaChapter.learning_points ? (prismaChapter.learning_points as any) : undefined,
       vocabulary: prismaChapter.vocabulary ? (prismaChapter.vocabulary as any) : undefined,
