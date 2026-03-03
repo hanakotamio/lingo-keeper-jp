@@ -571,9 +571,31 @@ curl https://lingo-keeper-jp-backend-16378814888.asia-northeast1.run.app/api/hea
 - ✅ API動作確認: 9個のストーリー取得成功
 - ✅ CORS設定: https://frontend-seven-beta-72.vercel.app が許可済み
 
+### 最新の更新 (2026-02-17 09:00 JST)
+
+#### ストーリーカード表示問題の修正
+**問題**: 本番環境でストーリーカードが表示されない
+
+**原因**: Vercel環境変数 `VITE_API_URL` に2つの問題
+1. URLの末尾に改行文字 `\n` が含まれていた
+2. バックエンドURL名が間違っていた（`lingo-keeper-backend` → 正しくは `lingo-keeper-jp-backend`）
+
+**修正内容**:
+- 全環境（production/preview/development）の環境変数を修正
+- 正しい値: `https://lingo-keeper-jp-backend-16378814888.asia-northeast1.run.app`
+- キャッシュクリアして再デプロイ実施
+
+**デプロイ状態**:
+- 新しいデプロイURL: https://lingo-keeper-8er1ni68a-mio-furumakis-projects.vercel.app
+- エイリアスURL（固定）: https://lingo-keeper-jp.vercel.app
+- バックエンドAPI: ✅ 正常動作確認済み（18個のストーリーを返却）
+- フロントエンド→バックエンド接続: ✅ CORS正常動作確認済み
+
 ### 次回デプロイ時の注意点
 - Dockerfileは`node:18-slim`ベース（OpenSSL対応済み）
 - `.dockerignore`から`tsconfig.json`を除外しない
 - Secret Manager使用時は`roles/secretmanager.secretAccessor`権限が必要
 - Cloud Runでは PORT 環境変数は予約済み（--port オプションを使用）
 - Vercelチームデプロイ時は Git作者メールが認証済みアカウントと一致する必要あり
+- **Vercel環境変数設定時は`printf`を使用して改行文字を除外する**: `printf "VALUE" | vercel env add NAME env`
+# Trigger rebuild - Tue Mar  3 18:52:20 JST 2026
