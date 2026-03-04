@@ -280,7 +280,7 @@ export const StoryExperiencePage: React.FC = () => {
       const error = err instanceof Error ? err : new Error(String(err));
       logger.error('Failed to play audio', { error: error.message });
       setAudioPlaying(false);
-      alert('音声の再生に失敗しました。もう一度お試しください。');
+      alert('Failed to play audio. Please try again.');
     }
   };
 
@@ -356,7 +356,7 @@ export const StoryExperiencePage: React.FC = () => {
               },
             }}
           />
-          <Typography variant="body1">読み込み中...</Typography>
+          <Typography variant="body1">Loading...</Typography>
         </Box>
       </PublicLayout>
     );
@@ -379,7 +379,7 @@ export const StoryExperiencePage: React.FC = () => {
               }}
             >
               <Typography variant="h4" component="h1" color="white" mb={2}>
-                レベル別ストーリー一覧
+                Stories by Level
               </Typography>
 
               <Box display="flex" gap={1} flexWrap="wrap">
@@ -400,7 +400,7 @@ export const StoryExperiencePage: React.FC = () => {
                       },
                     }}
                   >
-                    {level === 'all' ? 'すべて' : level.replace('-', ' / ')}
+                    {level === 'all' ? 'All' : level.replace('-', ' / ')}
                   </Button>
                 ))}
               </Box>
@@ -412,7 +412,7 @@ export const StoryExperiencePage: React.FC = () => {
                 <Box display="flex" alignItems="center" gap={1} mb={3}>
                   <StarIcon sx={{ color: 'warning.main', fontSize: 28 }} />
                   <Typography variant="h5" component="h2">
-                    あなたにおすすめ
+                    Recommended for You
                   </Typography>
                 </Box>
 
@@ -457,7 +457,7 @@ export const StoryExperiencePage: React.FC = () => {
                               />
                               {completed && (
                                 <Chip
-                                  label="完了"
+                                  label="Completed"
                                   color="success"
                                   size="small"
                                   icon={<CheckCircleIcon />}
@@ -484,11 +484,11 @@ export const StoryExperiencePage: React.FC = () => {
                               <Typography variant="body2">約{story.estimated_time}分</Typography>
                               {completed ? (
                                 <Typography variant="body2" color="success.main" fontWeight="medium">
-                                  完了済み ✓
+                                  Completed ✓
                                 </Typography>
                               ) : (
                                 <Chip
-                                  label="おすすめ"
+                                  label="Recommended"
                                   color="warning"
                                   size="small"
                                   icon={<StarIcon />}
@@ -507,7 +507,7 @@ export const StoryExperiencePage: React.FC = () => {
             {/* Story List */}
             <Box mb={4}>
               <Typography variant="h5" component="h2" mb={3}>
-                すべてのストーリー
+                All Stories
               </Typography>
 
               <Box
@@ -577,7 +577,7 @@ export const StoryExperiencePage: React.FC = () => {
                               />
                               {completed && (
                                 <Chip
-                                  label="完了"
+                                  label="Completed"
                                   color="success"
                                   size="small"
                                   icon={<CheckCircleIcon />}
@@ -606,11 +606,11 @@ export const StoryExperiencePage: React.FC = () => {
                               </Typography>
                               {completed ? (
                                 <Typography variant="body2" color="success.main" fontWeight="medium">
-                                  完了済み ✓
+                                  Completed ✓
                                 </Typography>
                               ) : (
                                 <Typography variant="body2" color="primary" fontWeight="medium">
-                                  進捗: 0%
+                                  Progress: 0%
                                 </Typography>
                               )}
                             </Box>
@@ -636,7 +636,7 @@ export const StoryExperiencePage: React.FC = () => {
                 onClick={handleBackToList}
                 sx={{ mb: 2 }}
               >
-                ストーリー一覧に戻る
+                Back to Story List
               </Button>
 
               <Chip
@@ -655,7 +655,7 @@ export const StoryExperiencePage: React.FC = () => {
               <Box my={3}>
                 <Box display="flex" justifyContent="space-between" mb={1}>
                   <Typography variant="body2" color="text.secondary">
-                    チャプター {currentChapter.chapter_number}/5
+                    Chapter {currentChapter.chapter_number}/5
                   </Typography>
                   <Typography variant="body2" color="text.secondary">
                     {viewerState.progress}%
@@ -677,14 +677,14 @@ export const StoryExperiencePage: React.FC = () => {
                 size="small"
                 onClick={toggleRuby}
               >
-                ルビ表示
+                Furigana
               </Button>
               <Button
                 variant={viewerState.showTranslation ? 'contained' : 'outlined'}
                 size="small"
                 onClick={toggleTranslation}
               >
-                翻訳表示
+                Translation
               </Button>
             </Box>
 
@@ -778,7 +778,7 @@ export const StoryExperiencePage: React.FC = () => {
                     }),
                   }}
                 >
-                  {viewerState.isAudioPlaying ? '音声再生中...' : '音声を聞く'}
+                  {viewerState.isAudioPlaying ? 'Playing...' : 'Listen'}
                 </Button>
 
                 {/* Speech Speed Selector */}
@@ -826,10 +826,10 @@ export const StoryExperiencePage: React.FC = () => {
                 }}
               >
                 <Typography variant="h6" component="h3" mb={2} color="primary">
-                  💡 語彙ヘルプ
+                  💡 Vocabulary Help
                 </Typography>
                 <Typography variant="body2" color="text.secondary" mb={2}>
-                  このチャプターで使われている重要な単語と表現の説明です。
+                  Key words and expressions used in this chapter.
                 </Typography>
                 <Box display="flex" flexDirection="column" gap={2}>
                   {Object.entries(currentChapter.vocabulary as Record<string, string>).map(([word, meaning], index) => {
@@ -858,7 +858,7 @@ export const StoryExperiencePage: React.FC = () => {
             {currentChapter.choices && currentChapter.choices.length > 0 && (
               <Box mt={5}>
                 <Typography variant="h6" component="h3" mb={3}>
-                  次はどうしますか？
+                  What will you do next?
                 </Typography>
 
                 <Box
@@ -922,7 +922,7 @@ export const StoryExperiencePage: React.FC = () => {
                 startIcon={<CheckIcon />}
                 onClick={handleGoToQuiz}
               >
-                理解度チェックへ
+                Take Quiz
               </Button>
             </Box>
           </Box>

@@ -264,7 +264,7 @@ export const QuizProgressPage: React.FC = () => {
               },
             }}
           />
-          <Typography variant="body1">読み込み中...</Typography>
+          <Typography variant="body1">Loading...</Typography>
         </Box>
       </PublicLayout>
     );
@@ -281,10 +281,10 @@ export const QuizProgressPage: React.FC = () => {
               onClick={() => navigate('/stories')}
               variant="outlined"
             >
-              ストーリーに戻る
+              Back to Stories
             </Button>
             <Typography variant="h4" component="h1">
-              理解度チェック
+              Quiz
             </Typography>
           </Box>
 
@@ -329,7 +329,7 @@ export const QuizProgressPage: React.FC = () => {
                   size="small"
                   onClick={() => dispatch({ type: 'TOGGLE_QUESTION_TEXT' })}
                 >
-                  {state.showQuestionText ? 'テキストを隠す' : 'テキストを表示'}
+                  {state.showQuestionText ? 'Hide Text' : 'Show Text'}
                 </Button>
               </Box>
 
@@ -572,7 +572,7 @@ export const QuizProgressPage: React.FC = () => {
                   {progress?.total_quizzes || 0}
                 </Typography>
                 <Typography variant="body2" color="text.secondary">
-                  完了問題数
+                  Quizzes Completed
                 </Typography>
               </CardContent>
             </Card>
@@ -583,7 +583,7 @@ export const QuizProgressPage: React.FC = () => {
                   {progress?.completed_stories.length || 0}
                 </Typography>
                 <Typography variant="body2" color="text.secondary">
-                  完了ストーリー
+                  Stories Completed
                 </Typography>
               </CardContent>
             </Card>
@@ -820,7 +820,7 @@ export const QuizProgressPage: React.FC = () => {
                       <Typography variant="subtitle1" fontWeight="medium">
                         {story.story_title}
                       </Typography>
-                      <Chip label="完了" color="success" size="small" />
+                      <Chip label="Completed" color="success" size="small" />
                     </Box>
 
                     <Typography variant="body2" color="text.secondary" mb={1}>
@@ -847,7 +847,7 @@ export const QuizProgressPage: React.FC = () => {
           {recommendedStory && (
             <Box mt={4} pt={4} sx={{ borderTop: 1, borderColor: 'rgba(122, 156, 94, 0.12)' }}>
               <Typography variant="h6" component="h3" mb={3}>
-                次のおすすめストーリー
+                Recommended Next Story
               </Typography>
 
               <Card
@@ -862,7 +862,7 @@ export const QuizProgressPage: React.FC = () => {
                 }}
               >
                 <CardContent sx={{ p: 3 }}>
-                  <Chip label="おすすめ" color="warning" size="small" sx={{ mb: 1 }} />
+                  <Chip label="Recommended" color="warning" size="small" sx={{ mb: 1 }} />
                   <Typography variant="h6" component="h4" mb={1}>
                     {recommendedStory.title}
                   </Typography>

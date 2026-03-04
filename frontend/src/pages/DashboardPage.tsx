@@ -37,20 +37,20 @@ export const DashboardPage = () => {
     <MainLayout>
       <Box>
         <Typography variant="h4" gutterBottom>
-          ダッシュボード
+          Dashboard
         </Typography>
 
         <Grid container spacing={3} sx={{ mt: 2 }}>
           <Grid size={{ xs: 12, md: 4 }}>
             <Card>
               <CardContent>
-                <Typography variant="h6">学習進捗</Typography>
+                <Typography variant="h6">Learning Progress</Typography>
                 <Typography variant="body2" color="text.secondary">
-                  完了したストーリー: {completedStories.length}
+                  Stories Completed: {completedStories.length}
                 </Typography>
                 {completedStories.length > 0 && (
                   <Typography variant="caption" color="text.secondary" display="block" sx={{ mt: 1 }}>
-                    最後の完了: {new Date(completedStories[completedStories.length - 1].completed_at).toLocaleDateString('ja-JP')}
+                    Last Completed: {new Date(completedStories[completedStories.length - 1].completed_at).toLocaleDateString('en-US')}
                   </Typography>
                 )}
               </CardContent>
@@ -60,12 +60,12 @@ export const DashboardPage = () => {
           <Grid size={{ xs: 12, md: 4 }}>
             <Card>
               <CardContent>
-                <Typography variant="h6">クイズ成績</Typography>
+                <Typography variant="h6">Quiz Performance</Typography>
                 <Typography variant="body2" color="text.secondary">
-                  正答率: {overallAccuracy}%
+                  Accuracy: {overallAccuracy}%
                 </Typography>
                 <Typography variant="caption" color="text.secondary" display="block" sx={{ mt: 1 }}>
-                  解答数: {quizResults.length}問
+                  Answers: {quizResults.length} questions
                 </Typography>
               </CardContent>
             </Card>
@@ -74,13 +74,13 @@ export const DashboardPage = () => {
           <Grid size={{ xs: 12, md: 4 }}>
             <Card>
               <CardContent>
-                <Typography variant="h6">現在のレベル</Typography>
+                <Typography variant="h6">Current Level</Typography>
                 <Typography variant="body2" color="text.secondary">
                   JLPT: {learnerLevel?.current_level || 'N5'}
                 </Typography>
                 {learnerLevel && learnerLevel.confidence > 0 && (
                   <Typography variant="caption" color="text.secondary" display="block" sx={{ mt: 1 }}>
-                    確度: {learnerLevel.confidence}% | 推奨: {learnerLevel.recommended_next_level}
+                    Confidence: {learnerLevel.confidence}% | Recommended: {learnerLevel.recommended_next_level}
                   </Typography>
                 )}
               </CardContent>
