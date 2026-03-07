@@ -8,12 +8,15 @@ import {
   MenuItem,
   Avatar,
   Box,
+  Button,
   useTheme,
   useMediaQuery,
 } from '@mui/material';
 import MenuIcon from '@mui/icons-material/Menu';
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
+import LanguageIcon from '@mui/icons-material/Language';
 import { useAuth } from '@/hooks/useAuth';
+import { useI18n } from '@/hooks/useI18n';
 import { useNavigate } from 'react-router-dom';
 
 interface HeaderProps {
@@ -22,11 +25,16 @@ interface HeaderProps {
 
 export const Header = ({ onMenuClick }: HeaderProps) => {
   const { user, logout } = useAuth();
+  const { t, language, setLanguage } = useI18n();
   const navigate = useNavigate();
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down('md'));
 
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
+
+  const toggleLanguage = () => {
+    setLanguage(language === 'en' ? 'ja' : 'en');
+  };
 
   const handleMenuOpen = (event: React.MouseEvent<HTMLElement>) => {
     setAnchorEl(event.currentTarget);
@@ -57,7 +65,7 @@ export const Header = ({ onMenuClick }: HeaderProps) => {
             edge="start"
             onClick={onMenuClick}
             sx={{ mr: 2 }}
-            aria-label="メニューを開く"
+            aria-label={t('header.openMenu')}
           >
             <MenuIcon />
           </IconButton>
@@ -65,16 +73,27 @@ export const Header = ({ onMenuClick }: HeaderProps) => {
 
         {/* タイトル */}
         <Typography variant="h6" component="div" sx={{ flexGrow: 1, cursor: 'pointer' }} onClick={() => navigate('/')}>
-          Lingo Keeper JP
+          {t('header.appName')}
         </Typography>
 
         {/* ユーザー情報 */}
         <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
+          {/* 言語切替ボタン */}
+          <Button
+            color="inherit"
+            size="small"
+            onClick={toggleLanguage}
+            startIcon={<LanguageIcon />}
+            sx={{ minWidth: 'auto', textTransform: 'none' }}
+          >
+            {language.toUpperCase()}
+          </Button>
+
           <Typography variant="body2" sx={{ display: { xs: 'none', sm: 'block' } }}>
-            {user?.username || 'ゲスト'}
+            {user?.username || t('header.guest')}
           </Typography>
 
-          <IconButton onClick={handleMenuOpen} color="inherit" aria-label="ユーザーメニュー">
+          <IconButton onClick={handleMenuOpen} color="inherit" aria-label={t('header.userMenu')}>
             <Avatar sx={{ width: 32, height: 32, bgcolor: 'secondary.main' }}>
               <AccountCircleIcon />
             </Avatar>
@@ -93,8 +112,8 @@ export const Header = ({ onMenuClick }: HeaderProps) => {
               horizontal: 'right',
             }}
           >
-            <MenuItem onClick={handleProfile}>プロフィール</MenuItem>
-            <MenuItem onClick={handleLogout}>ログアウト</MenuItem>
+            <MenuItem onClick={handleProfile}>{t('header.profile')}</MenuItem>
+            <MenuItem onClick={handleLogout}>{t('header.logout')}</MenuItem>
           </Menu>
         </Box>
       </Toolbar>

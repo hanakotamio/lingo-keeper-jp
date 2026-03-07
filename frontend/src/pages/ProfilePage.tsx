@@ -1,30 +1,32 @@
 import { Typography, Box, Card, CardContent } from '@mui/material';
 import { MainLayout } from '@/layouts/MainLayout';
 import { useAuth } from '@/hooks/useAuth';
+import { useI18n } from '@/hooks/useI18n';
 
 export const ProfilePage = () => {
   const { user } = useAuth();
+  const { t } = useI18n();
 
   return (
     <MainLayout>
       <Box>
         <Typography variant="h4" gutterBottom>
-          プロフィール
+          {t('profile.title')}
         </Typography>
 
         <Card sx={{ mt: 3 }}>
           <CardContent>
             <Typography variant="h6" gutterBottom>
-              ユーザー情報
+              {t('profile.userInfo')}
             </Typography>
             <Typography variant="body1">
-              ユーザー名: {user?.username}
+              {t('profile.username')}: {user?.username}
             </Typography>
             <Typography variant="body1">
-              メールアドレス: {user?.email}
+              {t('profile.email')}: {user?.email}
             </Typography>
             <Typography variant="body1">
-              ロール: {user?.role === 'admin' ? '管理者' : 'ユーザー'}
+              {t('profile.role')}: {user?.role === 'admin' ? t('profile.admin') : t('profile.user')}
             </Typography>
           </CardContent>
         </Card>

@@ -10,11 +10,13 @@ import {
 } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '@/hooks/useAuth';
+import { useI18n } from '@/hooks/useI18n';
 import { PublicLayout } from '@/layouts/PublicLayout';
 
 export const LoginPage = () => {
   const navigate = useNavigate();
   const { login } = useAuth();
+  const { t } = useI18n();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [rememberMe, setRememberMe] = useState(false);
@@ -30,14 +32,14 @@ export const LoginPage = () => {
       await login(email, password, rememberMe);
       navigate('/');
     } catch (err) {
-      setError(err instanceof Error ? err.message : 'ログインに失敗しました');
+      setError(err instanceof Error ? err.message : t('auth.invalidCredentials'));
     } finally {
       setLoading(false);
     }
   };
 
   return (
-    <PublicLayout title="ログイン">
+    <PublicLayout title={t('auth.login')}>
       <Box component="form" onSubmit={handleSubmit} sx={{ mt: 1 }}>
         {error && (
           <Alert severity="error" sx={{ mb: 2 }}>
@@ -49,7 +51,7 @@ export const LoginPage = () => {
           margin="normal"
           required
           fullWidth
-          label="メールアドレス"
+          label={t('auth.email')}
           type="email"
           autoComplete="email"
           autoFocus
@@ -61,7 +63,7 @@ export const LoginPage = () => {
           margin="normal"
           required
           fullWidth
-          label="パスワード"
+          label={t('auth.password')}
           type="password"
           autoComplete="current-password"
           value={password}
@@ -72,22 +74,22 @@ export const LoginPage = () => {
           control={
             <Checkbox checked={rememberMe} onChange={(e) => setRememberMe(e.target.checked)} />
           }
-          label="ログイン状態を保持する"
+          label={t('auth.rememberMe')}
         />
 
         <Button type="submit" fullWidth variant="contained" sx={{ mt: 3, mb: 2 }} disabled={loading}>
-          {loading ? 'ログイン中...' : 'ログイン'}
+          {loading ? t('auth.loggingIn') : t('auth.login')}
         </Button>
 
         <Box sx={{ mt: 3, p: 2, backgroundColor: 'info.light', borderRadius: 1 }}>
           <Typography variant="subtitle2" gutterBottom>
-            デモアカウント:
+            {t('auth.demoAccount')}:
           </Typography>
           <Typography variant="body2">
-            ユーザー: demo@example.com / demo123
+            {t('profile.user')}: demo@example.com / demo123
           </Typography>
           <Typography variant="body2">
-            管理者: admin@example.com / admin123
+            {t('profile.admin')}: admin@example.com / admin123
           </Typography>
         </Box>
       </Box>

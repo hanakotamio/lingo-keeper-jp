@@ -15,6 +15,7 @@ import {
   ArrowForward as ArrowForwardIcon,
   CheckCircle as CheckCircleIcon,
 } from '@mui/icons-material';
+import { useI18n } from '@/hooks/useI18n';
 import type { Story } from '@/types';
 
 interface StoryCompletionModalProps {
@@ -46,26 +47,28 @@ export const StoryCompletionModal: React.FC<StoryCompletionModalProps> = ({
   onBackToList,
   recommendedStory,
 }) => {
+  const { t } = useI18n();
+
   // Message and badge color based on accuracy
   const getAccuracyMessage = (accuracy: number): { message: string; color: string } => {
     if (accuracy >= 90) {
       return {
-        message: 'Excellent! Perfect understanding!',
+        message: t('story.completion.excellent'),
         color: '#FFD700', // Gold
       };
     } else if (accuracy >= 70) {
       return {
-        message: 'Well done!',
+        message: t('story.completion.wellDone'),
         color: '#C0C0C0', // Silver
       };
     } else if (accuracy >= 50) {
       return {
-        message: 'Good effort!',
+        message: t('story.completion.goodEffort'),
         color: '#CD7F32', // Bronze
       };
     } else {
       return {
-        message: "Let's review!",
+        message: t('story.completion.letsReview'),
         color: '#7A9C5E', // Theme green
       };
     }
@@ -110,7 +113,7 @@ export const StoryCompletionModal: React.FC<StoryCompletionModalProps> = ({
           </Box>
 
           <Typography variant="h4" component="h2" color="white" mt={2} mb={1}>
-            Story Completed!
+            {t('story.completion.title')}
           </Typography>
 
           <Chip
@@ -141,7 +144,7 @@ export const StoryCompletionModal: React.FC<StoryCompletionModalProps> = ({
           <CardContent>
             <Box display="flex" justifyContent="space-between" alignItems="center" mb={1}>
               <Typography variant="body1" fontWeight="medium">
-                Quiz Accuracy
+                {t('story.completion.quizAccuracy')}
               </Typography>
               <Typography variant="h6" color="primary" fontWeight="bold">
                 {quizAccuracy}%
@@ -172,7 +175,7 @@ export const StoryCompletionModal: React.FC<StoryCompletionModalProps> = ({
           <Card sx={{ mb: 3, bgcolor: 'rgba(255, 255, 255, 0.95)' }}>
             <CardContent>
               <Typography variant="subtitle1" fontWeight="medium" mb={2} color="primary">
-                Recommended Next Story
+                {t('story.completion.recommendedNext')}
               </Typography>
 
               <Box
@@ -218,7 +221,7 @@ export const StoryCompletionModal: React.FC<StoryCompletionModalProps> = ({
                 boxShadow: '0px 4px 8px rgba(0,0,0,0.2)',
               }}
             >
-              Go to Next Story
+              {t('story.completion.goToNext')}
             </Button>
           )}
 
@@ -237,7 +240,7 @@ export const StoryCompletionModal: React.FC<StoryCompletionModalProps> = ({
               },
             }}
           >
-            Back to Story List
+            {t('story.completion.backToList')}
           </Button>
         </Box>
       </DialogContent>

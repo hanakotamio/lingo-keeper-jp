@@ -7,6 +7,7 @@ import './index.css';
 import App from './App.tsx';
 import theme from './theme';
 import { AuthProvider } from '@/contexts/AuthContext';
+import { I18nProvider } from '@/contexts/I18nContext';
 
 console.log('[DEBUG] main.tsx loaded');
 console.log('[DEBUG] VITE_API_URL:', import.meta.env.VITE_API_URL);
@@ -27,9 +28,11 @@ try {
       <BrowserRouter>
         <ThemeProvider theme={theme}>
           <CssBaseline />
-          <AuthProvider>
-            <App />
-          </AuthProvider>
+          <I18nProvider>
+            <AuthProvider>
+              <App />
+            </AuthProvider>
+          </I18nProvider>
         </ThemeProvider>
       </BrowserRouter>
     </StrictMode>,

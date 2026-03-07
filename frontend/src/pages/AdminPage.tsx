@@ -1,20 +1,23 @@
 import { Typography, Box, Alert } from '@mui/material';
 import { MainLayout } from '@/layouts/MainLayout';
+import { useI18n } from '@/hooks/useI18n';
 
 export const AdminPage = () => {
+  const { t } = useI18n();
+
   return (
     <MainLayout>
       <Box>
         <Typography variant="h4" gutterBottom>
-          管理画面
+          {t('admin.title')}
         </Typography>
 
         <Alert severity="info" sx={{ mt: 2 }}>
-          管理者専用ページです。ストーリーやクイズの管理機能をここに実装します。
+          {t('admin.description')}
         </Alert>
 
         <Typography variant="body2" sx={{ mt: 2 }}>
-          （Phase 4: ページ実装で詳細機能を追加予定）
+          ({t('admin.phase4')})
         </Typography>
       </Box>
     </MainLayout>

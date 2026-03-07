@@ -26,6 +26,7 @@ import { useNavigate, useSearchParams } from 'react-router-dom';
 import { PublicLayout } from '@/layouts/PublicLayout';
 import { useStoryData } from '@/hooks/useStoryData';
 import { useStoryViewer } from '@/hooks/useStoryViewer';
+import { useI18n } from '@/hooks/useI18n';
 import { StoryApiService } from '@/services/api/StoryApiService';
 import { StoryCompletionModal } from '@/components/StoryCompletionModal';
 import type { LevelFilter, Chapter, Story, StoryCompletion } from '@/types';
@@ -54,6 +55,7 @@ import { getRecommendedStory, getRecommendedStories } from '@/lib/recommendation
  */
 export const StoryExperiencePage: React.FC = () => {
   const navigate = useNavigate();
+  const { t } = useI18n();
   const [searchParams, setSearchParams] = useSearchParams();
   const [selectedLevel, setSelectedLevel] = useState<LevelFilter>('all');
   const [currentChapter, setCurrentChapter] = useState<Chapter | null>(null);
@@ -356,7 +358,7 @@ export const StoryExperiencePage: React.FC = () => {
               },
             }}
           />
-          <Typography variant="body1">Loading...</Typography>
+          <Typography variant="body1">{t('common.labels.loading')}</Typography>
         </Box>
       </PublicLayout>
     );
@@ -379,7 +381,7 @@ export const StoryExperiencePage: React.FC = () => {
               }}
             >
               <Typography variant="h4" component="h1" color="white" mb={2}>
-                Stories by Level
+                {t('story.storiesByLevel')}
               </Typography>
 
               <Box display="flex" gap={1} flexWrap="wrap">
@@ -400,7 +402,7 @@ export const StoryExperiencePage: React.FC = () => {
                       },
                     }}
                   >
-                    {level === 'all' ? 'All' : level.replace('-', ' / ')}
+                    {level === 'all' ? t('common.labels.all') : level.replace('-', ' / ')}
                   </Button>
                 ))}
               </Box>
@@ -412,7 +414,7 @@ export const StoryExperiencePage: React.FC = () => {
                 <Box display="flex" alignItems="center" gap={1} mb={3}>
                   <StarIcon sx={{ color: 'warning.main', fontSize: 28 }} />
                   <Typography variant="h5" component="h2">
-                    Recommended for You
+                    {t('story.recommendedForYou')}
                   </Typography>
                 </Box>
 
@@ -457,7 +459,7 @@ export const StoryExperiencePage: React.FC = () => {
                               />
                               {completed && (
                                 <Chip
-                                  label="Completed"
+                                  label={t('common.labels.completed')}
                                   color="success"
                                   size="small"
                                   icon={<CheckCircleIcon />}
@@ -484,11 +486,11 @@ export const StoryExperiencePage: React.FC = () => {
                               <Typography variant="body2">約{story.estimated_time}分</Typography>
                               {completed ? (
                                 <Typography variant="body2" color="success.main" fontWeight="medium">
-                                  Completed ✓
+                                  {t('story.completed')} ✓
                                 </Typography>
                               ) : (
                                 <Chip
-                                  label="Recommended"
+                                  label={t('common.labels.recommended')}
                                   color="warning"
                                   size="small"
                                   icon={<StarIcon />}
@@ -507,7 +509,7 @@ export const StoryExperiencePage: React.FC = () => {
             {/* Story List */}
             <Box mb={4}>
               <Typography variant="h5" component="h2" mb={3}>
-                All Stories
+                {t('story.allStories')}
               </Typography>
 
               <Box
@@ -636,7 +638,7 @@ export const StoryExperiencePage: React.FC = () => {
                 onClick={handleBackToList}
                 sx={{ mb: 2 }}
               >
-                Back to Story List
+                {t('story.backToList')}
               </Button>
 
               <Chip
@@ -655,7 +657,7 @@ export const StoryExperiencePage: React.FC = () => {
               <Box my={3}>
                 <Box display="flex" justifyContent="space-between" mb={1}>
                   <Typography variant="body2" color="text.secondary">
-                    Chapter {currentChapter.chapter_number}/5
+                    {t('story.chapter')} {currentChapter.chapter_number}/5
                   </Typography>
                   <Typography variant="body2" color="text.secondary">
                     {viewerState.progress}%
@@ -677,14 +679,14 @@ export const StoryExperiencePage: React.FC = () => {
                 size="small"
                 onClick={toggleRuby}
               >
-                Furigana
+                {t('story.furigana')}
               </Button>
               <Button
                 variant={viewerState.showTranslation ? 'contained' : 'outlined'}
                 size="small"
                 onClick={toggleTranslation}
               >
-                Translation
+                {t('story.translation')}
               </Button>
             </Box>
 
@@ -740,7 +742,7 @@ export const StoryExperiencePage: React.FC = () => {
                     fontWeight="medium"
                     mb={2}
                   >
-                    🌐 English Translation
+                    🌐 {t('story.translation')}
                   </Typography>
                   <Typography
                     variant="body1"
@@ -778,12 +780,12 @@ export const StoryExperiencePage: React.FC = () => {
                     }),
                   }}
                 >
-                  {viewerState.isAudioPlaying ? 'Playing...' : 'Listen'}
+                  {viewerState.isAudioPlaying ? t('story.playing') : t('story.listen')}
                 </Button>
 
                 {/* Speech Speed Selector */}
                 <Box display="flex" alignItems="center" gap={1}>
-                  <Tooltip title="Speech speed">
+                  <Tooltip title={t('story.speechSpeed')}>
                     <SpeedIcon sx={{ color: 'text.secondary' }} />
                   </Tooltip>
                   <ButtonGroup size="small" variant="outlined">
@@ -792,21 +794,21 @@ export const StoryExperiencePage: React.FC = () => {
                       variant={speechSpeed === 0.75 ? 'contained' : 'outlined'}
                       sx={{ minWidth: '60px' }}
                     >
-                      Slow
+                      {t('story.slow')}
                     </Button>
                     <Button
                       onClick={() => setSpeechSpeed(1.0)}
                       variant={speechSpeed === 1.0 ? 'contained' : 'outlined'}
                       sx={{ minWidth: '70px' }}
                     >
-                      Normal
+                      {t('story.normal')}
                     </Button>
                     <Button
                       onClick={() => setSpeechSpeed(1.25)}
                       variant={speechSpeed === 1.25 ? 'contained' : 'outlined'}
                       sx={{ minWidth: '60px' }}
                     >
-                      Fast
+                      {t('story.fast')}
                     </Button>
                   </ButtonGroup>
                 </Box>
@@ -826,10 +828,10 @@ export const StoryExperiencePage: React.FC = () => {
                 }}
               >
                 <Typography variant="h6" component="h3" mb={2} color="primary">
-                  💡 Vocabulary Help
+                  💡 {t('story.vocabularyHelp')}
                 </Typography>
                 <Typography variant="body2" color="text.secondary" mb={2}>
-                  Key words and expressions used in this chapter.
+                  {t('story.vocabularyDescription')}
                 </Typography>
                 <Box display="flex" flexDirection="column" gap={2}>
                   {Object.entries(currentChapter.vocabulary as Record<string, string>).map(([word, meaning], index) => {
@@ -858,7 +860,7 @@ export const StoryExperiencePage: React.FC = () => {
             {currentChapter.choices && currentChapter.choices.length > 0 && (
               <Box mt={5}>
                 <Typography variant="h6" component="h3" mb={3}>
-                  What will you do next?
+                  {t('story.whatNext')}
                 </Typography>
 
                 <Box
@@ -922,7 +924,7 @@ export const StoryExperiencePage: React.FC = () => {
                 startIcon={<CheckIcon />}
                 onClick={handleGoToQuiz}
               >
-                Take Quiz
+                {t('story.takeQuiz')}
               </Button>
             </Box>
           </Box>

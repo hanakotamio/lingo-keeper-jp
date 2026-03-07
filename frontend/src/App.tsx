@@ -12,6 +12,11 @@ const AdminPage = lazy(() => import('@/pages/AdminPage').then(m => ({ default: m
 const StoryExperiencePage = lazy(() => import('@/pages/StoryExperience/StoryExperiencePage').then(m => ({ default: m.StoryExperiencePage })));
 const QuizPage = lazy(() => import('@/pages/QuizPage').then(m => ({ default: m.QuizPage })));
 const QuizProgressPage = lazy(() => import('@/pages/QuizProgress/QuizProgressPage').then(m => ({ default: m.QuizProgressPage })));
+const BeginnerPage = lazy(() => import('@/pages/Beginner/BeginnerPage').then(m => ({ default: m.BeginnerPage })));
+const HiraganaPage = lazy(() => import('@/pages/Beginner/HiraganaPage').then(m => ({ default: m.HiraganaPage })));
+const KatakanaPage = lazy(() => import('@/pages/Beginner/KatakanaPage').then(m => ({ default: m.KatakanaPage })));
+const PhrasesPage = lazy(() => import('@/pages/Beginner/PhrasesPage').then(m => ({ default: m.PhrasesPage })));
+const LevelCheckPage = lazy(() => import('@/pages/Beginner/LevelCheckPage').then(m => ({ default: m.LevelCheckPage })));
 
 // Loading fallback component
 const LoadingFallback = () => (
@@ -36,6 +41,11 @@ function App() {
         <Route path="/stories" element={<StoriesPage />} />
         <Route path="/quiz" element={<QuizPage />} />
         <Route path="/quiz-progress" element={<QuizProgressPage />} />
+        <Route path="/beginner" element={<BeginnerPage />} />
+        <Route path="/beginner/hiragana" element={<HiraganaPage />} />
+        <Route path="/beginner/katakana" element={<KatakanaPage />} />
+        <Route path="/beginner/phrases" element={<PhrasesPage />} />
+        <Route path="/beginner/level-check" element={<LevelCheckPage />} />
 
         {/* 認証が必要なルート */}
         <Route

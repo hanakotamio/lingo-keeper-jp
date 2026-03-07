@@ -15,8 +15,10 @@ import MenuBookIcon from '@mui/icons-material/MenuBook';
 import QuizIcon from '@mui/icons-material/Quiz';
 import PersonIcon from '@mui/icons-material/Person';
 import AdminPanelSettingsIcon from '@mui/icons-material/AdminPanelSettings';
+import SchoolIcon from '@mui/icons-material/School';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { useAuth } from '@/hooks/useAuth';
+import { useI18n } from '@/hooks/useI18n';
 import { DRAWER_WIDTH } from '@/layouts/MainLayout';
 
 interface SidebarProps {
@@ -25,24 +27,26 @@ interface SidebarProps {
 }
 
 interface MenuItemType {
-  text: string;
+  translationKey: string;
   icon: React.ReactNode;
   path: string;
   requiredRole?: 'user' | 'admin';
 }
 
 const menuItems: MenuItemType[] = [
-  { text: 'ダッシュボード', icon: <DashboardIcon />, path: '/' },
-  { text: 'ストーリー', icon: <MenuBookIcon />, path: '/stories' },
-  { text: 'クイズ', icon: <QuizIcon />, path: '/quiz' },
-  { text: 'プロフィール', icon: <PersonIcon />, path: '/profile' },
-  { text: '管理画面', icon: <AdminPanelSettingsIcon />, path: '/admin', requiredRole: 'admin' },
+  { translationKey: 'common.navigation.dashboard', icon: <DashboardIcon />, path: '/' },
+  { translationKey: 'common.navigation.beginner', icon: <SchoolIcon />, path: '/beginner' },
+  { translationKey: 'common.navigation.stories', icon: <MenuBookIcon />, path: '/stories' },
+  { translationKey: 'common.navigation.quiz', icon: <QuizIcon />, path: '/quiz' },
+  { translationKey: 'common.navigation.profile', icon: <PersonIcon />, path: '/profile' },
+  { translationKey: 'common.navigation.admin', icon: <AdminPanelSettingsIcon />, path: '/admin', requiredRole: 'admin' },
 ];
 
 export const Sidebar = ({ mobileOpen, onClose }: SidebarProps) => {
   const navigate = useNavigate();
   const location = useLocation();
   const { user } = useAuth();
+  const { t } = useI18n();
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down('md'));
 
@@ -66,9 +70,9 @@ export const Sidebar = ({ mobileOpen, onClose }: SidebarProps) => {
         {menuItems
           .filter((item) => hasPermission(item.requiredRole))
           .map((item) => (
-            <ListItem key={item.text} disablePadding>
+            <ListItem key={item.translationKey} disablePadding>
               <ListItemButton
-                selected={location.pathname === item.path}
+                selected={location.pathname === item.path || (item.path !== '/' && location.pathname.startsWith(item.path))}
                 onClick={() => handleNavigation(item.path)}
                 sx={{
                   '&.Mui-selected': {
@@ -85,12 +89,12 @@ export const Sidebar = ({ mobileOpen, onClose }: SidebarProps) => {
               >
                 <ListItemIcon
                   sx={{
-                    color: location.pathname === item.path ? 'primary.contrastText' : 'inherit',
+                    color: (location.pathname === item.path || (item.path !== '/' && location.pathname.startsWith(item.path))) ? 'primary.contrastText' : 'inherit',
                   }}
                 >
                   {item.icon}
                 </ListItemIcon>
-                <ListItemText primary={item.text} />
+                <ListItemText primary={t(item.translationKey as any)} />
               </ListItemButton>
             </ListItem>
           ))}
@@ -108,7 +112,7 @@ export const Sidebar = ({ mobileOpen, onClose }: SidebarProps) => {
           }}
         >
           <ListItemText
-            primary={`ロール: ${user?.role === 'admin' ? '管理者' : 'ユーザー'}`}
+            primary={`${t('profile.roleLabel')}: ${user?.role === 'admin' ? t('profile.admin') : t('profile.user')}`}
             secondary={user?.email}
             secondaryTypographyProps={{
               sx: { color: 'success.contrastText', opacity: 0.8 },

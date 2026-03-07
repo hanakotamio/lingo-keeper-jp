@@ -2,9 +2,11 @@ import { Typography, Box, Card, CardContent, Grid } from '@mui/material';
 import { MainLayout } from '@/layouts/MainLayout';
 import { useEffect, useState } from 'react';
 import { getCompletedStories, getQuizResults, getLearnerLevel } from '@/lib/storage';
+import { useI18n } from '@/hooks/useI18n';
 import type { StoryCompletion, UserQuizResult, LearnerLevel } from '@/types';
 
 export const DashboardPage = () => {
+  const { t } = useI18n();
   const [completedStories, setCompletedStories] = useState<StoryCompletion[]>([]);
   const [quizResults, setQuizResults] = useState<UserQuizResult[]>([]);
   const [learnerLevel, setLearnerLevel] = useState<LearnerLevel | null>(null);
@@ -37,16 +39,16 @@ export const DashboardPage = () => {
     <MainLayout>
       <Box>
         <Typography variant="h4" gutterBottom>
-          Dashboard
+          {t('dashboard.title')}
         </Typography>
 
         <Grid container spacing={3} sx={{ mt: 2 }}>
           <Grid size={{ xs: 12, md: 4 }}>
             <Card>
               <CardContent>
-                <Typography variant="h6">Learning Progress</Typography>
+                <Typography variant="h6">{t('dashboard.learningProgress')}</Typography>
                 <Typography variant="body2" color="text.secondary">
-                  Stories Completed: {completedStories.length}
+                  {t('dashboard.storiesCompleted')}: {completedStories.length}
                 </Typography>
                 {completedStories.length > 0 && (
                   <Typography variant="caption" color="text.secondary" display="block" sx={{ mt: 1 }}>
@@ -60,12 +62,12 @@ export const DashboardPage = () => {
           <Grid size={{ xs: 12, md: 4 }}>
             <Card>
               <CardContent>
-                <Typography variant="h6">Quiz Performance</Typography>
+                <Typography variant="h6">{t('dashboard.quizPerformance')}</Typography>
                 <Typography variant="body2" color="text.secondary">
-                  Accuracy: {overallAccuracy}%
+                  {t('dashboard.accuracy')}: {overallAccuracy}%
                 </Typography>
                 <Typography variant="caption" color="text.secondary" display="block" sx={{ mt: 1 }}>
-                  Answers: {quizResults.length} questions
+                  {t('dashboard.answers')}: {quizResults.length} {t('dashboard.questions')}
                 </Typography>
               </CardContent>
             </Card>
@@ -74,13 +76,13 @@ export const DashboardPage = () => {
           <Grid size={{ xs: 12, md: 4 }}>
             <Card>
               <CardContent>
-                <Typography variant="h6">Current Level</Typography>
+                <Typography variant="h6">{t('dashboard.currentLevel')}</Typography>
                 <Typography variant="body2" color="text.secondary">
-                  JLPT: {learnerLevel?.current_level || 'N5'}
+                  {t('dashboard.jlpt')}: {learnerLevel?.current_level || 'N5'}
                 </Typography>
                 {learnerLevel && learnerLevel.confidence > 0 && (
                   <Typography variant="caption" color="text.secondary" display="block" sx={{ mt: 1 }}>
-                    Confidence: {learnerLevel.confidence}% | Recommended: {learnerLevel.recommended_next_level}
+                    {t('dashboard.confidence')}: {learnerLevel.confidence}% | {t('dashboard.recommended')}: {learnerLevel.recommended_next_level}
                   </Typography>
                 )}
               </CardContent>
