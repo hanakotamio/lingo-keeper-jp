@@ -1,7 +1,7 @@
 // Translation type definitions for i18n system
 // This file defines all supported languages and translation key types
 
-export type SupportedLanguage = 'en' | 'ja';
+export type SupportedLanguage = 'en';
 
 // Translation structure interface
 export interface Translations {

@@ -8,13 +8,11 @@ import {
   MenuItem,
   Avatar,
   Box,
-  Button,
   useTheme,
   useMediaQuery,
 } from '@mui/material';
 import MenuIcon from '@mui/icons-material/Menu';
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
-import LanguageIcon from '@mui/icons-material/Language';
 import { useAuth } from '@/hooks/useAuth';
 import { useI18n } from '@/hooks/useI18n';
 import { useNavigate } from 'react-router-dom';
@@ -25,16 +23,12 @@ interface HeaderProps {
 
 export const Header = ({ onMenuClick }: HeaderProps) => {
   const { user, logout } = useAuth();
-  const { t, language, setLanguage } = useI18n();
+  const { t } = useI18n();
   const navigate = useNavigate();
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down('md'));
 
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
-
-  const toggleLanguage = () => {
-    setLanguage(language === 'en' ? 'ja' : 'en');
-  };
 
   const handleMenuOpen = (event: React.MouseEvent<HTMLElement>) => {
     setAnchorEl(event.currentTarget);
@@ -78,17 +72,6 @@ export const Header = ({ onMenuClick }: HeaderProps) => {
 
         {/* ユーザー情報 */}
         <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
-          {/* 言語切替ボタン */}
-          <Button
-            color="inherit"
-            size="small"
-            onClick={toggleLanguage}
-            startIcon={<LanguageIcon />}
-            sx={{ minWidth: 'auto', textTransform: 'none' }}
-          >
-            {language.toUpperCase()}
-          </Button>
-
           <Typography variant="body2" sx={{ display: { xs: 'none', sm: 'block' } }}>
             {user?.username || t('header.guest')}
           </Typography>

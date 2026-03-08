@@ -5,21 +5,16 @@ import { I18nContext } from '@/contexts/I18nContext';
  * Custom hook to access i18n translation context
  *
  * @returns {object} Object containing:
- *   - language: Current UI language ('en' | 'ja')
- *   - setLanguage: Function to change UI language
  *   - t: Translation function that accepts a translation key and returns translated string
  *
  * @throws {Error} If used outside of I18nProvider
  *
  * @example
- * const { t, language, setLanguage } = useI18n();
+ * const { t } = useI18n();
  *
  * return (
  *   <>
  *     <h1>{t('dashboard.title')}</h1>
- *     <Button onClick={() => setLanguage('ja')}>
- *       {t('header.languageSwitcher')}
- *     </Button>
  *   </>
  * );
  */

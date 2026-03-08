@@ -598,4 +598,3 @@ curl https://lingo-keeper-jp-backend-16378814888.asia-northeast1.run.app/api/hea
 - Cloud Runでは PORT 環境変数は予約済み（--port オプションを使用）
 - Vercelチームデプロイ時は Git作者メールが認証済みアカウントと一致する必要あり
 - **Vercel環境変数設定時は`printf`を使用して改行文字を除外する**: `printf "VALUE" | vercel env add NAME env`
-# Trigger rebuild - Tue Mar  3 18:52:20 JST 2026
