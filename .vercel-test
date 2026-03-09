@@ -1,0 +1,12 @@
+# Vercel Git Integration Test
+
+This file is used to test Vercel's automatic deployment from Git.
+
+Test Date: 2026-03-09
+Test Purpose: Verify that pushing to GitHub triggers automatic Vercel deployment
+
+Expected Behavior:
+- Push to main branch → Vercel automatically deploys to production
+- No manual `vercel --prod` command needed
+
+Test Status: In Progress
