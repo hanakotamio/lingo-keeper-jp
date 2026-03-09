@@ -48,6 +48,9 @@ export interface Choice {
   choice_id: string;
   chapter_id: string;
   choice_text: string;
+  choice_text_ruby?: string;
+  choice_text_en?: string;
+  choice_description?: string;
   next_chapter_id?: string;
   difficulty_adjustment: number;
   ending_type?: string;

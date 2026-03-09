@@ -909,6 +909,24 @@ export const StoryExperiencePage: React.FC = () => {
                         <Typography variant="subtitle1" fontWeight="medium" mb={1}>
                           {choice.choice_text}
                         </Typography>
+
+                        {/* Ruby text */}
+                        {choice.choice_text_ruby && (
+                          <Typography
+                            variant="body2"
+                            color="text.secondary"
+                            mb={1}
+                            dangerouslySetInnerHTML={{ __html: choice.choice_text_ruby }}
+                            sx={{ fontSize: '0.95rem', lineHeight: 1.8 }}
+                          />
+                        )}
+
+                        {/* English translation */}
+                        {choice.choice_text_en && (
+                          <Typography variant="body2" color="primary.main" fontStyle="italic">
+                            {choice.choice_text_en}
+                          </Typography>
+                        )}
                       </CardContent>
                     </Card>
                   ))}

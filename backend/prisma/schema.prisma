@@ -57,6 +57,8 @@ model Choice {
   choice_id             String   @id @default(uuid()) @db.VarChar
   chapter_id            String   @db.VarChar
   choice_text           String   @db.VarChar(500)
+  choice_text_ruby      String?  @db.VarChar(1000)
+  choice_text_en        String?  @db.VarChar(1000)
   choice_description    String?  @db.VarChar(1000)
   next_chapter_id       String?  @db.VarChar
   display_order         Int?
