@@ -1,9 +1,10 @@
 import { useNavigate } from 'react-router-dom';
-import { Box, Card, CardContent, Grid, Typography } from '@mui/material';
+import { Box, Button, Card, CardContent, Grid, Typography } from '@mui/material';
 import SchoolIcon from '@mui/icons-material/School';
 import RecordVoiceOverIcon from '@mui/icons-material/RecordVoiceOver';
 import ChatBubbleIcon from '@mui/icons-material/ChatBubble';
 import QuizIcon from '@mui/icons-material/Quiz';
+import MenuBookIcon from '@mui/icons-material/MenuBook';
 
 interface BeginnerCard {
   title: string;
@@ -54,6 +55,17 @@ export function BeginnerPage() {
 
   return (
     <Box sx={{ p: { xs: 2, md: 4 }, maxWidth: 900, mx: 'auto' }}>
+      <Box sx={{ mb: 2 }}>
+        <Button
+          startIcon={<MenuBookIcon />}
+          onClick={() => navigate('/stories')}
+          variant="outlined"
+          size="small"
+        >
+          Back to Stories
+        </Button>
+      </Box>
+
       <Box sx={{ textAlign: 'center', mb: 5 }}>
         <Typography variant="h4" fontWeight={700} color="primary.main" gutterBottom>
           Start Your Japanese Journey

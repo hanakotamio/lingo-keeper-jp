@@ -21,6 +21,8 @@ import {
   CheckCircle as CheckCircleIcon,
   Star as StarIcon,
   Speed as SpeedIcon,
+  School as SchoolIcon,
+  Dashboard as DashboardIcon,
 } from '@mui/icons-material';
 import { useNavigate, useSearchParams } from 'react-router-dom';
 import { PublicLayout } from '@/layouts/PublicLayout';
@@ -70,7 +72,7 @@ export const StoryExperiencePage: React.FC = () => {
   const [nextRecommendedStory, setNextRecommendedStory] = useState<Story | null>(null);
   const [speechSpeed, setSpeechSpeed] = useState<number>(1.0); // 0.75, 1.0, or 1.25
 
-  const { stories, loading: storiesLoading } = useStoryData(selectedLevel);
+  const { stories, loading: storiesLoading, error: storiesError } = useStoryData(selectedLevel);
   const {
     state: viewerState,
     selectStory,
@@ -364,6 +366,25 @@ export const StoryExperiencePage: React.FC = () => {
     );
   }
 
+  // Render error state
+  if (storiesError) {
+    return (
+      <PublicLayout maxWidth="lg">
+        <Box textAlign="center" p={4}>
+          <Typography variant="h6" color="error" mb={2}>
+            Failed to load stories
+          </Typography>
+          <Typography variant="body2" color="text.secondary" mb={3}>
+            {storiesError.message || 'Could not connect to the server. Please make sure the backend is running.'}
+          </Typography>
+          <Button variant="contained" onClick={() => window.location.reload()}>
+            Retry
+          </Button>
+        </Box>
+      </PublicLayout>
+    );
+  }
+
   return (
     <PublicLayout maxWidth="lg">
       <Container maxWidth="lg" sx={{ p: 2 }}>
@@ -380,9 +401,45 @@ export const StoryExperiencePage: React.FC = () => {
                 boxShadow: '0px 2px 4px rgba(0,0,0,0.08)',
               }}
             >
-              <Typography variant="h4" component="h1" color="white" mb={2}>
-                {t('story.storiesByLevel')}
-              </Typography>
+              <Box display="flex" justifyContent="space-between" alignItems="center" mb={2} flexWrap="wrap" gap={1}>
+                <Typography variant="h4" component="h1" color="white">
+                  {t('story.storiesByLevel')}
+                </Typography>
+                <Box display="flex" gap={1}>
+                  <Button
+                    startIcon={<DashboardIcon />}
+                    onClick={() => navigate('/')}
+                    variant="outlined"
+                    size="small"
+                    sx={{
+                      borderColor: 'rgba(255,255,255,0.5)',
+                      color: 'white',
+                      '&:hover': {
+                        bgcolor: 'rgba(255,255,255,0.1)',
+                        borderColor: 'white',
+                      },
+                    }}
+                  >
+                    Dashboard
+                  </Button>
+                  <Button
+                    startIcon={<SchoolIcon />}
+                    onClick={() => navigate('/beginner')}
+                    variant="outlined"
+                    size="small"
+                    sx={{
+                      borderColor: 'rgba(255,255,255,0.5)',
+                      color: 'white',
+                      '&:hover': {
+                        bgcolor: 'rgba(255,255,255,0.1)',
+                        borderColor: 'white',
+                      },
+                    }}
+                  >
+                    Beginner Zone
+                  </Button>
+                </Box>
+              </Box>
 
               <Box display="flex" gap={1} flexWrap="wrap">
                 {(['all', 'N5-A1', 'N4-A2', 'N3-B1', 'N2-B2', 'N1-C1'] as LevelFilter[]).map((level) => (
@@ -943,6 +1000,20 @@ export const StoryExperiencePage: React.FC = () => {
                 onClick={handleGoToQuiz}
               >
                 {t('story.takeQuiz')}
+              </Button>
+              <Button
+                variant="outlined"
+                startIcon={<SchoolIcon />}
+                onClick={() => navigate('/beginner')}
+              >
+                Beginner Zone
+              </Button>
+              <Button
+                variant="outlined"
+                startIcon={<DashboardIcon />}
+                onClick={() => navigate('/')}
+              >
+                Dashboard
               </Button>
             </Box>
           </Box>
